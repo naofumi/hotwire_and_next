@@ -37,3 +37,6 @@ next-env.d.ts
 
 # JetBrains
 /.idea
+
+# Tailwind for Hotwire
+/public/hotwire/styles/output.css
