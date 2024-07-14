@@ -1,7 +1,7 @@
 // https://tailwindui.com/components/marketing/sections/cta-sections#component-25ce2a81d17545994655ccc4062651a4
 import Link from "next/link";
 import {useState} from "react";
-import Users from "@/pages/components/popup/Users";
+import UsersList from "@/pages/components/popup/UsersList";
 
 export default function PopupIndexPage() {
   const [selectedTab, setSelectedTab] = useState<number>(0)
@@ -26,7 +26,7 @@ export default function PopupIndexPage() {
                     className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 Next.jsによるポップアップ</Link>
             </div>
-            <Users />
+            <UsersList />
           </div>
         </div>
       </div>

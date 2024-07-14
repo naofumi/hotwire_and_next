@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse} from "next";
 import {render} from "@/helpers/template-renderer"
-import {findUserWithDetails} from "@/pages/api/user";
+
+import {findUserWithDetails} from "@/repositories/user_detail";
 
 export default function handler(
   req: NextApiRequest,

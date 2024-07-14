@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import {User} from "@/pages/api/users";
-import {UserDetail} from "@/pages/api/user";
+import {User} from "@/repositories/user";
+import {UserDetail} from "@/repositories/user_detail";
 
-export default function PopupUser({id}: { id: number }) {
+export default function UserPopup({id}: { id: number }) {
   const [user, setUser] = useState<User & UserDetail | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 

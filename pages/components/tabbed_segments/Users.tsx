@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
-import {User} from "@/pages/api/users";
+
+import {User} from "@/repositories/user";
 
 export default function Users() {
   const [users, setUsers] = useState<User[]>([])

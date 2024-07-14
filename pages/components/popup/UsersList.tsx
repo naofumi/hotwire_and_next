@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import {User} from "@/pages/api/users";
-import PopupUser from "@/pages/components/popup/User";
+import UserPopup from "@/pages/components/popup/UserPopup";
+import {User} from "@/repositories/user";
 
-export default function Users() {
+export default function UsersList() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [showUserDetailKey, setShowUserDetailKey] = useState<number | null>(null)
@@ -72,7 +72,7 @@ export default function Users() {
                                 <div className="flex justify-between mb-4">
                                   <div></div>
                                   <div className="border rounded p-1 text-sm w-auto" onClick={() => setShowUserDetailKey(null)}>Close</div></div>
-                                <PopupUser id={showUserDetailKey} />
+                                <UserPopup id={showUserDetailKey} />
                               </div>
                               : null
                             }
