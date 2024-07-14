@@ -5,7 +5,7 @@ import {useState} from "react";
 import Users from "@/pages/components/tabbed_segments/Users";
 import Products from "@/pages/components/tabbed_segments/Products";
 
-export default function SideNavigationIndexPage() {
+export default function TabbedSegmentsIndexPage() {
   const [selectedTab, setSelectedTab] = useState<number>(0)
 
   return (
