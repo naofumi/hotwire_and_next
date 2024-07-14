@@ -8,7 +8,7 @@ export type User = {
     role: string
 };
 
-const users = [
+export const users = [
     {name: "Hogeta Hogeo", title: "Front-end developer", email: "hogeta@example.com", role: "Member"},
     {name: "Hogehara Hogeko", title: "Designer", email: "hogeko@example.com", role: "Member"},
     {name: "Fugata Fugao", title: "PM", email: "fugata@example.com", role: "Member"},

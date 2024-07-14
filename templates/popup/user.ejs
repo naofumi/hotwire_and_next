@@ -1,0 +1,30 @@
+<turbo-frame id="user-detail-frame-<%= id %>">
+  <table>
+    <tbody>
+    <tr>
+      <td class="font-bold pr-3">Name:</td>
+      <td class="text-right"><%= userWithDetails.name %></td>
+    </tr>
+    <tr>
+      <td class="font-bold pr-3">Title:</td>
+      <td class="text-right"><%= userWithDetails.title %></td>
+    </tr>
+    <tr>
+      <td class="font-bold pr-3">Email:</td>
+      <td class="text-right"><%= userWithDetails.email %></td>
+    </tr>
+    <tr>
+      <td class="font-bold pr-3">Hobby:</td>
+      <td class="text-right"><%= userWithDetails.hobby %></td>
+    </tr>
+    <tr>
+      <td class="font-bold pr-3">Joined At:</td>
+      <td class="text-right"><%= userWithDetails.joinedAt %></td>
+    </tr>
+    <tr>
+      <td class="font-bold pr-3">Job Grade:</td>
+      <td class="text-right"><%= userWithDetails.jobGrade%></td>
+    </tr>
+    </tbody>
+  </table>
+</turbo-frame>

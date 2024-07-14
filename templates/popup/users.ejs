@@ -1,0 +1,47 @@
+<turbo-frame id="users">
+  <table class="min-w-full divide-y divide-gray-300 mb-96">
+    <thead>
+    <tr class="divide-x divide-gray-200">
+      <th scope="col" class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name
+      </th>
+      <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Title</th>
+      <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
+      <th scope="col" class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pr-0">Role
+      </th>
+    </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200 bg-white">
+    <% users.forEach((user, i) => { %>
+      <tr class="divide-x divide-gray-200">
+        <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
+          <div class="flex gap-2 items-center relative"><%= user.name %>
+            <a onclick="showPopup(this)"
+               href="/api/popup/user?id=<%= i %>"
+               data-turbo-frame="user-detail-frame-<%= i %>">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                   stroke="currentColor" class="size-6 hover:cursor-pointer">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path>
+              </svg>
+            </a>
+            <div data-js="user-detail-popup"
+                 class="hidden absolute z-10 top-0 left-48 p-2 bg-white border-2 shadow-lg rounded border-indigo-600">
+              <div class="flex justify-between mb-4">
+                <div></div>
+                <div class="border rounded p-1 text-sm w-auto hover:cursor-pointer"
+                     onclick="hideAllPopups()">
+                  Close
+                </div>
+              </div>
+              <turbo-frame id="user-detail-frame-<%= i %>"></turbo-frame>
+            </div>
+          </div>
+        </td>
+        <td class="whitespace-nowrap p-4 text-sm text-gray-500"><%= user.title %></td>
+        <td class="whitespace-nowrap p-4 text-sm text-gray-500"><%= user.email %></td>
+        <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0"><%= user.role %></td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+</turbo-frame>
