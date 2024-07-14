@@ -9,12 +9,13 @@ import ejs from 'ejs'
 //
 const templateRootPath = "./templates"
 
-function getTemplate(filepath: string) {
-  const fullFilepath = `${templateRootPath}/${filepath}`
+function getTemplate(fullFilepath: string) {
   return fs.readFileSync(fullFilepath, "utf8")
 }
 
 export function render(templatePath: string, data: any) {
-  const template = getTemplate(templatePath)
-  return ejs.render(template, data)
+  const fullFilepath = `${templateRootPath}/${templatePath}`
+  const template = getTemplate(fullFilepath)
+
+  return ejs.render(template, data, {filename: fullFilepath})
 }
