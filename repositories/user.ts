@@ -24,6 +24,6 @@ export function findUser(id:number) {
   return users[id]
 }
 
-export function allUsers() {
+export function allUsers(): User[] {
   return users
 }
