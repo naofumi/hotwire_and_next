@@ -6,5 +6,5 @@ export default function handler(
     req: NextApiRequest,
     res: NextApiResponse<User[]>,
 ) {
-    setInterval(() => {res.status(200).json(allUsers());}, 500)
+    res.status(200).json(allUsers());
 }

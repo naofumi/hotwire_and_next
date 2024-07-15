@@ -9,5 +9,5 @@ export default function handler(
     res: NextApiResponse<User & UserDetail>,
 ) {
     const id = req.query.id as string;
-    setInterval(() => {res.status(200).json(findUserWithDetails(parseInt(id)));}, 500)
+    res.status(200).json(findUserWithDetails(parseInt(id)))
 }

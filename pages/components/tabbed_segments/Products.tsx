@@ -13,7 +13,7 @@ export default function Products() {
         setProducts(json)
         setLoading(false);
       })
-  })
+  },[])
 
   return (
     <>
