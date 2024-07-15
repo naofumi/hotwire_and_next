@@ -11,17 +11,17 @@
 <div class="bg-white">
   <div class="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
     <div class="mx-auto max-w-2xl text-center"><h2
-            class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">タブで区切ったUI</h2>
+              class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">タブで区切ったUI</h2>
       <p class="text-left mx-auto mt-6 max-w-xl leading-8 text-gray-600">
         タブで区切られたUIでは、タブの下の部分をコンポーネントに分けて、stateによってどのコンポーネントを表示するかを切り替えるのがReactでは一般的ではないかと思う。<br>HotwireではTurboFrameを使うか、もしくは<code>data-turbo-permanent</code>を使い、ページをセクションに区切ることで同じ効果を実現する。
       </p>
       <div class="mt-10 flex items-center justify-center gap-x-6"><a
-              href="/hotwire/tabbed_segments_no_js/index.html"
-              class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Javascriptなしでのタブ切り替え</a><a
-              href="/hotwire/tabbed_segments_turboframes/index.html"
-              class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Hotwireによるタブ切り替え</a><a
-              class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              href="/tabbed_segments">Next.jsによる タブ切り替え</a></div>
+                href="/api/hotwire/tabbed_segments_no_js"
+                class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Javascriptなしでのタブ切り替え</a><a
+                href="/api/hotwire/tabbed_segments_turboframes"
+                class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Hotwireによるタブ切り替え</a><a
+                class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                href="/tabbed_segments">Next.jsによる タブ切り替え</a></div>
       <div class="mt-10">
         <div class="mb-2">
           <label for="search" class="text-sm mr-2">Search</label>
@@ -31,13 +31,13 @@
         </div>
         <div class="border-b border-gray-200">
           <nav aria-label="Tabs" class="-mb-px flex space-x-8">
-            <a href="index.html"
+            <a href="/api/hotwire/tabbed_segments_no_js"
                class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium hover:cursor-pointer"
                data-turbo="false"
             >
               Users
             </a>
-            <a href="products.html"
+            <a href="/api/hotwire/tabbed_segments_no_js/products"
                class="border-indigo-500 text-indigo-600 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium hover:cursor-pointer"
                data-turbo="false"
             >

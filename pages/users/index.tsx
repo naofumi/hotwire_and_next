@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import {User} from "@/repositories/user";
+import Layout from "@/pages/components/Layout";
 
 export default function UsersIndex() {
   const [users, setUsers] = useState<User[]>([]);
@@ -15,16 +16,12 @@ export default function UsersIndex() {
   },[])
 
   return (
-    <>
+    <Layout>
       {loading
         ? <div className="flex justify-evenly w-full mt-12 h-96 mb-96">
           <img src="/images/rocket.gif" alt="loader" className="w-16 h-16"/>
         </div>
         : <>
-          <div className="bg-white flex justify-end p-1">
-            <a href="/hotwire/index.html" className="text-lg p-1 rounded text-red-600 mr-2">Hotwire</a>
-            <Link href="/" className="text-lg p-1 rounded bg-blue-600 text-white">Next.js</Link>
-          </div>
           <div className="my-10 px-4 sm:px-6 lg:px-8">
             <div className="sm:flex sm:items-center">
               <div className="sm:flex-auto">
@@ -93,6 +90,6 @@ export default function UsersIndex() {
           </div>
         </>
       }
-    </>
+    </Layout>
   )
 }
