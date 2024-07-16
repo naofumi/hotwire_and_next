@@ -6,20 +6,18 @@ import Image from "next/image";
 
 export default function UsersList() {
   const [users, setUsers] = useState<User[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
   const [showUserDetailKey, setShowUserDetailKey] = useState<number | null>(null)
 
   useEffect(() => {
     fetch("/api/users").then(res => res.json())
       .then(data => {
         setUsers(data)
-        setLoading(false)
       })
   }, [])
 
   return (
     <>
-      {loading
+      {users.length === 0
         ? <div className="flex justify-evenly w-full mt-12 h-96 mb-96">
           <Image src={rocketImage} alt="loader" className="w-16 h-16"/>
         </div>
