@@ -18,7 +18,7 @@ export default function UsersList() {
   return (
     <>
       {users.length === 0
-        ? <div className="flex justify-evenly w-full mt-12 h-96 mb-96">
+        ? <div className="flex justify-evenly w-full mt-12 h-96 mb-48">
           <Image src={rocketImage} alt="loader" className="w-16 h-16"/>
         </div>
         : <>
@@ -31,7 +31,7 @@ export default function UsersList() {
             <div className="mt-8 flow-root">
               <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                  <table className="min-w-full divide-y divide-gray-300 mb-96">
+                  <table className="min-w-full divide-y divide-gray-300 mb-48">
                     <thead>
                     <tr className="divide-x divide-gray-200">
                       <th scope="col"
