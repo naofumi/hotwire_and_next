@@ -2,6 +2,7 @@ import Link from "next/link";
 import {User} from "@/repositories/user";
 import Layout from "@/pages/components/Layout";
 
+// Simulate Next.js acting as a BFF for a JSON API server
 export async function getServerSideProps() {
   console.log("Fetch start for Users SSR")
   const res = await fetch(process.env.URL + "/api/users")

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Layout from "@/pages/components/Layout";
 import {Product} from "@/repositories/product";
 
+// Simulate Next.js acting as a BFF for a JSON API server
 export async function getServerSideProps() {
   console.log("Fetch start for Products SSR")
   const res = await fetch(process.env.URL + "/api/products")
