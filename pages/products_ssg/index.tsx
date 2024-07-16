@@ -1,15 +1,13 @@
 import Link from "next/link";
 import Layout from "@/pages/components/Layout";
-import {Product} from "@/repositories/product";
+import {allProducts, Product} from "@/repositories/product";
 
-export async function getServerSideProps() {
-  console.log("Fetch start for Products SSR")
-  const res = await fetch(process.env.URL + "/api/products")
-  const products = await res.json()
+export async function getStaticProps() {
+  const products = allProducts()
   return {props: {products}}
 }
 
-export default function ProductsSsrIndex({products}: {products: Product[]}) {
+export default function ProductsSsgIndex({products}: {products: Product[]}) {
   return (
     <Layout>
       <>
@@ -63,9 +61,9 @@ export default function ProductsSsrIndex({products}: {products: Product[]}) {
                   </tbody>
                 </table>
                 <div className="my-10 flex items-center justify-center gap-x-6">
-                  <Link href="/users_ssr"
+                  <Link href="/users_ssg"
                         className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    Usersへ SSR</Link>
+                    Usersへ SSG</Link>
                 </div>
               </div>
             </div>

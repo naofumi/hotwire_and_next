@@ -42,6 +42,9 @@ export default function IndexPage() {
               <Link href="/users_ssr"
                     className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     data-turbo="true">Next.js <code>Link</code> SSR</Link>
+              <Link href="/users_ssg"
+                    className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    data-turbo="true">Next.js <code>Link</code> SSG</Link>
             </div>
           </div>
           <hr className="my-8"/>
