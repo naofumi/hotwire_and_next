@@ -2,26 +2,24 @@
 
 ## 目的
 
-本プロジェクトは「フロントエンドエンジニアのためのHotwire入門」となっています。HotwireはRuby on Rails用に誕生しましたが、フロントエンドエンジニアに改めてRubyを学習していただくのも負担が大きいと考え、そのような方にとって馴染みにある技術だけで構成するように努めました。
+本プロジェクトは「フロントエンドエンジニアのためのHotwire入門」と銘打っている。Ruby on Railsなどを普段から使っているバックエンドエンジニアではなく、普段はReactやNext.jsなどを使い、バックエンド技術に慣れていない人を対象としている。
 
-そこでJavaScriptの中でも最も人気の高い技術のみを使い、プロジェクトを構成しました。
+HotwireはRuby on Railsと組み合わせて使うことが多いが、これではフロントエンドの人にとってハードルが高い教材になってしまう。これを懸念して、フロントエンドエンジニアに馴染みにある技術だけで構成するように努めた。
 
 ## Next.jsベース
 
-プロジェクトの目的は「Hotwire入門」ですが、すでにフロントエンドの技術に馴染みのある方にとっては、それを出発点に話を進めた方が深く理解していただけるのではないかと考えました。
+HotwireもReactも目的は優れたUI/UXをユーザに提供することである。だからこそ、フロントエンジニアがすでに蓄積されている知識をベースに教材を展開したいと願っている。 このためにはReact/Next.jsと常に対比させ、同じ面、異なる面をハイライトするようにしたい。「Reactだったらこうする場面では、Hotwireではこうするのか」という納得感を大切にしたいと考えている。
 
-そこでHotwireを教えるだけではなく、React/Next.jsと常に対比させ、同じ面、異なる面を常にハイライトするようにしたいと考えています。
+そこでフロントエンドで最も多くの人が利用していると推定されるNext.jsをベースに教材を用意した。まだapp routerは新しいのでpages routerを使い、さらにSSRはまだそれほど浸透していない可能性があるので、主にuseEffectからfetchするパターンを使用した。
 
-そのためにNext.jsのpages routerをベースに、SSRではなくuseEffectからfetchする技法でReactを書き、これとHotwireで書いたページを比較できるようにしています。
+## Next.jsはHotwireのバックエンドも兼ねる
 
-## Hotwireのバックエンド
+HotwireはRuby on Railsのフロントエンド技術として生まれたが、実際にはRubyにもRailsにも依存していない。PHP/LaravelでもPython/Djangoでも、それこそ静的HTMLサイトでも、あるいはWordpressでもHotwireは問題なく使用できる。この教材でもHTMLをレスポンスとして返す、何かしらのバックエンドが必要であった。
 
-HotwireはRuby on Railsのフロントエンド技術として生まれましたが、実際にはRubyにもRailsにも依存していません。PHP/LaravelでもPython/Djangoでも、それこそ静的HTMLサイトでも、あるいはWordpressでもHotwireは問題なく使用できます。
+Next.js [pages router](https://nextjs.org/docs/pages)の[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)は、別途Expressサーバなどを立ち上げなくても、それだけでHTMLのレスポンスが返せる。そこで今回はNext.jsのAPI routesをHotwire用のバックエンドとした。HTMLのテンプレートシステムとしては[EJS](https://ejs.co)を採用した。
 
-今回はNext.js [pages router](https://nextjs.org/docs/pages)の[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)を使い、ここから動的にHTMLを生成する形でバックエンドを用意しました。HTMLのテンプレートシステムとしては、Expressのデフォルトでもある[EJS](https://ejs.co)を採用しています。
-
-このため、Ruby/PHP/Python/Java等を知らなくても、Next.jsさえ理解していれば動きが理解できるバックエンドになっています。
+このため、Ruby/PHP/Python/Java等を知らなくても、Next.jsさえ理解していれば動きが理解できるバックエンドになっている。
 
 ## Tailwind
 
-CSSはTailwindを使用しています。Hotwire側専用のTailwindコンパイルをしています (package.jsonの"hotwire-dev"参照)
+CSSはTailwindを使用している。Hotwire側専用のTailwindコンパイルをしています (package.jsonの"hotwire-dev"参照)
