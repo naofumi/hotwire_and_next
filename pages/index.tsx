@@ -50,39 +50,29 @@ export default function IndexPage() {
           <hr className="my-8"/>
           <div className="mx-auto max-w-2xl text-center">
             <h3 className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">
-              画面の部分的書き換え: TurboFrames
+              タブメニュー: TurboFrames
             </h3>
             <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
-              画面全体を書き換えるのではなく、一部分だけを切り替えたいときがある。例えばタブ切り替えUIなどが代表例である。
-              <br/>
-              Reactではコンポーネントを入れ替えることによってタブ切り替える実現することが多い。Remix,
-              Next.js app routerなどではネスト化されたルートが用意され始めているが、まだ一般的ではない。
-              <br/>
-              Hotwireでは大きいパーツを入れ替える機能としてTurboframes機能が用意されているので、これを使うことになる。
+              インタラクティブなウェブUIの大半は、画面の部分的な書き換えである。そして新しいコンテンツがすでにブラウザに読み込まれている場合、これは難しくない。<br />
+              厄介なのは新しいコンテンツをサーバから読み込む時だが、TurboFramesを使うと簡単にできる。
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a href="/tabbed_segments"
                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                 data-turbo="false">タブ切り替えUI</a>
+                 data-turbo="false">タブメニューUI</a>
             </div>
           </div>
           <hr className="my-8"/>
           <div className="mx-auto max-w-2xl text-center">
             <h3
-              className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">大きい部分的画面書き換え<br/>
-              タブ切り替えUIがあるときなど</h3>
+              className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">ポップアップ: TurboFrames</h3>
             <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
-              画面全体を書き換えるのではなく、一部分だけを切り替えたいときがある。例えばタブ切り替えUIなどが代表例である。
-              <br/>
-              Reactではコンポーネントを入れ替えることによってタブ切り替える実現することが多い。Remix,
-              Next.js app routerなどではネスト化されたルートが用意され始めているが、まだ一般的ではない。
-              <br/>
-              Hotwireでは大きいパーツを入れ替える機能としてTurboframes機能が用意されているので、これを使うことになる。
+              TurboFramesはサーバにリクエストを送り、画面を部分的に書き換える。これだけでも多くのウェブUIが実装できる。<br />カスタムのJavaScriptを少し追加すると、さらに可能性が増える。
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a href="/tabbed_segments"
+              <a href="/popup"
                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                 data-turbo="false">タブ切り替えUI</a>
+                 data-turbo="false">ポップアップUI</a>
             </div>
           </div>
         </div>

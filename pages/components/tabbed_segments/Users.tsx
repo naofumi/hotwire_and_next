@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
-
 import {User} from "@/repositories/user";
+import Image from "next/image"
+import rocketImage from "@/public/images/rocket.gif"
 
 export default function Users() {
   const [users, setUsers] = useState<User[]>([])
@@ -18,7 +19,7 @@ export default function Users() {
     <>
       {loading
         ? <div className="flex justify-evenly w-full mt-12 h-96 mb-96">
-          <img src="/images/rocket.gif" alt="loader" className="w-16 h-16"/>
+          <Image src={rocketImage} alt="loader" className="w-16 h-16"/>
         </div>
         : <>
           <div className="my-10 px-4 sm:px-6 lg:px-8">
