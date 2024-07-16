@@ -6,7 +6,7 @@ import {sleep} from "@/helpers/sleep";
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   if (shouldDelayResponse(request)) {
-    const responseDelay = parseInt(process.env.RESPONSE_DELAY || "")
+    const responseDelay = parseInt(process.env.RESPONSE_DELAY || "0")
     await sleep(responseDelay)
   }
 
@@ -18,7 +18,7 @@ function shouldDelayResponse(request: NextRequest) {
   if (userAgent === "node") {
     // If the userAgent is "node" then this request originated from
     // the Next.js server and is an internal connection. In this case,
-    // we expect very low latency.
+    // we expect very low latency and will not add latency to the emulation.
     return false
   } else {
     return true
