@@ -7,7 +7,7 @@ import {
   getPrefecturesForSelect,
   PostalCode,
   Prefecture
-} from "@/repositories/prefecture";
+} from "@/repositories/postal_code";
 
 export type AddressSelectorProps = {
   prefectureOptions: Prefecture[]

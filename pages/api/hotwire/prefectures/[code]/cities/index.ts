@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type {NextApiRequest, NextApiResponse} from "next";
 import {render} from "@/helpers/template-renderer"
-import {allPrefectures, allCitiesInPrefecture} from "@/repositories/prefecture";
+import {allPrefectures, allCitiesInPrefecture} from "@/repositories/postal_code";
 
 export default async function handler(
   req: NextApiRequest,
