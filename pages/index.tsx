@@ -17,9 +17,9 @@ export default function IndexPage() {
             <h3
               className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">フロントエンドエンジニアのためのHotwire入門</h3>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
-              Hotwireは近年注目されているフロントエンド技術です。
-              サーバからもっぱらHTMLが送信されることに特徴があります。
-              React/Next.jsと対比しながら下記に紹介します。
+              Hotwireは近年注目されているフロントエンド技術です。<br />
+              サーバからJSONではなく、HTMLが送信されることに特徴があります。<br />
+              React/Next.jsと対比しながら紹介します。
             </p>
           </div>
           <hr className="my-8"/>
@@ -28,10 +28,10 @@ export default function IndexPage() {
               className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">ページ遷移: TurboDrive</h3>
             <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
               HotwireのTurboDriveは、Next.jsの<code>Link</code>タグとほぼ同じ位置付けの機能です。
-              主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。
-              なお、Next.jsの場合はdev環境ではpreloadが動かないので、buildしてお試しください。
-              またNext.jsではSSRを使った場合とuseEffectを使った場合で挙動が異なります。
-              SSRを使った方がTurboDriveと似た動作になります。
+              主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。<br />
+              なお、Next.jsはdev環境ではpreloadが動かないので、buildしてお試しください。
+              またNext.jsではpages routerのSSGを使った場合はオン、pages routerのSSRを使った場合はオフ、app routerを使ったいかつLinkタグにprefetch trueを指定した場合はオン、useEffectを使った場合は無効と挙動が異なります。<br />
+              なおprefetchの効果を見やすくするために、Next.js app routerのRouter Cacheはオフにしてあります。
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a href="/api/hotwire/users"
@@ -40,15 +40,18 @@ export default function IndexPage() {
               <a href="/api/hotwire/users"
                  className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                 TurboDrive</a>
-              <Link href="/users"
-                    className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    data-turbo="true">Next.js <code>Link</code> useEffect</Link>
-              <Link href="/users_ssr"
-                    className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    data-turbo="true">Next.js <code>Link</code> SSR</Link>
               <Link href="/users_ssg"
                     className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     data-turbo="true">Next.js <code>Link</code> SSG</Link>
+              <Link href="/users"
+                    className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    data-turbo="true">Next.js useEffect</Link>
+              <Link href="/users_ssr"
+                    className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    data-turbo="true">Next.js page router SSR</Link>
+              <Link href="/users_app"
+                    className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    data-turbo="true">Next.js app router</Link>
             </div>
           </div>
           <hr className="my-8"/>

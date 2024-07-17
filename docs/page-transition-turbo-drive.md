@@ -30,9 +30,21 @@ Next.jsでは主に２つの方法で動的ページを作成する。
 
 このようにNext.jsのprefetchは静的ページには有効だが、動的ページでは効果を発揮できない。一方でHotwireは動的ページでもprefetchが有効なので、動的ページでもヌルサクになる。
 
+## Next.jsでapp routerを使った場合
+
+Next.jsはapp routerでも[dynamic](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic)で[dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)に設定された場合はprefetchは機能しない(ブラウザがprefetchを要求しても空のレスポンスが返ってくるだけ)。Statically renderedの場合はprefetchは動く。
+
+ただしdynamically renderedなページでも、`loading.js`がある場合は、その内容まではprefetchはさせる。ただし`loading.js`はせいぜいスケルトンでしかないので、prefetchをしても有用な情報はページに含まれない。よって実質的には`loading.js`なしの場合と変わらない。
+
+唯一、app routerなら`Link`タグに`prefetch={true}`を指定してあげると、`loading.js`の有無に関わらず、最終的にSSRされたページ全体をprefetchしてくれる。
+
+なおv15ではデフォルトではなくなるが、v14まではRouter Cacheが自動的に30秒間、ブラウザ側でキャッシュしてしまう。これはprefetchとは関係ないのだが、prefetchの効果に見えてしまって分かりにくい。かつ、これは動的コンテンツのあるサイトでは致命位的である。`staleTimes: {dynamic: 0}`にして動作確認をしないと、なかなか状況が分かりにくい。
+
+https://zenn.dev/akfm/articles/nextjs-cache-default-update
+
 ## 結論
 
-HotwireもNext.jsも２ページ目へのアクセスをSPA化させており、ページのアクセスが高速化されている。しかし最も効果があるprefetch機能については差があり、Next.jsは静的ページのSSG時以外はprefetchが効果を発揮しない。
+HotwireもNext.jsも２ページ目へのアクセスをSPA化させており、ページのアクセスが高速化されている。しかし最も効果があるprefetch機能については差があり、Next.jsは静的ページのSSG時以外はprefetchが効果を発揮しない。これはpages routerだけでなく、app routerでも事情は変わらない(app routerでprefetch trueと指定した場合だけはprefetchしてくれる)。結果として動的なページではHotwireの方が体感的に高速になる。
 
 またNext.jsの`Link tag`ではプログレスバーは出てこないため、レスポンスが遅いページの場合は`Router.events`を使って[プログレスバー](https://github.com/apal21/nextjs-progressbar?tab=readme-ov-file)を作る必要がある
 
