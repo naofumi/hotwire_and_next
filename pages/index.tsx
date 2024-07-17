@@ -1,9 +1,13 @@
 // https://tailwindui.com/components/marketing/sections/cta-sections#component-25ce2a81d17545994655ccc4062651a4
 import Link from "next/link";
+import Head from "next/head";
 
 export default function IndexPage() {
   return (
     <>
+      <Head>
+        <title>Next pages | Hotwire for Frontend devs</title>
+      </Head>
       <div className="bg-white">
         <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
