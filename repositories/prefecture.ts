@@ -60,3 +60,32 @@ export async function allPostalCodesInCity(code:number, city: string): Promise<P
   return data
 }
 
+export async function getPrefecturesForSelect(code: number | undefined) {
+  const prefectures = await allPrefectures()
+  if (code) {
+    return prefectures.filter((prefecture => prefecture.code === code))
+  } else {
+    return prefectures
+  }
+}
+
+export async function getCitiesForSelect(code: number | undefined, city: string | undefined) {
+  if (code) {
+    const allCities = await allCitiesInPrefecture(code)
+    if (city) {
+      return allCities.filter((myCity) => myCity.city === city)
+    } else {
+      return allCities
+    }
+  } else {
+    return []
+  }
+}
+
+export async function getPostalCodesForSelect(code: number | undefined, city: string | undefined) {
+  if (code && city) {
+    return allPostalCodesInCity(code, city)
+  } else {
+    return []
+  }
+}

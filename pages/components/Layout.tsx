@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Head from "next/head";
 import LoadingIndicator from "@/pages/components/LoadingIndicator";
+import React from "react";
 
 export default function Layout({children}: {children: React.ReactNode}) {
   return (
