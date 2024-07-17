@@ -66,11 +66,7 @@ export default async function ProductsAppIndex() {
               <div className="my-10 flex items-center justify-center gap-x-6">
                 <Link href="/users_app"
                       className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  Usersへ App router w/o prefetch</Link>
-                <Link href="/users_app"
-                      prefetch={true}
-                      className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  Usersへ App router w/ prefetch</Link>
+                  Usersへ App router</Link>
               </div>
             </div>
           </div>

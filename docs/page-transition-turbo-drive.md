@@ -34,11 +34,9 @@ Next.jsでは主に２つの方法で動的ページを作成する。
 
 Next.jsはapp routerでも[dynamic](https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic)で[dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)に設定された場合はprefetchは機能しない(ブラウザがprefetchを要求しても空のレスポンスが返ってくるだけ)。Statically renderedの場合はprefetchは動く。
 
-ただしdynamically renderedなページでも、`loading.js`がある場合は、その内容まではprefetchはさせる。ただし`loading.js`はせいぜいスケルトンでしかないので、prefetchをしても有用な情報はページに含まれない。よって実質的には`loading.js`なしの場合と変わらない。
+ただしdynamically renderedなページでも、`loading.js`がある場合は、その内容まではprefetchはさせる。ただし`loading.js`はせいぜいスケルトンでしかないので、prefetchをしても有用な情報はページに含まれない。よって実質的には`loading.js`なしの場合と変わらない。なお`Link`タグで`prefetch={true}`とすると`loading.js`を超えてページ全体をprefetchしてくれるが、このときはRouter cacheのキャッシュ期限がstatic-renderingと同じで300秒に設定されてしまうので、この設定は動的コンテンツを扱う場合には向かない。
 
-唯一、app routerなら`Link`タグに`prefetch={true}`を指定してあげると、`loading.js`の有無に関わらず、最終的にSSRされたページ全体をprefetchしてくれる。
-
-なおv15ではデフォルトではなくなるが、v14まではRouter Cacheが自動的に30秒間、ブラウザ側でキャッシュしてしまう。これはprefetchとは関係ないのだが、prefetchの効果に見えてしまって分かりにくい。かつ、これは動的コンテンツのあるサイトでは致命位的である。`staleTimes: {dynamic: 0}`にして動作確認をしないと、なかなか状況が分かりにくい。
+またv15ではデフォルトではなくなるが、v14まではRouter Cacheが自動的に30秒間、ブラウザ側でキャッシュしてしまう。これはprefetchとは関係ないのだが、prefetchの効果に見えてしまって分かりにくい。かつ、これは動的コンテンツのあるサイトでは致命位的である。`staleTimes: {dynamic: 0}`にして動作確認をしないと、なかなか状況が分かりにくい。
 
 https://zenn.dev/akfm/articles/nextjs-cache-default-update
 

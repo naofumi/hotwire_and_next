@@ -29,8 +29,7 @@ export default function IndexPage() {
             <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
               HotwireのTurboDriveは、Next.jsの<code>Link</code>タグとほぼ同じ位置付けの機能です。
               主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。<br />
-              なお、Next.jsはdev環境ではpreloadが動かないので、buildしてお試しください。
-              またNext.jsではpages routerのSSGを使った場合はオン、pages routerのSSRを使った場合はオフ、app routerを使ったいかつLinkタグにprefetch trueを指定した場合はオン、useEffectを使った場合は無効と挙動が異なります。<br />
+              なお、Next.jsはdev環境ではprefetchが動かないので、buildしてお試しください。<br />
               なおprefetchの効果を見やすくするために、Next.js app routerのRouter Cacheはオフにしてあります。
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
@@ -95,7 +94,10 @@ export default function IndexPage() {
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a href="/api/hotwire/address_selector"
                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                 data-turbo="false">住所入力UI</a>
+                 data-turbo="false">Hotwire 住所入力UI</a>
+              <a href="/address_selector"
+                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                 data-turbo="false">Next 住所入力UI</a>
             </div>
           </div>
         </div>
