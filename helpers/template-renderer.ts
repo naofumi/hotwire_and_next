@@ -5,6 +5,7 @@
 * */
 import fs from 'fs'
 import ejs from 'ejs'
+import path from 'path'
 
 //
 const templateRootPath = "./templates"
@@ -14,7 +15,7 @@ function getTemplate(fullFilepath: string) {
 }
 
 export function render(templatePath: string, data: any) {
-  const fullFilepath = `${templateRootPath}/${templatePath}`
+  const fullFilepath = path.resolve(`${templateRootPath}/${templatePath}`)
   const template = getTemplate(fullFilepath)
 
   return ejs.render(template, data, {filename: fullFilepath})
