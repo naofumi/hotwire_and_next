@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Head from "next/head";
+import LoadingIndicator from "@/pages/components/LoadingIndicator";
 
 export default function Layout({children}: {children: React.ReactNode}) {
   return (
-    <>
+    <LoadingIndicator>
       <Head>
         <title>Next pages | Hotwire for Frontend devs</title>
       </Head>
@@ -12,6 +13,6 @@ export default function Layout({children}: {children: React.ReactNode}) {
         <div className="text-lg p-1 rounded bg-blue-600 text-white">Next.js</div>
       </div>
       {children}
-    </>
+    </LoadingIndicator>
   )
 }
