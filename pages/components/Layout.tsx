@@ -6,8 +6,8 @@ import Footer from "@/pages/components/Footer";
 
 export default function Layout({children, hideTechLabel, hideTopButton}: {
   children: React.ReactNode,
-  hideTechLabel: boolean | undefined,
-  hideTopButton: boolean | undefined,
+  hideTechLabel?: boolean,
+  hideTopButton?: boolean,
 }) {
   return (
     <LoadingIndicator>
@@ -15,7 +15,7 @@ export default function Layout({children, hideTechLabel, hideTopButton}: {
         <title>Next pages | Hotwire for Frontend devs</title>
       </Head>
       <div className="bg-white flex justify-between p-1">
-        {hideTechLabel
+        {hideTopButton
           ? <span></span>
           : <Link href="/" className="text-xl p-1 text-indigo-600">Top</Link>}
 
