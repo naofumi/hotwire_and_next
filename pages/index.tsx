@@ -1,10 +1,11 @@
 // https://tailwindui.com/components/marketing/sections/cta-sections#component-25ce2a81d17545994655ccc4062651a4
 import Link from "next/link";
 import Head from "next/head";
+import Layout from "@/pages/components/Layout";
 
 export default function IndexPage() {
   return (
-    <>
+    <Layout hideTechLabel={true} hideTopButton={true}>
       <Head>
         <title>Next pages | Hotwire for Frontend devs</title>
       </Head>
@@ -12,15 +13,26 @@ export default function IndexPage() {
         <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Hotwire for Frontend developers
+              Hotwire for Frontend Developers
             </h2>
             <h3
               className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">フロントエンドエンジニアのためのHotwire入門</h3>
-            <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
-              Hotwireは近年注目されているフロントエンド技術です。<br />
-              サーバからJSONではなく、HTMLが送信されることに特徴があります。<br />
-              React/Next.jsと対比しながら紹介します。
+            <p className="text-left mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
+              Hotwireは近年注目されているフロントエンド技術です。</p>
+            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
+              バックエンドに非依存で、Rails, Laravel, Django, Expressでも関係なく動きます。
+              このサイトは<strong>HotwireをNext.js上で動かしています</strong></p>
+            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
+              本サイトでは<strong>実際に動作するサイトでUXを比較し、またソースコードを確認しながら</strong>、HotwireとReact/Next.jsを比較します。
             </p>
+            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">本サイトのコードはすべて<a href="https://github.com/naofumi/hotwire_and_next"
+                                          className="text-indigo-600 hover:text-indigo-400 underline">GitHub</a>に公開しています。また<a
+              href="https://vercel.com" className="text-indigo-600 hover:text-indigo-400 underline">Vercel</a>でデプロイしています。</p>
+            <div className="text-center mt-4">
+              <Link href="/about" className="text-indigo-600 hover:text-indigo-400 underline">
+                もっと詳しく...
+              </Link>
+            </div>
           </div>
           <hr className="my-8"/>
           <div className="mx-auto max-w-2xl text-center">
@@ -28,8 +40,8 @@ export default function IndexPage() {
               className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">ページ遷移: TurboDrive</h3>
             <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
               HotwireのTurboDriveは、Next.jsの<code>Link</code>タグとほぼ同じ位置付けの機能です。
-              主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。<br />
-              なお、Next.jsはdev環境ではprefetchが動かないので、buildしてお試しください。<br />
+              主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。<br/>
+              なお、Next.jsはdev環境ではprefetchが動かないので、buildしてお試しください。<br/>
               なおprefetchの効果を見やすくするために、Next.js app routerのRouter Cacheはオフにしてあります。
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
@@ -102,6 +114,6 @@ export default function IndexPage() {
           </div>
         </div>
       </div>
-    </>
+    </Layout>
   )
 }

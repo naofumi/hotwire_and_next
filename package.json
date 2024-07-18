@@ -10,17 +10,18 @@
     "hotwire-dev": "tailwindcss -i public/hotwire/styles/input.css -o public/hotwire/styles/output.css -c public/hotwire/tailwind.config.js --watch"
   },
   "dependencies": {
+    "@heroicons/react": "^2.1.5",
     "ejs": "^3.1.10",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "@types/ejs": "^3.1.5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@tailwindcss/forms": "^0.5.7",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
