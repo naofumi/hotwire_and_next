@@ -44,6 +44,11 @@ export default function IndexPage() {
               なお、Next.jsはdev環境ではprefetchが動かないので、buildしてお試しください。<br/>
               なおprefetchの効果を見やすくするために、Next.js app routerのRouter Cacheはオフにしてあります。
             </p>
+            <div className="text-center mt-4">
+              <Link href="/commentaries/page_transitions" className="text-orange-600 hover:text-orange-400 underline">
+                もっと詳しく...
+              </Link>
+            </div>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a href="/api/hotwire/users"
                  className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"

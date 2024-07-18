@@ -72,6 +72,13 @@ export default function About() {
             <li className="flex gap-x-3">
               <CheckCircleIcon aria-hidden="true" className="mt-1 h-5 w-5 flex-none text-orange-600"/>
               <span>
+                <strong className="font-semibold text-gray-900">500ms遅延: </strong>
+                高速なサイトだとどんなフロントエンド技術を使ってもサクサク動いてしまい、技術の違いが見えなくなります。そこで本サイトではあえてすべてのリクエストに500msの遅延を入れています。
+              </span>
+            </li>
+            <li className="flex gap-x-3">
+              <CheckCircleIcon aria-hidden="true" className="mt-1 h-5 w-5 flex-none text-orange-600"/>
+              <span>
                 <strong className="font-semibold text-gray-900">HotwireはEJS: </strong>
                 Hotwireはバックエンド技術非依存なので、HTMLが出力できればどこでも動きます。本プロジェクトではNext.js pages routerの<a
                 href="https://nextjs.org/docs/pages/building-your-application/routing/api-routes"
