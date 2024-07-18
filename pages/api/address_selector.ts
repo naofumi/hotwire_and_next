@@ -23,10 +23,11 @@ export default async function handler(
   const city = req.query.city as string | undefined
   const code = (typeof codeAsString === "string" && codeAsString) ? parseInt(codeAsString) : undefined
 
-  const prefectureOptions = await getPrefecturesForSelect(code)
-  const cityOptions = await getCitiesForSelect(code, city)
-  const postalCodeOptions = await getPostalCodesForSelect(code, city)
-
+  const [prefectureOptions, cityOptions, postalCodeOptions] = await Promise.all([
+    getPrefecturesForSelect(code),
+    getCitiesForSelect(code, city),
+    getPostalCodesForSelect(code, city),
+    ])
 
   res.status(200)
     .json({prefectureOptions, cityOptions, postalCodeOptions})
