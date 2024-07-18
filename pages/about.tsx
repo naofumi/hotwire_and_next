@@ -83,7 +83,7 @@ export default function About() {
                 Hotwireはバックエンド技術非依存なので、HTMLが出力できればどこでも動きます。本プロジェクトではNext.js pages routerの<a
                 href="https://nextjs.org/docs/pages/building-your-application/routing/api-routes"
                 className="text-orange-600 hover:text-orange-400 underline">API routes</a>からHTMLをレスポンスとして返しています。テンプレートエンジンは<a
-                href="https://nextjs.org/docs/pages/building-your-application/routing/api-routes"
+                href="https://ejs.co"
                 className="text-orange-600 hover:text-orange-400 underline">EJS</a>を使っています。Hotwireの構成要素であるTurboとStimulusはそれぞれbuild済みのものをダウンロードし、<code>public/hotwire/javascript</code>に配置しています。またCSSはTailwindを使用しています。
               </span>
             </li>

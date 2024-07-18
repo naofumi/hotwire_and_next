@@ -17,4 +17,6 @@ TurboのリクエストをJavaScriptで送信するためのライブラリはRa
 Turboのソースコード src/core/drive/visit.js:74
 ...
 
-## ほげ
+## 外部APIを叩く場合にBFFを使う
+
+今回は無料の郵便番号検索サービス、[ポストくん](https://postcode.teraren.com)を使っているため、秘密キーなどは使う必要がなかった。しかし一般に外部APIを使うときは秘密キーを使うことが多い。そのためReact側ではAPI routeを仲介するようにした。
