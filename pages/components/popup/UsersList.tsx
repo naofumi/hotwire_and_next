@@ -68,7 +68,7 @@ export default function UsersList() {
                             </svg>
                             {showUserDetailKey === i
                               ? <div
-                                className="absolute z-10 top-0 left-48 p-2 bg-white border-2 shadow-lg rounded border-indigo-600">
+                                className="absolute z-10 top-0 left-48 p-2 bg-white border-2 shadow-lg rounded border-orange-600">
                                 <div className="flex justify-between mb-4">
                                   <div></div>
                                   <div className="border rounded p-1 text-sm w-auto" onClick={() => setShowUserDetailKey(null)}>Close</div></div>

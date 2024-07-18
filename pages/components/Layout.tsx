@@ -14,10 +14,10 @@ export default function Layout({children, hideTechLabel, hideTopButton}: {
       <Head>
         <title>Next pages | Hotwire for Frontend devs</title>
       </Head>
-      <div className="bg-white flex justify-between p-1">
+      <div className="bg-white flex justify-between p-1 text">
         {hideTopButton
           ? <span></span>
-          : <Link href="/" className="text-xl p-1 text-indigo-600">Top</Link>}
+          : <Link href="/" className="text-xl p-1 text-orange-600">Top</Link>}
 
         {hideTechLabel
           ? <span></span>

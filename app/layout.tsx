@@ -18,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
     <body>
     <div className="bg-white flex justify-between p-1">
-      <Link href="/" className="text-xl rounded text-indigo-600">Top</Link>
+      <Link href="/" className="text-xl rounded text-orange-600">Top</Link>
       <div className="text-lg p-2 rounded bg-black text-white">Next.js</div>
     </div>
     {children}

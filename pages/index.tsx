@@ -26,10 +26,10 @@ export default function IndexPage() {
               本サイトでは<strong>実際に動作するサイトでUXを比較し、またソースコードを確認しながら</strong>、HotwireとReact/Next.jsを比較します。
             </p>
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">本サイトのコードはすべて<a href="https://github.com/naofumi/hotwire_and_next"
-                                          className="text-indigo-600 hover:text-indigo-400 underline">GitHub</a>に公開しています。また<a
-              href="https://vercel.com" className="text-indigo-600 hover:text-indigo-400 underline">Vercel</a>でデプロイしています。</p>
+                                          className="text-orange-600 hover:text-orange-400 underline">GitHub</a>に公開しています。また<a
+              href="https://vercel.com" className="text-orange-600 hover:text-orange-400 underline">Vercel</a>でデプロイしています。</p>
             <div className="text-center mt-4">
-              <Link href="/about" className="text-indigo-600 hover:text-indigo-400 underline">
+              <Link href="/about" className="text-orange-600 hover:text-orange-400 underline">
                 もっと詳しく...
               </Link>
             </div>
@@ -46,22 +46,22 @@ export default function IndexPage() {
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a href="/api/hotwire/users"
-                 className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                 className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                  data-turbo="false">ブラウザネイティブ</a>
               <a href="/api/hotwire/users"
-                 className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                 className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
                 TurboDrive</a>
               <Link href="/users_ssg"
-                    className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                     data-turbo="true">Next.js <code>Link</code> SSG</Link>
               <Link href="/users"
-                    className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                     data-turbo="true">Next.js useEffect</Link>
               <Link href="/users_ssr"
-                    className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                     data-turbo="true">Next.js page router SSR</Link>
               <Link href="/users_app"
-                    className="text-sm rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                     data-turbo="true">Next.js app router</Link>
             </div>
           </div>
@@ -76,7 +76,7 @@ export default function IndexPage() {
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a href="/tabbed_segments"
-                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                 className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                  data-turbo="false">タブメニューUI</a>
             </div>
           </div>
@@ -90,7 +90,7 @@ export default function IndexPage() {
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a href="/popup"
-                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                 className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                  data-turbo="false">ポップアップUI</a>
             </div>
           </div>
@@ -105,10 +105,10 @@ export default function IndexPage() {
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a href="/api/hotwire/address_selector"
-                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                 className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                  data-turbo="false">Hotwire 住所入力UI</a>
               <a href="/address_selector"
-                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                 className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                  data-turbo="false">Next 住所入力UI</a>
             </div>
           </div>
