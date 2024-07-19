@@ -20,7 +20,7 @@ export default function Products() {
   return (
     <>
       {loading
-        ? <div className="flex justify-evenly w-full mt-12 h-96 mb-48">
+        ? <div className="flex justify-evenly w-full mt-24 h-96 mb-48">
           <Image src={rocketImage} alt="loader" className="w-16 h-16" />
         </div>
         : <>
