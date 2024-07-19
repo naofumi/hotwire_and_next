@@ -41,8 +41,9 @@ export default function IndexPage() {
             <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
               HotwireのTurboDriveは、Next.jsの<code>Link</code>タグとほぼ同じ位置付けの機能です。
               主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。<br/>
-              なお、Next.jsはdev環境ではprefetchが動かないので、buildしてお試しください。<br/>
-              なおprefetchの効果を見やすくするために、Next.js app routerのRouter Cacheはオフにしてあります。
+              なお、Next.jsはdev環境ではprefetchが動かないので、buildしてからお試しください。<br/>
+              なお、初回ロードを再現するために、下記のリンクは<code>Link</code>ではなく、普通の<code>a</code>タグになっています。
+              また、prefetchの影響を見やすくするために、Next.js app routerのRouter Cacheはオフにしてあります。
             </p>
             <div className="text-center mt-4">
               <Link href="/commentaries/page_transitions" className="text-orange-600 hover:text-orange-400 underline">
@@ -56,18 +57,18 @@ export default function IndexPage() {
               <a href="/api/hotwire/users"
                  className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
                 TurboDrive</a>
-              <Link href="/users_ssg"
-                    className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                    data-turbo="true">Next.js <code>Link</code> SSG</Link>
-              <Link href="/users"
-                    className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                    data-turbo="true">Next.js useEffect</Link>
-              <Link href="/users_ssr"
-                    className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                    data-turbo="true">Next.js page router SSR</Link>
-              <Link href="/users_app"
-                    className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                    data-turbo="true">Next.js app router</Link>
+              <a href="/users_ssg"
+                 className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                 data-turbo="true">Next.js <code>Link</code> SSG</a>
+              <a href="/users"
+                 className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                 data-turbo="true">Next.js useEffect</a>
+              <a href="/users_ssr"
+                 className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                 data-turbo="true">Next.js page router SSR</a>
+              <a href="/users_app"
+                 className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                 data-turbo="true">Next.js app router Server component</a>
             </div>
           </div>
           <hr className="my-8"/>
