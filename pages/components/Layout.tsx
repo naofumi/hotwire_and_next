@@ -3,6 +3,7 @@ import Head from "next/head";
 import LoadingIndicator from "@/pages/components/LoadingIndicator";
 import React from "react";
 import Footer from "@/pages/components/Footer";
+import Banner from "@/pages/components/Banner";
 
 export default function Layout({children, hideTechLabel, hideTopButton}: {
   children: React.ReactNode,
@@ -30,6 +31,7 @@ export default function Layout({children, hideTechLabel, hideTopButton}: {
             React
           </div>}
       </div>
+      <Banner />
       {children}
       <Footer/>
     </LoadingIndicator>

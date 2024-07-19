@@ -3,6 +3,7 @@ import "../styles/globals.css";
 import Link from "next/link";
 import Footer from "@/pages/components/Footer";
 import React from "react";
+import Banner from "@/pages/components/Banner";
 
 export const metadata: Metadata = {
   title: "Next app | Hotwire for Frontend devs",
@@ -23,6 +24,7 @@ export default function RootLayout({
       <span className="text-xl p-1 font-bold text-gray-400">Hotwire for Frontend Developers</span>
       <div className="text-lg p-2 rounded bg-black text-white">Next.js</div>
     </div>
+    <Banner />
     {children}
     <Footer />
     </body>
