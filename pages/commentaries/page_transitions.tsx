@@ -204,24 +204,24 @@ export default function PageTransitions() {
               一方でNext.jsの場合はデータ漏洩の可能性があります。</p>
             <p className="mt-4">
               Pages routerの場合は<code>getStaticProps</code>, <code>getServerSideProps</code>の返り値ほぼそのままJSONでブラウザに送られます。またPages
-              router, App routerで<code>useEffect</code>等でブラウザからデータを<code>fetch</code>した場合は、APIのJSONがそのままブラウザに送られます。ただしこのデータはブラウザに表示されるとは限らないので、気づかずにデータ漏洩してしまう可能性が高くなります。
+              router, App routerで<code>useEffect</code>等でブラウザからデータを<code>fetch</code>した場合は、APIのJSONがそのままブラウザに送られます。そして、このデータはブラウザに表示されるとは限らないので、気づかずにデータ漏洩してしまう可能性が高くなります。
             </p>
             <p className="mt-4">
-              本デモでは<code>User</code> repositoryが<code>password_digest</code>を返してしまうようにしている上、敢えてセキュリティ対策をしていません。そして実際にどのような問題が起きるかを確認できるようにしています。
+              本デモでは、この問題を実際に確認していただくために、敢えて<code>User</code> repositoryが<code>password_digest</code>を返してしまうようにしています。またセキュリティ対策もしていません。
             </p>
             <ul className="list-disc ml-6 my-4">
               <li className="list-item">
-                ネイティブ画面遷移(MPA)およびHotwire TurboDriveを使っている場合は<code>password_digest</code>は漏洩していません。レスポンスにはHTMLしか含まれないためです。
+                ネイティブ画面遷移(MPA)およびHotwire TurboDriveを使っている場合は<code>password_digest</code>は漏洩しません。レスポンスにはHTMLしか含まれないためです。
               </li>
               <li className="list-item">Next.js
                 Next.js Pages
-                routerのSSGおよびSSRの時は、最初にダウンロードされるHTMLファイル最下部の<code>script</code>タグ中に<code>password_digest</code>が漏洩しています。ここはhydrationに使われるデータで、HTMLにレンダリングされるかどうかに関わらず含まれてしまいます
+                routerのSSGおよびSSRの時は、最初にダウンロードされるHTMLファイル最下部の<code>script</code>タグ中に<code>password_digest</code>が漏洩します。ここはhydrationに使われるデータで、HTMLにレンダリングされるかどうかに関わらず含まれます。またページ遷移をするたびにダウンロードされるJSONファイルにも漏洩します。
               </li>
               <li className="list-item">Next.js
-                useEffectの時は<code>/api/users</code>からのJSONレスポンスに<code>password_digest</code>が漏洩しています
+                useEffectの時は<code>/api/users</code>からのJSONレスポンスに<code>password_digest</code>が漏洩します
               </li>
               <li className="list-item">Next.js
-                App routerのServer componentを使っている場合は<code>password_digest</code>は漏洩していません。RSC
+                App routerのServer componentを使っている場合は<code>password_digest</code>は漏洩しません。RSC
                 payloadはHTMLにレンダリングされる内容しか含まないためです。
               </li>
             </ul>
@@ -229,11 +229,11 @@ export default function PageTransitions() {
               Next.jsをセキュアにする場合は<code>User</code> repositoryのデータをそのままコンポーネントに渡さず、<a
               href="https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer">Data
               Access
-              Layer</a>を使ってDTO(Data
-              Transfer Object)作成し、権限に応じて必要なデータのみを送ることが奨励されています。このコードの見本も作成しました。
+              Layer</a>をの中で、権限に応じて必要なデータのみを含むDTO(Data
+              Transfer Object)を作成することが奨励されています。
             </p>
             <p className="mt-4">
-              ネイティブ画面遷移(MPA)やHotwire TurboDriveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要があります。Data Access Layerを入れることが強く推奨されます。またApp routerのServer componentでは漏洩の心配が少なくなりますが、Client componentを使う時はそうではないので、やはりNext.jsは常にData Access Layerを検討するべきでしょう。
+              結論として、ネイティブ画面遷移(MPA)やHotwire TurboDriveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。Next.jsの公式ドキュメントではData Access Layerに権限管理ロジックをまとめることが強く推奨されます。またApp routerのServer componentは漏洩の心配が減りますが、一方でClient componentでは引き続きリスクが高いため、やはり同様の注意が必要になるでしょう。
             </p>
           </div>
         </div>
