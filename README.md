@@ -24,7 +24,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Learn More
 
 1. [プロジェクト構成](docs-draft/project-setup.md)
-2. [単純化を狙うHotwire](docs-draft/hotwire-conceptual-compression.md)
 
 ## Deploy on Vercel
 
