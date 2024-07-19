@@ -1,5 +1,6 @@
 import {CheckCircleIcon} from '@heroicons/react/20/solid'
 import Layout from "@/pages/components/Layout";
+import StyledLink from "@/pages/components/StyledLink";
 
 export default function PageTransitions() {
   const people = [
@@ -77,10 +78,10 @@ export default function PageTransitions() {
                         先にロード
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        する
+                        <StyledLink href="https://turbo.hotwired.dev/handbook/drive#displaying-progress">する</StyledLink>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        する
+                        <StyledLink href="https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover">する</StyledLink>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         ○
@@ -100,7 +101,7 @@ export default function PageTransitions() {
                         要作成
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        する
+                        <StyledLink href="https://nextjs.org/docs/pages/api-reference/components/link#prefetch">する</StyledLink>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         △ (要DAL)
@@ -120,7 +121,7 @@ export default function PageTransitions() {
                         要作成
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        静的な部分まで
+                        <StyledLink href="https://nextjs.org/docs/pages/api-reference/components/link#prefetch">静的な部分まで</StyledLink>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         △ (要DAL)
@@ -160,7 +161,7 @@ export default function PageTransitions() {
                         要作成
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        静的な部分まで
+                        <StyledLink href="https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching">静的な部分まで</StyledLink>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         ○
@@ -226,14 +227,15 @@ export default function PageTransitions() {
               </li>
             </ul>
             <p className="mt-4">
-              Next.jsをセキュアにする場合は<code>User</code> repositoryのデータをそのままコンポーネントに渡さず、<a
+              Next.jsをセキュアにする場合は<code>User</code> repositoryのデータをそのままコンポーネントに渡さず、<StyledLink
               href="https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer">Data
               Access
-              Layer</a>をの中で、権限に応じて必要なデータのみを含むDTO(Data
+              Layer</StyledLink>をの中で、権限に応じて必要なデータのみを含むDTO(Data
               Transfer Object)を作成することが奨励されています。
             </p>
             <p className="mt-4">
-              結論として、ネイティブ画面遷移(MPA)やHotwire TurboDriveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。Next.jsの公式ドキュメントではData Access Layerに権限管理ロジックをまとめることが強く推奨されます。またApp routerのServer componentは漏洩の心配が減りますが、一方でClient componentでは引き続きリスクが高いため、やはり同様の注意が必要になるでしょう。
+              結論として、ネイティブ画面遷移(MPA)やHotwire TurboDriveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。<StyledLink
+              href="https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer">Next.jsの公式ドキュメント</StyledLink>ではData Access Layerに権限管理ロジックをまとめることが強く推奨されます。またApp routerのServer componentは漏洩の心配が減りますが、一方でClient componentでは引き続きリスクが高いため、やはり同様の注意が必要になるでしょう。
             </p>
           </div>
         </div>
