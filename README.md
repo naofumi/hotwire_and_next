@@ -5,10 +5,16 @@
 
 ## Getting Started
 
-開発用サーバは下記のコマンドで起動します。
+開発用サーバ(Next.js)は下記のコマンドで起動します。
 
 ```bash
 npm run dev
+```
+
+EJS(Hotwire)側を編集した時にTailwind CSSのスタイルを自動更新するには、下記のコマンドを実行します。
+
+```bash
+npm run hotwire-dev
 ```
 
 ブラウザで [http://localhost:3000](http://localhost:3000)にアクセスして結果を見ます。
@@ -17,8 +23,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Learn More
 
-1. [プロジェクト構成](docs/project-setup.md)
-2. [単純化を狙うHotwire](docs/hotwire-conceptual-compression.md)
+1. [プロジェクト構成](docs-draft/project-setup.md)
+2. [単純化を狙うHotwire](docs-draft/hotwire-conceptual-compression.md)
 
 ## Deploy on Vercel
 

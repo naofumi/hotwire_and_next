@@ -28,7 +28,7 @@ export default function About() {
               <CheckCircleIcon aria-hidden="true" className="mt-1 h-5 w-5 flex-none text-orange-600"/>
               <span>
                 <strong className="font-semibold text-gray-900">バックエンド技術非依存: </strong>
-                Ruby on Railsに限らず、Django, Laravel, Java, Node, Wordpressなど、あらゆるバックエンド技術で使えます。本サイトはHotwireはすべてNext.jsの<a
+                Ruby on Railsに限らず、Django, Laravel, Java, Node, Wordpressなど、あらゆるバックエンド技術で使えます。本サイトのHotwireはすべてNext.jsの<a
                 href="https://nextjs.org/docs/pages/building-your-application/routing/api-routes"
                 className="text-orange-600 hover:text-orange-400 underline">API routes</a>で動いています。
               </span>
@@ -37,7 +37,8 @@ export default function About() {
               <CheckCircleIcon aria-hidden="true" className="mt-1 h-5 w-5 flex-none text-orange-600"/>
               <span>
                 <strong className="font-semibold text-gray-900">大幅なUXを向上: </strong>
-                ウェブサイトのUXを大幅に向上させます。体感レスポンスタイムの大幅短縮、画面の部分更新など、モダンフロントエンドのUX要件をNext.jsと同レベルで、Hotwireだけでカバーできます。具体的には本サイトの例をお確かめください。
+                ウェブサイトのUXを大幅に向上させます。体感レスポンスタイムの大幅短縮、画面の部分更新など、モダンフロントエンドのUX要件をHotwireだけでカバーできます。
+                具体的には<a href="/" className="text-orange-600 hover:text-orange-400 underline">本サイトの各例</a>をお確かめください。
               </span>
             </li>
             <li className="flex gap-x-3">
@@ -58,7 +59,8 @@ export default function About() {
               <CheckCircleIcon aria-hidden="true" className="mt-1 h-5 w-5 flex-none text-orange-600"/>
               <span>
                 <strong className="font-semibold text-gray-900">セキュリティが高い: </strong>
-                ユーザに見せたいものだけをHTMLとして送信するので、誤ってプライベートな情報を送ってしまう心配がありません。例えば秘密キーをブラウザに預ける必要がなく、またJSON APIに不要な情報を流してしまうこともありません。
+                レンダリング済みのHTMLのみをブラウザに送信するので、誤ってプライベートな情報を漏洩する心配がありません。
+                例えば秘密キーをブラウザに預ける必要がなく、またJSON APIに機密情報を流してしまうこともありません。
               </span>
             </li>
           </ul>
@@ -84,13 +86,19 @@ export default function About() {
                 href="https://nextjs.org/docs/pages/building-your-application/routing/api-routes"
                 className="text-orange-600 hover:text-orange-400 underline">API routes</a>からHTMLをレスポンスとして返しています。テンプレートエンジンは<a
                 href="https://ejs.co"
-                className="text-orange-600 hover:text-orange-400 underline">EJS</a>を使っています。Hotwireの構成要素であるTurboとStimulusはそれぞれbuild済みのものをダウンロードし、<code>public/hotwire/javascript</code>に配置しています。またCSSはTailwindを使用しています。
+                className="text-orange-600 hover:text-orange-400 underline">EJS</a>を使っています。
+                Hotwireの構成要素である<a href="https://turbo.hotwired.dev/handbook/installing"
+                                          className="text-orange-600 hover:text-orange-400 underline">Turbo</a>と<a
+                href="https://stimulus.hotwired.dev/handbook/installing"
+                className="text-orange-600 hover:text-orange-400 underline">Stimulus</a>はそれぞれbuild済みのものをダウンロードし、<code>public/hotwire/javascript</code>に配置しています。
+                またCSSは<a href="https://tailwindcss.com"
+                            className="text-orange-600 hover:text-orange-400 underline">Tailwind</a>を使用しています。
               </span>
             </li>
             <li className="flex gap-x-3">
               <CheckCircleIcon aria-hidden="true" className="mt-1 h-5 w-5 flex-none text-orange-600"/>
               <span>
-                <strong className="font-semibold text-gray-900">ReactはNext.js app router: </strong>
+                <strong className="font-semibold text-gray-900">ReactはNext.js pages router: </strong>
                 Hotwireと比較するためのReact側は、目まぐるしく変わるフロントエンド開発環境の中でも比較的共通して見られる技術を選定しました。
                 <ul>
                   <li className="flex gap-x-3">
@@ -103,22 +111,36 @@ export default function About() {
                   </li>
                   <li className="flex gap-x-3">
                     <CheckCircleIcon aria-hidden="true" className="mt-1 h-5 w-5 flex-none text-gray-400"/>
-                    <span>
-                      データのロードは主に<a
-                      href="https://react.dev/reference/react/useEffect#fetching-data-with-effects"
-                      className="text-orange-600 hover:text-orange-400 underline">useEffect</a>を使い、一部で<a
-                      href="https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering"
-                      className="text-orange-600 hover:text-orange-400 underline">Server-side Rendering</a>を使っています。まだSSRを使っている現場は少なく、まだuseEffect (あるいはこのアプローチを拡張したTanstack Query, SWR等)を使っている現場が多いと感じているからです。エラーハンドリング等は省略しています。
-                    </span>
-                  </li>
-                  <li className="flex gap-x-3">
-                    <CheckCircleIcon aria-hidden="true" className="mt-1 h-5 w-5 flex-none text-gray-400"/>
-                    <span>内容が頻繁に更新されるウェブアプリを想定しているため、古いデータが表示されたままになってしまうタイプのキャッシュは使用していません。例えば<a
+                    <span>内容が頻繁に更新されるウェブアプリを想定しているため、古いデータが表示されたままになってしまうタイプのキャッシュは使用していません。例えばapp routerを使っている時でも、<a
                       href="https://nextjs.org/docs/app/building-your-application/caching#router-cache"
                       className="text-orange-600 hover:text-orange-400 underline">Router Cache</a>はオフにしています。
                     </span>
                   </li>
                 </ul>
+              </span>
+            </li>
+          </ul>
+          <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">Hotwireの学習リソース</h2>
+          <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
+            <li className="flex gap-x-3">
+              <CheckCircleIcon aria-hidden="true" className="mt-1 h-5 w-5 flex-none text-orange-600"/>
+              <span>
+                <strong className="font-semibold text-gray-900">公式サイト: </strong><br />
+                <a
+                  href="https://turbo.hotwired.dev"
+                  className="text-orange-600 hover:text-orange-400 underline">Turbo公式サイト</a><br/>
+                <a
+                  href="https://turbo.hotwired.dev"
+                  className="text-orange-600 hover:text-orange-400 underline">Stimulus公式サイト</a>
+              </span>
+            </li>
+            <li className="flex gap-x-3">
+              <CheckCircleIcon aria-hidden="true" className="mt-1 h-5 w-5 flex-none text-orange-600"/>
+              <span>
+                <strong className="font-semibold text-gray-900">コミュニティサイト: </strong><br />
+                <a
+                  href="https://hotwire.io"
+                  className="text-orange-600 hover:text-orange-400 underline">Hotwire.io</a>
               </span>
             </li>
           </ul>
