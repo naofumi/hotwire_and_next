@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export const dynamic = 'force-dynamic'
 
- async function getUsers() {
-   return allUsers()
+async function getUsers() {
+  return allUsers()
 }
 
 export default async function UsersAppIndex() {
