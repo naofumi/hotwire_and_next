@@ -2,6 +2,7 @@ import Link from "next/link";
 import {Product} from "@/repositories/product";
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 // Simulate Next.js acting as a BFF for a JSON API server
 async function getProducts(): Promise<Product[]> {

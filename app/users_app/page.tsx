@@ -2,6 +2,7 @@ import {User} from "@/repositories/user";
 import Link from "next/link";
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 // Simulate Next.js acting as a BFF for a JSON API server
 async function getUsers(): Promise<User[]> {
