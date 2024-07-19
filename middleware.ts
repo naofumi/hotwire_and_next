@@ -1,13 +1,12 @@
 import type {NextRequest} from 'next/server'
 import {NextResponse} from 'next/server'
-import {sleep} from "@/helpers/sleep";
+import {responseSleep, sleep} from "@/helpers/sleep";
 
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   if (shouldDelayResponse(request)) {
-    const responseDelay = parseInt(process.env.RESPONSE_DELAY || "0")
-    await sleep(responseDelay)
+    await responseSleep()
   }
 
   return NextResponse.next()
