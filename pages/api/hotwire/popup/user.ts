@@ -4,15 +4,16 @@ import {render} from "@/helpers/template-renderer"
 
 import {findUserWithDetails} from "@/repositories/user_detail";
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string>,
 ) {
   const id = req.query.id
   if (!(typeof id === 'string')) throw "Bad request"
+  const userWithDetails = await findUserWithDetails(parseInt(id))
 
   const resultText = render("popup/user.ejs",
-    {id: parseInt(id), userWithDetails: findUserWithDetails(parseInt(id))}
+    {id: parseInt(id), userWithDetails}
   )
 
   res.appendHeader("Content-Type", "text/html")

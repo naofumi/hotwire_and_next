@@ -3,7 +3,7 @@ import Layout from "@/pages/components/Layout";
 import {allProducts, Product} from "@/repositories/product";
 
 export async function getStaticProps() {
-  const products = allProducts()
+  const products = await allProducts()
   return {props: {products}}
 }
 

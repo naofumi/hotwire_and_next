@@ -4,12 +4,14 @@ import {render} from "@/helpers/template-renderer"
 
 import {allProducts} from "@/repositories/product";
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string>,
 ) {
+  const products = await allProducts()
+
   const resultText = render("products.ejs",
-    {products: allProducts()}
+    {products}
   )
 
   res.appendHeader("Content-Type", "text/html")

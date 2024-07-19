@@ -2,13 +2,15 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import {render} from "@/helpers/template-renderer"
 
-import {allUsers} from "@/repositories/user";
+import {allUsers, User} from "@/repositories/user";
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string>,
 ) {
-  const resultText = render("popup/users.ejs", {users: allUsers()})
+  const users: User[] = await allUsers()
+
+  const resultText = render("popup/users.ejs", {users})
 
   res.appendHeader("Content-Type", "text/html")
     .status(200)

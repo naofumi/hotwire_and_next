@@ -2,9 +2,11 @@
 import type {NextApiRequest, NextApiResponse} from "next";
 import {allProducts, Product} from "@/repositories/product";
 
-export default function handler(
+export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Product[]>,
 ) {
-    res.status(200).json(allProducts());
+    const products: Product[] = await allProducts()
+
+    res.status(200).json(products);
 }

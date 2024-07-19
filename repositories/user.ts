@@ -1,3 +1,5 @@
+import {databaseSleep} from "@/helpers/sleep";
+
 export type User = {
   name: string
   title: string
@@ -19,12 +21,14 @@ const users = [
   {name: "Piyota Piyogishi", title: "IT administrator", email: "piyota@example.com", role: "Admin", password_digest: "a81c43c82465f2becf61da46f2108b893802cb3d2fb83ef70216ed41b5d873d7"},
 ]
 
-export function findUser(id:number) {
+export async function findUser(id:number): Promise<User> {
   if (!users[id]) throw `no User found for ${id}`
 
+  await databaseSleep()
   return users[id]
 }
 
-export function allUsers(): User[] {
+export async function allUsers(): Promise<User[]> {
+  await databaseSleep()
   return users
 }

@@ -1,3 +1,5 @@
+import {databaseSleep} from "@/helpers/sleep";
+
 export type Product = {
   name: string
   catalogNumber: string
@@ -23,6 +25,7 @@ const products = [
   {name: "Happy Biscuit", catalogNumber: "1325345", price: 600, availability: "On Sale"},
 ]
 
-export function allProducts(): Product[] {
+export async function allProducts(): Promise<Product[]> {
+  await databaseSleep()
   return products
 }

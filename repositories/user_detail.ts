@@ -1,4 +1,5 @@
 import {User, findUser} from "@/repositories/user";
+import {databaseSleep} from "@/helpers/sleep";
 
 export type UserDetail = {
   hobby: string
@@ -18,8 +19,8 @@ const userDetails = [
   {hobby: "Cooking", jobGrade: "Middle", joinedAt: "2022-01-01"},
 ]
 
-export function findUserWithDetails(id: number): User & UserDetail {
-  const userAttributes = findUser(id)
+export async function findUserWithDetails(id: number): Promise<User & UserDetail> {
+  const userAttributes = await findUser(id)
   const userDetailAttributes = userDetails[id]
   return {...userAttributes, ...userDetailAttributes}
 }

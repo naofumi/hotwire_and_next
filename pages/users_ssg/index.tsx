@@ -3,7 +3,7 @@ import {allUsers, User} from "@/repositories/user";
 import Layout from "@/pages/components/Layout";
 
 export async function getStaticProps() {
-  const users = allUsers()
+  const users = await allUsers()
   return {props: {users}}
 }
 

@@ -31,7 +31,7 @@ export default function Layout({children, hideTechLabel, hideTopButton}: {
           </div>}
       </div>
       {children}
-      <Footer />
+      <Footer/>
     </LoadingIndicator>
   )
 }
