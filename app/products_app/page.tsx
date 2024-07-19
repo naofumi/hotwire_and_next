@@ -1,10 +1,13 @@
 import Link from "next/link";
-import {allProducts} from "@/repositories/product";
+import {Product} from "@/repositories/product";
 
 export const dynamic = 'force-dynamic'
 
- async function getProducts() {
-  return allProducts()
+// Simulate Next.js acting as a BFF for a JSON API server
+async function getProducts(): Promise<Product[]> {
+   const res = await fetch(process.env.URL + "/api/products")
+   const products = await res.json()
+   return products
 }
 
 export default async function ProductsAppIndex() {

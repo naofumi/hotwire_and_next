@@ -1,10 +1,13 @@
-import {allUsers} from "@/repositories/user";
+import {User} from "@/repositories/user";
 import Link from "next/link";
 
 export const dynamic = 'force-dynamic'
 
-async function getUsers() {
-  return allUsers()
+// Simulate Next.js acting as a BFF for a JSON API server
+async function getUsers(): Promise<User[]> {
+  const res = await fetch(process.env.URL + "/api/users")
+  const users = await res.json()
+  return users
 }
 
 export default async function UsersAppIndex() {
