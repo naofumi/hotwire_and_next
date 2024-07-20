@@ -14,7 +14,7 @@ export default function Layout({children, hideTechLabel, hideTopButton}: {
   return (
     <LoadingIndicator>
       <Head>
-        <title>Next pages | Hotwire for Frontend devs</title>
+        <title>Hotwire for Frontend devs</title>
       </Head>
       <div className="bg-white flex justify-between p-1">
         {hideTopButton

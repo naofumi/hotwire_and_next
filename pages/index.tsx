@@ -7,7 +7,7 @@ export default function IndexPage() {
   return (
     <Layout hideTechLabel={true} hideTopButton={true}>
       <Head>
-        <title>Next pages | Hotwire for Frontend devs</title>
+        <title>Hotwire for Frontend devs</title>
       </Head>
       <div className="bg-white">
         <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
@@ -25,7 +25,7 @@ export default function IndexPage() {
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
               本サイトでは<strong>実際に動作するサイトでUXを比較し、またソースコードを確認しながら</strong>、HotwireとReact/Next.jsを比較します。
             </p>
-            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">本サイトのコードはすべて<a
+            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">本サイトのコードは<a
               href="https://github.com/naofumi/hotwire_and_next"
               className="text-orange-600 hover:text-orange-400 underline">GitHub</a>に公開しています。また<a
               href="https://vercel.com" className="text-orange-600 hover:text-orange-400 underline">Vercel</a>でデプロイしています。
