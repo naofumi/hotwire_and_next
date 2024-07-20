@@ -827,6 +827,10 @@ select {
   top: 0px;
 }
 
+.-top-12 {
+  top: -3rem;
+}
+
 .z-10 {
   z-index: 10;
 }
@@ -978,6 +982,10 @@ select {
 
 .w-full {
   width: 100%;
+}
+
+.w-72 {
+  width: 18rem;
 }
 
 .min-w-full {
@@ -1145,6 +1153,11 @@ select {
 
 .border-transparent {
   border-color: transparent;
+}
+
+.border-gray-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }
 
 .bg-fuchsia-600 {
