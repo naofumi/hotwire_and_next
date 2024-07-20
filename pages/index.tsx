@@ -50,7 +50,7 @@ export default function IndexPage() {
                 もっと詳しく...
               </Link>
             </div>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
               <a href="/api/hotwire/users"
                  className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                  data-turbo="false">ブラウザネイティブ</a>
