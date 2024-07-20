@@ -25,13 +25,23 @@ export default function IndexPage() {
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
               本サイトでは<strong>実際に動作するサイトでUXを比較し、またソースコードを確認しながら</strong>、HotwireとReact/Next.jsを比較します。
             </p>
-            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">本サイトのコードはすべて<a href="https://github.com/naofumi/hotwire_and_next"
-                                          className="text-orange-600 hover:text-orange-400 underline">GitHub</a>に公開しています。また<a
-              href="https://vercel.com" className="text-orange-600 hover:text-orange-400 underline">Vercel</a>でデプロイしています。</p>
+            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">本サイトのコードはすべて<a
+              href="https://github.com/naofumi/hotwire_and_next"
+              className="text-orange-600 hover:text-orange-400 underline">GitHub</a>に公開しています。また<a
+              href="https://vercel.com" className="text-orange-600 hover:text-orange-400 underline">Vercel</a>でデプロイしています。
+            </p>
             <div className="text-center mt-4">
               <Link href="/about" className="text-orange-600 hover:text-orange-400 underline">
                 もっと詳しく...
               </Link>
+            </div>
+          </div>
+          <div className="mx-auto max-w-2xl text-center mt-6">
+            <div className="w-[560px] mx-auto">
+              <iframe width="560" height="315" src="https://www.youtube.com/embed/fzd8Xn18eFw?si=SNmev3E43NsgTYFl"
+                      title="YouTube video player" frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
             </div>
           </div>
           <hr className="my-8"/>

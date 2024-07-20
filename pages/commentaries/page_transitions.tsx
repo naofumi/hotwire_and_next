@@ -78,10 +78,12 @@ export default function PageTransitions() {
                         先にロード
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <StyledLink href="https://turbo.hotwired.dev/handbook/drive#displaying-progress">する</StyledLink>
+                        <StyledLink
+                          href="https://turbo.hotwired.dev/handbook/drive#displaying-progress">する</StyledLink>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <StyledLink href="https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover">する</StyledLink>
+                        <StyledLink
+                          href="https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover">する</StyledLink>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         ○
@@ -101,7 +103,8 @@ export default function PageTransitions() {
                         要作成
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <StyledLink href="https://nextjs.org/docs/pages/api-reference/components/link#prefetch">する</StyledLink>
+                        <StyledLink
+                          href="https://nextjs.org/docs/pages/api-reference/components/link#prefetch">する</StyledLink>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         △ (要DAL)
@@ -121,7 +124,8 @@ export default function PageTransitions() {
                         要作成
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <StyledLink href="https://nextjs.org/docs/pages/api-reference/components/link#prefetch">静的な部分まで</StyledLink>
+                        <StyledLink
+                          href="https://nextjs.org/docs/pages/api-reference/components/link#prefetch">静的な部分まで</StyledLink>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         △ (要DAL)
@@ -161,7 +165,8 @@ export default function PageTransitions() {
                         要作成
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <StyledLink href="https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching">静的な部分まで</StyledLink>
+                        <StyledLink
+                          href="https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching">静的な部分まで</StyledLink>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         ○
@@ -235,8 +240,18 @@ export default function PageTransitions() {
             </p>
             <p className="mt-4">
               結論として、ネイティブ画面遷移(MPA)やHotwire TurboDriveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。<StyledLink
-              href="https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer">Next.jsの公式ドキュメント</StyledLink>ではData Access Layerに権限管理ロジックをまとめることが強く推奨されます。またApp routerのServer componentは漏洩の心配が減りますが、一方でClient componentでは引き続きリスクが高いため、やはり同様の注意が必要になるでしょう。
+              href="https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer">Next.jsの公式ドキュメント</StyledLink>ではData
+              Access Layerに権限管理ロジックをまとめることが強く推奨されます。またApp routerのServer
+              componentは漏洩の心配が減りますが、一方でClient componentでは引き続きリスクが高いため、やはり同様の注意が必要になるでしょう。
             </p>
+            <div className="mt-6">
+              <div className="mx-auto w-[560px]">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/LxLhCviX8iQ?si=wjTL03S_bw7k25OF"
+                    title="YouTube video player" frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+              </div>
+            </div>
           </div>
         </div>
       </div>
