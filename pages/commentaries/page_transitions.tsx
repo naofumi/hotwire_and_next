@@ -180,6 +180,16 @@ export default function PageTransitions() {
               </div>
             </div>
             <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
+              Turboのインストール
+            </h2>
+            <p className="mt-8">
+              TurboDriveによる画面遷移は、Turboをインストールするだけです。インストール方法は<StyledLink href="https://turbo.hotwired.dev/handbook/installing">公式ドキュメント</StyledLink>を確認してください。
+            </p>
+            <p className="mt-4">
+              また本サイトではTurboのJavaScriptファイルは<code>public/hotwire/javascript/turbo.es2017-esm.js</code>にダウンロードされており、<code>templates/layouts/header.ejs</code>から参照されています。このようにJavaScriptのファイルを読み込むだけでTurboDriveが使用できるようになります。
+            </p>
+
+            <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
               ページ遷移のUX
             </h2>
             <p className="mt-8">
@@ -227,7 +237,9 @@ export default function PageTransitions() {
               </li>
               <li className="list-item">Next.js
                 App routerのServer componentだけを使っている場合は<code>password_digest</code>は漏洩しません。RSC
-                payloadはHTMLにレンダリングされる内容しか含まないためです。しかし<StyledLink href="https://zenn.dev/moozaru/articles/d270bbc476758e">Server componentの中にClient componentを埋め込んでいる場合はデータが漏洩する可能性があります</StyledLink>ので、要注意です。
+                payloadはHTMLにレンダリングされる内容しか含まないためです。しかし<StyledLink
+                  href="https://zenn.dev/moozaru/articles/d270bbc476758e">Server componentの中にClient
+                  componentを埋め込んでいる場合はデータが漏洩する可能性があります</StyledLink>ので、要注意です。
               </li>
             </ul>
             <p className="mt-4">
@@ -246,9 +258,9 @@ export default function PageTransitions() {
             <div className="mt-6">
               <div className="mx-auto w-[560px]">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/LxLhCviX8iQ?si=wjTL03S_bw7k25OF"
-                    title="YouTube video player" frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                        title="YouTube video player" frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
               </div>
             </div>
           </div>
