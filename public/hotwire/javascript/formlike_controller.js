@@ -1,5 +1,4 @@
 import {Controller} from "/hotwire/javascript/stimulus.js"
-import {FetchRequest} from "/hotwire/javascript/requestjs.js"
 
 export default class extends Controller {
   static targets = ["sendable"]

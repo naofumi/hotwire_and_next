@@ -6,9 +6,10 @@
   <title>Hotwire for Frontend Developers</title>
   <script src="/hotwire/javascript/turbo.es2017-esm.js" data-turbo-track="reload" type="module"></script>
   <script data-turbo-track="reload" type="module">
-    import { Application } from "/hotwire/javascript/stimulus.js"
+    import {Application} from "/hotwire/javascript/stimulus.js"
     import PopupController from "/hotwire/javascript/popup_controller.js"
     import FormlikeController from "/hotwire/javascript/formlike_controller.js"
+
     window.Stimulus = Application.start()
 
     Stimulus.register("popup", PopupController)

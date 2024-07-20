@@ -1,6 +1,6 @@
 import type {NextRequest} from 'next/server'
 import {NextResponse} from 'next/server'
-import {responseSleep, sleep} from "@/helpers/sleep";
+import {responseSleep} from "@/helpers/sleep";
 
 
 // This function can be marked `async` if using `await` inside

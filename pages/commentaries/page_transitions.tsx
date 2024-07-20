@@ -1,4 +1,3 @@
-import {CheckCircleIcon} from '@heroicons/react/20/solid'
 import Layout from "@/pages/components/Layout";
 import StyledLink from "@/pages/components/StyledLink";
 

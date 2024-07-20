@@ -1,5 +1,4 @@
-import {User, findUser} from "@/repositories/user";
-import {databaseSleep} from "@/helpers/sleep";
+import {findUser, User} from "@/repositories/user";
 
 export type UserDetail = {
   hobby: string
