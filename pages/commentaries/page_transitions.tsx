@@ -1,9 +1,11 @@
 import Layout from "@/pages/components/Layout";
 import StyledLink from "@/pages/components/StyledLink";
+import transitionImage from "@/public/images/transition-after-first-load.png"
+import Image from "next/image"
 
 export default function PageTransitions() {
   const people = [
-    { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
+    {name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member'},
     // More people...
   ]
   return (
@@ -183,7 +185,8 @@ export default function PageTransitions() {
               Turboのインストール
             </h2>
             <p className="mt-8">
-              TurboDriveによる画面遷移は、Turboをインストールするだけです。インストール方法は<StyledLink href="https://turbo.hotwired.dev/handbook/installing">公式ドキュメント</StyledLink>を確認してください。
+              TurboDriveによる画面遷移は、Turboをインストールするだけです。インストール方法は<StyledLink
+              href="https://turbo.hotwired.dev/handbook/installing">公式ドキュメント</StyledLink>を確認してください。
             </p>
             <p className="mt-4">
               また本サイトではTurboのJavaScriptファイルは<code>public/hotwire/javascript/turbo.es2017-esm.js</code>にダウンロードされており、<code>templates/layouts/header.ejs</code>から参照されています。このようにJavaScriptのファイルを読み込むだけでTurboDriveが使用できるようになります。
@@ -209,6 +212,19 @@ export default function PageTransitions() {
             <p className="mt-4">
               結果として、動的コンテンツの場合はHotwire (TurboDrive)が体感として一番ヌルサクになります。
             </p>
+            <div className="mt-6">
+              <div className="w-[560px] mx-auto">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/UWluEz8YPbo?si=ZPz6s2MWPQShzH6q"
+                        title="YouTube video player" frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+              </div>
+            </div>
+            <div className="mt-6">
+              <Image src={transitionImage} alt="Page Transition image"></Image>
+            </div>
+            
+
             <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
               セキュリティ: データ漏洩
             </h2>
