@@ -964,6 +964,10 @@ select {
   width: 12rem;
 }
 
+.w-56 {
+  width: 14rem;
+}
+
 .w-6 {
   width: 1.5rem;
 }
@@ -974,10 +978,6 @@ select {
 
 .w-full {
   width: 100%;
-}
-
-.w-56 {
-  width: 14rem;
 }
 
 .min-w-full {
@@ -994,11 +994,6 @@ select {
 
 .translate-x-12 {
   --tw-translate-x: 3rem;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.translate-y-8 {
-  --tw-translate-y: 2rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1478,6 +1473,24 @@ select {
   transition-duration: 150ms;
 }
 
+.turbo-with-loader[busy] .turbo-hide-on-loading {
+  visibility: hidden !important;
+}
+
+.turbo-with-loader {
+  position: relative;
+}
+
+.turbo-with-loader[busy] .turbo-hide-on-loading::before {
+  content: '';
+  visibility: visible !important;
+  display: block;
+  background-image: url('../../images/rocket.gif');
+  width: 64px;
+  height: 64px;
+  margin: 48px auto;
+}
+
 .placeholder\:text-gray-400::-moz-placeholder {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
@@ -1695,4 +1708,3 @@ select {
     padding-top: 8rem;
   }
 }
-

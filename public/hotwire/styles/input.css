@@ -2,3 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+.turbo-with-loader[busy] .turbo-hide-on-loading {
+    visibility: hidden !important;
+}
+
+.turbo-with-loader {
+    position: relative;
+}
+
+.turbo-with-loader[busy] .turbo-hide-on-loading::before {
+    content: '';
+    visibility: visible !important;
+    display: block;
+    background-image: url('../../images/rocket.gif');
+    width: 64px;
+    height: 64px;
+    margin: 48px auto;
+}

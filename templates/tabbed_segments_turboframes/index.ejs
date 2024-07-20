@@ -17,7 +17,7 @@
                  type="text"
                  class="border rounded p-1">
         </div>
-        <turbo-frame id="tabs" data-turbo-action="advance">
+        <turbo-frame id="tabs" class="turbo-with-loader" data-turbo-action="replace">
           <div class="border-b border-gray-200">
             <nav aria-label="Tabs" class="-mb-px flex space-x-8">
               <a href="/api/hotwire/tabbed_segments_turboframes"
@@ -30,7 +30,7 @@
               </a>
             </nav>
           </div>
-          <div class="my-10 px-4 sm:px-6 lg:px-8">
+          <div class="my-10 px-4 sm:px-6 lg:px-8 turbo-hide-on-loading" >
             <div class="sm:flex sm:items-center">
               <div class="sm:flex-auto"><h1 class="text-base font-semibold leading-6 text-gray-900">
                   Users</h1></div>
