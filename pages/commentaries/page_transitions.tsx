@@ -168,7 +168,7 @@ export default function PageTransitions() {
                           href="https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching">静的な部分まで</StyledLink>
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        ○
+                        △ (要DAL)
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         dynamic componentを使った場合はloading.jsのところまでprefetch
@@ -226,8 +226,8 @@ export default function PageTransitions() {
                 useEffectの時は<code>/api/users</code>からのJSONレスポンスに<code>password_digest</code>が漏洩します
               </li>
               <li className="list-item">Next.js
-                App routerのServer componentを使っている場合は<code>password_digest</code>は漏洩しません。RSC
-                payloadはHTMLにレンダリングされる内容しか含まないためです。
+                App routerのServer componentだけを使っている場合は<code>password_digest</code>は漏洩しません。RSC
+                payloadはHTMLにレンダリングされる内容しか含まないためです。しかし<StyledLink href="https://zenn.dev/moozaru/articles/d270bbc476758e">Server componentの中にClient componentを埋め込んでいる場合はデータが漏洩する可能性があります</StyledLink>ので、要注意です。
               </li>
             </ul>
             <p className="mt-4">
@@ -236,19 +236,16 @@ export default function PageTransitions() {
               Access
               Layer</StyledLink>をの中で、権限に応じて必要なデータのみを含むDTO(Data
               Transfer Object)を作成することが奨励されています。
+              Reactの方でも<StyledLink
+              href="https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#preventing-sensitive-data-from-being-exposed-to-the-client">React
+              Taint API</StyledLink>で対策されていく見込みですが、これはどちらかというと注意喚起のメカニズムだけであり、対応は別途必要になります。
             </p>
             <p className="mt-4">
-              結論として、ネイティブ画面遷移(MPA)やHotwire TurboDriveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。<StyledLink
-              href="https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer">Next.jsの公式ドキュメント</StyledLink>ではData
-              Access Layerに権限管理ロジックをまとめることが強く推奨されます。またApp routerのServer
-              componentは漏洩の心配が減りますが、一方でClient componentでは引き続きリスクが高いため、やはり同様の注意が必要になるでしょう。
-            </p>
-            <p className="mt-4">
-              なお上記の問題については、Reactの方でもある程度は対策されていく見込みです。（<StyledLink href="https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#preventing-sensitive-data-from-being-exposed-to-the-client">React Taint API</StyledLink>）
+              結論として、ネイティブ画面遷移(MPA)やHotwire TurboDriveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。
             </p>
             <div className="mt-6">
               <div className="mx-auto w-[560px]">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/LxLhCviX8iQ?si=wjTL03S_bw7k25OF"
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/LxLhCviX8iQ?si=wjTL03S_bw7k25OF"
                     title="YouTube video player" frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
