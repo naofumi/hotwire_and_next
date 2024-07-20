@@ -5,6 +5,14 @@
 
 ## Getting Started
 
+プロジェクトルートに`.env.local`ファイルを作成します。内容は下記の通りです。
+（秘密鍵が必要なサービスは使っていないので、このままで大丈夫です！）
+```bash
+URL=http://localhost:3000
+RESPONSE_DELAY=0
+DATABASE_DELAY=500
+```
+
 開発用サーバ(Next.js)は下記のコマンドで起動します。
 
 ```bash
