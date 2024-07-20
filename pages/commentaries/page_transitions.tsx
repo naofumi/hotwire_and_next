@@ -243,6 +243,9 @@ export default function PageTransitions() {
               Access Layerに権限管理ロジックをまとめることが強く推奨されます。またApp routerのServer
               componentは漏洩の心配が減りますが、一方でClient componentでは引き続きリスクが高いため、やはり同様の注意が必要になるでしょう。
             </p>
+            <p className="mt-4">
+              なお上記の問題については、Reactの方でもある程度は対策されていく見込みです。（<StyledLink href="https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#preventing-sensitive-data-from-being-exposed-to-the-client">React Taint API</StyledLink>）
+            </p>
             <div className="mt-6">
               <div className="mx-auto w-[560px]">
             <iframe width="560" height="315" src="https://www.youtube.com/embed/LxLhCviX8iQ?si=wjTL03S_bw7k25OF"
