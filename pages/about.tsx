@@ -52,7 +52,8 @@ export default function About() {
               <span>
                 <strong className="font-semibold text-gray-900">コンポーネント化: </strong>
                 Hotwireのコンポーネント化は各バックエンド技術のテンプレートエンジンによります。
-                Ruby on Railsであればpartialやview helper、もしくは最近話題の<StyledLink href="https://viewcomponent.org">Phlex</StyledLink>などのコンポーネント化技術があります。
+                Ruby on Railsであればpartialやview helper、
+                もしくは最近話題の<StyledLink href="https://viewcomponent.org">ViewComponent</StyledLink>や<StyledLink href="https://viewcomponent.org">Phlex</StyledLink>などのコンポーネント化技術があります。
                 Laravel, Djangoなどもそれぞれのコンポーネント化技術があります。
               </span>
             </li>
