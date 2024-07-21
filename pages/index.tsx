@@ -45,6 +45,9 @@ export default function IndexPage() {
                         referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
               </div>
             </div>
+
+
+
             <hr className="my-8"/>
             <div className="">
               <h3
@@ -82,6 +85,9 @@ export default function IndexPage() {
                    data-turbo="true">Next.js app router Server component</a>
               </div>
             </div>
+
+
+
             <hr className="my-8"/>
             <div className="">
               <h3 className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">
@@ -97,6 +103,9 @@ export default function IndexPage() {
                    data-turbo="false">タブメニューUI</a>
               </div>
             </div>
+
+
+
             <hr className="my-8"/>
             <div className="">
               <h3
@@ -111,6 +120,9 @@ export default function IndexPage() {
                    data-turbo="false">ポップアップUI</a>
               </div>
             </div>
+
+
+
             <hr className="my-8"/>
             <div className="">
               <h3
