@@ -59,7 +59,7 @@ export default function About() {
               </StyledList>
             </ul>
             <p className="mt-6">
-              Hotwireは上記の３つを組み合わせることにより、シンプルさを維持しつつ、モダンフロントエンドの要件を十分に満たすウェブサイトを作成を可能にします。
+              Hotwireは上記の３つを組み合わせることにより、シンプルさを維持しつつ、モダンフロントエンドの要件を十分に満たすウェブサイトの作成を可能にします。
             </p>
 
 
@@ -73,9 +73,9 @@ export default function About() {
               <StyledList>
                 <strong className="font-semibold text-gray-900">Turbo Drive: </strong>
                 <StyledLink
-                  href="https://turbo.hotwired.dev/handbook/drive">TurboDrive</StyledLink>は<code>body</code>タグの全体を丸々入れ替える技術です。Next.jsの<StyledLink
+                  href="https://turbo.hotwired.dev/handbook/drive">TurboDrive</StyledLink>は<code>body</code>タグの中身を丸々入れ替える技術です。Next.jsの<StyledLink
                 href="https://nextjs.org/docs/pages/building-your-application/routing">router</StyledLink>、あるいは<StyledLink
-                href="https://reactrouter.com/">React Router</StyledLink>に対抗します。<code>Link</code>タグのような特別なものは必要とせず、Turboがインストールされれば<code>a</code>タグは全て自動的にTurboDriveを使うようになります。
+                href="https://reactrouter.com/">React Router</StyledLink>に相当します。<code>Link</code>タグのような特別なものは必要とせず、Turboがインストールされれば<code>a</code>タグは全て自動的にTurboDriveを使うようになります。
               </StyledList>
               <StyledList>
                 <strong className="font-semibold text-gray-900">Turbo Frames: </strong>
