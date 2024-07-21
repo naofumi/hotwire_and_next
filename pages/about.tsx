@@ -101,7 +101,7 @@ export default function About() {
             </p>
 
             <H2WithHash id="turbo-components">
-              Hotwireに慣れていないエンジニアの癖
+              Hotwireに慣れていないエンジニアの傾向
             </H2WithHash>
             <p className="mt-4">
               個人的見解も入りますが、慣れていない人が初めてHotwireを使い始める時は下記の傾向があります。
