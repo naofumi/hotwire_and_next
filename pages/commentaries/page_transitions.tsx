@@ -2,6 +2,7 @@ import Layout from "@/pages/components/Layout";
 import StyledLink from "@/pages/components/StyledLink";
 import transitionImage from "@/public/images/transition-after-first-load.png"
 import Image from "next/image"
+import StyledList from "@/pages/components/StyledList";
 
 export default function PageTransitions() {
   const people = [
@@ -232,31 +233,32 @@ export default function PageTransitions() {
               ネイティブ(MPA)及ぼHotwireでは、サーバはページに表示するHTML<strong>のみ</strong>をブラウザに送ります。そのため、意図しないデータをブラウザに送ってしまう可能性は低く、データ漏洩のリスクは少ないと言えます。
             </p>
             <p className="mt-4">
-              一方でNext.jsの場合はデータ漏洩の可能性があります。</p>
+              一方でNext.jsの場合はデータ漏洩の可能性があります。サーバで取得されたデータを、開発者から見えにくいところで自動的にそのままブラウザに送るからです。</p>
             <p className="mt-4">
-              Pages routerの場合は<code>getStaticProps</code>, <code>getServerSideProps</code>の返り値ほぼそのままJSONでブラウザに送られます。またPages
-              router, App routerで<code>useEffect</code>等でブラウザからデータを<code>fetch</code>した場合は、APIのJSONがそのままブラウザに送られます。そして、このデータはブラウザに表示されるとは限らないので、気づかずにデータ漏洩してしまう可能性が高くなります。
+              <code>useEffect</code>等でブラウザからデータを<code>fetch</code>した場合は、APIのJSONがそのままブラウザに送られます。これはよく知られた問題であり、かつ開発者が明示的にAPIを設計するときに気をつけるところです。一方でNext.jsのPages routerの場合は<code>getStaticProps</code>, <code>getServerSideProps</code>の返り値も、実はほぼそのまま自動的にJSONでブラウザに送られます。あまり意識されないところなので、注意が必要です。なおかつこのデータはブラウザに表示されるとは限らないので、気づかずにデータ漏洩してしまう可能性が高くなります。
             </p>
             <p className="mt-4">
-              本デモでは、この問題を実際に確認していただくために、敢えて<code>User</code> repositoryが<code>password_digest</code>を返してしまうようにしています。またセキュリティ対策もしていません。
+              本デモでは、この問題を実際に確認していただくために、敢えてセキュリティ問題のあるコードを書いています。<strong>コードにセキュリティ問題があっても、Hotwireの場合は情報が漏洩しにくいことを見ていただくためです。</strong>具体的には<code>User</code> repositoryがそのまま<code>password_digest</code>(秘密の情報)を返してしまうようにしています。また各エンドポイントでも<code>password_digest</code>をブロックしていません。
             </p>
-            <ul className="list-disc ml-6 my-4">
-              <li className="list-item">
-                ネイティブ画面遷移(MPA)およびHotwire TurboDriveを使っている場合は<code>password_digest</code>は漏洩しません。レスポンスにはHTMLしか含まれないためです。
-              </li>
-              <li className="list-item">Next.js
+            <ul className="list-disc ml-6 my-4 space-y-4">
+              <StyledList>
+                ネイティブ画面遷移(MPA)およびHotwire TurboDriveを使っている場合は<code>password_digest</code>は漏洩しません。レスポンスにはHTMLしか含まれないので、画面に表示しない内容はブラウザに送信されないためです。
+              </StyledList>
+              <StyledList>
                 Next.js Pages
                 routerのSSGおよびSSRの時は、最初にダウンロードされるHTMLファイル最下部の<code>script</code>タグ中に<code>password_digest</code>が漏洩します。ここはhydrationに使われるデータで、HTMLにレンダリングされるかどうかに関わらず含まれます。またページ遷移をするたびにダウンロードされるJSONファイルにも漏洩します。
-              </li>
-              <li className="list-item">Next.js
+              </StyledList>
+              <StyledList>
+                Next.js
                 useEffectの時は<code>/api/users</code>からのJSONレスポンスに<code>password_digest</code>が漏洩します
-              </li>
-              <li className="list-item">Next.js
+              </StyledList>
+              <StyledList>
+                Next.js
                 App routerのServer componentだけを使っている場合は<code>password_digest</code>は漏洩しません。RSC
                 payloadはHTMLにレンダリングされる内容しか含まないためです。しかし<StyledLink
                   href="https://zenn.dev/moozaru/articles/d270bbc476758e">Server componentの中にClient
                   componentを埋め込んでいる場合はデータが漏洩する可能性があります</StyledLink>ので、要注意です。
-              </li>
+              </StyledList>
             </ul>
             <p className="mt-4">
               Next.jsをセキュアにする場合は<code>User</code> repositoryのデータをそのままコンポーネントに渡さず、<StyledLink
