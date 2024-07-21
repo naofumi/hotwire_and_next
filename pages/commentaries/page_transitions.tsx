@@ -3,6 +3,7 @@ import StyledLink from "@/pages/components/StyledLink";
 import transitionImage from "@/public/images/transition-after-first-load.png"
 import Image from "next/image"
 import StyledList from "@/pages/components/StyledList";
+import H2WithHash from "@/pages/components/H2WithHash";
 
 export default function PageTransitions() {
   const people = [
@@ -193,9 +194,7 @@ export default function PageTransitions() {
               また本サイトではTurboのJavaScriptファイルは<code>public/hotwire/javascript/turbo.es2017-esm.js</code>にダウンロードされており、<code>templates/layouts/header.ejs</code>から参照されています。このようにJavaScriptのファイルを読み込むだけでTurboDriveが使用できるようになります。
             </p>
 
-            <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
-              ページ遷移のUX
-            </h2>
+            <H2WithHash id="page-transition-ux">ページ遷移のUX</H2WithHash>
             <p className="mt-8">
               ネイティブ(MPA)以外はすべてSPA的にページ遷移をします。つまりページ遷移のたびにJavaScript,
               CSSを読み込まないので、ページ切り替えがスムーズになります。
@@ -204,11 +203,14 @@ export default function PageTransitions() {
               ヌルサク感が一番向上するのはprefetchです。リンクが画面に現れた時、もしくは上をホバーした時にリクエストを飛ばすので、事実上の<strong>フライング</strong>です。うまくいくと、ボタンをクリックした時にはもうすでにリンク先はダウンロードされています。
             </p>
             <p className="mt-4">
-              Next.jsでuseEffectを使った場合、データをfetchできるのはuseEffectをブラウザが実行したときです。prefetchで時間を稼いでも、その後にデータをfetchするので合計時間を短縮できません。
+              Hotwire/TurboもNext.jsもprefetch機能があります。しかし細かく見ていくと、Next.jsのprefetchはいろいろと条件付きです。効果が限定的、もしくはそもそも機能しないケースが多いのです。
+            </p>
+            <p className="mt-4">
+              Next.jsでuseEffectを使った場合、prefetchされるのはuseEffectが機能する前のHTML、つまりデータを含まないページだけです。データをfetchできるのはuseEffectをブラウザが実行した後で、これはクリックして画面遷移して、新画面がレンダリングされた後です。したがってprefetchで時間を稼いでも、最終的な画面表示までの合計時間は短縮できません。
             </p>
             <p className="mt-4">
               またNext.jsは動的なコンテンツを含むページ(<code>getServerSideProps</code>を使っているか<code>dynamic
-              rendering</code>を使っているページ)はprefetchしません。app routerの場合は<code>loading.js</code>まではprefetchしますが、その先はしません。
+              rendering</code>を使っているページ)はprefetchしません。app routerの場合は<code>loading.js</code>まではprefetchしますが、その先はしません。このケースではprefetchは動作しません。
             </p>
             <p className="mt-4">
               結果として、動的コンテンツの場合はHotwire (TurboDrive)が体感として一番ヌルサクになります。
@@ -224,7 +226,7 @@ export default function PageTransitions() {
             <div className="mt-6">
               <Image src={transitionImage} alt="Page Transition image"></Image>
             </div>
-            
+
 
             <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
               セキュリティ: データ漏洩
@@ -235,7 +237,8 @@ export default function PageTransitions() {
             <p className="mt-4">
               一方でNext.jsの場合はデータ漏洩の可能性があります。サーバで取得されたデータを、開発者から見えにくいところで自動的にそのままブラウザに送るからです。</p>
             <p className="mt-4">
-              <code>useEffect</code>等でブラウザからデータを<code>fetch</code>した場合は、APIのJSONがそのままブラウザに送られます。これはよく知られた問題であり、かつ開発者が明示的にAPIを設計するときに気をつけるところです。一方でNext.jsのPages routerの場合は<code>getStaticProps</code>, <code>getServerSideProps</code>の返り値も、実はほぼそのまま自動的にJSONでブラウザに送られます。あまり意識されないところなので、注意が必要です。なおかつこのデータはブラウザに表示されるとは限らないので、気づかずにデータ漏洩してしまう可能性が高くなります。
+              <code>useEffect</code>等でブラウザからデータを<code>fetch</code>した場合は、APIのJSONがそのままブラウザに送られます。これはよく知られた問題であり、かつ開発者が明示的にAPIを設計するときに気をつけるところです。一方でNext.jsのPages
+              routerの場合は<code>getStaticProps</code>, <code>getServerSideProps</code>の返り値も、実はほぼそのまま自動的にJSONでブラウザに送られます。あまり意識されないところなので、注意が必要です。なおかつこのデータはブラウザに表示されるとは限らないので、気づかずにデータ漏洩してしまう可能性が高くなります。
             </p>
             <p className="mt-4">
               本デモでは、この問題を実際に確認していただくために、敢えてセキュリティ問題のあるコードを書いています。<strong>コードにセキュリティ問題があっても、Hotwireの場合は情報が漏洩しにくいことを見ていただくためです。</strong>具体的には<code>User</code> repositoryがそのまま<code>password_digest</code>(秘密の情報)を返してしまうようにしています。また各エンドポイントでも<code>password_digest</code>をブロックしていません。
@@ -256,8 +259,8 @@ export default function PageTransitions() {
                 Next.js
                 App routerのServer componentだけを使っている場合は<code>password_digest</code>は漏洩しません。RSC
                 payloadはHTMLにレンダリングされる内容しか含まないためです。しかし<StyledLink
-                  href="https://zenn.dev/moozaru/articles/d270bbc476758e">Server componentの中にClient
-                  componentを埋め込んでいる場合はデータが漏洩する可能性があります</StyledLink>ので、要注意です。
+                href="https://zenn.dev/moozaru/articles/d270bbc476758e">Server componentの中にClient
+                componentを埋め込んでいる場合はデータが漏洩する可能性があります</StyledLink>ので、要注意です。
               </StyledList>
             </ul>
             <p className="mt-4">
