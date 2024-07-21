@@ -187,16 +187,16 @@ export default function PageTransitions() {
               Turboのインストール
             </h2>
             <p className="mt-8">
-              TurboDriveによる画面遷移は、Turboをインストールするだけです。インストール方法は<StyledLink
+              <strong>普通のMPAのページにTurboをインストールするだけで、TurboDriveによる画面遷移が手に入ります。</strong>インストール方法はライブラリを読み込むだけです。<StyledLink
               href="https://turbo.hotwired.dev/handbook/installing">公式ドキュメント</StyledLink>を確認してください。
             </p>
             <p className="mt-4">
-              また本サイトではTurboのJavaScriptファイルは<code>public/hotwire/javascript/turbo.es2017-esm.js</code>にダウンロードされており、<code>templates/layouts/header.ejs</code>から参照されています。このようにJavaScriptのファイルを読み込むだけでTurboDriveが使用できるようになります。
+              また本サイトではTurboのJavaScriptファイルはpublic/hotwire/javascript/turbo.es2017-esm.jsにダウンロードされており、<code>templates/layouts/header.ejs</code>から参照されています。これだけでTurboDriveが使用できるようになっています。
             </p>
 
             <H2WithHash id="page-transition-ux">ページ遷移のUX</H2WithHash>
             <p className="mt-8">
-              ネイティブ(MPA)以外はすべてSPA的にページ遷移をします。つまりページ遷移のたびにJavaScript,
+              上記の表に挙げた仕組みのうち、ネイティブ(MPA)以外はすべてSPA的にページ遷移をします。つまりページ遷移のたびにJavaScript,
               CSSを読み込まないので、ページ切り替えがスムーズになります。
             </p>
             <p className="mt-4">
@@ -215,7 +215,7 @@ export default function PageTransitions() {
             <p className="mt-4">
               結果として、動的コンテンツの場合はHotwire (TurboDrive)が体感として一番ヌルサクになります。
             </p>
-            <div className="mt-6">
+            <div className="mt-12">
               <div className="w-max-[560px] flex justify-center">
                 <iframe className="aspect-video" src="https://www.youtube.com/embed/UWluEz8YPbo?si=ZPz6s2MWPQShzH6q"
                         title="YouTube video player" frameBorder="0"
@@ -223,7 +223,7 @@ export default function PageTransitions() {
                         referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
               </div>
             </div>
-            <div className="mt-6">
+            <div className="mt-12">
               <Image src={transitionImage} alt="Page Transition image"></Image>
             </div>
 
@@ -265,8 +265,7 @@ export default function PageTransitions() {
             </ul>
             <p className="mt-4">
               Next.jsをセキュアにする場合は<code>User</code> repositoryのデータをそのままコンポーネントに渡さず、<StyledLink
-              href="https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer">Data
-              Access
+              href="https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer">Data Access
               Layer</StyledLink>をの中で、権限に応じて必要なデータのみを含むDTO(Data
               Transfer Object)を作成することが奨励されています。
               Reactの方でも<StyledLink
@@ -274,9 +273,11 @@ export default function PageTransitions() {
               Taint API</StyledLink>で対策されていく見込みですが、これはどちらかというと注意喚起のメカニズムだけであり、対応は別途必要になります。
             </p>
             <p className="mt-4">
+              一方でHotwireの場合は、HTMLを出力するテンプレートファイル自身がこのようなData Access Layerの役割を果たしているとも言えます。ユーザに見せたい情報・見せたくない情報はテンプレートファイルが呼び出す・呼び出さないで結果的に制御されています。もちろんviewレイヤーにはなるべくロジックを持たせたくないので、判定処理そのものは別のところに任せます。</p>
+            <p className="mt-4">
               結論として、ネイティブ画面遷移(MPA)やHotwire TurboDriveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。
             </p>
-            <div className="mt-6">
+            <div className="mt-12">
               <div className="w-max-[560px] flex justify-center">
                 <iframe className="aspect-video" src="https://www.youtube.com/embed/LxLhCviX8iQ?si=wjTL03S_bw7k25OF"
                         title="YouTube video player" frameBorder="0"

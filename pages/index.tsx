@@ -2,6 +2,9 @@
 import Link from "next/link";
 import Head from "next/head";
 import Layout from "@/pages/components/Layout";
+import H2WithHash from "@/pages/components/H2WithHash";
+import StyledLink from "@/pages/components/StyledLink";
+import PrimaryButtonWithAnchor from "@/pages/components/PrimaryButtonWithAnchor";
 
 export default function IndexPage() {
   return (
@@ -20,20 +23,19 @@ export default function IndexPage() {
             <p className="text-left mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
               Hotwireは近年注目されているフロントエンド技術です。</p>
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
-              バックエンドに非依存で、Rails, Laravel, Django, Expressでも関係なく動きます。
-              このサイトは<strong>HotwireをNext.js上で動かしています</strong></p>
+              <strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを見ながらHotwireとReact/Next.jsを比較し、Hotwireの素晴らしさと考え方を理解してもらうことが本サイトの目的です。</p>
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
-              本サイトでは<strong>実際に動作するサイトでUXを比較し、またソースコードを確認しながら</strong>、HotwireとReact/Next.jsを比較します。
-            </p>
-            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">本サイトのコードは<a
-              href="https://github.com/naofumi/hotwire_and_next"
-              className="text-orange-600 hover:text-orange-400 underline">GitHub</a>に公開しています。また<a
-              href="https://vercel.com" className="text-orange-600 hover:text-orange-400 underline">Vercel</a>でデプロイしています。
+              Hotwireはバックエンド非依存です。Rails, Laravel, Django, Nodeでも関係なく動きます。
+              このサイトも<strong>HotwireをNext.js上で動かしていて、すべてJavaScript (TypeScript)で書かれています。</strong>
+              JavaScriptさえわかれば簡単にコードを追うことができます。</p>
+            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">本サイトのコードは<StyledLink
+              href="https://github.com/naofumi/hotwire_and_next">GitHub</StyledLink>に公開しています。また<StyledLink
+              href="https://vercel.com">Vercel</StyledLink>でデプロイしています。
             </p>
             <div className="text-center mt-4">
-              <Link href="/about" className="text-orange-600 hover:text-orange-400 underline">
+              <StyledLink href="/about">
                 もっと詳しく...
-              </Link>
+              </StyledLink>
             </div>
 
 
@@ -47,11 +49,11 @@ export default function IndexPage() {
             </div>
 
 
-
             <hr className="my-8"/>
             <div className="">
-              <h3
-                className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">ページ遷移: TurboDrive</h3>
+              <H2WithHash id="page-transition">
+                ページ遷移: TurboDrive
+              </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
                 HotwireのTurboDriveは、Next.jsの<code>Link</code>タグとほぼ同じ位置付けの機能です。
                 主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。<br/>
@@ -60,39 +62,38 @@ export default function IndexPage() {
                 また、prefetchの影響を見やすくするために、Next.js app routerのRouter Cacheはオフにしてあります。
               </p>
               <div className="text-center mt-4">
-                <Link href="/commentaries/page_transitions" className="text-orange-600 hover:text-orange-400 underline">
+                <StyledLink href="/commentaries/page_transitions">
                   もっと詳しく...
-                </Link>
+                </StyledLink>
               </div>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-                <a href="/api/hotwire/users"
-                   className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                   data-turbo="false">ブラウザネイティブ</a>
-                <a href="/api/hotwire/users"
-                   className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-                  TurboDrive</a>
-                <a href="/users_ssg"
-                   className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                   data-turbo="true">Next.js <code>Link</code> SSG</a>
-                <a href="/users"
-                   className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                   data-turbo="true">Next.js useEffect</a>
-                <a href="/users_ssr"
-                   className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                   data-turbo="true">Next.js page router SSR</a>
-                <a href="/users_app"
-                   className="text-sm rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                   data-turbo="true">Next.js app router Server component</a>
+                <PrimaryButtonWithAnchor href="/api/hotwire/users">
+                  ブラウザネイティブ
+                </PrimaryButtonWithAnchor>
+                <PrimaryButtonWithAnchor href="/api/hotwire/users">
+                  TurboDrive
+                </PrimaryButtonWithAnchor>
+                <PrimaryButtonWithAnchor href="/users_ssg">
+                  Next.js SSG
+                </PrimaryButtonWithAnchor>
+                <PrimaryButtonWithAnchor href="/users">
+                  Next.js useEffect
+                </PrimaryButtonWithAnchor>
+                <PrimaryButtonWithAnchor href="/users_ssr">
+                  Next.js page router SSR
+                </PrimaryButtonWithAnchor>
+                <PrimaryButtonWithAnchor href="/users_app">
+                  Next.js app router Server component
+                </PrimaryButtonWithAnchor>
               </div>
             </div>
 
 
-
             <hr className="my-8"/>
             <div className="">
-              <h3 className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">
+              <H2WithHash id="tabbed-menu">
                 タブメニュー: TurboFrames
-              </h3>
+              </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
                 インタラクティブなウェブUIの大半は、画面の部分的な書き換えである。そして新しいコンテンツがすでにブラウザに読み込まれている場合、これは難しくない。<br/>
                 厄介なのは新しいコンテンツをサーバから読み込む時だが、TurboFramesを使うと簡単にできる。
@@ -105,12 +106,11 @@ export default function IndexPage() {
             </div>
 
 
-
             <hr className="my-8"/>
             <div className="">
-              <h3
-                className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">ポップアップ:
-                TurboFrames</h3>
+              <H2WithHash id="popup">
+                ポップアップ: TurboFrames
+              </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
                 TurboFramesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
               </p>
@@ -122,12 +122,11 @@ export default function IndexPage() {
             </div>
 
 
-
             <hr className="my-8"/>
             <div className="">
-              <h3
-                className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">階層プルダウンメニュー:
-                TurboFrames</h3>
+              <H2WithHash id="hierarchical-menus">
+                階層プルダウンメニュー: TurboFrames
+              </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
                 動的に、階層的に絞り込まれるプルダウンメニューを使って、住所を入力していくUIをTurboFramesで作ります。
                 小さい箇所のアップデートにもTurboFramesが有効です。

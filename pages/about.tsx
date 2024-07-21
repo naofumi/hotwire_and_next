@@ -108,11 +108,11 @@ export default function About() {
                 </StyledList>
                 <StyledList>
                   <strong className="font-semibold text-gray-900">HotwireはEJS: </strong>
-                  Hotwireはバックエンド技術非依存なので、HTMLが出力できればどこでも動きます。本プロジェクトではNext.js
+                  Hotwireはバックエンド技術非依存なので、HTMLが出力できればどこでも動きます。本プロジェクトでは<strong>Next.js
                   pages
                   routerの<StyledLink
                   href="https://nextjs.org/docs/pages/building-your-application/routing/api-routes">API
-                  routes</StyledLink>からHTMLをレスポンスとして返しています。
+                  routes</StyledLink>からHTMLをレスポンスとして返しています(<code>/api/hotwire/</code>配下)。</strong>
                   テンプレートエンジンは<StyledLink href="https://ejs.co">EJS</StyledLink>を使っています。
                   Hotwireの構成要素である<StyledLink
                   href="https://turbo.hotwired.dev/handbook/installing">Turbo</StyledLink>と<StyledLink
@@ -130,10 +130,11 @@ export default function About() {
                       ただし一部app routerと比較したいケースの時はこれも使っています。
                     </StyledList>
                     <StyledList color="text-gray-400">
-                      内容が頻繁に更新されるウェブアプリを想定しているため、古いデータが表示されたままになってしまうタイプのキャッシュは使用していません。例えばapp
-                      routerを使っている時でも、<StyledLink
+                      内容が頻繁に更新されるウェブアプリ（例えば業務アプリや管理画面、注文予約アプリなど）を想定しているため、古いデータが表示されたままになってしまうタイプのキャッシュは使用していません。特にapp
+                      routerを使っている時は<StyledLink
                       href="https://nextjs.org/docs/app/building-your-application/caching#router-cache">Router
-                      Cache</StyledLink>はオフにしています。
+                      Cache</StyledLink>、<StyledLink href="https://nextjs.org/docs/app/building-your-application/caching#full-route-cache">Full Route Cache</StyledLink>、<StyledLink href="https://nextjs.org/docs/app/building-your-application/caching#data-cache">Data
+                      Cache</StyledLink>は<StyledLink href="https://nextjs.org/docs/app/building-your-application/caching#segment-config-options">オフにしています</StyledLink>。
                     </StyledList>
                   </ul>
                 </StyledList>
