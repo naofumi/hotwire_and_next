@@ -22,13 +22,20 @@ export default function PageTransitions() {
           </p>
           <div className="mt-10 max-w-2xl mx-auto">
             <p>
-              ウェブの最も基本的でかつ重要な動作とも言えるページの遷移。それだけにUXへのインパクトが大きいものです。
+              Hotwireで一番最初に紹介する技術は<StyledLink href="https://turbo.hotwired.dev/handbook/drive">TurboDrive</StyledLink>です。TurboDriveはページ遷移のUXを大幅に向上させます。
+            </p>
+            <p className="mt-4">
+              ウェブの根幹をなすのはリンクです。ウェブの最も基本的でかつ重要な動作は、リンクをクリックした後のページの遷移です。それだけにUXへのインパクトが大きいものです。
+            </p>
+            <p className="text-sm text-gray-600 mt-4">
+              ※ ここでは最初にサイトを訪問した時のUXではなく、サイト内のリンクをクリックしたときの動作にフォーカスします
             </p>
 
             <div className="mt-8 flow-root">
               <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                   <table className="min-w-full divide-y divide-gray-300">
+                    <caption className="caption-top text-left font-bold">ページ遷移技術の比較</caption>
                     <thead>
                     <tr>
                       <th scope="col"
