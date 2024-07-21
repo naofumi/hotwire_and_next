@@ -213,8 +213,8 @@ export default function PageTransitions() {
               結果として、動的コンテンツの場合はHotwire (TurboDrive)が体感として一番ヌルサクになります。
             </p>
             <div className="mt-6">
-              <div className="w-[560px] mx-auto">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/UWluEz8YPbo?si=ZPz6s2MWPQShzH6q"
+              <div className="w-max-[560px] flex justify-center">
+                <iframe className="aspect-video" src="https://www.youtube.com/embed/UWluEz8YPbo?si=ZPz6s2MWPQShzH6q"
                         title="YouTube video player" frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
@@ -272,8 +272,8 @@ export default function PageTransitions() {
               結論として、ネイティブ画面遷移(MPA)やHotwire TurboDriveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。
             </p>
             <div className="mt-6">
-              <div className="mx-auto w-[560px]">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/LxLhCviX8iQ?si=wjTL03S_bw7k25OF"
+              <div className="w-max-[560px] flex justify-center">
+                <iframe className="aspect-video" src="https://www.youtube.com/embed/LxLhCviX8iQ?si=wjTL03S_bw7k25OF"
                         title="YouTube video player" frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>

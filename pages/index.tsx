@@ -38,8 +38,8 @@ export default function IndexPage() {
 
 
             <div className="mt-6">
-              <div className="w-[560px] mx-auto">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/fzd8Xn18eFw?si=SNmev3E43NsgTYFl"
+              <div className="w-max-[560px] flex justify-center">
+                <iframe className="aspect-video" src="https://www.youtube.com/embed/fzd8Xn18eFw?si=SNmev3E43NsgTYFl"
                         title="YouTube video player" frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
