@@ -109,8 +109,10 @@ export default function About() {
             <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
               <StyledList>
                 <strong className="font-semibold text-gray-900">Turbo Streamsを使いすぎる: </strong>
-                Reactのコンポーネントの影響かもしれませんが、Hotwireに慣れていない人は画面更新を細かい単位に分解しすぎる傾向があります。そうなると細かい更新に適したTurbo Streamsを数多く書く必要があり、コードが複雑になります。<br />
-                そうではなく、むしろ許容される最大の更新単位は何かを考え、なるべくたった１つの大きなTurbo Frameで処理した方がシンプルなHotwireコードが書けます。どうしても更新箇所が分散している時は、大きな処理単位にしつつmorphingを検討します。
+                Reactのコンポーネントの影響かもしれませんし、<StyledLink href="https://ja.react.dev/learn/conditional-rendering">Reactの条件付きレンダー</StyledLink>の影響かもしれませんが、Hotwireに慣れていない人は画面更新を細かい単位に分解しすぎる傾向があります。そうなると細かい更新に適したTurbo Streamsを数多く書く必要があり、コードが複雑になります。<br />
+                そうではなく、むしろ許容される最大の更新単位は何かを考え、なるべくたった１つの大きなTurbo Frameで処理した方がシンプルなHotwireコードが書けます。どうしても更新箇所が分散している時は、大きな処理単位にしつつmorphingを検討します。<br />
+                さらに条件によって表示内容を変えたい場合は、細くTurbo Streamを送ってHTMLを変えるのではなく、StimulusでCSS classを書き換えて visible/hidden を変えます。<br />
+                こうすることで、よりHotwireらしいシンプルなコードになります。
               </StyledList>
               <StyledList>
                 <strong className="font-semibold text-gray-900">JavaScriptなしで作ろうとする: </strong>
