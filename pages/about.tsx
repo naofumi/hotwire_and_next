@@ -36,7 +36,7 @@ export default function About() {
               このようにHotwireは人気の有料SaaSアプリで十分なUXを提供することが証明されているだけでなく、小さいチームでの開発に適していることも実証されています。
             </p>
             <p className="mt-6">
-              例えば「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」などと悩む必要はありません。お客様がお金を払ってでも使いたくなるUXは、Hotwireで十分に作成できます。
+              例えば「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」などと悩む必要はありません。お客様がお金を払ってでも使いたくなる製品のUXが、Hotwireで十分に実現できることは<strong>疑いの余地がありません</strong>。
             </p>
 
             <H2WithHash id="hotwire-components">
@@ -46,7 +46,7 @@ export default function About() {
               <StyledList>
                 <strong className="font-semibold text-gray-900">Turbo: </strong>
                 <StyledLink href="https://turbo.hotwired.dev">Turbo</StyledLink>はサーバにレクエストを投げて、返ってきたHTMLをDOMに埋め込むためのライブラリです。敢えてサーバからHTMLしか返せないように制限をかけているのが大きな特徴です。（Turbo以前のRailsでは<StyledLink
-                href="https://signalvnoise.com/posts/3697-server-generated-javascript-responses">サーバからJavaScriptを返す</StyledLink>ことが一般的で、むしろTurboより遥かに強力でした。Turboは強力さを捨てて、シンプルさを採用したとも言えます）
+                href="https://signalvnoise.com/posts/3697-server-generated-javascript-responses">サーバからJavaScriptを返す</StyledLink>ことが一般的で、15年間、Turboよりむしろ遥かに柔軟なやり方でした。Turboは柔軟さを捨てて、シンプルさを優先したとも言えます）
               </StyledList>
               <StyledList>
                 <strong className="font-semibold text-gray-900">Stimulus: </strong>
@@ -99,6 +99,24 @@ export default function About() {
             <p className="mt-6">
               Turboは上記のたった３つのパーツしかないのですが、実際にやってみるとこれだけでほとんどのインタラクティブなUIが作れてしまいます。
             </p>
+
+            <H2WithHash id="turbo-components">
+              Hotwireに慣れていないエンジニアの癖
+            </H2WithHash>
+            <p className="mt-4">
+              個人的見解も入りますが、慣れていない人が初めてHotwireを使い始める時は下記の傾向があります。
+            </p>
+            <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
+              <StyledList>
+                <strong className="font-semibold text-gray-900">Turbo Streamsを使いすぎる: </strong>
+                Reactのコンポーネントの影響かもしれませんが、Hotwireに慣れていない人は画面更新を細かい単位に分解しすぎる傾向があります。そうなると細かい更新に適したTurbo Streamsを数多く書く必要があり、コードが複雑になります。<br />
+                そうではなく、むしろ許容される最大の更新単位は何かを考え、なるべくたった１つの大きなTurbo Frameで処理した方がシンプルなHotwireコードが書けます。どうしても更新箇所が分散している時は、大きな処理単位にしつつmorphingを検討します。
+              </StyledList>
+              <StyledList>
+                <strong className="font-semibold text-gray-900">JavaScriptなしで作ろうとする: </strong>
+                Turbo Framesは複数の機能がパッケージされているので、これだけでモーダルダイアログなどは作れてしまいます。しかしこれをやると、ブラウザステート（モーダルの開閉状態）とサーバステート（更新データ）が分けられなくなってしまいます。例えば開閉アニメーションが作れなくなったり、Turboのキャッシュとぶつかったりなど、問題が発生しやすくなります。JavaScriptなしで作ろうとするのではなく、ブラウザとサーバのステートを分けて管理し、ブラウザステートはStimulusに処理させた方が苦労も少なく、優れたUXが実現できます。
+              </StyledList>
+            </ul>
 
             <H2WithHash id="hotwire-features">
               Hotwireの特徴

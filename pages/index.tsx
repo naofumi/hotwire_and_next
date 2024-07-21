@@ -57,9 +57,7 @@ export default function IndexPage() {
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
                 HotwireのTurboDriveは、Next.jsの<code>Link</code>タグとほぼ同じ位置付けの機能です。
                 主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。<br/>
-                なお、Next.jsはdev環境ではprefetchが動かないので、buildしてからお試しください。<br/>
-                なお、初回ロードを再現するために、下記のリンクは<code>Link</code>ではなく、普通の<code>a</code>タグになっています。
-                また、prefetchの影響を見やすくするために、Next.js app routerのRouter Cacheはオフにしてあります。
+                なお、Next.jsはdev環境ではprefetchが動かないので、ローカル環境でUXを確認する場合はbuild, startしてからお試しください。
               </p>
               <div className="text-center mt-4">
                 <StyledLink href="/commentaries/page_transitions">
