@@ -151,7 +151,7 @@ export default function About() {
                 Hotwireのコンポーネント化は各バックエンド技術のテンプレートエンジンによります。
                 Ruby on Railsであればpartialやview helper、
                 もしくは最近話題の<StyledLink href="https://viewcomponent.org">ViewComponent</StyledLink>や<StyledLink
-                href="https://viewcomponent.org">Phlex</StyledLink>などのコンポーネント化技術があります。
+                href="https://www.phlex.fun/">Phlex</StyledLink>などのコンポーネント化技術があります。
                 Laravel, Djangoなどもそれぞれのコンポーネント化技術があります。
               </StyledList>
               <StyledList>
