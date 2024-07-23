@@ -93,9 +93,15 @@ export default function IndexPage() {
                 タブメニュー: Turbo Frames
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
-                インタラクティブなウェブUIの大半は、画面の部分的な書き換えである。そして新しいコンテンツがすでにブラウザに読み込まれている場合、これは難しくない。<br/>
-                厄介なのは新しいコンテンツをサーバから読み込む時だが、TurboFramesを使うと簡単にできる。
+                インタラクティブなウェブUIの大半は、突き詰めると画面の部分的な書き換えです。
+                新しい内容がすでにブラウザに読み込まれているなら、これは難しくありません。<br/>
+                厄介なのは新しい内容をサーバから読み込む時ですが、Turbo Framesなら簡単に実現できます。
               </p>
+              <div className="text-center mt-4">
+                <StyledLink href="/commentaries/tabbed_menus">
+                  もっと詳しく...
+                </StyledLink>
+              </div>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/tabbed_segments"
                    className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
