@@ -1,22 +1,13 @@
 <%- include("../layouts/header.ejs") -%>
 <div class="bg-white">
   <div class="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
-    <div class="mx-auto max-w-2xl text-center"><h2
-              class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">タブで区切ったUI</h2>
-      <div class="mt-10 flex items-center justify-center gap-x-6">
-        <a href="/api/hotwire/tabbed_segments_no_js"
-           class="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">Javascriptなし</a>
-        <a href="/api/hotwire/tabbed_segments_turboframes"
-           class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-orange-600 shadow-sm hover:bg-orange-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">TurboFrames</a>
-        <a class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-orange-600 shadow-sm hover:bg-orange-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-           href="/tabbed_segments">Next.js (useEffect)</a></div>
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        タブで区切ったUI
+      </h2>
+      <%- include("_technology_tabs.ejs") -%>
       <div class="mt-10">
-        <div class="mb-2">
-          <label for="search" class="text-sm mr-2">Search</label>
-          <input id="search"
-                 type="text"
-                 class="border rounded p-1">
-        </div>
+        <%- include("_search.ejs") -%>
         <div class="border-b border-gray-200">
           <nav aria-label="Tabs" class="-mb-px flex space-x-8">
             <a href="/api/hotwire/tabbed_segments_no_js/"
@@ -62,20 +53,20 @@
                   </thead>
                   <tbody class="divide-y divide-gray-200 bg-white">
                   <% users.forEach((user) => { %>
-                  <tr class="divide-x divide-gray-200">
-                    <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
-                      <%= user.name%>
-                    </td>
-                    <td class="whitespace-nowrap p-4 text-sm text-gray-500">
-                      <%= user.title %>
-                    </td>
-                    <td class="whitespace-nowrap p-4 text-sm text-gray-500">
-                      <%= user.email %>
-                    </td>
-                    <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0">
-                      <%= user.role%>
-                    </td>
-                  </tr>
+                    <tr class="divide-x divide-gray-200">
+                      <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
+                        <%= user.name %>
+                      </td>
+                      <td class="whitespace-nowrap p-4 text-sm text-gray-500">
+                        <%= user.title %>
+                      </td>
+                      <td class="whitespace-nowrap p-4 text-sm text-gray-500">
+                        <%= user.email %>
+                      </td>
+                      <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0">
+                        <%= user.role %>
+                      </td>
+                    </tr>
                   <% }) %>
                   </tbody>
                 </table>
