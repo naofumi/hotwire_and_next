@@ -52,10 +52,10 @@ export default function IndexPage() {
             <hr className="my-8"/>
             <div className="">
               <H2WithHash id="page-transition">
-                ページ遷移: TurboDrive
+                ページ遷移: Turbo Drive
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
-                HotwireのTurboDriveは、Next.jsの<code>Link</code>タグとほぼ同じ位置付けの機能です。
+                HotwireのTurbo Driveは、Next.jsの<code>Link</code>タグとほぼ同じ位置付けの機能です。
                 主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。<br/>
                 なお、Next.jsはdev環境ではprefetchが動かないので、ローカル環境でUXを確認する場合はbuild, startしてからお試しください。
               </p>
@@ -69,7 +69,7 @@ export default function IndexPage() {
                   ブラウザネイティブ
                 </PrimaryButtonWithAnchor>
                 <PrimaryButtonWithAnchor href="/api/hotwire/users">
-                  TurboDrive
+                  Turbo Drive
                 </PrimaryButtonWithAnchor>
                 <PrimaryButtonWithAnchor href="/users_ssg">
                   Next.js SSG
@@ -90,7 +90,7 @@ export default function IndexPage() {
             <hr className="my-8"/>
             <div className="">
               <H2WithHash id="tabbed-menu">
-                タブメニュー: TurboFrames
+                タブメニュー: Turbo Frames
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
                 インタラクティブなウェブUIの大半は、画面の部分的な書き換えである。そして新しいコンテンツがすでにブラウザに読み込まれている場合、これは難しくない。<br/>
@@ -107,10 +107,10 @@ export default function IndexPage() {
             <hr className="my-8"/>
             <div className="">
               <H2WithHash id="popup">
-                ポップアップ: TurboFrames
+                ポップアップ: Turbo Frames
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
-                TurboFramesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
+                Turbo Framesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/popup"
@@ -123,11 +123,11 @@ export default function IndexPage() {
             <hr className="my-8"/>
             <div className="">
               <H2WithHash id="hierarchical-menus">
-                階層プルダウンメニュー: TurboFrames
+                階層プルダウンメニュー: Turbo Frames
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
-                動的に、階層的に絞り込まれるプルダウンメニューを使って、住所を入力していくUIをTurboFramesで作ります。
-                小さい箇所のアップデートにもTurboFramesが有効です。
+                動的に、階層的に絞り込まれるプルダウンメニューを使って、住所を入力していくUIをTurbo Framesで作ります。
+                小さい箇所のアップデートにもTurbo Framesが有効です。
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/api/hotwire/address_selector"

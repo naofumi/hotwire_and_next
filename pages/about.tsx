@@ -73,9 +73,9 @@ export default function About() {
               <StyledList>
                 <strong className="font-semibold text-gray-900">Turbo Drive: </strong>
                 <StyledLink
-                  href="https://turbo.hotwired.dev/handbook/drive">TurboDrive</StyledLink>は<code>body</code>タグの中身を丸々入れ替える技術です。Next.jsの<StyledLink
+                  href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>は<code>body</code>タグの中身を丸々入れ替える技術です。Next.jsの<StyledLink
                 href="https://nextjs.org/docs/pages/building-your-application/routing">router</StyledLink>、あるいは<StyledLink
-                href="https://reactrouter.com/">React Router</StyledLink>に相当します。<code>Link</code>タグのような特別なものは必要とせず、Turboがインストールされれば<code>a</code>タグは全て自動的にTurboDriveを使うようになります。
+                href="https://reactrouter.com/">React Router</StyledLink>に相当します。<code>Link</code>タグのような特別なものは必要とせず、Turboがインストールされれば<code>a</code>タグは全て自動的にTurbo Driveを使うようになります。
               </StyledList>
               <StyledList>
                 <strong className="font-semibold text-gray-900">Turbo Frames: </strong>

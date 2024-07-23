@@ -15,10 +15,10 @@ export default function PopupIndexPage() {
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <a href="/api/hotwire/popup"
                  className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-orange-600 shadow-sm hover:bg-orange-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-                TurboFrames & JS ポップアップ</a>
+                Turbo Frames & JS ポップアップ</a>
               <a href="/api/hotwire/popup_stimulus"
                  className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-orange-600 shadow-sm hover:bg-orange-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-                TurboFrames & Stimulus ポップアップ</a>
+                Turbo Frames & Stimulus ポップアップ</a>
               <Link href="/popup"
                     className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
                 Next.js ポップアップ</Link>

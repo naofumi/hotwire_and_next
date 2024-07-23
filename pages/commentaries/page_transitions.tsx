@@ -6,10 +6,6 @@ import StyledList from "@/pages/components/StyledList";
 import H2WithHash from "@/pages/components/H2WithHash";
 
 export default function PageTransitions() {
-  const people = [
-    {name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member'},
-    // More people...
-  ]
   return (
     <Layout hideTechLabel={true}>
       <div className="bg-white px-6 py-16 lg:px-8">
@@ -22,7 +18,7 @@ export default function PageTransitions() {
           </p>
           <div className="mt-10 max-w-2xl mx-auto">
             <p>
-              Hotwireで一番最初に紹介する技術は<StyledLink href="https://turbo.hotwired.dev/handbook/drive">TurboDrive</StyledLink>です。TurboDriveはページ遷移のUXを大幅に向上させます。
+              Hotwireで一番最初に紹介する技術は<StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>です。Turbo Driveはページ遷移のUXを大幅に向上させます。
             </p>
             <p className="mt-4">
               ウェブの根幹をなすのはリンクです。ウェブの最も基本的でかつ重要な動作は、リンクをクリックした後のページの遷移です。それだけにUXへのインパクトが大きいものです。
@@ -82,7 +78,7 @@ export default function PageTransitions() {
                     </tr>
                     <tr key={2} className="even:bg-gray-50">
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
-                        Hotwire (TurboDrive)
+                        Hotwire (Turbo Drive)
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         先にロード
@@ -194,11 +190,11 @@ export default function PageTransitions() {
               Turboのインストール
             </h2>
             <p className="mt-8">
-              <strong>普通のMPAのページにTurboをインストールするだけで、TurboDriveによる画面遷移が手に入ります。</strong>インストール方法はライブラリを読み込むだけです。<StyledLink
+              <strong>普通のMPAのページにTurboをインストールするだけで、Turbo Driveによる画面遷移が手に入ります。</strong>インストール方法はライブラリを読み込むだけです。<StyledLink
               href="https://turbo.hotwired.dev/handbook/installing">公式ドキュメント</StyledLink>を確認してください。
             </p>
             <p className="mt-4">
-              また本サイトではTurboのJavaScriptファイルはpublic/hotwire/javascript/turbo.es2017-esm.jsにダウンロードされており、<code>templates/layouts/header.ejs</code>から参照されています。これだけでTurboDriveが使用できるようになっています。
+              また本サイトではTurboのJavaScriptファイルはpublic/hotwire/javascript/turbo.es2017-esm.jsにダウンロードされており、<code>templates/layouts/header.ejs</code>から参照されています。これだけでTurbo Driveが使用できるようになっています。
             </p>
 
             <H2WithHash id="page-transition-ux">ページ遷移のUX</H2WithHash>
@@ -220,7 +216,7 @@ export default function PageTransitions() {
               rendering</code>を使っているページ)はprefetchしません。app routerの場合は<code>loading.js</code>まではprefetchしますが、その先はしません。このケースではprefetchは動作しません。
             </p>
             <p className="mt-4">
-              結果として、動的コンテンツの場合はHotwire (TurboDrive)が体感として一番ヌルサクになります。
+              結果として、動的コンテンツの場合はHotwire (Turbo Drive)が体感として一番ヌルサクになります。
             </p>
             <div className="mt-12">
               <div className="w-max-[560px] flex justify-center">
@@ -252,7 +248,7 @@ export default function PageTransitions() {
             </p>
             <ul className="list-disc ml-6 my-4 space-y-4">
               <StyledList>
-                ネイティブ画面遷移(MPA)およびHotwire TurboDriveを使っている場合は<code>password_digest</code>は漏洩しません。レスポンスにはHTMLしか含まれないので、画面に表示しない内容はブラウザに送信されないためです。
+                ネイティブ画面遷移(MPA)およびHotwire Turbo Driveを使っている場合は<code>password_digest</code>は漏洩しません。レスポンスにはHTMLしか含まれないので、画面に表示しない内容はブラウザに送信されないためです。
               </StyledList>
               <StyledList>
                 Next.js Pages
@@ -282,7 +278,7 @@ export default function PageTransitions() {
             <p className="mt-4">
               一方でHotwireの場合は、HTMLを出力するテンプレートファイル自身がこのようなData Access Layerの役割を果たしているとも言えます。ユーザに見せたい情報・見せたくない情報はテンプレートファイルが呼び出す・呼び出さないで結果的に制御されています。もちろんviewレイヤーにはなるべくロジックを持たせたくないので、判定処理そのものは別のところに任せます。</p>
             <p className="mt-4">
-              結論として、ネイティブ画面遷移(MPA)やHotwire TurboDriveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。
+              結論として、ネイティブ画面遷移(MPA)やHotwire Turbo Driveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。
             </p>
             <div className="mt-12">
               <div className="w-max-[560px] flex justify-center">
