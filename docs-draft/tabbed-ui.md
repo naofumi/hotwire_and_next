@@ -55,6 +55,11 @@ Reactの場合は、まずタブの中身を`Products`コンポーネントに�
 
 HotwireはTurboFrameコンテンツをただのHTML文字列として扱っているのに対して、Reactでは`Products`コンポーネント自身がメソッドとデータを持つオブジェクトのように振る舞う。
 
+## TurboFramesでは、画面遷移と画面部分更新で同じactionを使う
+
+* Next.jsでServer Component/Streamingやると、画面遷移の時はserver側の関数を読み込んでデータを取得する –– あるいはuseEffectを使う
+* Turboの場合はTurboDriveとTurboFramesで使うテンプレートやactionはにできる
+
 ## 開発の流れ
 
 TurboFramesの場合は、タブの中に差し込むコンテンツは独立したエンドポイントである。ブラウザをそのURLに向ければ、そのコンテンツがそのまま表示される。
