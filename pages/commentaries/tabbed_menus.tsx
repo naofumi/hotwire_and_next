@@ -4,6 +4,10 @@ import transitionImage from "@/public/images/transition-after-first-load.png"
 import Image from "next/image"
 import StyledList from "@/pages/components/StyledList";
 import H2WithHash from "@/pages/components/H2WithHash";
+import amazonImage from "@/public/images/tabbed_amazon.png"
+import turbodriveImage from "@/public/images/tabbed_turbodrive.png"
+import turboframesImage from "@/public/images/tabbed_turboframes.png"
+import reactImage from "@/public/images/tabbed_react.png"
 
 export default function PageTransitions() {
   return (
@@ -19,54 +23,92 @@ export default function PageTransitions() {
           <div className="mt-4 max-w-2xl mx-auto">
             <H2WithHash id="partial-rewrites-with-turbo-frames">Turbo Framesは部分的入れ替えのパッケージ</H2WithHash>
             <p className="mt-4">
-              タブメニューを作成するためには<StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo
-              Frames</StyledLink>を使います。まずこれについて解説します。
+              タブメニューを作成するためには<StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo
+              Frames</StyledLink>を使います。そこで、まずTurbo Framesについて概略を説明します。
             </p>
             <p className="mt-4">
-              HotwireでTurbo Driveの次によく使うのが<StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo
+              HotwireでTurbo Driveの次によく使うのが<StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo
               Frames</StyledLink>です。Turbo Driveがページ遷移、つまり画面全体の入れ替えをするのに対して、<StyledLink
               href="https://turbo.hotwired.dev/handbook/drive">Turbo Frames</StyledLink>は一部分だけを入れ替えます。
             </p>
             <p className="mt-4">
               「モーダル」「ポップアップ」「ドロップダウンメニュー」「ドロワーメニュー（引き出し）」「ライブ検索」、住所を入力するときに使う「階層メニュー」など、サーバから内容を読みUI要素はたくさんあります。どれも画面の部分的入れ替えが必要で、<StyledLink
-              href="https://turbo.hotwired.dev/handbook/drive">Turbo Frames</StyledLink>で実装できます。インタラクティブと言われるUI要素も、大部分はシンプルな部分的入れ替えで実現できるのです。
+              href="https://turbo.hotwired.dev/handbook/frames">Turbo Frames</StyledLink>で実装できます。インタラクティブと言われるUI要素も、大部分はシンプルな部分的入れ替えで実現できるのです。
             </p>
 
             <H2WithHash id="turbo-frames-is-a-package">Turbo Framesはコミコミのパッケージ</H2WithHash>
             <p className="mt-4">
-              <StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo Frames</StyledLink>は画面の部分的入れ替えを提供するだけでなく、<code>a</code>タグや<code>form</code>タグとの<StyledLink href="https://turbo.hotwired.dev/handbook/frames">連携</StyledLink>、<StyledLink href="https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames">Lazy
-              loading (遅延ロード)</StyledLink>、<StyledLink href="https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover">prefetch</StyledLink>、<StyledLink href="https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit">URL同期</StyledLink>、<StyledLink href="https://turbo.hotwired.dev/reference/frames#html-attributes">ローダー表示用のCSS</StyledLink>など、それに伴う便利機能をパッケージとして提供しています。
+              <StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo Frames</StyledLink>は画面の部分的入れ替えを提供するだけでなく、<code>a</code>タグや<code>form</code>タグとの<StyledLink
+              href="https://turbo.hotwired.dev/handbook/frames">連携</StyledLink>、<StyledLink
+              href="https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames">Lazy
+              loading (遅延ロード)</StyledLink>、<StyledLink
+              href="https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover">prefetch</StyledLink>、<StyledLink
+              href="https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit">URL同期</StyledLink>、<StyledLink
+              href="https://turbo.hotwired.dev/reference/frames#html-attributes">ローダー表示用のCSS</StyledLink>など、それに伴う便利機能をパッケージとして提供しています。
             </p>
             <p className="mt-4">
-              Reactなどの場合は<StyledLink href="https://ja.react.dev/reference/react/useState"><code>useState</code>フック</StyledLink>や<StyledLink
-              href="https://ja.react.dev/learn/conditional-rendering">条件付きレンダー</StyledLink>などのパターンを提供してくれますが、これを組み合わせてUI要素を作るのは開発者しだいです。その意味でReactはフルスクラッチでUI要素を作成するのに適している一方、HotwireはUIライブラリとまではいかないものの、パッケージしたものを提供します。
+              一方でReactなどの場合は<StyledLink
+              href="https://ja.react.dev/reference/react/useState"><code>useState</code>フック</StyledLink>や<StyledLink
+              href="https://ja.react.dev/learn/conditional-rendering">条件付きレンダー</StyledLink>などのパターンを提供してくれますが、これを組み合わせてUI要素を作るのは開発者しだいです。その意味でReactはフルスクラッチでUI要素を作成するのに適している一方、HotwireはUIライブラリとまではいかないものの、パッケージしたものを提供していると言えます。
             </p>
             <p className="mt-4">
-              なおコミコミの機能が不要で、単に部分入れ替えだけをしたい場合には、<StyledLink href="https://turbo.hotwired.dev/handbook/streams">Turbo Streams</StyledLink>を使います。Turbo Streamsを使うとより柔軟に部分入れ替えが行えます。
+              なお<StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo Frames</StyledLink>が提供するコミコミの機能が不要で、単に部分入れ替えだけをしたい場合には、<StyledLink
+              href="https://turbo.hotwired.dev/handbook/streams">Turbo Streams</StyledLink>を使います。Turbo
+              Streamsを使うとより柔軟に部分入れ替えが行えます。
             </p>
 
 
-            <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
-              タブメニューの作り方 (MPAの場合)
-            </h2>
+            <H2WithHash id="tabs-MPA">MPAによるタブメニューの作り方</H2WithHash>
             <p className="mt-8">
-              <strong>普通のMPAのページにTurboをインストールするだけで、Turbo
-                Driveによる画面遷移が手に入ります。</strong>インストール方法はライブラリを読み込むだけです。<StyledLink
-              href="https://turbo.hotwired.dev/handbook/installing">公式ドキュメント</StyledLink>を確認してください。
+              MPA流のタブメニューは<StyledLink
+              href="http://localhost:3000/api/hotwire/tabbed_segments_no_js">ここでお試しいただけます。</StyledLink>
             </p>
             <p className="mt-4">
-              また本サイトではTurboのJavaScriptファイルはpublic/hotwire/javascript/turbo.es2017-esm.jsにダウンロードされており、<code>templates/layouts/header.ejs</code>から参照されています。これだけでTurbo
-              Driveが使用できるようになっています。
+              MPA流のタブメニューの実装方法を<StyledLink href="/api/hotwire/tabbed_segments_no_js">ここ</StyledLink>に示しました。タブより上の箇所が全く同じ２つの画面を用意しているだけです。タブの上の方は全く同じなので、更新されていることに気づきません。一方でタブの下の部分は異なる内容が表示されているので、ここだけが更新されたとユーザは錯覚します。
             </p>
+            <p className="mt-4">
+              例えば<StyledLink href="https://www.amazon.co.jp">Amazon.co.jp</StyledLink>のサイトでも、このようなMPA流のタブメニューが実装されています。ただしAmazonの場合はコンテンツシフトをしてしまっているので、ページ切り替えの時にタブの上やタブ内も動いてしまい、更新されていることに気づいてしまいます。
+            </p>
+            <p className="mt-4">
+              それでもやはり、この方法はとても有効であり、非常に多くのウェブサイトで使われ続けています。コンテンツシフトさえしなければ、UXも優れたものです。
+            </p>
+            <div className="mt-4">
+              <Image src={amazonImage} alt="amazon tabs"></Image>
+            </div>
 
-            <H2WithHash id="page-transition-ux">ページ遷移のUX</H2WithHash>
+            <H2WithHash id="tabs-turbodrive">Turbo Driveによるタブメニューの作り方</H2WithHash>
             <p className="mt-8">
-              上記の表に挙げた仕組みのうち、ネイティブ(MPA)以外はすべてSPA的にページ遷移をします。つまりページ遷移のたびにJavaScript,
-              CSSを読み込まないので、ページ切り替えがスムーズになります。
+              Turbo Driveによるタブメニューは<StyledLink
+              href="http://localhost:3000/api/hotwire/tabbed_segments_turbodrive">ここでお試しいただけます。</StyledLink>
             </p>
             <p className="mt-4">
-              ヌルサク感が一番向上するのはprefetchです。リンクが画面に現れた時、もしくは上をホバーした時にリクエストを飛ばすので、事実上の<strong>フライング</strong>です。うまくいくと、ボタンをクリックした時にはもうすでにリンク先はダウンロードされています。
+              <StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>を使う場合は、MPAのサイトに<StyledLink
+              href="https://turbo.hotwired.dev/handbook/installing">TurboのJavaScriptファイルをダウンロードする</StyledLink>だけです。
+              この場合はTurbo Driveによってヌルサクになった分だけ、タブの切り替えが自然に見えてきます。しかし実際にやっているのはMPAの場合と同様、<strong>画面全体の差し替えです。</strong>
             </p>
+            <p className="mt-4">
+              一見するとタブだけが差し代わっているようには見えますが、下記の点を細かくみると、実際には画面全体の差し替えだとバレてしまいます。
+            </p>
+            <ul className="list-disc ml-6 my-4 space-y-4">
+              <StyledList>
+                少し下にスクロールしたところタブをクリックすると、タブの中身が差し代わるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を差し替えるから起こるのではなく、<StyledLink
+                href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>がMPAの動きを真似るためにわざとやっているものです。条件と設定によってスクロールを抑制することも可能です。
+              </StyledList>
+              <StyledList>
+                <code>Search</code>のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を差し替える時にこのフィールドも丸ごと差し替えられるためです。
+              </StyledList>
+              <StyledList>
+                なお、今回は<StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>で画面全体が差し代わることを説明していますが、実は<StyledLink
+                href="https://turbo.hotwired.dev/handbook/page_refreshes">Morphing</StyledLink>を使うと、全画面を書き換えつつ、差し替えるのではなく差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、<StyledLink
+                href="https://ja.react.dev/learn/preserving-and-resetting-state">Reactに近い更新</StyledLink>を可能にするもので、かなり強力なものです。
+              </StyledList>
+            </ul>
+
+            <div className="mt-6">
+              <Image src={turbodriveImage} alt="turbodrive image"></Image>
+            </div>
+
+
             <p className="mt-4">
               Hotwire/TurboもNext.jsもprefetch機能があります。しかし細かく見ていくと、Next.jsのprefetchはいろいろと条件付きです。効果が限定的、もしくはそもそも機能しないケースが多いのです。
             </p>

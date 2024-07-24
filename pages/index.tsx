@@ -97,7 +97,7 @@ export default function IndexPage() {
                 新しい内容がすでにブラウザに読み込まれているなら、これは難しくありません。<br/>
                 厄介なのは新しい内容をサーバから読み込む時ですが、Turbo Framesなら簡単に実現できます。
               </p>
-              <div className="hidden text-center mt-4">
+              <div className="text-center mt-4">
                 <StyledLink href="/commentaries/tabbed_menus">
                   もっと詳しく...
                 </StyledLink>
