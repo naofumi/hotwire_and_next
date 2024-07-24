@@ -21,6 +21,9 @@ export default function TabbedSegmentsIndexPage() {
               <a href="/api/hotwire/tabbed_segments_no_js"
                  className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-orange-600 shadow-sm hover:bg-orange-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
                 Javascriptなし</a>
+              <a href="/api/hotwire/tabbed_segments_turbodrive"
+                 className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-orange-600 shadow-sm hover:bg-orange-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+                Turbo Drive</a>
               <a href="/api/hotwire/tabbed_segments_turboframes"
                  className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-orange-600 shadow-sm hover:bg-orange-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
                 Turbo Frames</a>
@@ -30,8 +33,8 @@ export default function TabbedSegmentsIndexPage() {
             </div>
             <div className="mt-10">
               <div className="mb-2">
-              <label htmlFor="search" className="text-sm mr-2">Search</label>
-              <input id="search" type="text" className="border rounded p-1" />
+                <label htmlFor="search" className="text-sm mr-2">Search</label>
+                <input id="search" type="text" className="border rounded p-1"/>
               </div>
               <Tabs selectedTab={selectedTab} setSelectedTab={setSelectedTab}></Tabs>
               {selectedTab === 0
