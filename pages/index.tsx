@@ -1,5 +1,4 @@
 // https://tailwindui.com/components/marketing/sections/cta-sections#component-25ce2a81d17545994655ccc4062651a4
-import Link from "next/link";
 import Head from "next/head";
 import Layout from "@/pages/components/Layout";
 import H2WithHash from "@/pages/components/H2WithHash";
@@ -155,13 +154,17 @@ export default function IndexPage() {
                 ライブ検索: Turbo Frames
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
-                リアルタイムで検索をするUIです。Turbo Framesを使って作りますが、aタグやformタグを契機に作動するのではなく、<code>onInput</code>イベントで動くので、JavaScriptを使う必要があります。Turbo Framesを使う理由は、検索条件フィールドのステートを保ち、リセットされるのを防ぐためです。
+                リアルタイムで検索をするUIです。Turbo Framesを使って作りますが、aタグやformタグを契機に作動するのではなく、<code>onInput</code>イベントで動くので、JavaScriptを使う必要があります。Turbo
+                Framesを使う理由は、検索条件フィールドのステートを保ち、リセットされるのを防ぐためです。
+              </p>
+              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+                またReact側ではただの<code>fetch</code>を使っていることもあり、競合状態 (race condition)対策はされていません。一方でHotwire側は、Turboが提供する<code>Turbo.visit()</code>を使うだけで競合状態対策がされています。ネットワークタブを見ながらご確認ください。
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/api/hotwire/live_search"
                    className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                    data-turbo="false">Hotwire ライブ検索</a>
-                <a href="/address_selector"
+                <a href="/live_search"
                    className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                    data-turbo="false">React ライブ検索</a>
               </div>
