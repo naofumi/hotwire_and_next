@@ -23,10 +23,12 @@ export default function IndexPage() {
             <p className="text-left mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
               Hotwireは近年注目されているフロントエンド技術です。</p>
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
-              <strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを見ながらHotwireとReact/Next.jsを比較し、Hotwireの素晴らしさと考え方を理解してもらうことが本サイトの目的です。</p>
+              <strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを見ながらHotwireとReact/Next.jsを比較し、Hotwireの素晴らしさと考え方を理解してもらうことが本サイトの目的です。
+            </p>
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
               Hotwireはバックエンド非依存です。Rails, Laravel, Django, Nodeでも関係なく動きます。
-              このサイトも<strong>HotwireをNext.js上で動かしていて、すべてJavaScript (TypeScript)で書かれています。</strong>
+              このサイトも<strong>HotwireをNext.js上で動かしていて、すべてJavaScript
+              (TypeScript)で書かれています。</strong>
               JavaScriptさえわかれば簡単にコードを追うことができます。</p>
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">本サイトのコードは<StyledLink
               href="https://github.com/naofumi/hotwire_and_next">GitHub</StyledLink>に公開しています。また<StyledLink
@@ -97,7 +99,7 @@ export default function IndexPage() {
                 新しい内容がすでにブラウザに読み込まれているなら、これは難しくありません。<br/>
                 厄介なのは新しい内容をサーバから読み込む時ですが、Turbo Framesなら簡単に実現できます。
               </p>
-              <div className="text-center mt-4">
+              <div className="hidden text-center mt-4">
                 <StyledLink href="/commentaries/tabbed_menus">
                   もっと詳しく...
                 </StyledLink>
@@ -116,7 +118,8 @@ export default function IndexPage() {
                 ポップアップ: Turbo Frames
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
-                Turbo Framesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
+                Turbo
+                Framesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/popup"
@@ -142,6 +145,25 @@ export default function IndexPage() {
                 <a href="/address_selector"
                    className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
                    data-turbo="false">Next 住所入力UI</a>
+              </div>
+            </div>
+
+
+            <hr className="my-8"/>
+            <div className="">
+              <H2WithHash id="hierarchical-menus">
+                ライブ検索: Turbo Frames
+              </H2WithHash>
+              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+                リアルタイムで検索をするUIです。Turbo Framesを使って作りますが、aタグやformタグを契機に作動するのではなく、<code>onInput</code>イベントで動くので、JavaScriptを使う必要があります。Turbo Framesを使う理由は、検索条件フィールドのステートを保ち、リセットされるのを防ぐためです。
+              </p>
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <a href="/api/hotwire/live_search"
+                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   data-turbo="false">Hotwire ライブ検索</a>
+                <a href="/address_selector"
+                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   data-turbo="false">React ライブ検索</a>
               </div>
             </div>
           </div>

@@ -8,7 +8,7 @@ export type User = {
   password_digest: string
 }
 
-const users = [
+const users: User[] = [
   {name: "Hogeta Hogeo", title: "Front-end developer", email: "hogeta@example.com", role: "Member", password_digest: "dbfcfd0d87220f629339bd3adcf452d083fde3246625fb3a93e314f833e20d37"},
   {name: "Hogehara Hogeko", title: "Designer", email: "hogeko@example.com", role: "Member", password_digest: "4bdd0bbfe3f4c52cc2c8ff02f1fef29663dd9938f230304915805af1fa71e968"},
   {name: "Fugata Fugao", title: "PM", email: "fugata@example.com", role: "Member", password_digest: "851ca7a5e2d4bce908ced2c566ce1ef6f1cc1921fcb4c270353cbc81f2e3b59c"},
@@ -26,6 +26,11 @@ export async function findUser(id:number): Promise<User> {
 
   await databaseSleep()
   return users[id]
+}
+
+export async function searchUsers(query: string): Promise<User[]> {
+  await databaseSleep()
+  return users.filter((user) => user.name.includes(query))
 }
 
 export async function allUsers(): Promise<User[]> {
