@@ -158,7 +158,7 @@ export default function IndexPage() {
                 Framesを使う理由は、検索条件フィールドのステートを保ち、リセットされるのを防ぐためです。
               </p>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
-                Turbo Framesを使っていますので、URLとの連携もできています。今回は<code>data-turbo-action=＆quot;replace＆quot;</code>属性とを使って、検索結果がブックマークできるようにしています。
+                Turbo Framesを使っていますので、URLとの連携もできています。今回は<code>data-turbo-action=&quot;replace&quot;</code>属性とを使って、検索結果がブックマークできるようにしています。
               </p>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
                 またReact側ではただの<code>fetch</code>を使っていることもあり、競合状態 (race
