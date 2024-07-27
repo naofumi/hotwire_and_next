@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import UserPopup from "@/pages/components/popup/UserPopup";
+import UserPopup from "@/components/popup/UserPopup";
 import {User} from "@/repositories/user";
 import rocketImage from "@/public/images/rocket.gif"
 import Image from "next/image";

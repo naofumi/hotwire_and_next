@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import {Product} from "@/repositories/product";
-import Layout from "@/pages/components/Layout";
+import Layout from "@/components/Layout";
 import Image from "next/image";
 import rocketImage from "@/public/images/rocket.gif"
 

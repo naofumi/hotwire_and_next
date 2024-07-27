@@ -1,9 +1,9 @@
 // https://tailwindui.com/components/marketing/sections/cta-sections#component-25ce2a81d17545994655ccc4062651a4
 import Head from "next/head";
-import Layout from "@/pages/components/Layout";
-import H2WithHash from "@/pages/components/H2WithHash";
-import StyledLink from "@/pages/components/StyledLink";
-import PrimaryButtonWithAnchor from "@/pages/components/PrimaryButtonWithAnchor";
+import Layout from "@/components/Layout";
+import H2WithHash from "@/components/H2WithHash";
+import StyledLink from "@/components/StyledLink";
+import PrimaryButtonWithAnchor from "@/components/PrimaryButtonWithAnchor";
 
 export default function IndexPage() {
   return (

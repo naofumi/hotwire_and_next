@@ -1,5 +1,5 @@
 import React from "react";
-import {a, code, h2, h3, p, ul} from "@/pages/components/MDXComponents";
+import {a, code, h2, h3, p, ul} from "@/components/MDXComponents";
 import {MDXProvider} from "@mdx-js/react";
 
 const components = {

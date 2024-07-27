@@ -1,9 +1,9 @@
 import type {Metadata} from "next";
 import "../styles/globals.css";
 import Link from "next/link";
-import Footer from "@/pages/components/Footer";
+import Footer from "@/components/Footer";
 import React from "react";
-import Banner from "@/pages/components/Banner";
+import Banner from "@/components/Banner";
 
 export const metadata: Metadata = {
   title: "Next app | Hotwire for Frontend devs",

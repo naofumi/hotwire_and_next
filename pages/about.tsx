@@ -1,7 +1,7 @@
-import Layout from "@/pages/components/Layout";
-import StyledLink from "@/pages/components/StyledLink";
-import StyledList from "@/pages/components/StyledList";
-import H2WithHash from "@/pages/components/H2WithHash";
+import Layout from "@/components/Layout";
+import StyledLink from "@/components/StyledLink";
+import StyledList from "@/components/StyledList";
+import H2WithHash from "@/components/H2WithHash";
 
 export default function About() {
   return (

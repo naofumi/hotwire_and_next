@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {allUsers, User} from "@/repositories/user";
-import Layout from "@/pages/components/Layout";
+import Layout from "@/components/Layout";
 
 export async function getStaticProps() {
   const users = await allUsers()

@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import StyledLink from "@/pages/components/StyledLink";
+import StyledLink from "@/components/StyledLink";
 
 export function h2({children}: {children?: ReactNode}) {
   return <h2 className="mt-16 mb-8 text-2xl font-bold tracking-tight text-gray-900">{children}</h2>
@@ -18,7 +18,7 @@ export function a({children, href}: {children?: ReactNode, href?: string}) {
 }
 
 export function code({children}: {children?: ReactNode}) {
-  return <code className="px-1 bg-gray-200 break-all">{children}</code>
+  return <code className="px-1 rounded bg-gray-200 break-all">{children}</code>
 }
 
 export function ul({children}: {children?: ReactNode}) {

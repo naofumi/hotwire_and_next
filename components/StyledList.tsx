@@ -1,5 +1,5 @@
 import {CheckCircleIcon} from "@heroicons/react/20/solid";
-import StyledLink from "@/pages/components/StyledLink";
+import StyledLink from "@/components/StyledLink";
 import {ReactNode} from "react";
 
 export default function StyledList({children, color = "text-orange-600"}: {children: ReactNode, color?: string}) {

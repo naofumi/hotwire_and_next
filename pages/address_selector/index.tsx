@@ -1,4 +1,4 @@
-import Layout from "@/pages/components/Layout";
+import Layout from "@/components/Layout";
 import {ChangeEvent, useEffect, useState} from "react";
 import {AddressSelectorProps} from "@/pages/api/address_selector";
 

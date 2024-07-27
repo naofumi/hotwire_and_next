@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {User} from "@/repositories/user";
-import Layout from "@/pages/components/Layout";
+import Layout from "@/components/Layout";
 
 // Simulate Next.js acting as a BFF for a JSON API server
 export async function getServerSideProps() {

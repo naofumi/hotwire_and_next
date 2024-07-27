@@ -1,10 +1,10 @@
 // https://tailwindui.com/components/marketing/sections/cta-sections#component-25ce2a81d17545994655ccc4062651a4
 import Link from "next/link";
-import Tabs from "@/pages/components/Tabs";
+import Tabs from "@/components/Tabs";
 import {useState} from "react";
-import Users from "@/pages/components/tabbed_segments/Users";
-import Products from "@/pages/components/tabbed_segments/Products";
-import Layout from "@/pages/components/Layout";
+import Users from "@/components/tabbed_segments/Users";
+import Products from "@/components/tabbed_segments/Products";
+import Layout from "@/components/Layout";
 
 export default function TabbedSegmentsIndexPage() {
   const [selectedTab, setSelectedTab] = useState<number>(0)

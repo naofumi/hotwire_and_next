@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Layout from "@/pages/components/Layout";
+import Layout from "@/components/Layout";
 import {allProducts, Product} from "@/repositories/product";
 
 export async function getStaticProps() {

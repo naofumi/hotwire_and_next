@@ -1,7 +1,7 @@
 // https://tailwindui.com/components/marketing/sections/cta-sections#component-25ce2a81d17545994655ccc4062651a4
 import Link from "next/link";
-import UsersList from "@/pages/components/popup/UsersList";
-import Layout from "@/pages/components/Layout";
+import UsersList from "@/components/popup/UsersList";
+import Layout from "@/components/Layout";
 
 export default function PopupIndexPage() {
   return (
