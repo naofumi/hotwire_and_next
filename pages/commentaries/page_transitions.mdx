@@ -93,13 +93,15 @@ Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwir
   </div>
 </div>
 
-<H2WithHash id="installing-turbo">Turboのインストール</H2WithHash>
+<H2WithHash id="installing-turbo">Turboの実装</H2WithHash>
 
 Hotwireは[Turbo](https://turbo.hotwired.dev)/[Stimulus](https://stimulus.hotwired.dev)/[Strada](https://strada.hotwired.dev)の３つのパーツからなっています。ウェブで使用するのはTurboとStimulusですが、双方ともJavaScriptのファイルを読み込むだけで使用できます。ここでは[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)を使用しますので、TurboのJavaScriptファイルを読み込みます。
 
-**普通のMPAのページにTurboをインストールするだけで、Turbo Driveによる画面遷移が手に入ります。** インストール方法はファイルを読み込むだけです。[公式ドキュメント](https://turbo.hotwired.dev/handbook/installing)を確認してください。
+**繰り返しますがMPAのページにTurboのJavaScriptファイルを読み込むだけで、Turbo Driveによる画面遷移が手に入ります。** インストール方法はファイルを読み込むだけです。[公式ドキュメント](https://turbo.hotwired.dev/handbook/installing)を確認してください。
 
 本サイトではnpm等を使用せずに、コンパイル済みのJavaScriptファイルをダウンロードしてインストールしました。TurboのJavaScriptファイルは`public/hotwire/javascript/turbo.es2017-esm.js`にダウンロードされており、`templates/layouts/header.ejs`から参照されています。
+
+Turbo Driveを導入した時の効果は[デモページ](/api/hotwire/users)でご確認ください。
 
 <H2WithHash id="page-transition-ux">ページ遷移のUX</H2WithHash>
 
@@ -171,11 +173,11 @@ Next.jsにもprefetchがあります。しかし多くのケースでは効果�
 
 具体的には`User repository`がそのまま`password_digest`(秘密の情報)を返してしまうようにしています。また各エンドポイントでも`password_digest`をブロックする処理を行っていません。
 
-* [ネイティブ画面遷移(MPA)](http://localhost:3000/api/hotwire/users)および[Turbo Drive](http://localhost:3000/api/hotwire/users)を使っている場合は`password_digest`は漏洩しません。レスポンスにはHTMLしか含まれないので、画面に表示しない内容はブラウザに送信されないためです。ブラウザの検証画面のネットワークタブを確認し、送信されてくる各ファイルの中身を見ても、`password_digest`の情報はありません。
+* [ネイティブ画面遷移(MPA)](/api/hotwire/users)および[Turbo Drive](/api/hotwire/users)を使っている場合は`password_digest`は漏洩しません。レスポンスにはHTMLしか含まれないので、画面に表示しない内容はブラウザに送信されないためです。ブラウザの検証画面のネットワークタブを確認し、送信されてくる各ファイルの中身を見ても、`password_digest`の情報はありません。
 * [Next.js useEffect](/users)の時は`/api/users`からのJSONレスポンスに`password_digest`が出てしまうように作ってありますので、ここから漏洩します。しかしこのようなAPIは注意深く設計されることがほとんどだと思いますので、問題にはなりにくいと考えられます。
 * Next.js Pages
-routerの[SSG](http://localhost:3000/users_ssg)および[SSR](http://localhost:3000/users_ssr)の時は、最初にダウンロードされるHTMLファイル最下部の`script`タグ中に`password_digest`が漏洩します。これはhydration用のデータであり、HTMLに`password_digest`がレンダリングされるかどうかに関わらず含まれます。またページ遷移をするたびにダウンロードされるJSONファイルにも漏洩します。
-* [Next.js App routerのServer componentだけ](http://localhost:3000/users_app)を使っている場合は`password_digest`は漏洩しません。RSC
+routerの[SSG](/users_ssg)および[SSR](/users_ssr)の時は、最初にダウンロードされるHTMLファイル最下部の`script`タグ中に`password_digest`が漏洩します。これはhydration用のデータであり、HTMLに`password_digest`がレンダリングされるかどうかに関わらず含まれます。またページ遷移をするたびにダウンロードされるJSONファイルにも漏洩します。
+* [Next.js App routerのServer componentだけ](/users_app)を使っている場合は`password_digest`は漏洩しません。RSC
 payloadはHTMLにレンダリングされる内容しか含まないためです。しかしServer componentの中にClient
 componentを埋め込んでいる場合は[データが漏洩する可能性があります](https://zenn.dev/moozaru/articles/d270bbc476758e)ので、要注意です。
 
