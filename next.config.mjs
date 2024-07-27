@@ -1,3 +1,4 @@
+import mdx from '@next/mdx'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -13,7 +14,7 @@ const nextConfig = {
 
 // https://blog.logrocket.com/mdx-integration-strategies-next-js/
 // https://www.codeconcisely.com/posts/nextjs-mdx/
-const withMDX = require('@next/mdx')({
+const withMDX = mdx({
   extension: /\.mdx?$/,
   options: {
     remarkPlugins: [],
@@ -22,8 +23,7 @@ const withMDX = require('@next/mdx')({
   },
 });
 
-module.exports = nextConfig
-
-module.exports = withMDX({
+export default withMDX({
+  ...nextConfig,
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
 });
