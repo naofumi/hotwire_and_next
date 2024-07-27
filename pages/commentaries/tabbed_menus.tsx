@@ -1,13 +1,11 @@
 import Layout from "@/pages/components/Layout";
 import StyledLink from "@/pages/components/StyledLink";
-import transitionImage from "@/public/images/transition-after-first-load.png"
 import Image from "next/image"
 import StyledList from "@/pages/components/StyledList";
 import H2WithHash from "@/pages/components/H2WithHash";
 import amazonImage from "@/public/images/tabbed_amazon.png"
 import turbodriveImage from "@/public/images/tabbed_turbodrive.png"
 import turboframesImage from "@/public/images/tabbed_turboframes.png"
-import reactImage from "@/public/images/tabbed_react.png"
 
 export default function PageTransitions() {
   return (
@@ -27,7 +25,7 @@ export default function PageTransitions() {
               Frames</StyledLink>を使います。そこで、まずTurbo Framesについて概略を説明します。
             </p>
             <p className="mt-4">
-              HotwireでTurbo Driveの次によく使うのが<StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo
+              Turbo Driveに次いでよく使うのが<StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo
               Frames</StyledLink>です。Turbo Driveがページ遷移、つまり画面全体の入れ替えをするのに対して、<StyledLink
               href="https://turbo.hotwired.dev/handbook/drive">Turbo Frames</StyledLink>は一部分だけを入れ替えます。
             </p>
@@ -91,7 +89,7 @@ export default function PageTransitions() {
             </p>
             <ul className="list-disc ml-6 my-4 space-y-4">
               <StyledList>
-                少し下にスクロールしたところタブをクリックすると、タブの中身が差し代わるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を差し替えるから起こるのではなく、<StyledLink
+                少し下にスクロールした後にタブをクリックすると、タブの中身が差し代わるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を差し替えるから起こるのではなく、<StyledLink
                 href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>がMPAの動きを真似るためにわざとやっているものです。条件と設定によってスクロールを抑制することも可能です。
               </StyledList>
               <StyledList>
@@ -109,90 +107,93 @@ export default function PageTransitions() {
             </div>
 
 
-            <p className="mt-4">
-              Hotwire/TurboもNext.jsもprefetch機能があります。しかし細かく見ていくと、Next.jsのprefetchはいろいろと条件付きです。効果が限定的、もしくはそもそも機能しないケースが多いのです。
-            </p>
-            <p className="mt-4">
-              Next.jsでuseEffectを使った場合、prefetchされるのはuseEffectが機能する前のHTML、つまりデータを含まないページだけです。データをfetchできるのはuseEffectをブラウザが実行した後で、これはクリックして画面遷移して、新画面がレンダリングされた後です。したがってprefetchで時間を稼いでも、最終的な画面表示までの合計時間は短縮できません。
-            </p>
-            <p className="mt-4">
-              またNext.jsは動的なコンテンツを含むページ(<code>getServerSideProps</code>を使っているか<code>dynamic
-              rendering</code>を使っているページ)はprefetchしません。app routerの場合は<code>loading.js</code>まではprefetchしますが、その先はしません。このケースではprefetchは動作しません。
-            </p>
-            <p className="mt-4">
-              結果として、動的コンテンツの場合はHotwire (Turbo Drive)が体感として一番ヌルサクになります。
-            </p>
-            <div className="mt-12">
-              <div className="w-max-[560px] flex justify-center">
-                <iframe className="aspect-video" src="https://www.youtube.com/embed/UWluEz8YPbo?si=ZPz6s2MWPQShzH6q"
-                        title="YouTube video player" frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-              </div>
-            </div>
-            <div className="mt-12">
-              <Image src={transitionImage} alt="Page Transition image"></Image>
-            </div>
-
-
-            <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900">
-              セキュリティ: データ漏洩
-            </h2>
+            <H2WithHash id="tabs-turboframe">Turbo Framesによるタブメニューの作り方</H2WithHash>
             <p className="mt-8">
-              ネイティブ(MPA)及ぼHotwireでは、サーバはページに表示するHTML<strong>のみ</strong>をブラウザに送ります。そのため、意図しないデータをブラウザに送ってしまう可能性は低く、データ漏洩のリスクは少ないと言えます。
+              Turbo Framesによるタブメニューは<StyledLink
+              href="http://localhost:3000/api/hotwire/tabbed_segments_turboframes">ここでお試しいただけます。</StyledLink>
             </p>
             <p className="mt-4">
-              一方でNext.jsの場合はデータ漏洩の可能性があります。サーバで取得されたデータを、開発者から見えにくいところで自動的にそのままブラウザに送るからです。</p>
-            <p className="mt-4">
-              <code>useEffect</code>等でブラウザからデータを<code>fetch</code>した場合は、APIのJSONがそのままブラウザに送られます。これはよく知られた問題であり、かつ開発者が明示的にAPIを設計するときに気をつけるところです。一方でNext.jsのPages
-              routerの場合は<code>getStaticProps</code>, <code>getServerSideProps</code>の返り値も、実はほぼそのまま自動的にJSONでブラウザに送られます。あまり意識されないところなので、注意が必要です。なおかつこのデータはブラウザに表示されるとは限らないので、気づかずにデータ漏洩してしまう可能性が高くなります。
+              まず大切なことは、<StyledLink href="https://turbo.hotwired.dev/handbook/turboframes">Turbo
+              Frames</StyledLink>を使った場合のUIの違いです。一見するとTurbo Driveの場合とあまり差がありませんが、以下の点が異なります。
             </p>
-            <p className="mt-4">
-              本デモでは、この問題を実際に確認していただくために、敢えてセキュリティ問題のあるコードを書いています。<strong>コードにセキュリティ問題があっても、Hotwireの場合は情報が漏洩しにくいことを見ていただくためです。</strong>具体的には<code>User</code> repositoryがそのまま<code>password_digest</code>(秘密の情報)を返してしまうようにしています。また各エンドポイントでも<code>password_digest</code>をブロックしていません。
-            </p>
+
             <ul className="list-disc ml-6 my-4 space-y-4">
               <StyledList>
-                ネイティブ画面遷移(MPA)およびHotwire Turbo Driveを使っている場合は<code>password_digest</code>は漏洩しません。レスポンスにはHTMLしか含まれないので、画面に表示しない内容はブラウザに送信されないためです。
+                少し下にスクロールした後にタブをクリックしても、トップにスクロールしません。デフォルトではスクロール位置が維持されます。より細かく制御したい場合は、<code>autoscroll</code>属性で<StyledLink
+                href="https://turbo.hotwired.dev/reference/frames#html-attributes">調整できます</StyledLink>。
               </StyledList>
               <StyledList>
-                Next.js Pages
-                routerのSSGおよびSSRの時は、最初にダウンロードされるHTMLファイル最下部の<code>script</code>タグ中に<code>password_digest</code>が漏洩します。ここはhydrationに使われるデータで、HTMLにレンダリングされるかどうかに関わらず含まれます。またページ遷移をするたびにダウンロードされるJSONファイルにも漏洩します。
-              </StyledList>
-              <StyledList>
-                Next.js
-                useEffectの時は<code>/api/users</code>からのJSONレスポンスに<code>password_digest</code>が漏洩します
-              </StyledList>
-              <StyledList>
-                Next.js
-                App routerのServer componentだけを使っている場合は<code>password_digest</code>は漏洩しません。RSC
-                payloadはHTMLにレンダリングされる内容しか含まないためです。しかし<StyledLink
-                href="https://zenn.dev/moozaru/articles/d270bbc476758e">Server componentの中にClient
-                componentを埋め込んでいる場合はデータが漏洩する可能性があります</StyledLink>ので、要注意です。
+                Searchのテキスト入力フィールドに文字を入力し、その後にタブを切り替えても、テキスト入力フィールドの文字はそのまま維持されます。フォーカルも維持されます。今回設定したTurbo
+                Framesでは、Searchのテキスト入力フィールドはTurbo
+                Framesの外にあります（下図）。タブが切り替わっても、SearchのDOM要素はそのままなのです。だから文字およびフォーカスが維持されています。
               </StyledList>
             </ul>
+
             <p className="mt-4">
-              Next.jsをセキュアにする場合は<code>User</code> repositoryのデータをそのままコンポーネントに渡さず、<StyledLink
-              href="https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer">Data Access
-              Layer</StyledLink>をの中で、権限に応じて必要なデータのみを含むDTO(Data
-              Transfer Object)を作成することが奨励されています。
-              Reactの方でも<StyledLink
-              href="https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#preventing-sensitive-data-from-being-exposed-to-the-client">React
-              Taint API</StyledLink>で対策されていく見込みですが、これはどちらかというと注意喚起のメカニズムだけであり、対応は別途必要になります。
+              このようにTurbo Framesの特徴は画面を枠で分割し、枠内を差し替えつつ、枠外をそのままに維持するところです。
             </p>
+
             <p className="mt-4">
-              一方でHotwireの場合は、HTMLを出力するテンプレートファイル自身がこのようなData Access
-              Layerの役割を果たしているとも言えます。ユーザに見せたい情報・見せたくない情報はテンプレートファイルが呼び出す・呼び出さないで結果的に制御されています。もちろんviewレイヤーにはなるべくロジックを持たせたくないので、判定処理そのものは別のところに任せます。</p>
-            <p className="mt-4">
-              結論として、ネイティブ画面遷移(MPA)やHotwire Turbo Driveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。
+              Turbo Framesによるタブメニューの作り方はごく簡単です。まずは<StyledLink
+              href="/commentaries/tabbed_menus#tabs-turbodrive">Turbo Driveのバージョン</StyledLink>から出発します。そして、どこをTurbo
+              Framesで囲むかを決めます。今回はSearchのテキスト入力フィールドの下のところからテーブルの最後までを囲むことにします。
             </p>
-            <div className="mt-12">
-              <div className="w-max-[560px] flex justify-center">
-                <iframe className="aspect-video" src="https://www.youtube.com/embed/LxLhCviX8iQ?si=wjTL03S_bw7k25OF"
-                        title="YouTube video player" frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-              </div>
+
+            <div className="mt-4">
+              <Image src={turboframesImage} alt="turbo frames image"></Image>
             </div>
+
+            <p className="mt-4">
+              次にエディタで該当するEJSファイルの内容を確認し、囲みたいところを <code>&lt;turbo-frame
+              id=&quot;[適当な名前]&quot;&gt;&lt;/turbo-frame&gt;</code>のタグで囲みます。今回は２つのページ
+              (<code>Users</code>と<code>Products</code>)がありますので、双方のEJSファイルで同じ処理をします。結果は<StyledLink
+              href="https://github.com/naofumi/hotwire_and_next/blob/main/templates/tabbed_segments_turbodrive/index.ejs">templates/tabbed_segments_turboframes/index.ejs</StyledLink>および<StyledLink
+              href="https://github.com/naofumi/hotwire_and_next/blob/main/templates/tabbed_segments_turbodrive/index.ejs">templates/tabbed_segments_turboframes/products.ejs</StyledLink>にあります。
+            </p>
+            <p className="mt-4">
+              はい、以上でおしまいです！
+            </p>
+            <p className="mt-4">
+              少し解説を加えます。
+            </p>
+            <p className="mt-4">
+              &lt;turbo-frame&gt;&lt;/turbo-frame&gt;でくくることによって、Turbo
+              Frame中に含まれる<code>a</code>タグや<code>formタグは</code>タグは通常と違う性質を持つようになります。通常であれば<StyledLink
+              href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>のような全画面遷移をするのではなく、デフォルトでは同じTurbo
+              Frame内の画面遷移をするように変化します。
+            </p>
+            <p className="mt-4">
+              今回はTurbo Frameの中にタブがくるように配置しましたので、<code>Users</code>, <code>Products</code>のタブはTurbo
+              Frame内の遷移をするように切り替わっています。
+            </p>
+            <p className="mt-4">
+              タブを押すと、通常の<code>a</code>タグと同じようにHTTPリクエストは飛びます。そして全画面分のHTMLが返ってくるのきます。しかしそれで画面全体を入れ替えるのではなく、新しいページにある&lt;turbo-frame&gt;&lt;/turbo-frame&gt;を探し出し、その中身を入れ替えるのです。この時、<code>id</code>属性をみて<code>turbo-frame</code>のペアを認識するので、<code>id</code>を揃えておく必要があります。
+            </p>
+            <p className="mt-4">
+              これだけでTurbo Framesによるタブメニューが出来上がりました。
+            </p>
+
+            <H2WithHash id="tabs-comparison-with-react">Reactとの比較</H2WithHash>
+            <p className="mt-8">
+              Reactによるタブメニューは<StyledLink
+              href="http://localhost:3000/tabbed_segments">ここでお試しいただけます。</StyledLink>
+            </p>
+
+            <p className="mt-4">
+              <StyledLink href="https://github.com/naofumi/hotwire_and_next/blob/main/pages/tabbed_segments/index.tsx">Reactの場合</StyledLink>は、どのタブが選択されているかを
+            </p>
+
+
+            <H2WithHash id="tabs-summary">タブメニューのまとめ</H2WithHash>
+            <p className="mt-8">
+              今回はTurbo Framesによるタブメニューを実装しました。非常に簡単なものでしたので、UI的にMPAと大きな差はありませんでした。しかしTurbo
+              Framesの枠外のステートが維持できていることが確認できました。
+            </p>
+            <p className="mt-4">
+              今後はもう少しだけ設定やJavaScriptを加えながら、より多くのUIをTurbo Framesで実装していこうと思います。
+            </p>
+
+
           </div>
         </div>
       </div>
