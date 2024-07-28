@@ -5,7 +5,7 @@ export default function H2WithHash({id, children}: { id: string, children: React
   return (
     <h2 className="mt-16 text-2xl font-bold tracking-tight text-gray-900" id={id}>
       {children}
-      <Link href={`#${id}`} className="ml-4 text-gray-400">#</Link>
+      <Link href={`#${id}`} className="ml-4 text-gray-400 hover:text-orange-600">#</Link>
     </h2>
   )
 }

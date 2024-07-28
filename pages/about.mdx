@@ -1,0 +1,127 @@
+import MDXRenderer from "../components/MDXRenderer";
+import CommentaryLayout from "../components/CommentaryLayout";
+import StyledLink from "../components/StyledLink";
+import H2WithHash from "../components/H2WithHash";
+import Image from "next/image"
+import transitionImage from "@/public/images/transition-after-first-load.png"
+import StyledList from "../components/StyledList";
+import hotwireComponentStructureImage from "@/public/images/hotwire-component-structure.png"
+
+「Hotwire for Frontend
+Developers（フロントエンドエンジニアのためのHotwire入門）」は、Ruby on
+Railエンジニアに限らず、**すべてのウェブ開発者にHotwireの良さを体感していただくために**作成したサイトです。
+
+本サイトは**Hotwireで書かれたページとReact (Next.js)で書かれた実際のウェブページを並べ**、それぞれのUXを体験していただき、さらに[GitHubに上げたコード](https://github.com/naofumi/hotwire_and_next)を確認していただきながら、実装の理解を深けめていただく構成になっています。
+
+<H2WithHash id="great-UX-with-small-teams">Hotwireは優れたUXを小チームで作るための技術</H2WithHash>
+
+Hotwireおよびその前身の技術は、ウェブデザイン会社として創業した37signals社が、[Basecamp](https://basecamp.com/)、[Hey](https://www.hey.com/)などのSaaS製品を開発するために作成されたものです。ユーザ向けのすべての画面で使われているのはもちろんのこと、iOS、Android用のモバイルアプリでもHotwireは使われています。このように、Hotwireが人気の有料SaaSアプリでも十分なUXを提供できることが証明されています。
+
+一方で[37signals社の各チームのサイズはデザイナーを含めてたったの３人です](https://3.basecamp-help.com/article/35-the-six-week-cycle#who-does-the-work?)。開発効率が高く、小さいチームでの開発も可能であることも実証されています。
+
+Hotwireは実装が楽だけど、やれることが限定されていると考えている人がいます。「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」という声も聞こえます。**しかしこれは誤り**です。お客様がお金を払ってでも使いたくなる製品のUXが、Hotwireで十分に実現できることは**明確に実証されているのます**。
+
+
+
+<H2WithHash id="hotwire-components">Hotwireの構成</H2WithHash>
+
+* **Turbo:** [Turbo](https://turbo.hotwired.dev)はサーバにレクエストを投げて、返ってきたHTMLをDOMに埋め込むためのライブラリです。敢えてサーバからHTMLしか返せないように制限をかけているのが大きな特徴です。Turbo自身はさらにTurbo Drive, Turbo Frames, Turbo Streamsに分かれています。<br />
+（Turbo以前のRailsでは[サーバからJavaScriptを返す](https://signalvnoise.com/posts/3697-server-generated-javascript-responses)ことが一般的でした。Turboよりむしろ遥かに柔軟性がありました。この柔軟さを捨てて、シンプルさを優先したのがHotwireとも言えます）
+* **Stimulus:** [Stimulus](https://stimulus.hotwired.dev)はHTMLを新たにレンダリングするのではなく、すでにあるHTMLにJavaScriptを結びつけることに注力しています。Controllerというまとまりを作ることで、イベントハンドラのスパゲッティを避けています
+* **Strada:** [Strada](https://strada.hotwired.dev)はWebとiOS,
+Androidを繋ぎ合わせる役割を担う、モバイルアプリ作成のためのライブラリです
+
+Hotwireは上記の３つを組み合わせることにより、シンプルさを維持しつつ、モダンフロントエンドの要件を十分に満たすウェブサイトの作成を可能にします。
+
+<div className="mt-4">
+  <Image src={hotwireComponentStructureImage} alt="hotwire component structure image"></Image>
+</div>
+
+<H2WithHash id="turbo-components">Turboの構成</H2WithHash>
+
+  Turboは<code>fetch</code>を使い、ウェブページの部分更新をするライブラリです。Hotwireの中心的な技術です。更新する範囲と付随する機能に応じて、3種類の更新方法があります。
+
+* **Turbo Drive:**[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は`body`タグの中身を丸々入れ替える技術です。Next.jsの[router](https://nextjs.org/docs/pages/building-your-application/routing)、あるいは[React Router](https://reactrouter.com/)に相当します。`Link`タグのような特別なものは使わず、`a`タグが全て自動的にTurbo Driveを使うようになります。
+* **Turbo Frames:** [Turbo Frames](https://turbo.hotwired.dev/handbook/frames)は部分更新を実現するものです。画面の一部を入れ替えるだけではなく、画面を **「枠」** に分割する性質があり、デフォルトでは枠内の **a** タグおよび **form** タグも中に閉じ込めるように動きます。[ルータとの連携](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[Lazy Load](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)なども用意され、画面の部分更新だけでなく、関連するUXもパッケージされています。柔軟性も高く、**これだけでほとんどの部分更新は可能です** (Turbo Streamsをあまり使わなくても用が足りてしまう)。<br />
+Next.js app routerの[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)に近い性質もありますが、ページURLと独立にできることや、１つのページに複数のTurbo Frameがおけることなど、より小回りが効く柔軟な仕組みです。
+* **Turbo Streams:** [Turbo Streams](https://turbo.hotwired.dev/handbook/streams)は画面を細かく、柔軟に書き替える技術です。IDで指定された要素を１つずつ追加・更新したり、削除したりできます。またWebSocketを介した更新も可能になっています。柔軟性は非常に高いのですが、それだけに更新ステップ数が増大する傾向があり、必要なところで慎重に使うのがポイントではないかと思います。[jQuery](https://api.jquery.com/category/manipulation/)の`prepend()`, `append()`, `remove()`, `html()`をHTML属性から呼び出す感覚に近いとも言えます。Turbo StreamsとTurbo Framesの使い分けは明確ではなく、人よってどちらを多く使うかが異なります。私はTurbo Framesを多く使いますので、本サイトもこちらが中心になっています。
+
+この他、Turboには[Morphing](https://turbo.hotwired.dev/handbook/page_refreshes)があります。これは[Reactの差分検出処理](https://ja.legacy.reactjs.org/docs/reconciliation.html)と似たものであり、ブラウザのDOMとサーバから送られてきたHTMLの差分を検出し、なるべくブラウザのステートを保持しつつ更新処理をかけるものです。
+
+Turboは上記のたった３つのパーツしかないのですが、実際にやってみるとこれだけでほとんどのインタラクティブなUIが作れてしまいます。
+
+
+
+<H2WithHash id="triggering-turbo">Turboの呼び出し</H2WithHash>
+
+Turboは基本的に`a`タグのクリックや`form`タグの送信によって起動し、サーバにリクエストを投げます。なるべくJavaScriptからTurboを呼び出すのを避けます。ブラウザがネイティブに持っているのもこの２つの方法だけであり、不要にここから外れないのもTurboの大きな特徴です。
+
+必要に応じて[Turbo.visit()](https://turbo.hotwired.dev/reference/drive#turbo.visit)を使うこともできますが、これはリアルタイム性を持たせたい場合（例えばライブ検索や`select`タグの`onchange`でリクエストを送信するとか）に限定し、無闇に使わない方が良いでしょう。また`Turbo.visit()`ではGET以外やTurbo Streamsのリクエストを投げることができません。
+
+一方のReactでは、`onClick`によってイベントハンドラを呼び出し、その中からサーバにリクエストを投げる方法がよく取られます。`a`タグをほとんど使わないでナビゲーションをしてしまうプロジェクトも多く見られます。Hotwireを使う場合は、このクセを抑えた方が良いでしょう。
+
+あえてTurboの呼び出し方法を制限することによるメリットは多くあります。例えば`a`タグなら[prefetch](https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover)を自動的にしてくれますが、`onclick`イベントハンドラから`Turbo.visit()`をした場合はprefetchが機能しません。これはNext.jsの`Link`タグを使った場合と、`onClick`イベントハンドラの中で`router.push()`をした場合の関係に似ています（`Link`を使わないとNext.jsのprefetchが働きません）。もちろん`a`タグを使うことによるSEO的なメリットも見逃せません。
+
+それでもGET以外のリクエストやTurbo StreamsリクエストをJavaScriptから呼び出す必要があるときもあります。そのときはRailsが管理している[request.js](https://github.com/rails/request.js)を使うと便利です。
+
+
+
+<H2WithHash id="turbo-components">Hotwireに不慣れなエンジニアの特徴</H2WithHash>
+
+個人的見解ではありますが、初めてHotwireを使い始めるエンジニアは下記の傾向があるように感じています。
+
+### Turbo Streamsを使いすぎる
+
+Hotwireに慣れていない人は画面更新を細かい単位に分解しすぎる傾向があります。例えば１つのリクエスト・レスポンスで画面の複数箇所を変更する場合、それぞれにTurbo Streamsを作ったりします（１つのレスポンスで複数箇所を部分更新する主な方法はTurbo Streamsであるため）。もしかしたらjQuery的な発想をしているのかもしれません。
+
+しかしHotwireの場合は細かい単位に分けるのではなく、可能なだけ大きな単位で処理した方がシンプルなコードになります。複数の変更箇所があっても、これを１つのTurbo Frameに収められないかをまず考えます。さらにTurbo Driveで画面全体を入れ替えても大丈夫かを検討します。どちらも難しい場合は、morphingによって画面全体の差分を取ることで対応できるかを考えます。常により大きい **「枠」** を使ってコードを単純化できないかを考えます。
+
+私はこれはReactのone-way data flowに似た考え方だと思っています。Turbo Streamsを使う場合は、各アクションの結果として更新されるべき箇所をプログラマーが指定しなければなりません。しかし、大きな単位で入れ替える場合は、どこが更新されるのかを細かく気にする必要がなくなります。
+
+### JavaScriptなしで作ろうとする
+
+例えばインターネットでは「Turboを使うと、JavaScriptなしでモーダルダイアログが作れるよ」と謳っている記事を多く見かけます。一見するととても便利そうですが、実際には細かいUXの不具合が出やすく、そもそもHotwireの設計思想にマッチしていません。HotwireにはカスタムJavaScriptが必要ですし、そのためにわざわざStimulusがバンドルされているわけです。
+
+モーダルダイアログの例でいうと、カスタムJavaScriptなしで作るとTurboのキャッシュとぶつかるようになります。そうではなくブラウザステート（モーダルの開閉状態）とサーバステート（更新データ）を分けて考え、前者はStimulus、後者はTurboで処理するようにすると、無理のないコードが書けるようになります。そしてトランジションの導入など、より良いUXに発展させやすくなります。
+
+<H2WithHash id="hotwire-features">Hotwireの特徴</H2WithHash>
+
+* **バックエンド技術非依存:** [Ruby on Rails](https://rubyonrails.org)に限らず、[Django](https://www.djangoproject.com)、[Laravel](https://laravel.com)、[Java](https://www.java.com/ja/)、[Node](https://nodejs.org/en)、[Wordpress](https://wordpress.com/)など、バックエンド技術がなんであってもHotwireは使用できます。実際、本サイトのHotwireデモはすべてNext.js
+の[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)で動いています。
+* **大幅なUXを向上:** ウェブサイトのUXを大幅に向上させます。体感レスポンスタイムの大幅短縮、画面の部分更新など、モダンフロントエンドのUX要件をカバーできます。
+    具体的には[本サイトの各例](/)をお確かめください。
+* **学習時間と工数の削減:** 昔ながらのサーバでのHTML生成をするアプローチです。JSON APIも使いません。ReactやNext.jsのような複雑さがありませんので、学習時間と作業工数を大幅に削減できます。
+* **コンポーネント化:** Hotwireのコンポーネント化は各バックエンド技術のテンプレートエンジンによります。Ruby on Railsであれば[partial](https://guides.rubyonrails.org/layouts_and_rendering.html#using-partials)や[view helper](https://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html)、もしくは最近話題の[ViewComponent](https://viewcomponent.org)や[Phlex](https://www.phlex.fun)などのコンポーネント化技術があります。Laravel, Djangoなどもそれぞれのコンポーネント化技術があります。
+* **注目されている技術です:** [Elixir Phoenix](https://www.phoenixframework.org)のLiveview、PHP Laravelの[Livewire](https://laravel-livewire.com)、さらにHotwire同様にバックエンド非依存の[HTMX](https://htmx.org)など、Hotwireと同様のアプローチでモダンフロントエンドを作る技術が近年、注目を集めています。HTMXはDjangoで話題になっており、さらにSSG/SSR JavaScriptフレームワークのAstroではHTMXを意識した[page partials](https://docs.astro.build/en/basics/astro-pages/#page-partials)という機能も導入されています。
+* **セキュリティが高い:** レンダリング済みのHTMLのみをブラウザに送信するので、誤ってプライベートな情報を漏洩する心配がありません。例えば秘密キーをブラウザに預ける必要がなく、またJSON APIに機密情報を流してしまうこともありません。詳しくは[ページ遷移の解説](/commentaries/page_transitions)で議論しています。
+
+
+<H2WithHash id="structure-of-this-site">本サイトの構成</H2WithHash>
+
+* 本サイトのコードはすべて[GitHub](https://github.com/naofumi/hotwire_and_next)に公開しています。また[Vercel](https://hotwire-and-next.vercel.app)でデプロイしています。コードをGitHubで確認しながら、UXをデプロイ先サイトで確認すると理解が深まるのではないかと思います。
+* **HotwireはEJS:** Hotwireはバックエンド技術非依存なので、HTMLが出力できればどこでも動きます。本プロジェクトでは **Next.js pages router** の[API
+  routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)から **HTMLをレスポンスとして返しています** (`/api/hotwire/`配下)。
+テンプレートエンジンは[EJS](https://ejs.co)を使っています。Hotwireの構成要素である[Turbo](https://turbo.hotwired.dev/handbook/installing)と[Stimulus](https://stimulus.hotwired.dev/handbook/installing)はそれぞれbuild済みのものをダウンロードし、`public/hotwire/javascript`に配置しています。
+またCSSは[Tailwind](https://tailwindcss.com)を使用しています。
+* **ReactはNext.js pages router:** Hotwireと比較するためのReact側は、目まぐるしく変わるフロントエンド開発環境の中でも、比較的頻繁に見られる技術を選定しました。
+    * フレームワークはNext.jsを使用しています。ただしまた[app router](https://nextjs.org/docs/app)はまだ使用しているプロジェクトが少ないと考え、[pages router](https://nextjs.org/docs/pages)を中心に作成しています。ただし一部app routerと比較したいケースの時はこれも使っています。
+    * 内容が頻繁に更新されるウェブアプリ（例えば業務アプリや管理画面、注文予約アプリなど）を想定しているため、古いデータが表示されたままになってしまうタイプのキャッシュは使用していません。特にapp routerを使っている時は[Route Cache](https://nextjs.org/docs/app/building-your-application/caching#router-cache)、[Full Route Cache](https://nextjs.org/docs/app/building-your-application/caching#full-route-cache)、[Data Cache](https://nextjs.org/docs/app/building-your-application/caching#data-cache)は[オフにしています](https://nextjs.org/docs/app/building-your-application/caching#segment-config-options)。
+* **100ms遅延:** 高速なサイトだとどんなフロントエンド技術を使ってもサクサク動いてしまい、技術の違いが見えなくなります。そこで本サイトではあえてすべてのリクエストに100msの遅延を入れています。また擬似データベースアクセスは100msの遅延を入れています。
+
+
+<H2WithHash id="hotwire-resources">Hotwireのリソース</H2WithHash>
+* **公式サイト:**<br/>
+    * [Turbo公式サイト](https://turbo.hotwired.dev)
+    * [Stimulus公式サイト](https://stimulus.hotwired.dev)
+* **コミュニティサイト:**
+    * [Hotwire.io](https://hotwire.io)
+
+
+export default function ({children}) {
+  return <CommentaryLayout
+    title="Hotwire for Frontend Developers"
+    subtitle="フロントエンドエンジニアのためのHotwire入門"
+    section="About">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}
