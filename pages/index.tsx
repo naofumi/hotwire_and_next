@@ -33,9 +33,9 @@ export default function IndexPage() {
               href="https://github.com/naofumi/hotwire_and_next">GitHub</StyledLink>に公開しています。また<StyledLink
               href="https://vercel.com">Vercel</StyledLink>でデプロイしています。
             </p>
-            <div className="text-center mt-4">
+            <div className="text-center mt-4 text-xl tracking-wider">
               <StyledLink href="/about">
-                もっと詳しく...
+                解説はこちら...
               </StyledLink>
             </div>
 
@@ -60,9 +60,9 @@ export default function IndexPage() {
                 主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。<br/>
                 なお、Next.jsはdev環境ではprefetchが動かないので、ローカル環境でUXを確認する場合はbuild, startしてからお試しください。
               </p>
-              <div className="text-center mt-4">
+              <div className="text-center mt-4 text-xl tracking-wider">
                 <StyledLink href="/commentaries/page_transitions">
-                  もっと詳しく...
+                  解説はこちら...
                 </StyledLink>
               </div>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
@@ -98,9 +98,9 @@ export default function IndexPage() {
                 新しい内容がすでにブラウザに読み込まれているなら、これは難しくありません。<br/>
                 厄介なのは新しい内容をサーバから読み込む時ですが、Turbo Framesなら簡単に実現できます。
               </p>
-              <div className="hidden text-center mt-4">
+              <div className="hidden text-center mt-4 text-xl tracking-wider">
                 <StyledLink href="/commentaries/tabbed_menus">
-                  もっと詳しく...
+                  解説はこちら...
                 </StyledLink>
               </div>
               <div className="mt-10 flex items-center justify-center gap-x-6">
@@ -119,9 +119,9 @@ export default function IndexPage() {
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
                 リスト項目を選択して、その詳細をパネルに表示するUIです。メールアプリなどでよく見かけるタイプのUIです。タブメニューとよく似ていますが、サーバから読み込んだ内容が、リンクがあったところとは別の場所に埋め込まれる点が異なります。
               </p>
-              <div className="hidden text-center mt-4">
+              <div className="hidden text-center mt-4 text-xl tracking-wider">
                 <StyledLink href="/commentaries/tabbed_menus">
-                  もっと詳しく...
+                  解説はこちら...
                 </StyledLink>
               </div>
               <div className="mt-10 flex items-center justify-center gap-x-6">

@@ -10,6 +10,8 @@ Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwir
 
 ウェブの根幹をなすのはリンクです。ウェブの最も基本的でかつ重要な動作は、リンクをクリックした後のページの遷移です。それだけにUXへのインパクトが大きいものです。
 
+[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は大幅にUXを向上させるだけでなく、サーバからJSON APIを送信する際のセキュリティの心配も不要です。Next.jsよりも気楽に使え、かつ良いUXになりやすいです。
+
 <p className="my-2 text-sm text-gray-600">※
   ここでは最初にサイトを訪問した時のUXではなく、サイト内のリンクをクリックしたときの動作にフォーカスします</p>
 
@@ -119,7 +121,7 @@ SPA的な画面遷移の効果を強く感じさせてくれるのは、次に�
 
 ### Prefetchの効果
 
-[Turbo Driveをインストール](#installing-turbo)するだけで、ページ遷移はヌルサクになります。ネイティブな画面遷移]とTurbo Driveによる[画面遷移を比べていただくと](/api/hotwire/users)一目瞭然です。
+[Turbo Driveをインストール](#installing-turbo)するだけで、ページ遷移はヌルサクになります。ネイティブな画面遷移とTurbo Driveによる[画面遷移を比べていただくと](/api/hotwire/users)一目瞭然です。
 
 この効果のほとんどは[prefetch](https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover)によるものです。マウスカーソルがリンクの上をホバーした時に、**フライング**をしてサーバにリクエストを飛ばします。そして実際にユーザがリンクをクリックしたとき、すでにリンク先ページは読み込まれていますので、瞬間的に画面遷移ができます。
 
@@ -200,8 +202,6 @@ Taint API](https://nextjs.org/docs/app/building-your-application/data-fetching/p
             referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
   </div>
 </div>
-
-
 
 
 
