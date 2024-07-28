@@ -16,8 +16,8 @@
         <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
           <div class="flex gap-2 items-center relative"><%= user.name %>
             <a onclick="showPopup(this)"
-               href="/api/hotwire/popup/user?id=<%= i %>"
-               data-turbo-frame="user-detail-frame-<%= i %>">
+               href="/api/hotwire/popup/user?id=<%= user.id %>"
+               data-turbo-frame="user-detail-frame-<%= user.id %>">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                    stroke="currentColor" class="size-6 hover:cursor-pointer">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -35,7 +35,7 @@
                   </svg>
                 </div>
               </div>
-              <turbo-frame id="user-detail-frame-<%= i %>">
+              <turbo-frame id="user-detail-frame-<%= user.id %>">
                 <div>
                   <img src="/images/rocket.gif" alt="loader" class="m-auto w-16 h-16"/>
                 </div>

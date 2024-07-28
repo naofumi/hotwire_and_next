@@ -1,6 +1,7 @@
 import {databaseSleep} from "@/helpers/sleep";
 
 export type User = {
+  id: number
   name: string
   title: string
   email: string
@@ -10,6 +11,7 @@ export type User = {
 
 const users: User[] = [
   {
+    id: 1,
     name: "Hogeta Hogeo",
     title: "Front-end developer",
     email: "hogeta@example.com",
@@ -17,6 +19,7 @@ const users: User[] = [
     password_digest: "dbfcfd0d87220f629339bd3adcf452d083fde3246625fb3a93e314f833e20d37"
   },
   {
+    id: 2,
     name: "Hogehara Hogeko",
     title: "Designer",
     email: "hogeko@example.com",
@@ -24,6 +27,7 @@ const users: User[] = [
     password_digest: "4bdd0bbfe3f4c52cc2c8ff02f1fef29663dd9938f230304915805af1fa71e968"
   },
   {
+    id: 3,
     name: "Fugata Fugao",
     title: "PM",
     email: "fugata@example.com",
@@ -31,6 +35,7 @@ const users: User[] = [
     password_digest: "851ca7a5e2d4bce908ced2c566ce1ef6f1cc1921fcb4c270353cbc81f2e3b59c"
   },
   {
+    id: 4,
     name: "Fugakawa Fugako",
     title: "Back-end developer",
     email: "fugako@example.com",
@@ -38,6 +43,7 @@ const users: User[] = [
     password_digest: "7bb3daccaf354e7e2f3471fc688c8b3d12d970f365816324c36c981bc3a99f25"
   },
   {
+    id: 5,
     name: "Piyota Piyogishi",
     title: "IT administrator",
     email: "piyota@example.com",
@@ -45,6 +51,7 @@ const users: User[] = [
     password_digest: "a724e9ff61764a77745f4f6ef4e50e1f758f436f3b4a1cf28cdaac97f1ffdfb9"
   },
   {
+    id: 6,
     name: "Hogeta Hogeo",
     title: "Front-end developer",
     email: "hogeta@example.com",
@@ -52,6 +59,7 @@ const users: User[] = [
     password_digest: "7cae2668f61b05445b86b3319ab84cd5d3630f76d956f5096ef680468073c3d8"
   },
   {
+    id: 7,
     name: "Hogehara Hogeko",
     title: "Designer",
     email: "hogeko@example.com",
@@ -59,6 +67,7 @@ const users: User[] = [
     password_digest: "53dd02b72c4e7463b448e5374abedc168dcd200ad7e1221fe92d440c545859c6"
   },
   {
+    id: 8,
     name: "Fugata Fugao",
     title: "PM",
     email: "fugata@example.com",
@@ -66,6 +75,7 @@ const users: User[] = [
     password_digest: "dff0b0e2a9a1f5eb91fee57eb6de7f7fef2ae871eb82cb34f7cd39b77c3da107"
   },
   {
+    id: 9,
     name: "Fugakawa Fugako",
     title: "Back-end developer",
     email: "fugako@example.com",
@@ -73,6 +83,7 @@ const users: User[] = [
     password_digest: "a2bd21098ba5f97d152a97e89887e463f1d15d47fa0819151600dac4395b29b0"
   },
   {
+    id: 10,
     name: "Piyota Piyogishi",
     title: "IT administrator",
     email: "piyota@example.com",
@@ -82,10 +93,11 @@ const users: User[] = [
 ]
 
 export async function findUser(id: number): Promise<User> {
-  if (!users[id]) throw `no User found for ${id}`
-
   await databaseSleep()
-  return users[id]
+  const user = users.find((user) => user.id === id)
+  if (!user) throw `no User found for ${id}`
+
+  return user
 }
 
 export async function searchUsers(query: string): Promise<User[]> {

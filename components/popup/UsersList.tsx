@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function UsersList() {
   const [users, setUsers] = useState<User[]>([])
-  const [showUserDetailKey, setShowUserDetailKey] = useState<number | null>(null)
+  const [showUserDetailKey, setshowUserDetailKey] = useState<number | null>(null)
 
   useEffect(() => {
     fetch("/api/users").then(res => res.json())
@@ -60,19 +60,19 @@ export default function UsersList() {
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                                  stroke="currentColor" className="size-6 hover:cursor-pointer"
                                  onClick={() => {
-                                   setShowUserDetailKey(i)
+                                   setshowUserDetailKey(user.id)
                                  }}
                             >
                               <path strokeLinecap="round" strokeLinejoin="round"
                                     d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
                             </svg>
-                            {showUserDetailKey === i
+                            {showUserDetailKey === user.id
                               ? <div
                                 className="absolute z-10 -top-12 left-48 w-72 p-2 bg-white border shadow-lg rounded border-gray-400">
                                 <div className="flex justify-between mb-4 border-b border-gray-200">
                                   <div></div>
                                   <div className="p-1 text-sm w-auto hover:cursor-pointer"
-                                       onClick={() => setShowUserDetailKey(null)}>
+                                       onClick={() => setshowUserDetailKey(null)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                          className="size-6 text-orange-600">
                                       <path fillRule="evenodd"
