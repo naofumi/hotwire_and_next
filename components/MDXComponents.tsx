@@ -22,5 +22,6 @@ export function code({children}: {children?: ReactNode}) {
 }
 
 export function ul({children}: {children?: ReactNode}) {
-  return <ul className="list-image-[url(/images/check-circle.svg)] ml-6 my-4 space-y-4">{children}</ul>;
+  return <ul className="ml-4 my-4 space-y-4">{children}</ul>;
+  // return <ul className="list-image-[url(/images/check-circle.svg)] ml-6 my-4 space-y-4">{children}</ul>;
 }

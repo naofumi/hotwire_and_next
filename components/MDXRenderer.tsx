@@ -11,10 +11,12 @@ const components = {
   ul: ul,
 }
 
-export default function MDXRenderer({ children }: { children: React.ReactNode }) {
-  return(
-      <MDXProvider components={components}>
+export default function MDXRenderer({children}: { children: React.ReactNode }) {
+  return (
+    <MDXProvider components={components}>
+      <div className="mdx">
         {children}
-      </MDXProvider>
+      </div>
+    </MDXProvider>
   )
 }

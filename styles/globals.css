@@ -3,3 +3,10 @@
 @tailwind utilities;
 
 
+.mdx ul li {
+    background: url('/images/check-circle.svg') no-repeat left top 12px;
+    padding: 4px 16px 4px 32px;
+    list-style: none;
+    margin: 0;
+    vertical-align: middle;
+}
