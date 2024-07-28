@@ -113,6 +113,27 @@ export default function IndexPage() {
 
             <hr className="my-8"/>
             <div className="">
+              <H2WithHash id="tabbed-menu">
+                詳細パネル: Turbo Frames
+              </H2WithHash>
+              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+                リスト項目を選択して、その詳細をパネルに表示するUIです。メールアプリなどでよく見かけるタイプのUIです。タブメニューとよく似ていますが、サーバから読み込んだ内容が、リンクがあったところとは別の場所に埋め込まれる点が異なります。
+              </p>
+              <div className="hidden text-center mt-4">
+                <StyledLink href="/commentaries/tabbed_menus">
+                  もっと詳しく...
+                </StyledLink>
+              </div>
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <a href="/details_panel"
+                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   data-turbo="false">詳細パネルUI</a>
+              </div>
+            </div>
+
+
+            <hr className="my-8"/>
+            <div className="">
               <H2WithHash id="popup">
                 ポップアップ: Turbo Frames
               </H2WithHash>
@@ -158,7 +179,8 @@ export default function IndexPage() {
                 Framesを使う理由は、検索条件フィールドのステートを保ち、リセットされるのを防ぐためです。
               </p>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
-                Turbo Framesを使っていますので、URLとの連携もできています。今回は<code>data-turbo-action=&quot;replace&quot;</code>属性とを使って、検索結果がブックマークできるようにしています。
+                Turbo
+                Framesを使っていますので、URLとの連携もできています。今回は<code>data-turbo-action=&quot;replace&quot;</code>属性とを使って、検索結果がブックマークできるようにしています。
               </p>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
                 またReact側ではただの<code>fetch</code>を使っていることもあり、競合状態 (race

@@ -1,0 +1,68 @@
+<%- include("../layouts/header.ejs") -%>
+<div class="grid grid-cols-2 gap-2">
+  <div class="my-10 px-4 sm:px-6 lg:px-8">
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-base font-semibold leading-6 text-gray-900">Users</h1>
+      </div>
+    </div>
+    <div class="mt-8 flow-root">
+      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+          <table class="min-w-full divide-y divide-gray-300">
+            <thead>
+            <tr class="divide-x divide-gray-200">
+              <th scope="col" class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                Name
+              </th>
+              <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Title</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+            <% users.forEach((user) => { %>
+              <tr class="user-row divide-x divide-gray-200" id="user-<%= user.id %>">
+                <td class="whitespace-nowrap text-sm font-medium text-gray-900">
+                  <a href="<%= `/api/hotwire/details_panel/user?id=${user.id}` %>" data-turbo-frame="user-detail-frame"
+                     class="block w-full h-full py-4 pl-4 pr-4 sm:pl-0"
+                     onclick="highlight({active: '#user-<%= user.id %>', inactive: '.user-row'})"
+                  >
+                    <%= user.name %>
+                  </a>
+                </td>
+                <td class="whitespace-nowrap text-sm text-gray-500">
+                  <a href="<%= `/api/hotwire/details_panel/user?id=${user.id}` %>" data-turbo-frame="user-detail-frame"
+                     class="block w-full h-full p-4"
+                     onclick="highlight({active: '#user-<%= user.id %>', inactive: '.user-row'})"
+                  >
+                    <%= user.title %>
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+            </tbody>
+          </table>
+          <script>
+            function highlight({active, inactive}) {
+              console.log(inactive)
+              document.querySelectorAll(inactive).forEach((element) => element.classList.remove('bg-yellow-100'))
+              document.querySelector(active).classList.add('bg-yellow-100')
+            }
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-36 border p-4 rounded min-h-44">
+    <turbo-frame id="user-detail-frame"
+                 class="turbo-with-loader">
+      <div class="turbo-hide-on-loading"></div>
+    </turbo-frame>
+  </div>
+</div>
+<div class="my-10 flex items-center justify-center gap-x-6">
+  <a href="/details_panel"
+     class="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+    Next.js版へ</a>
+</div>
+
+<%- include("../layouts/footer.ejs") -%>
