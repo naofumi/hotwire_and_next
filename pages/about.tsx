@@ -2,6 +2,9 @@ import Layout from "@/components/Layout";
 import StyledLink from "@/components/StyledLink";
 import StyledList from "@/components/StyledList";
 import H2WithHash from "@/components/H2WithHash";
+import hotwireComponentStructureImage from "@/public/images/hotwire-component-structure.png"
+import Image from "next/image";
+import turboframesImage from "@/public/images/tabbed_turboframes.png";
 
 export default function About() {
   return (
@@ -45,7 +48,8 @@ export default function About() {
             <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
               <StyledList>
                 <strong className="font-semibold text-gray-900">Turbo: </strong>
-                <StyledLink href="https://turbo.hotwired.dev">Turbo</StyledLink>はサーバにレクエストを投げて、返ってきたHTMLをDOMに埋め込むためのライブラリです。敢えてサーバからHTMLしか返せないように制限をかけているのが大きな特徴です。（Turbo以前のRailsでは<StyledLink
+                <StyledLink href="https://turbo.hotwired.dev">Turbo</StyledLink>はサーバにレクエストを投げて、返ってきたHTMLをDOMに埋め込むためのライブラリです。敢えてサーバからHTMLしか返せないように制限をかけているのが大きな特徴です。Turbo自身はさらにTurbo
+                Drive, Turbo Frames, Turbo Streamsに分かれています。 （Turbo以前のRailsでは<StyledLink
                 href="https://signalvnoise.com/posts/3697-server-generated-javascript-responses">サーバからJavaScriptを返す</StyledLink>ことが一般的で、15年間、Turboよりむしろ遥かに柔軟なやり方でした。Turboは柔軟さを捨てて、シンプルさを優先したとも言えます）
               </StyledList>
               <StyledList>
@@ -61,6 +65,9 @@ export default function About() {
             <p className="mt-6">
               Hotwireは上記の３つを組み合わせることにより、シンプルさを維持しつつ、モダンフロントエンドの要件を十分に満たすウェブサイトの作成を可能にします。
             </p>
+            <div className="mt-4">
+              <Image src={hotwireComponentStructureImage} alt="hotwire component structure image"></Image>
+            </div>
 
 
             <H2WithHash id="turbo-components">
@@ -75,7 +82,8 @@ export default function About() {
                 <StyledLink
                   href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>は<code>body</code>タグの中身を丸々入れ替える技術です。Next.jsの<StyledLink
                 href="https://nextjs.org/docs/pages/building-your-application/routing">router</StyledLink>、あるいは<StyledLink
-                href="https://reactrouter.com/">React Router</StyledLink>に相当します。<code>Link</code>タグのような特別なものは必要とせず、Turboがインストールされれば<code>a</code>タグは全て自動的にTurbo Driveを使うようになります。
+                href="https://reactrouter.com/">React Router</StyledLink>に相当します。<code>Link</code>タグのような特別なものは必要とせず、Turboがインストールされれば<code>a</code>タグは全て自動的にTurbo
+                Driveを使うようになります。
               </StyledList>
               <StyledList>
                 <strong className="font-semibold text-gray-900">Turbo Frames: </strong>
@@ -109,14 +117,19 @@ export default function About() {
             <ul role="list" className="mt-8 max-w-xl space-y-8 text-gray-600">
               <StyledList>
                 <strong className="font-semibold text-gray-900">Turbo Streamsを使いすぎる: </strong>
-                Reactのコンポーネントの影響かもしれませんし、<StyledLink href="https://ja.react.dev/learn/conditional-rendering">Reactの条件付きレンダー</StyledLink>の影響かもしれませんが、Hotwireに慣れていない人は画面更新を細かい単位に分解しすぎる傾向があります。そうなると細かい更新に適したTurbo Streamsを数多く書く必要があり、コードが複雑になります。<br />
-                そうではなく、むしろ許容される最大の更新単位は何かを考え、なるべくたった１つの大きなTurbo Frameで処理した方がシンプルなHotwireコードが書けます。どうしても更新箇所が分散している時は、大きな処理単位にしつつmorphingを検討します。<br />
-                さらに条件によって表示内容を変えたい場合は、細くTurbo Streamを送ってHTMLを変えるのではなく、StimulusでCSS classを書き換えて visible/hidden を変えます。<br />
+                Reactのコンポーネントの影響かもしれませんし、<StyledLink
+                href="https://ja.react.dev/learn/conditional-rendering">Reactの条件付きレンダー</StyledLink>の影響かもしれませんが、Hotwireに慣れていない人は画面更新を細かい単位に分解しすぎる傾向があります。そうなると細かい更新に適したTurbo
+                Streamsを数多く書く必要があり、コードが複雑になります。<br/>
+                そうではなく、むしろ許容される最大の更新単位は何かを考え、なるべくたった１つの大きなTurbo
+                Frameで処理した方がシンプルなHotwireコードが書けます。どうしても更新箇所が分散している時は、大きな処理単位にしつつmorphingを検討します。<br/>
+                さらに条件によって表示内容を変えたい場合は、細くTurbo Streamを送ってHTMLを変えるのではなく、StimulusでCSS
+                classを書き換えて visible/hidden を変えます。<br/>
                 こうすることで、よりHotwireらしいシンプルなコードになります。
               </StyledList>
               <StyledList>
                 <strong className="font-semibold text-gray-900">JavaScriptなしで作ろうとする: </strong>
-                Turbo Framesは複数の機能がパッケージされているので、これだけでモーダルダイアログなどは作れてしまいます。しかしこれをやると、ブラウザステート（モーダルの開閉状態）とサーバステート（更新データ）が分けられなくなってしまいます。例えば開閉アニメーションが作れなくなったり、Turboのキャッシュとぶつかったりなど、問題が発生しやすくなります。JavaScriptなしで作ろうとするのではなく、ブラウザとサーバのステートを分けて管理し、ブラウザステートはStimulusに処理させた方が苦労も少なく、優れたUXが実現できます。
+                Turbo
+                Framesは複数の機能がパッケージされているので、これだけでモーダルダイアログなどは作れてしまいます。しかしこれをやると、ブラウザステート（モーダルの開閉状態）とサーバステート（更新データ）が分けられなくなってしまいます。例えば開閉アニメーションが作れなくなったり、Turboのキャッシュとぶつかったりなど、問題が発生しやすくなります。JavaScriptなしで作ろうとするのではなく、ブラウザとサーバのステートを分けて管理し、ブラウザステートはStimulusに処理させた方が苦労も少なく、優れたUXが実現できます。
               </StyledList>
             </ul>
 
@@ -220,6 +233,12 @@ export default function About() {
                 また擬似データベースアクセスは100msの遅延を入れています。
               </StyledList>
             </ul>
+
+
+            <H2WithHash id="structure-of-this-site">
+              Hotwireの仲間たち
+            </H2WithHash>
+
 
             <H2WithHash id="hotwire-resources">
               Hotwireのリソース

@@ -20,22 +20,22 @@ export default function IndexPage() {
             <h2
               className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">フロントエンドエンジニアのためのHotwire入門</h2>
             <p className="text-left mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
-              Hotwireは近年注目されているフロントエンド技術です。</p>
+              Hotwireは近年、大きく注目を集めているフロントエンド技術です。</p>
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
-              <strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを見ながらHotwireとReact/Next.jsを比較し、Hotwireの素晴らしさと考え方を理解してもらうことが本サイトの目的です。
+              本サイトでは、<strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを見ながらHotwireとReact/Next.jsを比較し、Hotwireの素晴らしさと考え方を理解していただくことを目的としています。
             </p>
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
-              Hotwireはバックエンド非依存です。Rails, Laravel, Django, Nodeでも関係なく動きます。
+              「HotwireはRails専用じゃないの？」と思っている方も多いと思いますが、実はHotwireはバックエンド非依存です。Rails, Laravel, Django, Nodeでも関係なく動きます。
               このサイトも<strong>HotwireをNext.js上で動かしていて、すべてJavaScript
               (TypeScript)で書かれています。</strong>
               JavaScriptさえわかれば簡単にコードを追うことができます。</p>
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">本サイトのコードは<StyledLink
               href="https://github.com/naofumi/hotwire_and_next">GitHub</StyledLink>に公開しています。また<StyledLink
-              href="https://vercel.com">Vercel</StyledLink>でデプロイしています。
+              href="https://vercel.com">Vercel</StyledLink>でデプロイしています。実際に触って、さらにコードを見て、理解を深けめていただきたいと思います。
             </p>
             <div className="text-center mt-4 text-xl tracking-wider">
               <StyledLink href="/about">
-                解説はこちら...
+                もっと詳しい解説はこちら...
               </StyledLink>
             </div>
 

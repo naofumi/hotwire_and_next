@@ -103,7 +103,18 @@ Hotwireは[Turbo](https://turbo.hotwired.dev)/[Stimulus](https://stimulus.hotwir
 
 本サイトではnpm等を使用せずに、コンパイル済みのJavaScriptファイルをダウンロードしてインストールしました。TurboのJavaScriptファイルは`public/hotwire/javascript/turbo.es2017-esm.js`にダウンロードされており、`templates/layouts/header.ejs`から参照されています。
 
+
+**templates/layouts/header.ejs**
+```html
+<head>
+  ...
+  <script src="/hotwire/javascript/turbo.es2017-esm.js" data-turbo-track="reload" type="module"></script>
+  ...
+</head>
+```
+
 Turbo Driveを導入した時の効果は[デモページ](/api/hotwire/users)でご確認ください。
+
 
 <H2WithHash id="page-transition-ux">ページ遷移のUX</H2WithHash>
 
