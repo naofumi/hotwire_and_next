@@ -152,26 +152,6 @@ export default function IndexPage() {
             <hr className="my-8"/>
             <div className="">
               <H2WithHash id="hierarchical-menus">
-                階層プルダウンメニュー: Turbo Frames
-              </H2WithHash>
-              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
-                動的に、階層的に絞り込まれるプルダウンメニューを使って、住所を入力していくUIをTurbo Framesで作ります。
-                小さい箇所のアップデートにもTurbo Framesが有効です。
-              </p>
-              <div className="mt-10 flex items-center justify-center gap-x-6">
-                <a href="/api/hotwire/address_selector"
-                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                   data-turbo="false">Hotwire 住所入力UI</a>
-                <a href="/address_selector"
-                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-                   data-turbo="false">Next 住所入力UI</a>
-              </div>
-            </div>
-
-
-            <hr className="my-8"/>
-            <div className="">
-              <H2WithHash id="hierarchical-menus">
                 ライブ検索: Turbo Frames
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
@@ -195,6 +175,27 @@ export default function IndexPage() {
                    data-turbo="false">React ライブ検索</a>
               </div>
             </div>
+
+            <hr className="my-8"/>
+            <div className="">
+              <H2WithHash id="hierarchical-menus">
+                階層プルダウンメニュー: Turbo Frames
+              </H2WithHash>
+              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+                動的に、階層的に絞り込まれるプルダウンメニューを使って、住所を入力していくUIをTurbo Framesで作ります。
+                小さい箇所の更新が複数ある場合はTurbo Streamsを使いますが、1つまとめられる場合はTurbo Framesが有効です。
+              </p>
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <a href="/api/hotwire/address_selector"
+                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   data-turbo="false">Hotwire 住所入力UI</a>
+                <a href="/address_selector"
+                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   data-turbo="false">Next 住所入力UI</a>
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>
