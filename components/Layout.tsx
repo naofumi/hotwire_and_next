@@ -23,7 +23,7 @@ export default function Layout({children, hideTechLabel, hideTopButton}: {
 
         {hideTitle
           ? <span></span>
-          : <span className="text-xl p-1 font-bold text-gray-400">Hotwire for Frontend Developers</span>}
+          : <Link href="/" className="text-xl p-1 font-bold text-gray-400">Hotwire for Frontend Developers</Link>}
 
         {hideTechLabel
           ? <span></span>
