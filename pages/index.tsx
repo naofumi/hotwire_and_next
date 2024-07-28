@@ -3,7 +3,7 @@ import Head from "next/head";
 import Layout from "@/components/Layout";
 import H2WithHash from "@/components/H2WithHash";
 import StyledLink from "@/components/StyledLink";
-import PrimaryButtonWithAnchor from "@/components/PrimaryButtonWithAnchor";
+import PrimaryButtonWithLink from "@/components/PrimaryButtonWithLink";
 
 export default function IndexPage() {
   return (
@@ -14,11 +14,11 @@ export default function IndexPage() {
       <div className="bg-white">
         <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Hotwire for Frontend Developers
-            </h2>
-            <h3
-              className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">フロントエンドエンジニアのためのHotwire入門</h3>
+            </h1>
+            <h2
+              className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">フロントエンドエンジニアのためのHotwire入門</h2>
             <p className="text-left mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
               Hotwireは近年注目されているフロントエンド技術です。</p>
             <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
@@ -66,24 +66,24 @@ export default function IndexPage() {
                 </StyledLink>
               </div>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
-                <PrimaryButtonWithAnchor href="/api/hotwire/users">
+                <PrimaryButtonWithLink href="/api/hotwire/users">
                   ブラウザネイティブ
-                </PrimaryButtonWithAnchor>
-                <PrimaryButtonWithAnchor href="/api/hotwire/users">
+                </PrimaryButtonWithLink>
+                <PrimaryButtonWithLink href="/api/hotwire/users">
                   Turbo Drive
-                </PrimaryButtonWithAnchor>
-                <PrimaryButtonWithAnchor href="/users_ssg">
+                </PrimaryButtonWithLink>
+                <PrimaryButtonWithLink href="/users_ssg">
                   Next.js SSG
-                </PrimaryButtonWithAnchor>
-                <PrimaryButtonWithAnchor href="/users">
+                </PrimaryButtonWithLink>
+                <PrimaryButtonWithLink href="/users">
                   Next.js useEffect
-                </PrimaryButtonWithAnchor>
-                <PrimaryButtonWithAnchor href="/users_ssr">
+                </PrimaryButtonWithLink>
+                <PrimaryButtonWithLink href="/users_ssr">
                   Next.js page router SSR
-                </PrimaryButtonWithAnchor>
-                <PrimaryButtonWithAnchor href="/users_app">
+                </PrimaryButtonWithLink>
+                <PrimaryButtonWithLink href="/users_app">
                   Next.js app router Server component
-                </PrimaryButtonWithAnchor>
+                </PrimaryButtonWithLink>
               </div>
             </div>
 
