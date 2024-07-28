@@ -1,4 +1,5 @@
 import mdx from '@next/mdx'
+import rehypeHighlight from 'rehype-highlight';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -18,7 +19,8 @@ const withMDX = mdx({
   extension: /\.mdx?$/,
   options: {
     remarkPlugins: [],
-    rehypePlugins: [],
+    // https://www.mattlaux.com/posts/mdxCodeSyntaxHighlighting
+    rehypePlugins: [rehypeHighlight],
     providerImportSource: '@mdx-js/react',
   },
 });
