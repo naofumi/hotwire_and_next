@@ -17,10 +17,6 @@ export function a({children, href}: {children?: ReactNode, href?: string}) {
   return <StyledLink href={href || ""}>{children}</StyledLink>
 }
 
-export function code({children}: {children?: ReactNode}) {
-  return <code className="px-1 rounded bg-gray-200 break-all">{children}</code>
-}
-
 export function ul({children}: {children?: ReactNode}) {
   return <ul className="ml-4 my-4 space-y-4">{children}</ul>;
   // return <ul className="list-image-[url(/images/check-circle.svg)] ml-6 my-4 space-y-4">{children}</ul>;

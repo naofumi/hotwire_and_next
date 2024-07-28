@@ -10,3 +10,11 @@
     margin: 0;
     vertical-align: middle;
 }
+
+*:not(pre) > code:not(.hljs) {
+  @apply px-1 rounded bg-gray-200 break-all
+}
+
+pre > code {
+    @apply border border-gray-400 rounded
+}
