@@ -9,11 +9,13 @@
     import {Application} from "/hotwire/javascript/stimulus.js"
     import PopupController from "/hotwire/javascript/popup_controller.js"
     import FormlikeController from "/hotwire/javascript/formlike_controller.js"
+    import ModalController from "/hotwire/javascript/modal_controller.js"
 
     window.Stimulus = Application.start()
 
     Stimulus.register("popup", PopupController)
     Stimulus.register("formlike", FormlikeController)
+    Stimulus.register("modal", ModalController)
   </script>
   <link rel="stylesheet" href="/hotwire/styles/output.css" data-turbo-track="reload">
 </head>

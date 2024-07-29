@@ -2,20 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-.turbo-with-loader[busy] .turbo-hide-on-loading {
-    visibility: hidden !important;
-}
+@layer components {
+    .turbo-with-loader[busy] .turbo-hide-on-loading {
+        visibility: hidden !important;
+    }
 
-.turbo-with-loader {
-    position: relative;
-}
+    .turbo-with-loader {
+        position: relative;
+    }
 
-.turbo-with-loader[busy] .turbo-hide-on-loading::before {
-    content: '';
-    visibility: visible !important;
-    display: block;
-    background-image: url('../../images/rocket.gif');
-    width: 64px;
-    height: 64px;
-    margin: 48px auto;
+    .turbo-with-loader[busy] .turbo-hide-on-loading::before {
+        content: '';
+        visibility: visible !important;
+        display: block;
+        background-image: url('../../images/rocket.gif');
+        width: 64px;
+        height: 64px;
+        margin: 48px auto;
+    }
+
+    .modal-dialog .modal-backdrop {
+        @apply ease-out duration-300 opacity-0 invisible
+    }
+
+    .modal-dialog.modal-open .modal-backdrop {
+        @apply ease-out duration-200 opacity-100 visible
+    }
+
+    .modal-dialog .modal-panel {
+        @apply ease-out duration-300 translate-y-4 sm:translate-y-0 sm:scale-95 opacity-0 invisible
+    }
+
+    .modal-dialog.modal-open .modal-panel {
+        @apply ease-in duration-200 translate-y-0 sm:scale-100 opacity-100 visible
+    }
 }

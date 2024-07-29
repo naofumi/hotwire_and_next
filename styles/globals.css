@@ -2,24 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+    .mdx ul li {
+        background: url('/images/check-circle.svg') no-repeat left top 12px;
+        padding: 4px 16px 4px 32px;
+        list-style: none;
+        margin: 0;
+        vertical-align: middle;
+    }
 
-.mdx ul li {
-    background: url('/images/check-circle.svg') no-repeat left top 12px;
-    padding: 4px 16px 4px 32px;
-    list-style: none;
-    margin: 0;
-    vertical-align: middle;
-}
-
-.mdx ul li li {
-    background: url('/images/check-circle-gray.svg') no-repeat left top 12px;
-}
+    .mdx ul li li {
+        background: url('/images/check-circle-gray.svg') no-repeat left top 12px;
+    }
 
 
-*:not(pre) > code:not(.hljs) {
-  @apply px-1 rounded bg-gray-200 break-all
-}
+    *:not(pre) > code:not(.hljs) {
+        @apply px-1 rounded bg-gray-200 break-all
+    }
 
-pre > code {
-    @apply border border-gray-400 rounded
+    pre > code {
+        @apply border border-gray-400 rounded
+    }
 }

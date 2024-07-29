@@ -1,0 +1,20 @@
+<%- include("../layouts/header.ejs") -%>
+<div class="my-10 px-4 sm:px-6 lg:px-8">
+  <div class="flex justify-center">
+    <div>
+      <div class="font-bold text-sm mb-4 text-gray-400">遅いネットワークを再現するため<br>２秒間のディレイを入れています</div>
+      <a href="/api/hotwire/modal_no_js/modal" data-turbo-frame="modal"
+         class="border bg-orange-600 rounded text-white p-2">
+        Show Modal (Without JavaScript)
+      </a>
+    </div>
+  </div>
+  <turbo-frame id="modal"></turbo-frame>
+</div>
+<div class="flex justify-center mt-48">
+  <a href="/api/hotwire/modal_w_js"
+     class="border bg-orange-600 rounded text-white p-2">
+    JavaScript使用バージョンへ
+  </a>
+</div>
+<%- include("../layouts/footer.ejs") -%>
