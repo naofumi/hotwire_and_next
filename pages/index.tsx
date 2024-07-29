@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import H2WithHash from "@/components/H2WithHash";
 import StyledLink from "@/components/StyledLink";
 import PrimaryButtonWithLink from "@/components/PrimaryButtonWithLink";
+import {isDev} from "@/helpers/feature_flags";
 
 export default function IndexPage() {
   return (
@@ -98,7 +99,7 @@ export default function IndexPage() {
                 新しい内容がすでにブラウザに読み込まれているなら、これは難しくありません。<br/>
                 厄介なのは新しい内容をサーバから読み込む時ですが、Turbo Framesなら簡単に実現できます。
               </p>
-              <div className="hidden text-center mt-4 text-xl tracking-wider">
+              <div className={`${isDev() ? 'bg-green-400' : "hidden"} text-center mt-4 text-xl tracking-wider`}>
                 <StyledLink href="/commentaries/tabbed_menus">
                   解説はこちら...
                 </StyledLink>
@@ -119,7 +120,7 @@ export default function IndexPage() {
               <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
                 リスト項目を選択して、その詳細をパネルに表示するUIです。メールアプリなどでよく見かけるタイプのUIです。タブメニューとよく似ていますが、サーバから読み込んだ内容が、リンクがあったところとは別の場所に埋め込まれる点が異なります。
               </p>
-              <div className="hidden text-center mt-4 text-xl tracking-wider">
+              <div className={`${isDev() ? 'bg-green-400' : "hidden"} text-center mt-4 text-xl tracking-wider`}>
                 <StyledLink href="/commentaries/tabbed_menus">
                   解説はこちら...
                 </StyledLink>
