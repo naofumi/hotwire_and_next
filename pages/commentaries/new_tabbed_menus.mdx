@@ -129,7 +129,7 @@ Reactのコードの特徴は以下の通りです。
 
 Next.jsのApp Routerの新機能として、[Parallel Routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)があります。[わざわざタブメニューの言及](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#tab-groups)もあり、App Routerではこれが推奨されているように感じられます。
 
-App Routerはなるべく多くのコンポーネントをServer Componentで作ること、なるべくサーバでデータフェッチをすることが推奨されています。上記の`useEffect`を使う方法はこれに反しますので、Parallel Routesを使うことがApp Router時代のいわゆるベストプラクティスかもしれません。
+App Routerはなるべく多くのコンポーネントをServer Componentで作ること([Client Componentはなるべく小さくすること](https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns#moving-client-components-down-the-tree))、[なるべくサーバでデータフェッチをする](https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#fetching-data-on-the-server)ことが推奨されています。上記の`useEffect`を使う方法はこれに反しますので、Parallel Routesを使うことがApp Router時代のいわゆるベストプラクティスかもしれません。
 
 Parallel Routesを使うと、どのタブを開いているかがURLに反映されます。つまり特定のタブを開いた状態をブックマークできる利点があります。これはTurbo Driveを使った場合、あるいはTurbo Framesで[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)を設定した時と同じ効果です。
 
