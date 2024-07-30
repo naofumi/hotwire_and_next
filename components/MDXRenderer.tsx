@@ -1,5 +1,5 @@
 import React from "react";
-import {a, h2, h3, p, ul} from "@/components/MDXComponents";
+import {a, h2, h3, ol, p, ul} from "@/components/MDXComponents";
 import {MDXProvider} from "@mdx-js/react";
 
 const components = {
@@ -8,6 +8,7 @@ const components = {
   p: p,
   a: a,
   ul: ul,
+  ol: ol,
 }
 
 export default function MDXRenderer({children}: { children: React.ReactNode }) {

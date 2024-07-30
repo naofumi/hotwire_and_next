@@ -41,7 +41,7 @@ MPA流のタブメニューは[ここでお試しいただけます](/api/hotwir
 
 タブより上の箇所が全く同じ２つの画面を用意しているだけです。タブの上の方は全く同じなので、更新されていることに気づきません。一方でタブの下の部分は異なる内容が表示されているので、ここだけが更新されたとユーザは錯覚します。
 
-例えば<StyledLink href="https://www.amazon.co.jp">Amazon.co.jp</StyledLink>のサイトでも、このようなMPA流のタブメニューが今でも現役です。ただ、残念ながらAmazonの場合はコンテンツシフトをしてしまっているので、ページ切り替えの時にタブの上やタブ内も動いてしまい、更新されていることに気づいてしまいます。コンテンツシフトさえしなければ、UXも十分に優れたものになります。
+例えば[Amazon.co.jp](https://www.amazon.co.jp)のサイトでも、このようなMPA流のタブメニューが今でも現役です。ただ、残念ながらAmazonの場合はコンテンツシフトをしてしまっているので、ページ切り替えの時にタブの上やタブ内も動いてしまい、更新されていることに気づいてしまいます。コンテンツシフトさえしなければ、UXも十分に優れたものになります。
 
 
 <div className="mt-4">
@@ -50,21 +50,16 @@ MPA流のタブメニューは[ここでお試しいただけます](/api/hotwir
 
 <H2WithHash id="tabs-turbodrive">Turbo Driveによるタブメニューの作り方</H2WithHash>
 
-Turbo Driveによるタブメニューは<StyledLink
-href="http://localhost:3000/api/hotwire/tabbed_segments_turbodrive">ここでお試しいただけます。</StyledLink>
+Turbo Driveによるタブメニューは[ここでお試しいただけます](http://localhost:3000/api/hotwire/tabbed_segments_turbodrive)。
 
-<StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>を使う場合は、MPAのサイトに<StyledLink
-href="https://turbo.hotwired.dev/handbook/installing">TurboのJavaScriptファイルをダウンロードする</StyledLink>だけです。
-この場合はTurbo Driveによってヌルサクになった分だけ、タブの切り替えが自然に見えてきます。しかし実際にやっているのはMPAの場合と同様、<strong>画面全体の差し替えです。</strong>
+[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)を使う場合は、MPAのサイトに[TurboのJavaScriptファイルをダウンロードする](https://turbo.hotwired.dev/handbook/installing)だけです。
+この場合はTurbo Driveによってヌルサクになった分だけ、タブの切り替えが自然に見えてきます。しかし実際にやっているのはMPAの場合と同様、 **画面全体の差し替えです**。
 
 一見するとタブだけが差し代わっているようには見えますが、下記の点を細かくみると、実際には画面全体の差し替えだとバレてしまいます。
 
-* 少し下にスクロールした後にタブをクリックすると、タブの中身が差し代わるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を差し替えるから起こるのではなく、<StyledLink
-    href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>がMPAの動きを真似るためにわざとやっているものです。条件と設定によってスクロールを抑制することも可能です。
-* <code>Search</code>のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を差し替える時にこのフィールドも丸ごと差し替えられるためです。
-* なお、今回は<StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>で画面全体が差し代わることを説明していますが、実は<StyledLink
-    href="https://turbo.hotwired.dev/handbook/page_refreshes">Morphing</StyledLink>を使うと、全画面を書き換えつつ、差し替えるのではなく差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、<StyledLink
-    href="https://ja.react.dev/learn/preserving-and-resetting-state">Reactに近い更新</StyledLink>を可能にするもので、かなり強力なものです。
+* 少し下にスクロールした後にタブをクリックすると、タブの中身が差し代わるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を差し替えるから起こるのではなく、[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)がMPAの動きを真似るためにわざとやっているものです。条件と設定によってスクロールを抑制することも可能です。
+* **Search** のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を差し替える時にこのフィールドも丸ごと差し替えられるためです。
+* なお、今回は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)で画面全体が差し代わることを説明していますが、実は[Morphing](https://turbo.hotwired.dev/handbook/page_refreshes)を使うと、全画面を書き換えつつ、差し替えるのではなく差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、[Reactに近い感じの更新](https://ja.react.dev/learn/preserving-and-resetting-state)を可能にするもので、かなり強力なものです。
 
 <div className="mt-6">
   <Image src={turbodriveImage} alt="turbodrive image"></Image>
@@ -73,63 +68,85 @@ href="https://turbo.hotwired.dev/handbook/installing">TurboのJavaScriptファ�
 
 <H2WithHash id="tabs-turboframe">Turbo Framesによるタブメニューの作り方</H2WithHash>
 
-Turbo Framesによるタブメニューは<StyledLink
-href="http://localhost:3000/api/hotwire/tabbed_segments_turboframes">ここでお試しいただけます。</StyledLink>
+Turbo Framesによるタブメニューは[ここでお試しいただけます](http://localhost:3000/api/hotwire/tabbed_segments_turboframes)。
 
-まず大切なことは、<StyledLink href="https://turbo.hotwired.dev/handbook/turboframes">Turbo
-Frames</StyledLink>を使った場合のUIの違いです。一見するとTurbo Driveの場合とあまり差がありませんが、以下の点が異なります。
+まず大切なことは、Turbo
+Driveを使った場合とのUIの違いです。一見するとTurbo Driveの場合とあまり差がありませんが、以下の点が異なります。
 
-* 少し下にスクロールした後にタブをクリックしても、トップにスクロールしません。デフォルトではスクロール位置が維持されます。より細かく制御したい場合は、<code>autoscroll</code>属性で<StyledLink
-    href="https://turbo.hotwired.dev/reference/frames#html-attributes">調整できます</StyledLink>。
+* 少し下にスクロールした後にタブをクリックしても、トップにスクロールしません。デフォルトではスクロール位置が維持されます。より細かく制御したい場合は、**autoscroll**属性で[調整できます](https://turbo.hotwired.dev/reference/frames#html-attributes)。
 * Searchのテキスト入力フィールドに文字を入力し、その後にタブを切り替えても、テキスト入力フィールドの文字はそのまま維持されます。フォーカルも維持されます。今回設定したTurbo
     Framesでは、Searchのテキスト入力フィールドはTurbo
     Framesの外にあります（下図）。タブが切り替わっても、SearchのDOM要素はそのままなのです。だから文字およびフォーカスが維持されています。
 
 このようにTurbo Framesの特徴は画面を枠で分割し、枠内を差し替えつつ、枠外をそのままに維持するところです。
 
-Turbo Framesによるタブメニューの作り方はごく簡単です。まずは<StyledLink
-href="/commentaries/tabbed_menus#tabs-turbodrive">Turbo Driveのバージョン</StyledLink>から出発します。そして、どこをTurbo
-Framesで囲むかを決めます。今回はSearchのテキスト入力フィールドの下のところからテーブルの最後までを囲むことにします。
+Turbo Framesによるタブメニューの作り方はごく簡単です。まずは[Turbo Driveのバージョン](/commentaries/tabbed_menus#tabs-turbodrive)から出発します。そして、どこをTurbo Framesで囲むかを決めます。今回はSearchのテキスト入力フィールドの下のところからテーブルの最後までを囲むことにします。
 
 <div className="mt-4">
   <Image src={turboframesImage} alt="turbo frames image"></Image>
 </div>
 
-次にエディタで該当するEJSファイルの内容を確認し、囲みたいところを <code>&lt;turbo-frame
-id=&quot;[適当な名前]&quot;&gt;&lt;/turbo-frame&gt;</code>のタグで囲みます。今回は２つのページ
-(<code>Users</code>と<code>Products</code>)がありますので、双方のEJSファイルで同じ処理をします。結果は<StyledLink
-href="https://github.com/naofumi/hotwire_and_next/blob/main/templates/tabbed_segments_turbodrive/index.ejs">templates/tabbed_segments_turboframes/index.ejs</StyledLink>および<StyledLink
-href="https://github.com/naofumi/hotwire_and_next/blob/main/templates/tabbed_segments_turbodrive/index.ejs">templates/tabbed_segments_turboframes/products.ejs</StyledLink>にあります。
+次にエディタで該当するEJSファイルの内容を確認し、囲みたいところを `<turbo-frame
+id="[適当な名前]"></turbo-frame>`のタグで囲みます。今回は２つのページ
+(`Users`と`Products`)がありますので、双方のEJSファイルで同じ処理をします。結果は[templates/tabbed_segments_turboframes/index.ejs](https://github.com/naofumi/hotwire_and_next/blob/main/templates/tabbed_segments_turbodrive/index.ejs)および[templates/tabbed_segments_turboframes/products.ejs](https://github.com/naofumi/hotwire_and_next/blob/main/templates/tabbed_segments_turbodrive/index.ejs)にあります。
 
 はい、以上でおしまいです！
 
+1. `templates/tabbed_segments_turboframes/index.ejs`に`<turbo-frame>`タグを加える
+2. `templates/tabbed_segments_turboframes/products.ejs`に同じIDの`<turbo-frame>`タグを加える
+3. 必要に応じて[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)でURLと連動させたり、ロード時に自動的に追加される[`aria-busy`](https://turbo.hotwired.dev/reference/attributes#automatically-added-attributes)属性を利用してCSSでローダーを表示したり、`autoscroll`属性で[スクロールの動作を変える](https://turbo.hotwired.dev/reference/frames#html-attributes)など、機能を追加します。
+
+この３つのステップだけで、Turbo Frames的なタブメニューができ上がりました！
+
 少し解説を加えます。
 
-&lt;turbo-frame&gt;&lt;/turbo-frame&gt;でくくることによって、Turbo
-Frame中に含まれる<code>a</code>タグや<code>formタグは</code>タグは通常と違う性質を持つようになります。通常であれば<StyledLink
-href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>のような全画面遷移をするのではなく、デフォルトでは同じTurbo
-Frame内の画面遷移をするように変化します。
+`<turbo-frame></turbo-frame>`でくくることによって、Turbo
+Frame中に含まれる`a`タグや`form`タグは通常と違う性質を持つようになります。通常であれば[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)のような **全画面** 遷移をするのですが、 **全画面** ではなくて、同じTurbo
+Frame内に限定された **部分画面** 遷移をするように変化します。あたかもブラウザウィンドウの中に、もう１つ小さなブラウザウィンドウができたような感じです。
 
-今回はTurbo Frameの中にタブがくるように配置しましたので、<code>Users</code>, <code>Products</code>のタブはTurbo Frame内の遷移をするように切り替わっています。
+今回はTurbo Frameの中にタブがくるように配置しましたので、<code>Users</code>, <code>Products</code>のタブはTurbo Frame内の遷移をするように切り替わっています。Turbo Frame内のみが変化するので、Searchのテキストフィールドもリセットされないわけです。
 
-タブを押すと、通常の<code>a</code>タグと同じようにHTTPリクエストは飛びます。そして全画面分のHTMLが返ってくるのきます。しかしそれで画面全体を入れ替えるのではなく、新しいページにある&lt;turbo-frame&gt;&lt;/turbo-frame&gt;を探し出し、その中身を入れ替えるのです。この時、<code>id</code>属性をみて<code>turbo-frame</code>のペアを認識するので、<code>id</code>を揃えておく必要があります。
+タブをクリックすると、通常の`a`タグと同じようにHTTPリクエストは飛びます。そしてHTMLがサーバから返ってきます。ここからがTurbo Framesの動きです。通常なら画面全体を入れ替えるのですが、Turbo Framesの場合は**新しいページ**の中にある`<turbo-frame></turbo-frame>`を探し出し、**元のページ**の中にある`<turbo-frame></turbo-frame>`の中身と差し替えるのです。この時、`id`属性をみて`<turbo-frame>`のペアを認識するので、`id`の値を揃えておく必要があります。
+
+今回、Turbo Framesは通常の`a`タグで起動しています。`a`タグなので、Turbo Driveの機能である[prefetch](/commentaries/page_transitions#page-transition-ux)も働きます。このためprefetchによるUXの大幅向上、ヌルサクな体感も、何もしなくても勝手についてきます。
 
 これだけでTurbo Framesによるタブメニューが出来上がりました。
 
-<H2WithHash id="tabs-comparison-with-react">Reactとの比較</H2WithHash>
+<H2WithHash id="tabs-comparison-with-react">一般的なReactとの比較</H2WithHash>
 
-Reactによるタブメニューは<StyledLink
-href="http://localhost:3000/tabbed_segments">ここでお試しいただけます。</StyledLink>
+Reactによるタブメニューは[ここでお試しいただけます](/tabbed_segments)。コードは[GitHubで](https://github.com/naofumi/hotwire_and_next/blob/main/pages/tabbed_segments/index.tsx)ご確認ください。
 
-<StyledLink href="https://github.com/naofumi/hotwire_and_next/blob/main/pages/tabbed_segments/index.tsx">Reactの場合</StyledLink>は、どのタブが選択されているかを
+Reactのコードの特徴は以下の通りです。
+
+* 選択されたタブをステートとして持つ (`useState`を使用)
+* [条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)のパターンを使って、ステートのよってタブの中に表示するコンポーネントを切り替える（今回は[ここ](https://github.com/naofumi/hotwire_and_next/tree/main/components/tabbed_segments)にある`Users.tsx`と`Products.tsx`)
+* データは`Users`、`Products`コンポーネントの中の`useEffect`の中の`fetch`で行う
+
+コンポーネントの切り替えはブラウザの中だけで行うので瞬間的ですが、データフェッチに時間がかかり、その間はローディング画面を表示します。そしてコンポーネントがDOMにロードされるまで`useEffect`は動きませんので、prefetchは効きません。
+
+
+<H2WithHash id="tabs-comparison-with-react">Next.js App Router Parallel Routesとの比較</H2WithHash>
+
+Next.jsのApp Routerの新機能として、[Parallel Routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)があります。[わざわざタブメニューの言及](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#tab-groups)もあり、App Routerではこれが推奨されているように感じられます。
+
+App Routerはなるべく多くのコンポーネントをServer Componentで作ること、なるべくサーバでデータフェッチをすることが推奨されています。上記の`useEffect`を使う方法はこれに反しますので、Parallel Routesを使うことがApp Router時代のいわゆるベストプラクティスかもしれません。
+
+Parallel Routesを使うと、どのタブを開いているかがURLに反映されます。つまり特定のタブを開いた状態をブックマークできる利点があります。これはTurbo Driveを使った場合、あるいはTurbo Framesで[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)を設定した時と同じ効果です。
+
+[Parallel Routesを使ったコード](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)の特徴は以下の通りです。
+
+* [３つのフォルダに７つのファイルを配置](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)するので、[Turbo Frames](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)を使った場合や[useEffectを使った場合](https://github.com/naofumi/hotwire_and_next/tree/main/pages/tabbed_segments)と比べて複雑になっています
+* データフェッチはサーバ側で行いますが、App Routerは動的なルート([Dynamic Rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering))の場合は最初の`loading.js`ファイルまでしか[prefetchをしてくれません](https://nextjs.org/docs/app/api-reference/components/link#prefetch)。
+
+`loading.js`があるところまではprefetchをしてくれますので、コンポーネントの**枠やローダー**までは瞬間的に表示してくれます。しかし動的レンダリングされるルートのprefetchは効きませんので、データフェッチにかかる時間は結局ローダーが表示され、待たされます。この点、UX的には[ReactでuseEffectを使った場合](/commentaries/new_tabbed_menus#tabs-comparison-with-react)とほぼ同じになります。
 
 
 <H2WithHash id="tabs-summary">タブメニューのまとめ</H2WithHash>
 
-今回はTurbo Framesによるタブメニューを実装しました。非常に簡単なものでしたので、UI的にMPAと大きな差はありませんでした。しかしTurbo
-Framesの枠外のステートが維持できていることが確認できました。
+今回はTurbo Framesによるタブメニューを実装しました。簡単なものでしたので、UI的にMPAと大きな差はありませんでした。しかしTurbo Framesを使うと、**枠**の外のステートが維持できていることが確認できました。
 
-今後はもう少しだけ設定やJavaScriptを加えながら、より多くのUIをTurbo Framesで実装していこうと思います。
+React、Next.js側と比較すると、Turbo Framesによるタブメニューは実装が簡単である割には、機能的には遜色がないことが確認できました。Reactの方はカスタムコードを書くことで細かくチューニングできるかもしれませんが、少なくとも簡単に実装できるところに限定するとTurbo Framesの方がむしろ高速で多機能に見えます。
+
 
 
 

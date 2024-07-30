@@ -20,3 +20,7 @@ export function a({children, href}: {children?: ReactNode, href?: string}) {
 export function ul({children}: {children?: ReactNode}) {
   return <ul className="ml-4 my-4 space-y-2">{children}</ul>;
 }
+
+export function ol({children}: {children?: ReactNode}) {
+  return <ol className="ml-12 my-4 space-y-2">{children}</ol>;
+}

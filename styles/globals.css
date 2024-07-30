@@ -15,6 +15,14 @@
         background: url('/images/check-circle-gray.svg') no-repeat left top 12px;
     }
 
+    .mdx ol li {
+        /*background: url('/images/check-circle.svg') no-repeat left top 12px;*/
+        padding: 4px 16px 4px 4px;
+        list-style: decimal outside none;
+        margin: 0;
+        vertical-align: middle;
+    }
+
 
     *:not(pre) > code:not(.hljs) {
         @apply px-1 rounded bg-gray-200 break-all
