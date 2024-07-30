@@ -22,7 +22,7 @@ export default function RootLayout({
     <div className="bg-white flex justify-between p-1 items-start">
       <Link href="/" className="text-xl rounded text-orange-600">Top</Link>
       <span className="text-xl p-1 font-bold text-gray-400">Hotwire for Frontend Developers</span>
-      <div className="text-lg p-2 rounded bg-black text-white">Next.js</div>
+      <div className="text-lg p-2 rounded bg-black text-white">Next.js App router</div>
     </div>
     <Banner />
     {children}

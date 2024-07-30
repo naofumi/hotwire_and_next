@@ -2,7 +2,7 @@ import mdx from '@next/mdx'
 import rehypeHighlight from 'rehype-highlight';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // reactStrictMode: true,
   swcMinify: true,
   experimental: {
     // https://zenn.dev/akfm/articles/nextjs-cache-default-update

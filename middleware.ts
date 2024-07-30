@@ -15,6 +15,7 @@ export async function middleware(request: NextRequest) {
 function shouldDelayResponse(request: NextRequest) {
   const userAgent = request.headers.get('user-agent')
   if (userAgent === "node") {
+    console.log("internal API request: no delay")
     // If the userAgent is "node" then this request originated from
     // the Next.js server and is an internal connection. In this case,
     // we expect very low latency and will not add latency to the emulation.

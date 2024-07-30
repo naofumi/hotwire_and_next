@@ -28,7 +28,7 @@ export default function Layout({children, hideTechLabel, hideTopButton}: {
         {hideTechLabel
           ? <span></span>
           : <div className="text-lg p-1 rounded bg-black text-white">
-            React
+            Next.js Pages router
           </div>}
       </div>
       <Banner />
