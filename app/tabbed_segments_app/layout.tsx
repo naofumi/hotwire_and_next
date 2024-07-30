@@ -1,9 +1,5 @@
 import React, {ReactNode} from "react";
 import Link from "next/link";
-import {isDev} from "@/helpers/feature_flags";
-import Tabs from "@/app/tabbed_segments_app/components/Tabs";
-import Users from "@/components/tabbed_segments/Users";
-import Products from "@/components/tabbed_segments/Products";
 
 export default function TabbedSegmentsLayout(
   {tabs}: { tabs: ReactNode }) {
@@ -27,18 +23,16 @@ export default function TabbedSegmentsLayout(
             <Link href="/tabbed_segments"
                   className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-orange-600 shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
               Next.js useEffect</Link>
-            {isDev() &&
-              <Link href="/tabbed_segments_app"
-                    className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-                Next.js Parallel routes</Link>
-            }
+            <Link href="/tabbed_segments_app"
+                  className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+              Next.js Parallel routes</Link>
           </div>
           <div className="mt-10">
             <div className="mb-2">
               <label htmlFor="search" className="text-sm mr-2">Search</label>
               <input id="search" type="text" className="border rounded p-1"/>
             </div>
-            { tabs }
+            {tabs}
           </div>
         </div>
       </div>
