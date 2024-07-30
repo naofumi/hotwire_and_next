@@ -21,7 +21,7 @@ export default function RootLayout({
     <body>
     <div className="bg-white flex justify-between p-1 items-start">
       <Link href="/" className="text-xl rounded text-orange-600">Top</Link>
-      <span className="text-xl p-1 font-bold text-gray-400">Hotwire for Frontend Developers</span>
+      <Link href="/" className="text-xl p-1 font-bold text-gray-400 hover:text-orange-600">Hotwire for Frontend Developers</Link>
       <div className="text-lg p-1 rounded bg-black text-white">Next.js App router</div>
     </div>
     <Banner />
