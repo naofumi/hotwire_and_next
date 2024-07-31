@@ -19,24 +19,24 @@ export default function PageTransitions() {
             タブメニュー
           </p>
           <div className="mt-4 max-w-2xl mx-auto">
-            <H2WithHash id="partial-rewrites-with-turbo-frames">Turbo Framesは部分的入れ替えのパッケージ</H2WithHash>
+            <H2WithHash id="partial-rewrites-with-turbo-frames">Turbo Framesは部分的置換のパッケージ</H2WithHash>
             <p className="mt-4">
               タブメニューを作成するためには<StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo
               Frames</StyledLink>を使います。そこで、まずTurbo Framesについて概略を説明します。
             </p>
             <p className="mt-4">
               Turbo Driveに次いでよく使うのが<StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo
-              Frames</StyledLink>です。Turbo Driveがページ遷移、つまり画面全体の入れ替えをするのに対して、<StyledLink
-              href="https://turbo.hotwired.dev/handbook/drive">Turbo Frames</StyledLink>は一部分だけを入れ替えます。
+              Frames</StyledLink>です。Turbo Driveがページ遷移、つまり画面全体の置換するのに対して、<StyledLink
+              href="https://turbo.hotwired.dev/handbook/drive">Turbo Frames</StyledLink>は一部分だけを置換します。
             </p>
             <p className="mt-4">
-              「モーダル」「ポップアップ」「ドロップダウンメニュー」「ドロワーメニュー（引き出し）」「ライブ検索」、住所を入力するときに使う「階層メニュー」など、サーバから内容を読みUI要素はたくさんあります。どれも画面の部分的入れ替えが必要で、<StyledLink
-              href="https://turbo.hotwired.dev/handbook/frames">Turbo Frames</StyledLink>で実装できます。インタラクティブと言われるUI要素も、大部分はシンプルな部分的入れ替えで実現できるのです。
+              「モーダル」「ポップアップ」「ドロップダウンメニュー」「ドロワーメニュー（引き出し）」「ライブ検索」、住所を入力するときに使う「階層メニュー」など、サーバから内容を読みUI要素はたくさんあります。どれも画面の部分的置換が必要で、<StyledLink
+              href="https://turbo.hotwired.dev/handbook/frames">Turbo Frames</StyledLink>で実装できます。インタラクティブと言われるUI要素も、大部分はシンプルな部分的置換で実現できるのです。
             </p>
 
             <H2WithHash id="turbo-frames-is-a-package">Turbo Framesはコミコミのパッケージ</H2WithHash>
             <p className="mt-4">
-              <StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo Frames</StyledLink>は画面の部分的入れ替えを提供するだけでなく、<code>a</code>タグや<code>form</code>タグとの<StyledLink
+              <StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo Frames</StyledLink>は画面の部分的置換を提供するだけでなく、<code>a</code>タグや<code>form</code>タグとの<StyledLink
               href="https://turbo.hotwired.dev/handbook/frames">連携</StyledLink>、<StyledLink
               href="https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames">Lazy
               loading (遅延ロード)</StyledLink>、<StyledLink
@@ -50,9 +50,9 @@ export default function PageTransitions() {
               href="https://ja.react.dev/learn/conditional-rendering">条件付きレンダー</StyledLink>などのパターンを提供してくれますが、これを組み合わせてUI要素を作るのは開発者しだいです。その意味でReactはフルスクラッチでUI要素を作成するのに適している一方、HotwireはUIライブラリとまではいかないものの、パッケージしたものを提供していると言えます。
             </p>
             <p className="mt-4">
-              なお<StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo Frames</StyledLink>が提供するコミコミの機能が不要で、単に部分入れ替えだけをしたい場合には、<StyledLink
+              なお<StyledLink href="https://turbo.hotwired.dev/handbook/frames">Turbo Frames</StyledLink>が提供するコミコミの機能が不要で、単に部分置換だけをしたい場合には、<StyledLink
               href="https://turbo.hotwired.dev/handbook/streams">Turbo Streams</StyledLink>を使います。Turbo
-              Streamsを使うとより柔軟に部分入れ替えが行えます。
+              Streamsを使うとより柔軟に部分置換が行えます。
             </p>
 
 
@@ -167,7 +167,7 @@ export default function PageTransitions() {
               Frame内の遷移をするように切り替わっています。
             </p>
             <p className="mt-4">
-              タブを押すと、通常の<code>a</code>タグと同じようにHTTPリクエストは飛びます。そして全画面分のHTMLが返ってくるのきます。しかしそれで画面全体を入れ替えるのではなく、新しいページにある&lt;turbo-frame&gt;&lt;/turbo-frame&gt;を探し出し、その中身を入れ替えるのです。この時、<code>id</code>属性をみて<code>turbo-frame</code>のペアを認識するので、<code>id</code>を揃えておく必要があります。
+              タブを押すと、通常の<code>a</code>タグと同じようにHTTPリクエストは飛びます。そして全画面分のHTMLが返ってくるのきます。しかしそれで画面全体を置換するのではなく、新しいページにある&lt;turbo-frame&gt;&lt;/turbo-frame&gt;を探し出し、その中身を置換するのです。この時、<code>id</code>属性をみて<code>turbo-frame</code>のペアを認識するので、<code>id</code>を揃えておく必要があります。
             </p>
             <p className="mt-4">
               これだけでTurbo Framesによるタブメニューが出来上がりました。

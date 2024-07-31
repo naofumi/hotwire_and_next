@@ -38,8 +38,8 @@ Hotwireは上記の３つを組み合わせることにより、シンプルさ�
 
   Turboは<code>fetch</code>を使い、ウェブページの部分置換をするライブラリです。Hotwireの中心的な技術です。置換する範囲と付随する機能に応じて、3種類の置換方法があります。
 
-* **Turbo Drive:**[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は`body`タグの中身を丸々入れ替える技術です。Next.jsの[router](https://nextjs.org/docs/pages/building-your-application/routing)、あるいは[React Router](https://reactrouter.com/)に相当します。`Link`タグのような特別なものは使わず、`a`タグが全て自動的にTurbo Driveを使うようになります。
-* **Turbo Frames:** [Turbo Frames](https://turbo.hotwired.dev/handbook/frames)は部分置換を実現するものです。画面の一部を入れ替えるだけではなく、画面を **「枠」** に分割する性質があり、デフォルトでは枠内の **a** タグおよび **form** タグも中に閉じ込めるように動きます。[ルータとの連携](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[Lazy Load](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)なども用意され、画面の部分置換だけでなく、関連するUXもパッケージされています。柔軟性も高く、**これだけでほとんどの部分置換は可能です** (Turbo Streamsをあまり使わなくても用が足りてしまう)。<br />
+* **Turbo Drive:**[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は`body`タグの中身を丸々置換る技術です。Next.jsの[router](https://nextjs.org/docs/pages/building-your-application/routing)、あるいは[React Router](https://reactrouter.com/)に相当します。`Link`タグのような特別なものは使わず、`a`タグが全て自動的にTurbo Driveを使うようになります。
+* **Turbo Frames:** [Turbo Frames](https://turbo.hotwired.dev/handbook/frames)は部分置換を実現するものです。画面の一部を置換するだけではなく、画面を **「枠」** に分割する性質があり、デフォルトでは枠内の **a** タグおよび **form** タグも中に閉じ込めるように動きます。[ルータとの連携](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[Lazy Load](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)なども用意され、画面の部分置換だけでなく、関連するUXもパッケージされています。柔軟性も高く、**これだけでほとんどの部分置換は可能です** (Turbo Streamsをあまり使わなくても用が足りてしまう)。<br />
 Next.js app routerの[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)に近い性質もありますが、ページURLと独立にできることや、１つのページに複数のTurbo Frameがおけることなど、より小回りが効く柔軟な仕組みです。
 * **Turbo Streams:** [Turbo Streams](https://turbo.hotwired.dev/handbook/streams)は画面を細かく、柔軟に書き替える技術です。IDで指定された要素を１つずつ追加・置換したり、削除したりできます。またWebSocketを介した置換も可能になっています。柔軟性は非常に高いのですが、それだけに置換ステップ数が増大する傾向があり、必要なところで慎重に使うのがポイントではないかと思います。[jQuery](https://api.jquery.com/category/manipulation/)の`prepend()`, `append()`, `remove()`, `html()`をHTML属性から呼び出す感覚に近いとも言えます。Turbo StreamsとTurbo Framesの使い分けは明確ではなく、人よってどちらを多く使うかが異なります。私はTurbo Framesを多く使いますので、本サイトもこちらが中心になっています。
 
@@ -71,9 +71,9 @@ Turboは基本的に`a`タグのクリックや`form`タグの送信によって
 
 Hotwireに慣れていない人は画面置換を細かい単位に分解しすぎる傾向があります。例えば１つのリクエスト・レスポンスで画面の複数箇所を変更する場合、それぞれにTurbo Streamsを作ったりします（１つのレスポンスで複数箇所を部分置換する主な方法はTurbo Streamsであるため）。もしかしたらjQuery的な発想をしているのかもしれません。
 
-しかしHotwireの場合は細かい単位に分けるのではなく、可能なだけ大きな単位で処理した方がシンプルなコードになります。複数の変更箇所があっても、これを１つのTurbo Frameに収められないかをまず考えます。さらにTurbo Driveで画面全体を入れ替えても大丈夫かを検討します。どちらも難しい場合は、morphingによって画面全体の差分を取ることで対応できるかを考えます。常により大きい **「枠」** を使ってコードを単純化できないかを考えます。
+しかしHotwireの場合は細かい単位に分けるのではなく、可能なだけ大きな単位で処理した方がシンプルなコードになります。複数の変更箇所があっても、これを１つのTurbo Frameに収められないかをまず考えます。さらにTurbo Driveで画面全体を置換しても大丈夫かを検討します。どちらも難しい場合は、morphingによって画面全体の差分を取ることで対応できるかを考えます。常により大きい **「枠」** を使ってコードを単純化できないかを考えます。
 
-私はこれはReactのone-way data flowに似た考え方だと思っています。Turbo Streamsを使う場合は、各アクションの結果として置換されるべき箇所をプログラマーが指定しなければなりません。しかし、大きな単位で入れ替える場合は、どこが置換されるのかを細かく気にする必要がなくなります。
+私はこれはReactのone-way data flowに似た考え方だと思っています。Turbo Streamsを使う場合は、各アクションの結果として置換されるべき箇所をプログラマーが指定しなければなりません。しかし、大きな単位で置換する場合は、どこが置換されるのかを細かく気にする必要がなくなります。
 
 ### JavaScriptなしで作ろうとする
 

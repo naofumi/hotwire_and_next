@@ -63,11 +63,11 @@ import turboframesImage from "@/public/images/tabbed_turboframes.png"
 </div>
 <div className="mt-2 text-gray-400 text-sm">※）頻度はあくまでも著者の経験で条件によって変わります。モーダル等を頻繁に使う場合や、少数の画面のUXに徹底的に注力する場合は異なります。またFramesよりもStreamsを好む人もにいます。</div>
 
-<H2WithHash id="partial-rewrites-with-turbo-frames">Turbo Framesは部分的入れ替えのパッケージ</H2WithHash>
+<H2WithHash id="partial-rewrites-with-turbo-frames">Turbo Framesは部分的置換のパッケージ</H2WithHash>
 
-Turbo Driveがページ遷移、つまり画面全体の入れ替えをするのに対して、[Turbo Frames](https://turbo.hotwired.dev/handbook/drive)はサーバから送られてきたデータを使って画面の部分置換をする時に使います。
+Turbo Driveがページ遷移、つまり画面全体を置換するのに対して、[Turbo Frames](https://turbo.hotwired.dev/handbook/drive)はサーバから送られてきたデータを使って画面の部分置換をする時に使います。
 
-「モーダル」「ポップアップ」「ドロップダウンメニュー」「ドロワーメニュー（引き出し）」「ライブ検索」、住所を入力するときに使う「階層メニュー」などは、どれも[Turbo Frames](https://turbo.hotwired.dev/handbook/frames)で実装できます。インタラクティブと言われるUI要素も、大部分はシンプルな部分的入れ替えで実現できるためです。
+「モーダル」「ポップアップ」「ドロップダウンメニュー」「ドロワーメニュー（引き出し）」「ライブ検索」、住所を入力するときに使う「階層メニュー」などは、どれも[Turbo Frames](https://turbo.hotwired.dev/handbook/frames)で実装できます。インタラクティブと言われるUI要素も、大部分はシンプルな部分的置換で実現できるためです。
 
 Turbo Framesは部分置換だけではなく、これらのUI要素を作る時の周辺機能も提供してくれます。`a`タグや`form`タグとの[連携](https://turbo.hotwired.dev/handbook/frames)、[Lazy
 loading (遅延ロード)](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)、[prefetch](https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover)、[URL同期](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[ローダー表示用のCSS](https://turbo.hotwired.dev/reference/frames#html-attributes)など、それに伴う便利機能もパッケージとして提供しています。
@@ -150,7 +150,7 @@ Frame内に限定された **部分画面** 遷移をするように変化しま
 
 今回はTurbo Frameの中にタブがくるように配置しましたので、<code>Users</code>, <code>Products</code>のタブはTurbo Frame内の遷移をするように切り替わっています。Turbo Frame内のみが変化するので、Searchのテキストフィールドもリセットされないわけです。
 
-タブをクリックすると、通常の`a`タグと同じようにHTTPリクエストは飛びます。そしてHTMLがサーバから返ってきます。ここからがTurbo Framesの動きです。通常なら画面全体を入れ替えるのですが、Turbo Framesの場合は**新しいページ**の中にある`<turbo-frame></turbo-frame>`を探し出し、**元のページ**の中にある`<turbo-frame></turbo-frame>`の中身と差し替えるのです。この時、`id`属性をみて`<turbo-frame>`のペアを認識するので、`id`の値を揃えておく必要があります。
+タブをクリックすると、通常の`a`タグと同じようにHTTPリクエストは飛びます。そしてHTMLがサーバから返ってきます。ここからがTurbo Framesの動きです。通常なら画面全体を置換するのですが、Turbo Framesの場合は**新しいページ**の中にある`<turbo-frame></turbo-frame>`を探し出し、**元のページ**の中にある`<turbo-frame></turbo-frame>`の中身と差し替えるのです。この時、`id`属性をみて`<turbo-frame>`のペアを認識するので、`id`の値を揃えておく必要があります。
 
 今回、Turbo Framesは通常の`a`タグで起動しています。`a`タグなので、Turbo Driveの機能である[prefetch](/commentaries/page_transitions#page-transition-ux)も働きます。このためprefetchによるUXの大幅向上、ヌルサクな体感も、何もしなくても勝手についてきます。
 
