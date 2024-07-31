@@ -89,14 +89,14 @@ export default function PageTransitions() {
             </p>
             <ul className="list-disc ml-6 my-4 space-y-4">
               <StyledList>
-                少し下にスクロールした後にタブをクリックすると、タブの中身が差し代わるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を置換するから起こるのではなく、<StyledLink
+                少し下にスクロールした後にタブをクリックすると、タブの中身が置換されるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を置換するから起こるのではなく、<StyledLink
                 href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>がMPAの動きを真似るためにわざとやっているものです。条件と設定によってスクロールを抑制することも可能です。
               </StyledList>
               <StyledList>
                 <code>Search</code>のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を置換する時にこのフィールドも丸ごと置換されるためです。
               </StyledList>
               <StyledList>
-                なお、今回は<StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>で画面全体が差し代わることを説明していますが、実は<StyledLink
+                なお、今回は<StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>で画面全体が置換されるとを説明していますが、実は<StyledLink
                 href="https://turbo.hotwired.dev/handbook/page_refreshes">Morphing</StyledLink>を使うと、全画面を置換するのではなく、差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、<StyledLink
                 href="https://ja.react.dev/learn/preserving-and-resetting-state">Reactに近い更新</StyledLink>を可能にするもので、かなり強力なものです。
               </StyledList>
