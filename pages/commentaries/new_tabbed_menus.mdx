@@ -1,6 +1,5 @@
 import MDXRenderer from "../../components/MDXRenderer";
 import CommentaryLayout from "../../components/CommentaryLayout";
-import StyledLink from "../../components/StyledLink";
 import H2WithHash from "../../components/H2WithHash";
 import Image from "next/image"
 import amazonImage from "@/public/images/tabbed_amazon.png"
@@ -15,17 +14,62 @@ import turboframesImage from "@/public/images/tabbed_turboframes.png"
 
 <H2WithHash id="turbo-ranking">Turboの序列</H2WithHash>
 
-私の経験では、Turbo Drive, Turbo Frames, Turbo Streamsのうち、Turbo Driveはデフォルトで全てのページに適応されるので一番使うことが多いです。ついでTurbo Framesを多く使います。Turbo Framesは部分更新が必要な時に使います。最後のTurbo Streamsは人によって異なりますが、私の場合はほとんど使うことがありません。特にmorphingが導入されてからはTurbo Streamsが必要なケースが減ったように思います。
+私の経験では、Turbo Drive, Turbo Frames, Turbo Streamsのうち、Turbo Driveはデフォルトで全てのページに適応されるので一番使います。ついで部分置換が必要な時は、Turbo Framesを使います。Turbo Framesでは難しい時に初めてTurbo Streamsを使います。ただしmorphingが導入されてからはTurbo Driveだけでできるものが非常に増えましたので、Turbo Streamsを使う頻度はさらに下がりそうです。
 
-つまり私の場合は **Turbo Drive > Turbo Frames >> Turbo Streams** になります。Turbo Driveはすでに使い方を紹介しましたので（といってもほとんどインストールするだけでしたが）、あとはTurbo Framesを習得すればTurboのほとんどができるようになります。
+つまり、少なくとも私のやり方であれば、Turbo Framesを習得すればTurboのほぼ全てが習得できます。
+
+<div className="mt-8 flow-root">
+  <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <table className="min-w-full divide-y divide-gray-300">
+        <caption className="caption-top text-left font-bold">Turboの各技術</caption>
+        <thead>
+        <tr>
+          <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">技術</th>
+          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">用途</th>
+          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">注記</th>
+          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">使用頻度<br />(著者経験)</th>
+        </tr>
+        </thead>
+        <tbody className="bg-white">
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Turbo Drive</td>
+          <td className="px-3 py-4 text-sm text-gray-500">全画面置換</td>
+          <td></td>
+          <td className="px-3 py-4 text-sm text-gray-500">&gt; 90%</td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Turbo Frames</td>
+          <td className="px-3 py-4 text-sm text-gray-500">画面の部分的置換</td>
+          <td className="px-3 py-4 text-sm text-gray-500">関連機能が豊富</td>
+          <td className="px-3 py-4 text-sm text-gray-500">~ 15%</td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Turbo Streams</td>
+          <td className="px-3 py-4 text-sm text-gray-500">画面の部分的置換</td>
+          <td className="px-3 py-4 text-sm text-gray-500">複数箇所を同時置換可能</td>
+          <td className="px-3 py-4 text-sm text-gray-500">&lt; 5%</td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Morphing</td>
+          <td className="px-3 py-4 text-sm text-gray-500">差分的更新</td>
+          <td className="px-3 py-4 text-sm text-gray-500">DriveやFramesと組み合わせて<br />変化したところだけ更新</td>
+          <td className="px-3 py-4 text-sm text-gray-500">~ 10%</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div className="mt-2 text-gray-400 text-sm">※）頻度はあくまでも著者の経験で条件によって変わります。モーダル等を頻繁に使う場合や、少数の画面のUXに徹底的に注力する場合は異なります。またFramesよりもStreamsを好む人もにいます。</div>
 
 <H2WithHash id="partial-rewrites-with-turbo-frames">Turbo Framesは部分的入れ替えのパッケージ</H2WithHash>
 
-Turbo Driveがページ遷移、つまり画面全体の入れ替えをするのに対して、[Turbo Frames](https://turbo.hotwired.dev/handbook/drive)はサーバから送られてきたデータを使って画面の部分更新をする時に使います。
+Turbo Driveがページ遷移、つまり画面全体の入れ替えをするのに対して、[Turbo Frames](https://turbo.hotwired.dev/handbook/drive)はサーバから送られてきたデータを使って画面の部分置換をする時に使います。
 
 「モーダル」「ポップアップ」「ドロップダウンメニュー」「ドロワーメニュー（引き出し）」「ライブ検索」、住所を入力するときに使う「階層メニュー」などは、どれも[Turbo Frames](https://turbo.hotwired.dev/handbook/frames)で実装できます。インタラクティブと言われるUI要素も、大部分はシンプルな部分的入れ替えで実現できるためです。
 
-Turbo Framesは部分更新だけではなく、これらのUI要素を作る時の周辺機能も提供してくれます。`a`タグや`form`タグとの[連携](https://turbo.hotwired.dev/handbook/frames)、[Lazy
+Turbo Framesは部分置換だけではなく、これらのUI要素を作る時の周辺機能も提供してくれます。`a`タグや`form`タグとの[連携](https://turbo.hotwired.dev/handbook/frames)、[Lazy
 loading (遅延ロード)](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)、[prefetch](https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover)、[URL同期](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[ローダー表示用のCSS](https://turbo.hotwired.dev/reference/frames#html-attributes)など、それに伴う便利機能もパッケージとして提供しています。
 
 一方でReactなどの場合は[`useState`フック](https://ja.react.dev/reference/react/useState)や[条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)などのパターンを提供してくれますが、これを組み合わせてUI要素を作るのは開発者しだいです。その意味でReactはフルスクラッチでUI要素を作成するのに適している一方、HotwireはUIライブラリとまではいかないものの、パッケージしたものを提供していると言えます。
@@ -39,9 +83,9 @@ MPA流のタブメニューは[ここでお試しいただけます](/api/hotwir
 
 実は古典的なMPAでも、ほぼ十分なUIが実現できます。[実際のデモ](/api/hotwire/tabbed_segments_no_js)を体験してください。
 
-タブより上の箇所が全く同じ２つの画面を用意しているだけです。タブの上の方は全く同じなので、更新されていることに気づきません。一方でタブの下の部分は異なる内容が表示されているので、ここだけが更新されたとユーザは錯覚します。
+タブより上の箇所が全く同じ２つの画面を用意しているだけです。タブの上の方は全く同じなので、置換されていることに気づきません。一方でタブの下の部分は異なる内容が表示されているので、ここだけが置換されたとユーザは錯覚します。
 
-例えば[Amazon.co.jp](https://www.amazon.co.jp)のサイトでも、このようなMPA流のタブメニューが今でも現役です。ただ、残念ながらAmazonの場合はコンテンツシフトをしてしまっているので、ページ切り替えの時にタブの上やタブ内も動いてしまい、更新されていることに気づいてしまいます。コンテンツシフトさえしなければ、UXも十分に優れたものになります。
+例えば[Amazon.co.jp](https://www.amazon.co.jp)のサイトでも、このようなMPA流のタブメニューが今でも現役です。ただ、残念ながらAmazonの場合はコンテンツシフトをしてしまっているので、ページ切り替えの時にタブの上やタブ内も動いてしまい、置換されていることに気づいてしまいます。コンテンツシフトさえしなければ、UXも十分に優れたものになります。
 
 
 <div className="mt-4">
@@ -75,8 +119,8 @@ Driveを使った場合とのUIの違いです。一見するとTurbo Driveの�
 
 * 少し下にスクロールした後にタブをクリックしても、トップにスクロールしません。デフォルトではスクロール位置が維持されます。より細かく制御したい場合は、**autoscroll**属性で[調整できます](https://turbo.hotwired.dev/reference/frames#html-attributes)。
 * Searchのテキスト入力フィールドに文字を入力し、その後にタブを切り替えても、テキスト入力フィールドの文字はそのまま維持されます。フォーカルも維持されます。今回設定したTurbo
-    Framesでは、Searchのテキスト入力フィールドはTurbo
-    Framesの外にあります（下図）。タブが切り替わっても、SearchのDOM要素はそのままなのです。だから文字およびフォーカスが維持されています。
+Framesでは、Searchのテキスト入力フィールドはTurbo
+Framesの外にあります（下図）。タブが切り替わっても、SearchのDOM要素はそのままなのです。だから文字およびフォーカスが維持されています。
 
 このようにTurbo Framesの特徴は画面を枠で分割し、枠内を差し替えつつ、枠外をそのままに維持するところです。
 

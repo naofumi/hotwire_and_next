@@ -62,10 +62,10 @@ export default function PageTransitions() {
               href="http://localhost:3000/api/hotwire/tabbed_segments_no_js">ここでお試しいただけます。</StyledLink>
             </p>
             <p className="mt-4">
-              MPA流のタブメニューの実装方法を<StyledLink href="/api/hotwire/tabbed_segments_no_js">ここ</StyledLink>に示しました。タブより上の箇所が全く同じ２つの画面を用意しているだけです。タブの上の方は全く同じなので、更新されていることに気づきません。一方でタブの下の部分は異なる内容が表示されているので、ここだけが更新されたとユーザは錯覚します。
+              MPA流のタブメニューの実装方法を<StyledLink href="/api/hotwire/tabbed_segments_no_js">ここ</StyledLink>に示しました。タブより上の箇所が全く同じ２つの画面を用意しているだけです。タブの上の方は全く同じなので、置換されていることに気づきません。一方でタブの下の部分は異なる内容が表示されているので、ここだけが置換されたとユーザは錯覚します。
             </p>
             <p className="mt-4">
-              例えば<StyledLink href="https://www.amazon.co.jp">Amazon.co.jp</StyledLink>のサイトでも、このようなMPA流のタブメニューが実装されています。ただしAmazonの場合はコンテンツシフトをしてしまっているので、ページ切り替えの時にタブの上やタブ内も動いてしまい、更新されていることに気づいてしまいます。
+              例えば<StyledLink href="https://www.amazon.co.jp">Amazon.co.jp</StyledLink>のサイトでも、このようなMPA流のタブメニューが実装されています。ただしAmazonの場合はコンテンツシフトをしてしまっているので、ページ切り替えの時にタブの上やタブ内も動いてしまい、置換されていることに気づいてしまいます。
             </p>
             <p className="mt-4">
               それでもやはり、この方法はとても有効であり、非常に多くのウェブサイトで使われ続けています。コンテンツシフトさえしなければ、UXも優れたものです。
