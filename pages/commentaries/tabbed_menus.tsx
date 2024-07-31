@@ -82,22 +82,22 @@ export default function PageTransitions() {
             <p className="mt-4">
               <StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>を使う場合は、MPAのサイトに<StyledLink
               href="https://turbo.hotwired.dev/handbook/installing">TurboのJavaScriptファイルをダウンロードする</StyledLink>だけです。
-              この場合はTurbo Driveによってヌルサクになった分だけ、タブの切り替えが自然に見えてきます。しかし実際にやっているのはMPAの場合と同様、<strong>画面全体の差し替えです。</strong>
+              この場合はTurbo Driveによってヌルサクになった分だけ、タブの切り替えが自然に見えてきます。しかし実際にやっているのはMPAの場合と同様、<strong>画面全体の置換です。</strong>
             </p>
             <p className="mt-4">
-              一見するとタブだけが差し代わっているようには見えますが、下記の点を細かくみると、実際には画面全体の差し替えだとバレてしまいます。
+              一見するとタブだけが差し代わっているようには見えますが、下記の点を細かくみると、実際には画面全体の置換だとバレてしまいます。
             </p>
             <ul className="list-disc ml-6 my-4 space-y-4">
               <StyledList>
-                少し下にスクロールした後にタブをクリックすると、タブの中身が差し代わるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を差し替えるから起こるのではなく、<StyledLink
+                少し下にスクロールした後にタブをクリックすると、タブの中身が差し代わるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を置換するから起こるのではなく、<StyledLink
                 href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>がMPAの動きを真似るためにわざとやっているものです。条件と設定によってスクロールを抑制することも可能です。
               </StyledList>
               <StyledList>
-                <code>Search</code>のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を差し替える時にこのフィールドも丸ごと差し替えられるためです。
+                <code>Search</code>のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を置換する時にこのフィールドも丸ごと置換されるためです。
               </StyledList>
               <StyledList>
                 なお、今回は<StyledLink href="https://turbo.hotwired.dev/handbook/drive">Turbo Drive</StyledLink>で画面全体が差し代わることを説明していますが、実は<StyledLink
-                href="https://turbo.hotwired.dev/handbook/page_refreshes">Morphing</StyledLink>を使うと、全画面を書き換えつつ、差し替えるのではなく差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、<StyledLink
+                href="https://turbo.hotwired.dev/handbook/page_refreshes">Morphing</StyledLink>を使うと、全画面を置換するのではなく、差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、<StyledLink
                 href="https://ja.react.dev/learn/preserving-and-resetting-state">Reactに近い更新</StyledLink>を可能にするもので、かなり強力なものです。
               </StyledList>
             </ul>
@@ -130,7 +130,7 @@ export default function PageTransitions() {
             </ul>
 
             <p className="mt-4">
-              このようにTurbo Framesの特徴は画面を枠で分割し、枠内を差し替えつつ、枠外をそのままに維持するところです。
+              このようにTurbo Framesの特徴は画面を枠で分割し、枠内を置換しつつ、枠外をそのままに維持するところです。
             </p>
 
             <p className="mt-4">
@@ -164,7 +164,7 @@ export default function PageTransitions() {
             </p>
             <p className="mt-4">
               今回はTurbo Frameの中にタブがくるように配置しましたので、<code>Users</code>, <code>Products</code>のタブはTurbo
-              Frame内の遷移をするように切り替わっています。
+              Frame内たけを部分置換します。
             </p>
             <p className="mt-4">
               タブを押すと、通常の<code>a</code>タグと同じようにHTTPリクエストは飛びます。そして全画面分のHTMLが返ってくるのきます。しかしそれで画面全体を置換するのではなく、新しいページにある&lt;turbo-frame&gt;&lt;/turbo-frame&gt;を探し出し、その中身を置換するのです。この時、<code>id</code>属性をみて<code>turbo-frame</code>のペアを認識するので、<code>id</code>を揃えておく必要があります。

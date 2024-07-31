@@ -97,13 +97,13 @@ MPA流のタブメニューは[ここでお試しいただけます](/api/hotwir
 Turbo Driveによるタブメニューは[ここでお試しいただけます](http://localhost:3000/api/hotwire/tabbed_segments_turbodrive)。
 
 [Turbo Drive](https://turbo.hotwired.dev/handbook/drive)を使う場合は、MPAのサイトに[TurboのJavaScriptファイルをダウンロードする](https://turbo.hotwired.dev/handbook/installing)だけです。
-この場合はTurbo Driveによってヌルサクになった分だけ、タブの切り替えが自然に見えてきます。しかし実際にやっているのはMPAの場合と同様、 **画面全体の差し替えです**。
+この場合はTurbo Driveによってヌルサクになった分だけ、タブの切り替えが自然に見えてきます。しかし実際にやっているのはMPAの場合と同様、 **画面全体の置換です**。
 
-一見するとタブだけが差し代わっているようには見えますが、下記の点を細かくみると、実際には画面全体の差し替えだとバレてしまいます。
+一見するとタブだけが差し代わっているようには見えますが、下記の点を細かくみると、実際には画面全体の置換だとバレてしまいます。
 
-* 少し下にスクロールした後にタブをクリックすると、タブの中身が差し代わるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を差し替えるから起こるのではなく、[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)がMPAの動きを真似るためにわざとやっているものです。条件と設定によってスクロールを抑制することも可能です。
-* **Search** のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を差し替える時にこのフィールドも丸ごと差し替えられるためです。
-* なお、今回は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)で画面全体が差し代わることを説明していますが、実は[Morphing](https://turbo.hotwired.dev/handbook/page_refreshes)を使うと、全画面を書き換えつつ、差し替えるのではなく差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、[Reactに近い感じの更新](https://ja.react.dev/learn/preserving-and-resetting-state)を可能にするもので、かなり強力なものです。
+* 少し下にスクロールした後にタブをクリックすると、タブの中身が差し代わるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を置換するから起こるのではなく、[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)がMPAの動きを真似るためにわざとやっているものです。条件と設定によってスクロールを抑制することも可能です。
+* **Search** のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を置換する時にこのフィールドも丸ごと置換されるためです。
+* なお、今回は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)で画面全体が差し代わることを説明していますが、実は[Morphing](https://turbo.hotwired.dev/handbook/page_refreshes)を使うと、置換するのではなく差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、[Reactに近い感じの更新](https://ja.react.dev/learn/preserving-and-resetting-state)を可能にするもので、かなり強力なものです。
 
 <div className="mt-6">
   <Image src={turbodriveImage} alt="turbodrive image"></Image>
@@ -122,7 +122,7 @@ Driveを使った場合とのUIの違いです。一見するとTurbo Driveの�
 Framesでは、Searchのテキスト入力フィールドはTurbo
 Framesの外にあります（下図）。タブが切り替わっても、SearchのDOM要素はそのままなのです。だから文字およびフォーカスが維持されています。
 
-このようにTurbo Framesの特徴は画面を枠で分割し、枠内を差し替えつつ、枠外をそのままに維持するところです。
+このようにTurbo Framesの特徴は画面を枠で分割し、枠内を置換しつつ、枠外をそのままに維持するところです。
 
 Turbo Framesによるタブメニューの作り方はごく簡単です。まずは[Turbo Driveのバージョン](/commentaries/tabbed_menus#tabs-turbodrive)から出発します。そして、どこをTurbo Framesで囲むかを決めます。今回はSearchのテキスト入力フィールドの下のところからテーブルの最後までを囲むことにします。
 
@@ -148,9 +148,9 @@ id="[適当な名前]"></turbo-frame>`のタグで囲みます。今回は２つ
 Frame中に含まれる`a`タグや`form`タグは通常と違う性質を持つようになります。通常であれば[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)のような **全画面** 遷移をするのですが、 **全画面** ではなくて、同じTurbo
 Frame内に限定された **部分画面** 遷移をするように変化します。あたかもブラウザウィンドウの中に、もう１つ小さなブラウザウィンドウができたような感じです。
 
-今回はTurbo Frameの中にタブがくるように配置しましたので、<code>Users</code>, <code>Products</code>のタブはTurbo Frame内の遷移をするように切り替わっています。Turbo Frame内のみが変化するので、Searchのテキストフィールドもリセットされないわけです。
+今回はTurbo Frameの中にタブがくるように配置しましたので、<code>Users</code>, <code>Products</code>のタブはTurbo Frame内を置換しながら切り替わっています。Turbo Frame内のみが変化するので、Searchのテキストフィールドもリセットされないわけです。
 
-タブをクリックすると、通常の`a`タグと同じようにHTTPリクエストは飛びます。そしてHTMLがサーバから返ってきます。ここからがTurbo Framesの動きです。通常なら画面全体を置換するのですが、Turbo Framesの場合は**新しいページ**の中にある`<turbo-frame></turbo-frame>`を探し出し、**元のページ**の中にある`<turbo-frame></turbo-frame>`の中身と差し替えるのです。この時、`id`属性をみて`<turbo-frame>`のペアを認識するので、`id`の値を揃えておく必要があります。
+タブをクリックすると、通常の`a`タグと同じようにHTTPリクエストは飛びます。そしてHTMLがサーバから返ってきます。ここからがTurbo Framesの動きです。通常なら画面全体を置換するのですが、Turbo Framesの場合は**新しいページ**の中にある`<turbo-frame></turbo-frame>`を探し出し、**元のページ**の中にある`<turbo-frame></turbo-frame>`の中身と置換するのです。この時、`id`属性をみて`<turbo-frame>`のペアを認識するので、`id`の値を揃えておく必要があります。
 
 今回、Turbo Framesは通常の`a`タグで起動しています。`a`タグなので、Turbo Driveの機能である[prefetch](/commentaries/page_transitions#page-transition-ux)も働きます。このためprefetchによるUXの大幅向上、ヌルサクな体感も、何もしなくても勝手についてきます。
 
