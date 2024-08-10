@@ -14,23 +14,23 @@ export default function IndexPage() {
       </Head>
       <div className="bg-white">
         <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               Hotwire for Frontend Developers
             </h1>
             <h2
               className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">フロントエンドエンジニアのためのHotwire入門</h2>
-            <p className="text-left mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
+            <p className="text-left mx-auto mt-20 max-w-2xl text-lg leading-8 text-gray-600">
               Hotwireは近年、大きく注目を集めているフロントエンド技術です。</p>
-            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
+            <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">
               本サイトでは、<strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを見ながらHotwireとReact/Next.jsを比較し、Hotwireの素晴らしさと考え方を理解していただくことを目的としています。
             </p>
-            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">
+            <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">
               「HotwireはRails専用じゃないの？」と思っている方も多いと思いますが、実はHotwireはバックエンド非依存です。Rails, Laravel, Django, Nodeでも関係なく動きます。
               このサイトも<strong>HotwireをNext.js上で動かしていて、すべてJavaScript
               (TypeScript)で書かれています。</strong>
               JavaScriptさえわかれば簡単にコードを追うことができます。</p>
-            <p className="text-left mx-auto mt-2 max-w-xl text-lg leading-8 text-gray-600">本サイトのコードは<StyledLink
+            <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">本サイトのコードは<StyledLink
               href="https://github.com/naofumi/hotwire_and_next">GitHub</StyledLink>に公開しています。また<StyledLink
               href="https://vercel.com">Vercel</StyledLink>でデプロイしています。実際に触って、さらにコードを見て、理解を深けめていただきたいと思います。
             </p>
@@ -56,7 +56,7 @@ export default function IndexPage() {
               <H2WithHash id="page-transition">
                 ページ遷移: Turbo Drive
               </H2WithHash>
-              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 HotwireのTurbo Driveは、Next.jsの<code>Link</code>タグとほぼ同じ位置付けの機能です。
                 主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。<br/>
                 なお、Next.jsはdev環境ではprefetchが動かないので、ローカル環境でUXを確認する場合はbuild, startしてからお試しください。
@@ -94,7 +94,7 @@ export default function IndexPage() {
               <H2WithHash id="tabbed-menu">
                 タブメニュー: Turbo Frames
               </H2WithHash>
-              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 インタラクティブなウェブUIの大半は、突き詰めると画面の部分的な書き換えです。
                 新しい内容がすでにブラウザに読み込まれているなら、これは難しくありません。<br/>
                 厄介なのは新しい内容をサーバから読み込む時ですが、Turbo Framesなら簡単に実現できます。
@@ -106,7 +106,7 @@ export default function IndexPage() {
               </div>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/tabbed_segments"
-                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   className="btn-primary"
                    data-turbo="false">タブメニューUI</a>
               </div>
             </div>
@@ -117,7 +117,7 @@ export default function IndexPage() {
               <H2WithHash id="tabbed-menu">
                 詳細パネル: Turbo Frames
               </H2WithHash>
-              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 リスト項目を選択して、その詳細をパネルに表示するUIです。メールアプリなどでよく見かけるタイプのUIです。タブメニューとよく似ていますが、サーバから読み込んだ内容が、リンクがあったところとは別の場所に埋め込まれる点が異なります。
               </p>
               <div className={`${isDev() ? 'bg-green-400' : "hidden"} text-center mt-4 text-xl tracking-wider`}>
@@ -127,7 +127,7 @@ export default function IndexPage() {
               </div>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/details_panel"
-                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   className="btn-primary"
                    data-turbo="false">詳細パネルUI</a>
               </div>
             </div>
@@ -138,13 +138,13 @@ export default function IndexPage() {
               <H2WithHash id="popup">
                 ポップアップ: Turbo Frames
               </H2WithHash>
-              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 Turbo
                 Framesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/popup"
-                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   className="btn-primary"
                    data-turbo="false">ポップアップUI</a>
               </div>
             </div>
@@ -155,24 +155,24 @@ export default function IndexPage() {
               <H2WithHash id="hierarchical-menus">
                 ライブ検索: Turbo Frames
               </H2WithHash>
-              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 リアルタイムで検索をするUIです。Turbo Framesを使って作りますが、aタグやformタグを契機に作動するのではなく、<code>onInput</code>イベントで動くので、JavaScriptを使う必要があります。Turbo
                 Framesを使う理由は、検索条件フィールドのステートを保ち、リセットされるのを防ぐためです。
               </p>
-              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 Turbo
                 Framesを使っていますので、URLとの連携もできています。今回は<code>data-turbo-action=&quot;replace&quot;</code>属性とを使って、検索結果がブックマークできるようにしています。
               </p>
-              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 またReact側ではただの<code>fetch</code>を使っていることもあり、競合状態 (race
                 condition)対策はされていません。一方でHotwire側は、Turboが提供する<code>Turbo.visit()</code>を使うだけで競合状態対策がされています。ネットワークタブを見ながらご確認ください。
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/api/hotwire/live_search"
-                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   className="btn-primary"
                    data-turbo="false">Hotwire ライブ検索</a>
                 <a href="/live_search"
-                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   className="btn-primary"
                    data-turbo="false">React ライブ検索</a>
               </div>
             </div>
@@ -182,16 +182,16 @@ export default function IndexPage() {
               <H2WithHash id="hierarchical-menus">
                 階層プルダウンメニュー: Turbo Frames
               </H2WithHash>
-              <p className="text-left mx-auto mt-6 max-w-xl text-base leading-8 text-gray-600">
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 動的に、階層的に絞り込まれるプルダウンメニューを使って、住所を入力していくUIをTurbo Framesで作ります。
                 小さい箇所の置換が複数ある場合はTurbo Streamsを使いますが、1つまとめられる場合はTurbo Framesが有効です。
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/api/hotwire/address_selector"
-                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   className="btn-primary"
                    data-turbo="false">Hotwire 住所入力UI</a>
                 <a href="/address_selector"
-                   className="rounded-md bg-orange-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                   className="btn-primary"
                    data-turbo="false">Next 住所入力UI</a>
               </div>
             </div>
