@@ -121,7 +121,7 @@ export default function IndexPage() {
                 リスト項目を選択して、その詳細をパネルに表示するUIです。メールアプリなどでよく見かけるタイプのUIです。タブメニューとよく似ていますが、サーバから読み込んだ内容が、リンクがあったところとは別の場所に埋め込まれる点が異なります。
               </p>
               <div className={`${isDev() ? 'bg-green-400' : "hidden"} text-center mt-4 text-xl tracking-wider`}>
-                <StyledLink href="/commentaries/tabbed_menus">
+                <StyledLink href="/commentaries/details_panel">
                   解説はこちら...
                 </StyledLink>
               </div>

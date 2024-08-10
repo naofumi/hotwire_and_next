@@ -1,0 +1,64 @@
+import CommentaryLayout from "../../components/CommentaryLayout";
+import MDXRenderer from "../../components/MDXRenderer";
+import Image from "next/image"
+import detailsTurboframeImage from "@/public/images/details_panel_turboframes.png"
+import H2WithHash from "../../components/H2WithHash";
+
+[タブメニュー](/commentaries/tabbed_menus)のページでTurbo Framesを使ってタブメニューを実装しました。ここではTurbo Framesの別の使い方を紹介します。
+
+<H2WithHash id="turbo-frame-targeting-outside">別のTurbo Frameを更新するパターン</H2WithHash>
+
+Turboは`fetch`でサーバにリクエストを飛ばし、返ってきたレスポンスを使ってウェブページの部分置換をするライブラリです。Turbo Drive、Turbo Frames、Turbo Streamsではどこを置換するか、置換場所をどのように指定するかが異なります。
+
+<div className="mt-8 flow-root">
+  <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <table className="min-w-full divide-y divide-gray-300">
+        <caption className="caption-top text-left font-bold">Turboはどこを置換するか？</caption>
+        <thead>
+        <tr>
+          <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">技術</th>
+          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">置換場所</th>
+          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">注記</th>
+        </tr>
+        </thead>
+        <tbody className="bg-white">
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Turbo Drive</td>
+          <td className="px-3 py-4 text-sm text-gray-500">`body`タグ全体</td>
+          <td className="px-3 py-4 text-sm text-gray-500"></td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500" rowSpan={2}>Turbo Frames</td>
+          <td className="px-3 py-4 text-sm text-gray-500">トリガー<sup>※</sup> を囲む`turbo-frame`タグ</td>
+          <td className="px-3 py-4 text-sm text-gray-500"></td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="px-3 py-4 text-sm text-gray-500">任意の`turbo-frame`タグ</td>
+          <td className="px-3 py-4 text-sm text-gray-500">`a`タグや`form`タグの`data-turbo-frame`属性で指定する</td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Turbo Streams</td>
+          <td className="px-3 py-4 text-sm text-gray-500">`id`で指定した任意の要素</td>
+          <td className="px-3 py-4 text-sm text-gray-500">レスポンス中の`turbo-stream`タグの`id`属性で対象要素を指定する</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div className="mt-2 text-gray-400 text-sm">※）トリガーは一般に`a`タグもしくは`form`タグになります。またGETでかつTurbo Streams以外であればJavaScriptから[Turbo.visit()](https://turbo.hotwired.dev/reference/drive#turbo.visit)を呼び、Turboを稼働することも可能です。JavaScriptでGET以外、もしくはTurbo Streamのリクエストを飛ばしたい場合は[request.jsライブラリ](https://github.com/rails/request.js)を使うのが便利です。</div>
+
+
+<div className="mt-4">
+  <Image src={detailsTurboframeImage}/>
+</div>
+
+export default function ({children}) {
+  return <CommentaryLayout
+    title="Details Panel"
+    subtitle="詳細パネル"
+    section="Commentary">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}
