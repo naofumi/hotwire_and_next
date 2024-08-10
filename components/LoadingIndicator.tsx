@@ -2,17 +2,21 @@ import {useRouter} from "next/router";
 import {ReactNode, useEffect, useState} from "react";
 import netscape from "@/public/images/netscape.gif"
 import Image from "next/image"
+import {sleep} from "@/helpers/sleep";
 
 export default function LoadingIndicator({children}: { children: ReactNode }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const handleRouteChangeStart = (url: any, {shallow}: any) => {
-      setIsLoading(true);
+    let abort = false
+    const handleRouteChangeStart = async (url: any, {shallow}: any) => {
+      await sleep(500)
+      !abort && setIsLoading(true);
     }
     const handleRouteChangeComplete = (url: any, {shallow}: any) => {
       setIsLoading(false);
+      abort = true
     }
 
     router.events.on('routeChangeStart', handleRouteChangeStart)
