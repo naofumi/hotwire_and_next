@@ -16,7 +16,7 @@ export default function Layout({children, hideTechLabel, hideTopButton}: {
       <Head>
         <title>Hotwire for Frontend devs</title>
       </Head>
-      <div className="bg-white flex justify-between p-1 items-start">
+      <div className="bg-white flex justify-between p-1 items-start mx-4">
         {hideTopButton
           ? <span></span>
           : <Link href="/" className="text-xl p-1 text-orange-600">Top</Link>}
