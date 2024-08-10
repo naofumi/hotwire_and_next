@@ -3,22 +3,38 @@
 @tailwind utilities;
 
 @layer components {
-    .turbo-with-loader[busy] .turbo-hide-on-loading {
-        visibility: hidden !important;
-    }
-
     .turbo-with-loader {
         position: relative;
     }
 
+    .turbo-with-loader .turbo-hide-on-loading {
+        transition-delay: 500ms;
+    }
+
+    .turbo-with-loader .turbo-hide-on-loading::before {
+        visibility: hidden !important;
+        opacity: 0 !important;
+        transition-delay: 500ms;
+        transition-property: opacity;
+    }
+
+    .turbo-with-loader[busy] .turbo-hide-on-loading {
+        visibility: hidden !important;
+    }
+
     .turbo-with-loader[busy] .turbo-hide-on-loading::before {
         content: '';
+        /* Visible will show at the beginning of the transition */
         visibility: visible !important;
+        /* This will set opacity at the end of the transition */
+        opacity: 1 !important;
+        position: absolute !important;
         display: block;
         background-image: url('../../images/rocket.gif');
         width: 64px;
         height: 64px;
-        margin: 48px auto;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
     .modal-dialog .modal-backdrop {
