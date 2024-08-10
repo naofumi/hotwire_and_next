@@ -21,7 +21,8 @@ export default async function ProductsAppIndex() {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <div>{time}</div>
-            <h1 className="text-base font-semibold leading-6 text-gray-900">Products</h1>
+            <h1 className="demo-h1">Next.js App Router Server Component画面遷移</h1>
+            <h2 className="demo-h2">Products</h2>
           </div>
         </div>
         <div className="mt-8 flow-root">

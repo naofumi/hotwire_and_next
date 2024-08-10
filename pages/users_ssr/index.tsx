@@ -17,12 +17,8 @@ export default function UsersSsrIndex({users}: { users: User[] }) {
         <div className="my-10 px-4 sm:px-6 lg:px-8">
           <div className="sm:flex sm:items-center">
             <div className="sm:flex-auto">
-              <h1 className="text-base font-semibold leading-6 text-gray-900">Users</h1>
-              <p className="mt-2 text-sm text-gray-700">A list of all the users in your account
-                including
-                their
-                name, title,
-                email and role.</p>
+              <h1 className="demo-h1">Next.js Pages Router SSR画面遷移</h1>
+              <h2 className="demo-h2">Users</h2>
             </div>
           </div>
           <div className="mt-8 flow-root">

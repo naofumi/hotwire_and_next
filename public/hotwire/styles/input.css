@@ -33,6 +33,7 @@
         background-image: url('../../images/rocket.gif');
         width: 64px;
         height: 64px;
+        top: 40px;
         left: 50%;
         transform: translateX(-50%);
     }
@@ -59,5 +60,14 @@
     }
     .btn-primary-muted {
         @apply rounded-md bg-orange-400 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-orange-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-400
+    }
+    .btn-outline-primary {
+        @apply rounded-md border border-orange-600 bg-white px-3.5 py-2.5 text-sm font-semibold text-orange-600 hover:bg-orange-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600
+    }
+    .demo-h1 {
+        @apply text-3xl text-gray-900 mb-4
+    }
+    .demo-h2 {
+        @apply text-base font-semibold leading-6 text-gray-900
     }
 }

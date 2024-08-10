@@ -80,10 +80,10 @@ export default function IndexPage() {
                   Next.js useEffect
                 </PrimaryButtonWithLink>
                 <PrimaryButtonWithLink href="/users_ssr">
-                  Next.js page router SSR
+                  Next.js Pages Router SSR
                 </PrimaryButtonWithLink>
                 <PrimaryButtonWithLink href="/users_app">
-                  Next.js app router Server component
+                  Next.js App Router Server component
                 </PrimaryButtonWithLink>
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function IndexPage() {
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 動的に、階層的に絞り込まれるプルダウンメニューを使って、住所を入力していくUIをTurbo Framesで作ります。
-                小さい箇所の置換が複数ある場合はTurbo Streamsを使いますが、1つまとめられる場合はTurbo Framesが有効です。
+                小さい箇所の置換が複数ある場合はTurbo Streamsを使うことが多いのですが、1つまとめられる場合はTurbo Framesの方が良いケースもあります。
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/api/hotwire/address_selector"

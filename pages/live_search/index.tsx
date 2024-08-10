@@ -37,7 +37,8 @@ export default function LiveSearchIndex() {
           <div className="my-10 px-4 sm:px-6 lg:px-8">
             <div className="sm:flex sm:items-center">
               <div className="sm:flex-auto">
-                <h1 className="text-base font-semibold leading-6 text-gray-900">Live Search</h1>
+                <h1 className="demo-h1">ライブ検索: Next.js useEffect</h1>
+                <h2 className="demo-h2">Users</h2>
               </div>
             </div>
             <div className="mt-4 flex justify-center">

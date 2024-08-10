@@ -9,9 +9,10 @@ export default async function handler(
   res: NextApiResponse<string>,
 ) {
   const users: User[] = await allUsers()
+  const native = (req.query["native"] || "") as string
 
   const resultText = render("users.ejs",
-    {users}
+    {users, native}
   )
 
   res.appendHeader("Content-Type", "text/html")

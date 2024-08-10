@@ -34,9 +34,10 @@ export default function AddressSelectorPage() {
     <div className="bg-white">
       <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
         <div className="mx-auto max-w-2xl">
+          <h1 className="demo-h1">住所入力UI: Next.js useEffect</h1>
           <form>
             <div className="space-y-12">
-              <div className="border-b border-gray-900/10 pb-12">
+              <div className="pb-12">
                 <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
                 <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive
                   mail.</p>
@@ -70,8 +71,9 @@ export default function AddressSelectorPage() {
                   </div>
                 </div>
 
+                <h2 className="mt-10 demo-h2 text-orange-600">ここのメニューがインタラクティブ</h2>
                 <div id="address-selector"
-                     className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                     className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div className="sm:col-span-2 sm:col-start-1">
                     <label htmlFor="code"
                            className="block text-sm font-medium leading-6 text-gray-900">Prefecture</label>
@@ -134,22 +136,15 @@ export default function AddressSelectorPage() {
                   </div>
                 </div>
               </div>
-
-              <div className="mt-6 flex items-center justify-end gap-x-6">
-                <button type="button" className="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-                <button type="submit"
-                        className="rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-                  Save
-                </button>
-              </div>
             </div>
           </form>
-          <a href="/api/hotwire/address_selector" className="rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
-            Hotwire 住所入力UI
+          <a href="/api/hotwire/address_selector"
+             className="rounded-md bg-orange-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600">
+            Hotwire/Turbo Frames 住所入力UI
           </a>
         </div>
       </div>
     </div>
-  </Layout>
-)
+    </Layout>
+  )
 }

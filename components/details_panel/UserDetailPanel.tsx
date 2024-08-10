@@ -19,7 +19,7 @@ export default function UserDetailPanel({id}: {id: number}) {
     {
       !userDetail
         ? <div>
-          <Image src={rocketImage} alt="loader" className="m-auto w-16 h-16"/>
+          <Image src={rocketImage} alt="loader" className="m-auto mt-10 w-16 h-16"/>
         </div>
         : <div>
             <div className="mb-2">{new Date().toLocaleTimeString()}</div>

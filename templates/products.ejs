@@ -2,7 +2,12 @@
 <div class="my-10 px-4 sm:px-6 lg:px-8">
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-      <h1 class="text-base font-semibold leading-6 text-gray-900">Products</h1>
+      <% if (native) { %>
+        <h1 class="demo-h1">ブラウザネイティブ(MPA)画面遷移</h1>
+      <% } else { %>
+        <h1 class="demo-h1">Turbo Drive画面遷移</h1>
+      <% } %>
+      <h2 class="demo-h2">Products</h2>
     </div>
   </div>
   <div class="mt-8 flow-root">
@@ -44,7 +49,7 @@
           <a href="/api/hotwire/users"
              class="btn-primary"
              data-turbo="true">Usersへ推移 (Turbo On)</a>
-          <a href="/api/hotwire/users"
+          <a href="/api/hotwire/users?native=true"
              class="btn-primary-muted"
              data-turbo="false">Usersへ推移 (Turbo Off)</a>
         </div>

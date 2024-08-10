@@ -32,13 +32,14 @@ export default function UsersIndex() {
           <Image src={rocketImage} alt="loader" className="w-16 h-16"/>
         </div>
         : <>
+          <div className="mt-10 px-4 sm:flex sm:items-center">
+            <div className="sm:flex-auto">
+              <h1 className="demo-h1">詳細パネル: useEffect</h1>
+              <h2 className="demo-h2">Users</h2>
+            </div>
+          </div>
           <div className="grid grid-cols-2 gap-2">
-            <div className="my-10 px-4 sm:px-6 lg:px-8">
-              <div className="sm:flex sm:items-center">
-                <div className="sm:flex-auto">
-                  <h1 className="text-base font-semibold leading-6 text-gray-900">Users</h1>
-                </div>
-              </div>
+            <div className="px-4 sm:px-6 lg:px-8">
               <div className="mt-8 flow-root">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                   <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -74,14 +75,14 @@ export default function UsersIndex() {
                 </div>
               </div>
             </div>
-            <div className="mt-36 border p-4 rounded min-h-44">
-              <UserDetailPanel id={selectedUser.id} />
+            <div className="mt-8 border p-4 rounded min-h-44">
+              <UserDetailPanel id={selectedUser.id}/>
             </div>
           </div>
           <div className="my-10 flex items-center justify-center gap-x-6">
             <Link href="/api/hotwire/details_panel"
                   className="btn-primary">
-              Hotwire版へ</Link>
+              Hotwire/Turbo Frames版へ</Link>
           </div>
         </>
       }
