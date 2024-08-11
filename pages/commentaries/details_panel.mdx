@@ -4,11 +4,13 @@ import Image from "next/image"
 import detailsTurboframeImage from "@/public/images/details_panel_turboframes.png"
 import H2WithHash from "../../components/H2WithHash";
 
-[タブメニュー](/commentaries/tabbed_menus)のページでTurbo Framesを使ってタブメニューを実装しました。ここではTurbo Framesの別の使い方を紹介します。
+[タブメニュー](/commentaries/tabbed_menus)のページでTurbo Framesを使ってタブメニューを実装しました。ここではTurbo Framesの**別の使い方**を紹介します。違いは**ページのどこを**部分置換するかです。
 
 <H2WithHash id="turbo-frame-targeting-outside">別のTurbo Frameを更新するパターン</H2WithHash>
 
-Turboは`fetch`でサーバにリクエストを飛ばし、返ってきたレスポンスを使ってウェブページの部分置換をするライブラリです。Turbo Drive、Turbo Frames、Turbo Streamsではどこを置換するか、置換場所をどのように指定するかが異なります。
+Turboは`fetch`でサーバにリクエストを飛ばし、レスポンスを使ってページの部分置換をするライブラリです。Turbo Drive、Turbo Frames、Turbo Streamsの3種類がありますが、置換場所をどのように指定するかが異なります。
+
+[タブメニュー](/commentaries/tabbed_menus)では、**"Turbo Frames" > "トリガーを囲む`turbo-frame`タグ"を置換する** 仕組みを使いました。今回の詳細パネルでは、**"Turbo Frames" > "任意の`turbo-frame`タグ"を置換する** 仕組みを使用します。
 
 <div className="mt-8 flow-root">
   <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -47,12 +49,57 @@ Turboは`fetch`でサーバにリクエストを飛ばし、返ってきたレ�
     </div>
   </div>
 </div>
-<div className="mt-2 text-gray-400 text-sm">※）トリガーは一般に`a`タグもしくは`form`タグになります。またGETでかつTurbo Streams以外であればJavaScriptから[Turbo.visit()](https://turbo.hotwired.dev/reference/drive#turbo.visit)を呼び、Turboを稼働することも可能です。JavaScriptでGET以外、もしくはTurbo Streamのリクエストを飛ばしたい場合は[request.jsライブラリ](https://github.com/rails/request.js)を使うのが便利です。</div>
+<div className="mt-4 text-gray-400 text-sm">※）トリガーは一般に`a`タグもしくは`form`タグになります。またGETでかつTurbo Streams以外であればJavaScriptから[Turbo.visit()](https://turbo.hotwired.dev/reference/drive#turbo.visit)を呼び、Turboを稼働することも可能です。JavaScriptでGET以外、もしくはTurbo Streamのリクエストを飛ばしたい場合は[request.jsライブラリ](https://github.com/rails/request.js)を使うのが便利です。</div>
 
+<H2WithHash id="details-panel-targetting">右側の詳細パネルの部分置換をする</H2WithHash>
 
-<div className="mt-4">
+下図のように、[タブメニュー](/commentaries/tabbed_menus)の場合は、`turbo-frame`がクリックする`a`タグ(タブ)を囲んでいました。`a`タグをクリックした時、それを包む最も近い`turbo-frame`を探し出し、その`turbo-frame`を部分置換すると判断したのです。
+
+今回は`a`タグに`data-turbo-frame`属性を持たせ、どの`turbo-frame`を部分置換するかを明示的に指定します。コードは下記のようになります。
+
+特に`user-detail-frame`を使って、`a`タグと詳細パネルを繋げていることに注目してください。
+
+こうすることで、`a`タグのリンク先から返されるHTMLから`user-detail-frame`の箇所が切り取られ、詳細パネルの`turbo-frame`の内部を置換します。
+
+**templates/details_panel/index.ejs** の`a`タグ周り
+```html
+<a href="<%= `/api/hotwire/details_panel/user?id=${user.id}` %>"
+   data-turbo-frame="user-detail-frame"
+   class="block w-full h-full py-4 pl-4 pr-4 sm:pl-0"
+   onclick="highlight({active: '#user-<%= user.id %>', inactive: '.user-row'})"
+>
+  <%= user.name %>
+</a>
+```
+
+**templates/details_panel/index.ejs** の詳細パネル周り
+```html
+<div class="mt-8 border p-4 rounded min-h-44">
+  <turbo-frame id="user-detail-frame"
+               class="turbo-with-loader">
+    <div class="turbo-hide-on-loading"></div>
+  </turbo-frame>
+</div>
+```
+
+<div className="mt-12">
   <Image src={detailsTurboframeImage}/>
 </div>
+
+<H2WithHash id="comparison-with-react">Reactコードとの比較</H2WithHash>
+
+詳細パネルをReact/Next.jsで実装したコードは`pages/details_panel/index.tsx`をご覧ください。
+
+1. ユーザの行をクリックした結果、`selectedUser`ステートが更新されます
+2. このステートが`UserDetailPanel`コンポーネントにpropsとして渡されます
+3. `UserDetailPanel`コンポーネントでは受け取ったpropsを使い、`useEffect`の中で詳細パネルのデータをサーバから`fetch`して、ユーザ詳細を描画します。
+
+Hotwire版もReact版もコードは比較的シンプルで、難しいところはありません。どちらかというとHotwireの方が簡単だと思いますが、Reactを使い慣れている人にとってはReact版も十分に簡単でしょう。
+
+今回、`table`の中で選択した行をハイライトしています。React版の場合は同じ`selectedUser`ステートを使いまわせますが、Turboだけだとこれを保持しませんので、改めて`onclick`でJavaScriptを稼働させてCSSクラスを更新する必要があります。なお通常はHotwireと相性の良い[Stimulus](https://stimulus.hotwired.dev/)を使うと思いますが、今回は簡便性を優先してインラインでJavaScriptを書きました。Stimulusは後で紹介していきます。
+
+Turboだけだったら追加のJavaScriptを一切書かなくても良かったのが、UXを改善しようと思うとやはり書く必要があるわけです。Turboだと変に甘えてしまって、このちょっとした改善を怠ることがありがちです。「Turboで楽をさせてもらった分はUXを頑張ろう！」ぐらいの気持ちでいた方が良いと思います。Turboを使ってもUXを良くするJavaScriptは書くつもりでいるべきだと思います。
+
 
 export default function ({children}) {
   return <CommentaryLayout
