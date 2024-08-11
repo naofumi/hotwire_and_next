@@ -26,11 +26,13 @@ export default function IndexPage() {
               本サイトでは、<strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを見ながらHotwireとReact/Next.jsを比較し、Hotwireの素晴らしさと考え方を理解していただくことを目的としています。
             </p>
             <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">
-              「HotwireはRails専用じゃないの？」と思っている方も多いと思いますが、実はHotwireはバックエンド非依存です。Rails, Laravel, Django, Nodeでも関係なく動きます。
+              「HotwireはRails専用じゃないの？」と思っている方も多いと思いますが、実はHotwireはバックエンド非依存です。Rails,
+              Laravel, Django, Nodeでも関係なく動きます。
               このサイトも<strong>HotwireをNext.js上で動かしていて、すべてJavaScript
               (TypeScript)で書かれています。</strong>
               JavaScriptさえわかれば簡単にコードを追うことができます。</p>
-            <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">本サイトのコードは<StyledLink
+            <p
+              className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">本サイトのコードは<StyledLink
               href="https://github.com/naofumi/hotwire_and_next">GitHub</StyledLink>に公開しています。また<StyledLink
               href="https://vercel.com">Vercel</StyledLink>でデプロイしています。実際に触って、さらにコードを見て、理解を深けめていただきたいと思います。
             </p>
@@ -135,20 +137,41 @@ export default function IndexPage() {
 
             <hr className="my-8"/>
             <div className="">
-              <H2WithHash id="popup">
-                ポップアップ: Turbo Frames
+              <H2WithHash id="tabbed-menu">
+                詳細パネル: Turbo Frames
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                Turbo
-                Framesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
+                リスト項目を選択して、その詳細をパネルに表示するUIです。メールアプリなどでよく見かけるタイプのUIです。タブメニューとよく似ていますが、サーバから読み込んだ内容が、リンクがあったところとは別の場所に埋め込まれる点が異なります。
               </p>
+              <div className={`text-center mt-4 text-xl tracking-wider`}>
+                <StyledLink href="/commentaries/details_panel">
+                  解説はこちら...
+                </StyledLink>
+              </div>
               <div className="mt-10 flex items-center justify-center gap-x-6">
-                <a href="/popup"
+                <a href="/details_panel"
                    className="btn-primary"
-                   data-turbo="false">ポップアップUI</a>
+                   data-turbo="false">詳細パネルUI</a>
               </div>
             </div>
 
+            {isDev() && <>
+              <hr className="my-8"/>
+              <div className="bg-green-200">
+                <H2WithHash id="popup">
+                  ローディングアニメーション: Turbo Frames
+                </H2WithHash>
+                <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
+                  AJAX/fetchを使うどの技術であっても、「ローディング中」の状態をユーザに伝えるのは重要です。jQuery、Turbo、React SPA、Next.jsやReact Server Componentsのいずれでも原理的に問題になります。<br />
+                  Turbo Driveではデフォルトで対処されていますが、他の技術で開発者が主体的に対処する必要があります。これをおろそかにすると反応が鈍いページになり、もっさりした印象を与えてしまいます。失敗例も体感しながら、改善の工夫を紹介します。
+                </p>
+                <div className="mt-10 flex items-center justify-center gap-x-6">
+                  <a href="/popup"
+                     className="btn-primary"
+                     data-turbo="false">ポップアップUI</a>
+                </div>
+              </div>
+            </>}
 
             <hr className="my-8"/>
             <div className="">
@@ -184,7 +207,8 @@ export default function IndexPage() {
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 動的に、階層的に絞り込まれるプルダウンメニューを使って、住所を入力していくUIをTurbo Framesで作ります。
-                小さい箇所の置換が複数ある場合はTurbo Streamsを使うことが多いのですが、1つまとめられる場合はTurbo Framesの方が良いケースもあります。
+                小さい箇所の置換が複数ある場合はTurbo Streamsを使うことが多いのですが、1つまとめられる場合はTurbo
+                Framesの方が良いケースもあります。
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/api/hotwire/address_selector"
@@ -195,8 +219,6 @@ export default function IndexPage() {
                    data-turbo="false">Next 住所入力UI</a>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>

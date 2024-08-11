@@ -86,7 +86,9 @@ Turboは`fetch`でサーバにリクエストを飛ばし、レスポンスを�
   <Image src={detailsTurboframeImage}/>
 </div>
 
-<H2WithHash id="comparison-with-react">Reactコードとの比較</H2WithHash>
+<H2WithHash id="comparison-with-react">Reactとの比較</H2WithHash>
+
+### コードの簡潔さ
 
 詳細パネルをReact/Next.jsで実装したコードは`pages/details_panel/index.tsx`をご覧ください。
 
@@ -98,8 +100,15 @@ Hotwire版もReact版もコードは比較的シンプルで、難しいとこ�
 
 今回、`table`の中で選択した行をハイライトしています。React版の場合は同じ`selectedUser`ステートを使いまわせますが、Turboだけだとこれを保持しませんので、改めて`onclick`でJavaScriptを稼働させてCSSクラスを更新する必要があります。なお通常はHotwireと相性の良い[Stimulus](https://stimulus.hotwired.dev/)を使うと思いますが、今回は簡便性を優先してインラインでJavaScriptを書きました。Stimulusは後で紹介していきます。
 
-Turboだけだったら追加のJavaScriptを一切書かなくても良かったのが、UXを改善しようと思うとやはり書く必要があるわけです。Turboだと変に甘えてしまって、このちょっとした改善を怠ることがありがちです。「Turboで楽をさせてもらった分はUXを頑張ろう！」ぐらいの気持ちでいた方が良いと思います。Turboを使ってもUXを良くするJavaScriptは書くつもりでいるべきだと思います。
+Turboだけだったら追加のJavaScriptを一切書かなくても良かったのが、UXを改善しようと思うとやはり書く必要があるわけです。Turboだと変に甘えてしまって、このちょっとした改善を怠ることがありがちです。「Turboで楽をさせてもらった分はUXを頑張ろう！」ぐらいの気持ちでいた方が良いと思います。
 
+### ヌルサク感
+
+Hotwire版は`a`タグを使ってTurbo Framesを稼働させているため、prefetchが動きます。マウスホバー時にフライングし、クリックする前に詳細パネルのデータを読み込むので、体感速度は大幅に向上します。これについては[ページ遷移のUX](http://localhost:3000/commentaries/page_transitions#page-transition-ux)で解説しています。なおレスポンスに1秒以上かかるページの場合、Turbo Frameでもローダーを表示するべきです。詳細については別途解説しますが、今回はCSSだけで実装しています。
+
+一方でReact版は`useEffect`を使いますので、Next.jsのprefetchが効きません。クリックしてから詳細パネルのデータを読み込みますので、ネットワーク遅延、サーバ処理時間の分だけユーザは待たされます。ローダーは出していますので無反応というわけではないのですが、必要なデータが表示されるまでは待つことになります。
+
+この分だけ、Hotwire版の方がヌルサクなUXになります。
 
 export default function ({children}) {
   return <CommentaryLayout
