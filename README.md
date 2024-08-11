@@ -9,8 +9,7 @@
 （秘密鍵が必要なサービスは使っていないので、このままで大丈夫です！）
 ```bash
 URL=http://localhost:3000
-RESPONSE_DELAY=300
-DATABASE_DELAY=50
+DATABASE_DELAY=0
 ```
 
 開発用サーバ(Next.js)は下記のコマンドで起動します。

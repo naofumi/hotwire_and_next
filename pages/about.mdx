@@ -103,7 +103,7 @@ Hotwireに慣れていない人は画面置換を細かい単位に分解しす�
 * **ReactはNext.js pages router:** Hotwireと比較するためのReact側は、目まぐるしく変わるフロントエンド開発環境の中でも、比較的頻繁に見られる技術を選定しました。
     * フレームワークはNext.jsを使用しています。ただしまた[app router](https://nextjs.org/docs/app)はまだ使用しているプロジェクトが少ないと考え、[pages router](https://nextjs.org/docs/pages)を中心に作成しています。ただし一部app routerと比較したいケースの時はこれも使っています。
     * 内容が頻繁に更新されるウェブアプリ（例えば業務アプリや管理画面、注文予約アプリなど）を想定しているため、古いデータが表示されたままになってしまうタイプのキャッシュは使用していません。特にapp routerを使っている時は[Route Cache](https://nextjs.org/docs/app/building-your-application/caching#router-cache)、[Full Route Cache](https://nextjs.org/docs/app/building-your-application/caching#full-route-cache)、[Data Cache](https://nextjs.org/docs/app/building-your-application/caching#data-cache)は[オフにしています](https://nextjs.org/docs/app/building-your-application/caching#segment-config-options)。
-* **100ms遅延:** 高速なサイトだとどんなフロントエンド技術を使ってもサクサク動いてしまい、技術の違いが見えなくなります。そこで本サイトではあえてすべてのリクエストに100msの遅延を入れています。また擬似データベースアクセスは100msの遅延を入れています。
+* **遅延:** 高速なサイトだとどんなフロントエンド技術を使ってもサクサク動いてしまいます。何をやっても非常に快適になってしまい、技術の違いが見えなくなります。そこで本サイトではあえて数百msの遅延を入れています（例示しない内容に応じて増やしています）。ただし静的なファイルやNext.jsのSSGなど、一般にCDNの載せるようなものについては遅延を入れていません。
 
 
 <H2WithHash id="hotwire-resources">Hotwireのリソース</H2WithHash>

@@ -135,25 +135,6 @@ export default function IndexPage() {
             </div>
 
 
-            <hr className="my-8"/>
-            <div className="">
-              <H2WithHash id="tabbed-menu">
-                詳細パネル: Turbo Frames
-              </H2WithHash>
-              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                リスト項目を選択して、その詳細をパネルに表示するUIです。メールアプリなどでよく見かけるタイプのUIです。タブメニューとよく似ていますが、サーバから読み込んだ内容が、リンクがあったところとは別の場所に埋め込まれる点が異なります。
-              </p>
-              <div className={`text-center mt-4 text-xl tracking-wider`}>
-                <StyledLink href="/commentaries/details_panel">
-                  解説はこちら...
-                </StyledLink>
-              </div>
-              <div className="mt-10 flex items-center justify-center gap-x-6">
-                <a href="/details_panel"
-                   className="btn-primary"
-                   data-turbo="false">詳細パネルUI</a>
-              </div>
-            </div>
 
             {isDev() && <>
               <hr className="my-8"/>
@@ -162,8 +143,10 @@ export default function IndexPage() {
                   ローディングアニメーション: Turbo Frames
                 </H2WithHash>
                 <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                  AJAX/fetchを使うどの技術であっても、「ローディング中」の状態をユーザに伝えるのは重要です。jQuery、Turbo、React SPA、Next.jsやReact Server Componentsのいずれでも原理的に問題になります。<br />
-                  Turbo Driveではデフォルトで対処されていますが、他の技術で開発者が主体的に対処する必要があります。これをおろそかにすると反応が鈍いページになり、もっさりした印象を与えてしまいます。失敗例も体感しながら、改善の工夫を紹介します。
+                  AJAX/fetchを使うどの技術であっても、「ローディング中」の状態をユーザに伝えるのは重要です。jQuery、Turbo、React
+                  SPA、Next.jsやReact Server Componentsのいずれでも原理的に問題になります。<br/>
+                  Turbo
+                  Driveではデフォルトで対処されていますが、他の技術で開発者が主体的に対処する必要があります。これをおろそかにすると反応が鈍いページになり、もっさりした印象を与えてしまいます。失敗例も体感しながら、改善の工夫を紹介します。
                 </p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a href="/popup"
@@ -172,6 +155,24 @@ export default function IndexPage() {
                 </div>
               </div>
             </>}
+
+            <hr className="my-8"/>
+            <div className="">
+              <H2WithHash id="popup">
+                ポップアップ: Turbo Frames
+              </H2WithHash>
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
+                Turbo
+                Framesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
+              </p>
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <a href="/popup"
+                   className="btn-primary"
+                   data-turbo="false">ポップアップUI</a>
+              </div>
+            </div>
+
+
 
             <hr className="my-8"/>
             <div className="">

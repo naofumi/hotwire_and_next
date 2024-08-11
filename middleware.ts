@@ -20,22 +20,32 @@ function delayToApply(url: URL) {
 
   if (pathName === "/") {
     return 0
-  } else if (pathName.startsWith("/users")) {
-    return defaultDemoDelay
-  } else if (pathName.startsWith("/products")) {
-    return defaultDemoDelay
-  } else if (pathName.startsWith("/address_selector")) {
-    return defaultDemoDelay
+  } else if (pathName === "/users_ssg") {
+    return 0 // SSG
+  } else if (pathName === "/products_ssg") {
+    return 0 // SSG
+  } else if (pathName === "/users_app") {
+    return defaultDemoDelay // dynamic
+  } else if (pathName === "/products_app") {
+    return defaultDemoDelay // dynamic
+  } else if (pathName === "/users") {
+    return 0 // Static
+  } else if (pathName === "/products") {
+    return 0 // Static
+  } else if (pathName === "/address_selector") {
+    return 0 // Static
   } else if (pathName.startsWith("/details_panel")) {
-    return defaultDemoDelay
+    return defaultDemoDelay // SSR
   } else if (pathName.startsWith("/live_search")) {
-    return defaultDemoDelay
+    return 0 // Static
   } else if (pathName.startsWith("/modal")) {
-    return defaultDemoDelay
+    return 0 // Static
   } else if (pathName.startsWith("/popup")) {
-    return defaultDemoDelay
+    return 0 // Static
+  } else if (pathName.startsWith("/tabbed_segments_app")) {
+    return defaultDemoDelay // dynamic
   } else if (pathName.startsWith("/tabbed")) {
-    return defaultDemoDelay
+    return 0 // Static
   } else if (pathName.startsWith("/api")) {
     return defaultDemoDelay
   } else {
