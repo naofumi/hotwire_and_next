@@ -16,8 +16,11 @@ Hotwireおよびその前身の技術は、ウェブデザイン会社として�
 
 一方で[37signals社の各チームのサイズはデザイナーを含めてたったの３人です](https://3.basecamp-help.com/article/35-the-six-week-cycle#who-does-the-work?)。開発効率が高く、小さいチームでの開発も可能であることも実証されています。
 
-Hotwireは実装が楽だけど、やれることが限定されていると考えている人がいます。「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」という声も聞こえます。**しかしこれは誤り**です。お客様がお金を払ってでも使いたくなる製品のUXが、Hotwireで十分に実現できることは**明確に実証されているのます**。
+<H2WithHash id="UX-comparable-or-exceeding-next-js">Next.jsに勝るとも劣らないUX</H2WithHash>
 
+Hotwireは実装が楽だけど、やれることが限定されていると考えている人がいます。React/Next.jsほどのUXは作れないと思っている人がいます。「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」という声も聞こえます。**しかしこれは誤り**です。お客様がお金を払ってでも使いたくなる製品のUXが、Hotwireで十分に実現できることは**37signals社が明確に実証されているのます**。また本サイトでは細かい仕組みの議論をしながら、HotwireのUXの方が優れている面を紹介します。
+
+もちろん全てにおいてHotwireがReact/Next.jsに勝るわけではありません。ただし少なくとも対等であると考えて間違いありません。
 
 
 <H2WithHash id="hotwire-components">Hotwireの構成</H2WithHash>
@@ -51,7 +54,7 @@ Turboは上記のたった３つのパーツしかないのですが、実際に
 
 <H2WithHash id="triggering-turbo">Turboの呼び出し</H2WithHash>
 
-Turboは基本的に`a`タグのクリックや`form`タグの送信によって起動し、サーバにリクエストを投げます。なるべくJavaScriptからTurboを呼び出すのを避けます。ブラウザがネイティブに持っているのもこの２つの方法だけであり、不要にここから外れないのもTurboの大きな特徴です。
+Turboは基本的に`a`タグのクリックや`form`タグの送信によって起動し、サーバにリクエストを投げます。不必要にJavaScriptからTurboを呼び出すのを避けます。なるべくブラウザのネイティブな動作に沿うのはTurboの大きな特徴です。
 
 必要に応じて[Turbo.visit()](https://turbo.hotwired.dev/reference/drive#turbo.visit)を使うこともできますが、これはリアルタイム性を持たせたい場合（例えばライブ検索や`select`タグの`onchange`でリクエストを送信するとか）に限定し、無闇に使わない方が良いでしょう。また`Turbo.visit()`ではGET以外やTurbo Streamsのリクエストを投げることができません。
 

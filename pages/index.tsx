@@ -23,7 +23,7 @@ export default function IndexPage() {
             <p className="text-left mx-auto mt-20 max-w-2xl text-lg leading-8 text-gray-600">
               Hotwireは近年、大きく注目を集めているフロントエンド技術です。</p>
             <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">
-              本サイトでは、<strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを見ながらHotwireとReact/Next.jsを比較し、Hotwireの素晴らしさと考え方を理解していただくことを目的としています。
+              本サイトでは、<strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを体感しながらHotwireとReact/Next.jsを比較します。<strong>コードの書きやすさはもちろん、UX的にもHotwireが大変優れていることをお伝えできればと思っています。</strong>
             </p>
             <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">
               「HotwireはRails専用じゃないの？」と思っている方も多いと思いますが、実はHotwireはバックエンド非依存です。Rails,
@@ -38,7 +38,7 @@ export default function IndexPage() {
             </p>
             <div className="text-center mt-4 text-xl tracking-wider">
               <StyledLink href="/about">
-                もっと詳しい解説はこちら...
+                もっと詳しく...
               </StyledLink>
             </div>
 
