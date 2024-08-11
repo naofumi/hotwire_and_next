@@ -10,7 +10,7 @@ export function h3({children}: {children?: ReactNode}) {
 }
 
 export function p({children}: {children?: ReactNode}) {
-  return <p className="text-gray-700 my-4 text-base">{children}</p>;
+  return <p className="text-gray-700 my-4 text-base/7">{children}</p>;
 }
 
 export function a({children, href}: {children?: ReactNode, href?: string}) {
