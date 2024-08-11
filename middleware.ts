@@ -44,6 +44,8 @@ function delayToApply(url: URL) {
     return 0 // Static
   } else if (pathName.startsWith("/tabbed_segments_app")) {
     return defaultDemoDelay // dynamic
+  } else if (pathName.startsWith("/tabbed_segments_layout_app")) {
+    return defaultDemoDelay // dynamic
   } else if (pathName.startsWith("/tabbed")) {
     return 0 // Static
   } else if (pathName.startsWith("/api")) {
