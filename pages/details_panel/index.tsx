@@ -6,7 +6,7 @@ import Image from "next/image"
 import rocketImage from "@/public/images/rocket.gif"
 import UserDetailPanel from "@/components/details_panel/UserDetailPanel";
 
-export default function UsersIndex() {
+export default function DetailsPanelIndex() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
