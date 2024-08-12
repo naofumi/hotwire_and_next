@@ -1,0 +1,27 @@
+<%- include("../layouts/header.ejs") -%>
+<div class="my-10 px-4 sm:px-6 lg:px-8">
+  <div class="flex justify-center">
+    <button class="text-white font-bold rounded-full border bg-orange-600 w-6 h-6"
+            onclick="decrement()">
+      -
+    </button>
+    &nbsp;
+    <span id="count">1</span>
+    &nbsp;
+    <button class="text-white font-bold rounded-full border bg-orange-600 w-6 h-6"
+    onclick="increment()">
+      +
+    </button>
+    <script>
+      function getValue() { return parseInt(document.getElementById('count').textContent) }
+      function setValue(value) { document.getElementById('count').innerHTML = value.toString() }
+      function increment() {
+        setValue(getValue() + 1)
+      }
+      function decrement() {
+        setValue(Math.max(getValue() - 1, 0))
+      }
+    </script>
+  </div>
+</div>
+<%- include("../layouts/footer.ejs") -%>
