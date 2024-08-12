@@ -8,7 +8,7 @@ import {isDev} from "@/helpers/feature_flags";
 
 export default function IndexPage() {
   return (
-    <Layout hideTechLabel={true} hideTopButton={true}>
+    <Layout hideTechLabel={true} hideTopButton={true} showDelaySetter={true}>
       <Head>
         <title>Hotwire for Frontend devs</title>
       </Head>

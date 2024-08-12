@@ -27,7 +27,32 @@ import mosaicImage from "../../public/images/mosaic.gif"
   <Image src={mosaicImage} className="w-24"></Image>
 </div>
 
-しかしこのローディングアニメーションは
+しかしこの**ローディングアニメーションは、Ajax/fetchを使った場合には表示されません**。ブラウザは自動的にアニメーションを稼働させないのです。
+
+**開発者が意識してローディングアニメーションを設ける必要があります。** それを忘れると先ほどのNewspicksサイトのようなUXになってしまいます。
+
+<H2WithHash id="loading-animations-with-native">ブラウザネイティブなMPAの場合</H2WithHash>
+
+ブラウザネイティブなMPAの場合、30年前からローディングアニメーションが用意されています。
+
+これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[ブラウザネイティブ(MPA)画面遷移のデモ画面](/api/hotwire/users?native=true)に移動してください。画面下部の「...へ遷移(Turbo Off)」のボタンをクリックすると、ブラウザネイティブの画面遷移をご確認いただけます。その時にブラウザネイティブのローディングアニメーションが表示されることをご確認ください。(Safariだったらロケーションバーの下部を青い線が横ぎります。Chromeの場合はタブのfaviconのところが回転アニメーションになります)
+
+<H2WithHash id="loading-animations-with-turbo-drive">Turbo Driveの場合</H2WithHash>
+
+Turbo Driveの場合はネイティブのMPAと非常によく似たローディングアニメーションがデフォルトで用意されています。
+
+これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[Turbo Drive画面遷移遷移のデモ画面](/api/hotwire/users)に移動してください。画面下部の「...へ遷移(Turbo On)」のボタンをクリックすると、Turbo Driveの画面遷移をご確認いただけます。ローディングアニメーションはページコンテンツの最上部を横切る青い線になります。これはTurboが用意してくれているもので、[スタイルのカスタマイズ](https://turbo.hotwired.dev/handbook/drive#displaying-progress)が可能です。
+
+<H2WithHash id="loading-animations-with-ssr">Next.js Pages Router SSRの場合</H2WithHash>
+
+いよいよ一番最初で紹介したNewsPicksの問題の話です。
+
+これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[Next.js Pages Router SSR画面遷移](/users_ssr)に移動してください。画面下部の「...へSSR」のボタンをクリックすると、Next.js Pages Router SSRの画面遷移をご確認いただけます
+
+
+
+
+トップ画面で遅延を2000msに設定し、タブメニューUIの[JavaScriptなし](/api/hotwire/tabbed_segments_no_js)に移動してください。そして`User`、`Products`のタブをクリックしてください。これが30年前のMPAの状態です。ブラウザ固有のローディングアニメーションが表示されることをご確認ください。
 
 
 export default function NewTabbedMenus({children}) {

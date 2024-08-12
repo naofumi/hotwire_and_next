@@ -15,6 +15,7 @@
     "@mdx-js/react": "^3",
     "@next/mdx": "^14",
     "@types/mdx": "^2",
+    "cookies-next": "^4.2.1",
     "ejs": "^3",
     "next": "14",
     "react": "^18",

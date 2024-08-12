@@ -1,18 +1,22 @@
 import Link from "next/link";
 import Head from "next/head";
 import LoadingIndicator from "@/components/LoadingIndicator";
-import React from "react";
+import React, {useEffect} from "react";
 import Footer from "@/components/Footer";
 import Banner from "@/components/Banner";
+import DelaySetter from "@/components/DelaySetter";
 
-export default function Layout({children, hideTechLabel, hideTopButton}: {
+export default function Layout({children, hideTechLabel, hideTopButton, showDelaySetter, hideLoadingIndicator}: {
   children: React.ReactNode,
   hideTechLabel?: boolean,
   hideTopButton?: boolean,
+  showDelaySetter?: boolean,
+  hideLoadingIndicator?: boolean,
 }) {
-  const hideTitle  = hideTopButton ? true : false;
+  const hideTitle = hideTopButton ? true : false;
+
   return (
-    <LoadingIndicator>
+    <LoadingIndicator hideLoadingIndicator={hideLoadingIndicator}>
       <Head>
         <title>Hotwire for Frontend devs</title>
       </Head>
@@ -23,7 +27,8 @@ export default function Layout({children, hideTechLabel, hideTopButton}: {
 
         {hideTitle
           ? <span></span>
-          : <Link href="/" className="text-xl p-1 font-bold text-gray-400 hover:text-orange-600">Hotwire for Frontend Developers</Link>}
+          : <Link href="/" className="text-xl p-1 font-bold text-gray-400 hover:text-orange-600">Hotwire for Frontend
+            Developers</Link>}
 
         {hideTechLabel
           ? <span></span>
@@ -31,7 +36,10 @@ export default function Layout({children, hideTechLabel, hideTopButton}: {
             Next.js Pages router
           </div>}
       </div>
-      <Banner />
+      {showDelaySetter && <div className="mx-4 p-1 bg-white">
+          <DelaySetter/>
+        </div>}
+      <Banner/>
       {children}
       <Footer/>
     </LoadingIndicator>

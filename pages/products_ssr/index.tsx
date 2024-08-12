@@ -1,18 +1,21 @@
 import Link from "next/link";
 import Layout from "@/components/Layout";
 import {Product} from "@/repositories/product";
+import {IncomingMessage} from "node:http";
+import {GetServerSidePropsContext} from "next";
 
 // Simulate Next.js acting as a BFF for a JSON API server
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   console.log("Fetch start for Products SSR")
   const res = await fetch(process.env.URL + "/api/products")
   const products = await res.json()
-  return {props: {products}}
+  const hideLoadingIndicator = !!(context.query.hide_loading_indicator);
+  return {props: {products, hideLoadingIndicator}}
 }
 
-export default function ProductsSsrIndex({products}: {products: Product[]}) {
+export default function ProductsSsrIndex({products, hideLoadingIndicator}: {products: Product[], hideLoadingIndicator: boolean}) {
   return (
-    <Layout>
+    <Layout hideLoadingIndicator={hideLoadingIndicator}>
       <>
         <div className="my-10 px-4 sm:px-6 lg:px-8">
           <div className="sm:flex sm:items-center">
@@ -68,6 +71,9 @@ export default function ProductsSsrIndex({products}: {products: Product[]}) {
                   <Link href="/users_ssr"
                         className="btn-primary">
                     Usersへ SSR</Link>
+                  <Link href="/users_ssr?hide_loading_indicator=1"
+                        className="ml-2 btn-primary">
+                    Usersへ SSR(アニメーションを隠す)</Link>
                 </div>
               </div>
             </div>

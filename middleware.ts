@@ -1,21 +1,23 @@
 import type {NextRequest} from 'next/server'
 import {NextResponse} from 'next/server'
-import {sleep} from "@/helpers/sleep";
+import {defaultDelay, sleep} from "@/helpers/sleep";
 
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   const url = new URL(request.url)
+  const delayCookie = request.cookies.get("delay")
+  const cookieDelay = delayCookie && parseInt(delayCookie.value)
 
   if (externalRequest(request)) {
-    await sleep(delayToApply(url))
+    await sleep(delayToApply(url, cookieDelay))
   }
 
   return NextResponse.next()
 }
 
-function delayToApply(url: URL) {
-  const defaultDemoDelay = 300
+function delayToApply(url: URL, cookieDelay: number | undefined) {
+  const demoDelay = cookieDelay || defaultDelay
   const pathName = url.pathname
 
   if (pathName === "/") {
@@ -24,10 +26,14 @@ function delayToApply(url: URL) {
     return 0 // SSG
   } else if (pathName === "/products_ssg") {
     return 0 // SSG
+  } else if (pathName === "/users_ssr") {
+    return demoDelay // SSR
+  } else if (pathName === "/products_ssr") {
+    return demoDelay // SSR
   } else if (pathName === "/users_app") {
-    return defaultDemoDelay // dynamic
+    return demoDelay // dynamic
   } else if (pathName === "/products_app") {
-    return defaultDemoDelay // dynamic
+    return demoDelay // dynamic
   } else if (pathName === "/users") {
     return 0 // Static
   } else if (pathName === "/products") {
@@ -35,7 +41,7 @@ function delayToApply(url: URL) {
   } else if (pathName === "/address_selector") {
     return 0 // Static
   } else if (pathName.startsWith("/details_panel")) {
-    return defaultDemoDelay // SSR
+    return demoDelay // SSR
   } else if (pathName.startsWith("/live_search")) {
     return 0 // Static
   } else if (pathName.startsWith("/modal")) {
@@ -43,13 +49,13 @@ function delayToApply(url: URL) {
   } else if (pathName.startsWith("/popup")) {
     return 0 // Static
   } else if (pathName.startsWith("/tabbed_segments_app")) {
-    return defaultDemoDelay // dynamic
+    return demoDelay // dynamic
   } else if (pathName.startsWith("/tabbed_segments_layout_app")) {
-    return defaultDemoDelay // dynamic
+    return demoDelay // dynamic
   } else if (pathName.startsWith("/tabbed")) {
     return 0 // Static
   } else if (pathName.startsWith("/api")) {
-    return defaultDemoDelay
+    return demoDelay
   } else {
     return 0
   }

@@ -1,5 +1,7 @@
 export const databaseDelay = parseInt(process.env.DATABASE_DELAY || "0")
 
+export const defaultDelay = 300
+
 export function sleep(ms: number) {
   if (ms > 0) {
     console.log(`sleeping ${ms} ms`)

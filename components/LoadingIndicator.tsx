@@ -4,7 +4,7 @@ import netscape from "@/public/images/netscape.gif"
 import Image from "next/image"
 import {sleep} from "@/helpers/sleep";
 
-export default function LoadingIndicator({children}: { children: ReactNode }) {
+export default function LoadingIndicator({hideLoadingIndicator, children}: { hideLoadingIndicator?: boolean, children: ReactNode }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +31,7 @@ export default function LoadingIndicator({children}: { children: ReactNode }) {
   }, [router])
   return (
     <>
-      {isLoading &&
+      {isLoading && !hideLoadingIndicator &&
         <div className="fixed top-0 right-0">
           <Image src={netscape} alt="loader" className="m-auto w-16 h-16"></Image>
         </div>
