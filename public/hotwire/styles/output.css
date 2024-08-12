@@ -788,6 +788,7 @@ select {
 }
 
 .turbo-with-loader .turbo-hide-on-loading {
+  position: relative;
   transition-delay: 500ms;
 }
 
