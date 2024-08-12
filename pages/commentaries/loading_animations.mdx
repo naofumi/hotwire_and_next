@@ -47,12 +47,36 @@ Turbo Driveの場合はネイティブのMPAと非常によく似たローディ
 
 いよいよ一番最初で紹介したNewsPicksの問題の話です。
 
-これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[Next.js Pages Router SSR画面遷移](/users_ssr)に移動してください。画面下部の「...へSSR」のボタンをクリックすると、Next.js Pages Router SSRの画面遷移をご確認いただけます
+これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[Next.js Pages Router SSR画面遷移](/users_ssr)に移動してください。画面下部の「...へSSR(アニメーションを隠す)」ボタンをクリックすると、Next.js Pages Router SSRの画面遷移をご確認いただけます。
+
+　ボタンをクリックしてもフィードバックがなく、ウェブサイトが反応しているかどうかが全く確認できません。2000ms後にページが切り替わり、初めて正しく反応してくれたことがわかります。ユーザは操作していても自信が持てず、全体に反応が鈍く、モッサリした印象を与えます。
+
+隣の「...へSSR」ボタン((アニメーションを隠すの表示がない方)を押すと、今後は画面右上にローディングアニメーションが表示されます。これは`components/LoadingIndicator.tsx` ([GitHub](https://github.com/naofumi/hotwire_and_next/blob/bbdb8989d166cd95fc67cec81273921d8e84b5f6/components/LoadingIndicator.tsx))の`LoadingIndicator`コンポーネントで実装しています。下記に示したようにNext.jsの`routeChangeStart`、`routeChangeComplete`イベントに反応してローダーを表示する仕組みになっています。
+
+**components/LoadingIndicator.tsx**
+```javascript
+...
+router.events.on('routeChangeStart', handleRouteChangeStart)
+router.events.on('routeChangeComplete', handleRouteChangeComplete)
+...
+```
+
+また下記のようにイベントハンドラの中では500msの遅延をさせています。ローディングアニメーションはすぐに表示するのではなく、500msを置いてから表示しています。サーバからレスポンスが500ms以内に返ってきた場合にいちいちアニメーションを表示していると却ってうるさく感じてしまうので、その場合は何も表示させないようになっています。これは[Turbo Drive](/commentaries/loading_animations#loading-animations-with-turbo-drive)のにUXを合わせています。
+
+**components/LoadingIndicator.tsx**
+```javascript
+let abort = false
+const handleRouteChangeStart = async (url: any, {shallow}: any) => {
+  await sleep(500)
+  !abort && setIsLoading(true);
+}
+```
+
+実際に体感していただければわかるように、サーバからのレスポンスが遅い場合、ローディングアニメーションの追加はUXを大きく改善させます。Turbo Driveはデフォルトでアニメーションを用意してくれますが、Next.jsの場合は手間がかかります。NewsPicksのようなUXになってしまわないよう、注意が必要です。
 
 
+<H2WithHash id="turboframes">Turbo Framesの場合</H2WithHash>
 
-
-トップ画面で遅延を2000msに設定し、タブメニューUIの[JavaScriptなし](/api/hotwire/tabbed_segments_no_js)に移動してください。そして`User`、`Products`のタブをクリックしてください。これが30年前のMPAの状態です。ブラウザ固有のローディングアニメーションが表示されることをご確認ください。
 
 
 export default function NewTabbedMenus({children}) {
