@@ -11,7 +11,7 @@ import mosaicImage from "../../public/images/mosaic.gif"
 
 同じことはTurbo FramesやTurbo Streamsを使っている場合も起こります。ここでは問題の原因を解説し、解決策を紹介します。
 
-<video width="733" height="606" controls className="my-8">
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
   <source src="/videos/newspicks.mov" type="video/mp4"></source>
 </video>
 
@@ -72,11 +72,127 @@ const handleRouteChangeStart = async (url: any, {shallow}: any) => {
 }
 ```
 
-実際に体感していただければわかるように、サーバからのレスポンスが遅い場合、ローディングアニメーションの追加はUXを大きく改善させます。Turbo Driveはデフォルトでアニメーションを用意してくれますが、Next.jsの場合は手間がかかります。NewsPicksのようなUXになってしまわないよう、注意が必要です。
+実際に体感していただければわかるように、サーバからのレスポンスが遅い場合、ローディングアニメーションの追加はUXを大きく改善させます。Turbo Driveはデフォルトでアニメーションを用意してくれますが、Next.jsの場合は手間がかかります。NewsPicksのようなUXでも大丈夫かどうか、カスタムでローディングアニメーションのコードを書いてかつメンテナンスするべきかを評価する必要があるでしょう。
 
 
 <H2WithHash id="turboframes">Turbo Framesの場合</H2WithHash>
 
+Turbo Driveではデフォルトで[ローディングアニメーションが表示されます](/commentaries/loading_animations#loading-animations-with-turbo-drive)が、Turbo Framesの場合は表示されません。Turbo Frameが小さかったり、複数あったりするケースもあるので、デフォルトにするのは難しいと判断したのではないかと想像されます。
+
+その代わりにTurbo Framesがロード中の時は`turbo-frame`タグに[`busy`の属性がつけられます](https://turbo.hotwired.dev/reference/frames#html-attributes)。同様に[`aria-busy`もつきます](https://turbo.hotwired.dev/reference/attributes#automatically-added-attributes)。したがってCSSだけでローディングアニメーションがつけられます。
+
+本サイトでは500msの遅延もつけているので少し複雑になっていますが、下記のCSSでTurbo Frameのローディングアニメーションを実装しています([GitHub](https://github.com/naofumi/hotwire_and_next/blob/a63ddd7828a40a6e2be5fe2fa4124767b4fe4474/public/hotwire/styles/input.css#L6))。
+
+**/public/hotwire/styles/input.css**
+```css
+  .turbo-with-loader {
+      position: relative;
+  }
+
+  .turbo-with-loader .turbo-hide-on-loading {
+      position: relative;
+      transition-delay: 500ms;
+  }
+
+  .turbo-with-loader .turbo-hide-on-loading::before {
+      visibility: hidden !important;
+      opacity: 0 !important;
+      transition-delay: 500ms;
+      transition-property: opacity;
+  }
+
+  .turbo-with-loader[busy] .turbo-hide-on-loading {
+      visibility: hidden !important;
+  }
+
+  .turbo-with-loader[busy] .turbo-hide-on-loading::before {
+      content: '';
+      /* Visible will show at the beginning of the transition */
+      visibility: visible !important;
+      /* This will set opacity at the end of the transition */
+      opacity: 1 !important;
+      position: absolute !important;
+      display: block;
+      background-image: url('../../images/rocket.gif');
+      width: 64px;
+      height: 64px;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+  }
+```
+
+**/public/hotwire/styles/input.css**
+
+```html
+<!-- ローディングアニメーションを表示するTurbo Frame -->
+<turbo-frame id="tabs" class="turbo-with-loader" data-turbo-action="replace">
+     ...
+     <!-- ローディングアニメーション表示中に隠すコンテンツ -->
+     <div class="my-10 px-4 sm:px-6 lg:px-8 turbo-hide-on-loading" >
+        ...
+     </div>
+     ...
+</turbo-frame>
+```
+
+Turbo Framesを注意せずに使用すると、上記のNewsPicksのようなUXになってしまいがちです。CSSだけでローディングアニメーションが実装できますので、なるべくなら用意したほうが良いでしょう。ただしやり過ぎると画面がうるさくなってしまいますので、ケースバイケースで検討する必要があります。
+
+場合によっては、ボタンやリンクだけにロード中の印をつけるのも良いでしょう。例えばTurboで`form`の送信をするときは、`data-turbo-submits-with`属性を使えば、[送信中にボタンの文言を変更できます](https://turbo.hotwired.dev/reference/attributes#data-attributes)。
+
+
+<H2WithHash id="useeffect">ReactでuseEffectを使った場合</H2WithHash>
+
+Reactで古典的なSPAを作成する場合は、useEffectを使ってデータを`fetch`します。この場合は[条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)を使用してローディングアニメーションを表示します。
+
+UXについては[Next.js useEffect画面遷移](/users)もしくは[タブメニューUI useEffect](/tabbed_segments)にデモを用意しています。
+
+この場合は画面の対象部分は必ずすべてクリアされます。旧画面の上にローダーを重ねるのは難しく、旧画面は即時に全て消されます。ただしサーバのレスポンスが極端に遅くなければこれが問題になることはなく、むしろ初期レスポンスが速く感じられるでしょう。近年では汎用的なローディングアニメーションではなく、[スケルトンが使われることも多く](https://ws-design.net/skeleton_screen/)、これには適しています。
+
+コードは一般に以下のようになります。
+
+**pages/users/index.tsx**
+```jsx
+export default function UsersIndex() {
+  ...
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log("Fetch start for Users useEffect")
+    fetch("/api/users").then(res => res.json())
+      .then(data => {
+        setUsers(data)
+        setLoading(false)
+      })
+  },[])
+
+  ...
+
+  return (
+    <Layout>
+      {loading
+        ? <div className="flex justify-evenly w-full mt-24 h-96 mb-48">
+          <Image src={rocketImage} alt="loader" className="w-16 h-16"/>
+        </div>
+        : <>
+          ...
+         </>
+       }
+    </Layout>
+  )
+}
+```
+
+Next.jsの[Pages Router](/commentaries/loading_animations#loading-animations-with-ssr)のSSRに比べて、こっちのローディングアニメーションの方が考えやすく、かなり実装しやすくなっています。「SSRの方が却ってUXが悪い」という声を聞きますが、ここに原因があると思われます。
+
+
+<H2WithHash id="react-server-components">Next.js App Router Server Componentsを使った場合</H2WithHash>
+
+Next.jsの新しいApp Router Server Componentsの効果を確認します。
+
+まずトップ画面最上部で遅延(delay)を2000msに設定し、Next.js Pages Router SSR画面遷移に移動してください。画面下部の「...へSSR(アニメーションを隠す)」ボタンをクリックすると、Next.js Pages Router SSRの画面遷移をご確認いただけます。
+
+このようにReact Server ComponentsのSuspenseは、Server Componentsの利点を残しつつ、useEffectを使用した場合に近いUXを実現する効果があります。
 
 
 export default function NewTabbedMenus({children}) {

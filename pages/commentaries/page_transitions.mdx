@@ -138,11 +138,11 @@ SPA的な画面遷移の効果を強く感じさせてくれるのは、次に�
 
 ### Next.jsのprefetchは条件によっては動かない
 
-Next.jsにもprefetchがあります。しかし多くのケースでは効果がありません。Pages routerの場合、SSRされるページではprefetchは効果がありません。またApp routerの場合は最初の`loading.js`ファイルまでしかprefetchしませんので、[prefetchはローディング画面の表示を早めてくれるだけ](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching)の効果しかありません。
+Next.jsにもprefetchがあります。しかし多くのケースでは効果がありません。Pages routerの場合、SSRのページではprefetchは効果がありません。またApp routerで[Dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)の場合は最初の`loading.js`ファイルまでしかprefetchしませんので、[prefetchはローディング画面の表示を早めてくれるだけ](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching)の効果しかありません。逆に言うと、Pages routerのSSGやApp routerのStatic renderingの場合ならprefetchが有効になります。
 
-本サイトの例を見ても、[Next SSGの場合](/users_ssg)はヌルサクな画面遷移をしますが、[Next useEffect](/users)、[Next app router](/users_app)の場合はまずはローダー画面だけがすぐに表示され、後でちゃんとデータのある画面が現れます。そして[Next SSR](/users_ssr)の場合はクリック直後はページが変わらず、データのある画面が現れるのが遅れます。
+本サイトの例を見ても、[Next SSGの場合](/users_ssg)はヌルサクな画面遷移をしますが、[Next useEffect](/users)、[Next app router](/users_app)の場合はまずはローダー画面だけがすぐに表示され、後になってちゃんとデータのある画面が現れます。そして[Next SSR](/users_ssr)の場合はクリック直後はページが変わらず、データのある画面が現れるのが遅れます。
 
-このようにNext.jsはprefetch機能はありますが、機能するのは静的なページのところまでです。動的なコンテンツはprefetchされません。したがって動的コンテンツが多いサイトの場合はprefetchの効果がありません。
+このようにNext.jsはprefetch機能はありますが、機能するのは静的なページのところまでです。動的なコンテンツはprefetchされません。したがって動的コンテンツが多いサイトの場合はprefetchの効果がありません。なお本サイトは動的コンテンツのサイトを主眼に置いているため、App routerのキャッシュは極力オフにしており、全てのページは[Dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)させています。
 
 <div className="mt-12">
   <div className="w-max-[560px] flex justify-center">
