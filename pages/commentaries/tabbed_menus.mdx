@@ -61,7 +61,7 @@ import turboframesImage from "@/public/images/tabbed_turboframes.png"
     </div>
   </div>
 </div>
-<div className="mt-2 text-gray-400 text-sm">※）頻度はあくまでも著者の経験で条件によって変わります。モーダル等を頻繁に使う場合や、少数の画面のUXに徹底的に注力する場合は異なります。またFramesよりもStreamsを好む人もにいます。</div>
+<div className="mt-2 text-gray-400 text-sm">※）頻度はあくまでも著者の経験であり、条件によって変わります。モーダル等を頻繁に使う場合や、少数の画面のUXに徹底的に注力する場合は異なります。また私はコードの単純化を優先してTurbo Framesを多く使いますが、逆にTurbo Streamsによる細かい制御を好む人もにいます。</div>
 
 <H2WithHash id="partial-rewrites-with-turbo-frames">Turbo Framesは部分的置換のパッケージ</H2WithHash>
 
@@ -176,13 +176,13 @@ Frame内に限定された **部分画面** 遷移をするように変化しま
 
 ### 余計なHTMLを送ることは悪いことじゃない
 
-Turboの大きな特徴は、余計なHTMLをサーバから送ることを気にしないことです。タブを切り替えるだけならタブの中身だけをサーバから送信すれば良いのですが、今回のケースは常にページ全体を送っています。
+Turboの大きな特徴は、余計なHTMLをサーバから送ることを気にしないことです。タブを切り替えるだけならタブの中身だけをサーバから送信すれば良いのですが、今回のケースは常にページ全体を送っています。これは古典的なMPAによるタブメニューと完全に同じです。
 
-実際問題として、余計な箇所をサーバで際レンダリングしても、大きな負荷にならないことがほとんどです。データベースに負荷のかかる処理は、通常はタブの内部ですし、また余計なデータをネットワーク越しに送信しても、その負荷は通常は微々たるものです。そこを頑張るよりはシンプルで行きましょうというのがTurboの考え方の一つになります。
+実際問題、余計な箇所をサーバで際レンダリングしても大きな負荷にならないことがほとんどです。データベースに負荷のかかる処理は、通常はタブの中身になりますし、また余計なデータをネットワーク越しに送信しても、その負荷は一般に微々たるものです。そこの最適化をやるよりは、シンプルで行きましょうというのがTurboの考え方の一つになります。
 
-Turbo Frameリクエストの場合は、HTTPヘッダー`Turbo-Frame`が送られてくるので、これを見て余計なところを送信しないという選択肢もあります（turbo-rails gemを使えば、コントローラに`#turbo_frame_request?`メソッドが[用意されている](https://github.com/hotwired/turbo-rails/blob/9b17a3be3705786d72c3ae77fde5a9b3006555d7/app/controllers/turbo/frames/frame_request.rb#L31)ので、これは容易にできます）。しかし特に気にしないことも多いです。
+コードの冗長さを嫌うのであれば、Rails ERB, Laravel Blade, Node EJSなどのHTMLテンプレートシステムに用意されている partial の機能などを使うことでDRYにできます。またサーバへの負担を心配するのであれば、[サーバ側でキャッシュする機能](https://guides.rubyonrails.org/caching_with_rails.html#basic-caching)などを使うこともできます。負荷があったとしてもサーバ側で十分に解決できますので、ページ全体を送ることは問題になりません。
 
-いずれ紹介したいと思いますが、UXやデザイン上の理由でTurbo Frameリクエストと通常のリクエストを区別することはあります。
+Turbo Frameリクエストの場合は、HTTPヘッダー`Turbo-Frame`が送られてくるので、これを見て余計なところを送信しないという選択肢もあります（turbo-rails gemを使えば、コントローラに`#turbo_frame_request?`メソッドが[用意されている](https://github.com/hotwired/turbo-rails/blob/9b17a3be3705786d72c3ae77fde5a9b3006555d7/app/controllers/turbo/frames/frame_request.rb#L31)ので、これは容易にできます）。しかし上述のように、最適化の効果は微々たるもので、特に気にしないことが多いです。
 
 ### ローダーの表示
 
@@ -247,34 +247,32 @@ Reactのコードの特徴は以下の通りです。一般的なReactのデー�
 
 <H2WithHash id="tabs-with-parallel-routes">Next.js App Router Parallel Routesとの比較</H2WithHash>
 
-Next.jsのSSRはページ全体を遷移するのには適していますが、Turbo Framesのように部分置換をする機能がありません。一方でApp Routerは部分置換の仕組みが用意されています。[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)と[Parallel Routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)がこれに相当します。
+Next.js Pages RouterのSSRはページ全体を遷移するのには適していますが、Turbo Framesのように部分置換をする機能がありません。画面の一部分のみを置換する場合は従来のSPAと同様に、`useEffect`でステートを更新する必要があります。
 
-タブメニューについては、Parallel Routesのドキュメントに[わざわざタブメニューの言及](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#tab-groups)もあり、推奨されているように感じられます。
+一方でApp Routerは部分置換の仕組みが用意されています。[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)と[Parallel Routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)がこれに相当します。特にこのページで紹介しているタブメニューについては、Parallel Routesのドキュメントに[わざわざタブメニューの言及](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#tab-groups)もあり、この方法が奨励されているようです。
 
-App Routerを使う場合は、コンポーネントをServer Componentで作ること([Client Componentはなるべく小さくすること](https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns#moving-client-components-down-the-tree))、[なるべくサーバでデータフェッチをする](https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#fetching-data-on-the-server)ことがベストプラクティスになります。しかし従来のReactと同じように`useState`、`useEffect`を使ってしまうと、ルートに近いコンポーネントをClient Componentにしなければならず、ブラウザ内でのデータフェッチも必要になってしまいます。一方でParallel RoutesはServer Componentだけでタブメニューを作る方法を提供してくれます。
+LayoutやParallel Routesを使うと、Client Componentを使わずにServer Componentだけでタブメニューが実装できます。App Routerでは[なるべくServer Componentを使う](https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns#moving-client-components-down-the-tree)ことが推奨されていますし、[なるべくサーバでデータフェッチをする](https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#fetching-data-on-the-server)ことがベストプラクティスとされています。LayoutやParallel Routesを使うと、これが可能になるわけです。
 
-そのParallel Routesを使った[デモはここから](http://localhost:3000/tabbed_segments_app/users)ご体験いただけます。またコードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)にあります。
+[Parellel Routesを使ったデモ](http://localhost:3000/tabbed_segments_app/users)も用意しましたのでご確認ください。またコードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)にあります。
 
-Parallel Routesを使うと、どのタブを開いているかがURLに反映されます。つまり特定のタブを開いた状態をブックマークできる利点があります。これはTurbo Driveを使った場合、あるいはTurbo Framesで[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)を設定した時と同じ効果です。
+[Parallel Routesを使った場合のUX](http://localhost:3000/tabbed_segments_app/users)の特徴は以下の通りです
 
-一方でタブを切り替えてもURLを変更したくないケースもあります。特に小さいタブコンテンツの場合がそうでしょう。しかしApp RouterではURLに反映せずにタブを切り替える方法がないようです。Turbo Framesの場合は`data-turbo-action`を指定しなければ、URLに反映せずにタブを切り替えることが可能です。
+* どのタブを開いているかによってURLが変化します。つまり特定のタブを開いた状態をブックマークできる利点があります。これはTurbo Driveを使った場合、あるいはTurbo Framesで[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)を設定した時と同じ効果です。
+* 小さくて副次的な内容のタブの場合は、それは画面のメインではありませんので、URLを変化させるのは不自然です。しかしURLを変化させずにタブを切り替える方法がないようです。一方でTurbo Framesの場合は`data-turbo-action`を指定しなければ、URLをそのままにしてタブを切り替えることが可能です。
+* `loading.js`を配置することでローディングアニメーションが出せます。配置しなければ、表示されません。
+* データフェッチはサーバ側で行いますが、動的なルート([Dynamic Rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering))の場合は最初の`loading.js`ファイルまでしか[prefetchをしてくれません](https://nextjs.org/docs/app/api-reference/components/link#prefetch)。そのため、コンテンツが表示されるまでにかかる時間は短くなりません。[ReactでuseEffectを使った場合](/commentaries/new_tabbed_menus#tabs-comparison-with-react)とほぼ同じUXになります。
 
-[Parallel Routesを使ったコード](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)の特徴は以下の通りです。
+また[Parallel Routesを使った場合のコード](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)の特徴は以下の通りです。
 
 * [３つのフォルダに７つのファイルを配置](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)するので、[Turbo Frames](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)を使った場合や[useEffectを使った場合](https://github.com/naofumi/hotwire_and_next/tree/main/pages/tabbed_segments)と比べて複雑になっています
-* データフェッチはサーバ側で行いますが、動的なルート([Dynamic Rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering))の場合は最初の`loading.js`ファイルまでしか[prefetchをしてくれません](https://nextjs.org/docs/app/api-reference/components/link#prefetch)。
 
-`loading.js`があるところまではprefetchをしてくれますので、コンポーネントの**枠やローダー**までは瞬間的に表示してくれます。しかし動的レンダリングされるルートのprefetchは効きませんので、データフェッチをしている時間はずっとローダーが表示され、待たされます。最終的なUXは[ReactでuseEffectを使った場合](/commentaries/new_tabbed_menus#tabs-comparison-with-react)とほぼ同じになります。
-
-個人的には、たかがタブメニューを実装するために随分と大袈裟で複雑なことをするなぁと感じます。Client Componentで`useState`、`useEffect`を使ってもUXが変わらないので、どれぐらい普及するかが心配です。
+個人的には、たかがタブメニューを実装するために随分と大袈裟で複雑なことをするなぁと感じます。Client Componentで`useState`、`useEffect`を使ってもUX上のメリットがありませんので、わざわざParallel Routesを使う動機は弱いと感じています。
 
 <H2WithHash id="tabs-summary">タブメニューのまとめ</H2WithHash>
 
-今回はTurbo Framesによるタブメニューを実装しました。簡単なものだったため、UI的にMPAと大きな差はありませんでした。しかしTurbo Framesを使うと、**枠**の外のステートが維持できていることが確認できました。
+今回はTurbo Framesによるタブメニューを実装しました。簡単なものだったため、UX的にMPAと大きな差はありませんでした。しかしTurbo Framesを使うと、**枠**の外のステートが維持できていることが確認できました。スクロール位置やフォーム要素のステート維持が必要な場合は、Turbo Framesを使う必要があります。
 
-React、Next.js側と比較すると、Turbo Framesによるタブメニューは実装が簡単である割には、機能的には遜色がないことが確認できました。Reactの方はカスタムコードを書くことで細かくチューニングできるかもしれませんが、少なくとも簡単に実装できるところに限定すると、**Turbo Framesの方がむしろ高速で多機能に思えます**。
-
-
+React、Next.jsと比較すると、Turbo Framesによるタブメニューは実装が簡単である一方で、機能的にも遜色がないことが確認できました。**Turbo Framesの方がむしろ高速で多機能**というケースが多いのもわかります。
 
 
 export default function NewTabbedMenus({children}) {
