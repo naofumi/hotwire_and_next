@@ -140,14 +140,18 @@ export default function IndexPage() {
               <hr className="my-8"/>
               <div className="bg-green-200">
                 <H2WithHash id="popup">
-                  ローディングアニメーション: Turbo Frames
+                  ローディングアニメーション問題: Turbo Frames
                 </H2WithHash>
                 <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                  AJAX/fetchを使うどの技術であっても、「ローディング中」の状態をユーザに伝えるのは重要です。jQuery、Turbo、React
-                  SPA、Next.jsやReact Server Componentsのいずれでも原理的に問題になります。<br/>
-                  Turbo
-                  Driveではデフォルトで対処されていますが、他の技術で開発者が主体的に対処する必要があります。これをおろそかにすると反応が鈍いページになり、もっさりした印象を与えてしまいます。失敗例も体感しながら、改善の工夫を紹介します。
+                  特にレスポンスが遅い場合、ボタンクリック後の「ローディング中」状態をユーザに伝えるのことはとても重要です。これを怠ると、ユーザを不安にさせてしまいます。<br/>
+                  残念ながら、AJAX/fetchで非同期通信をするサイトの多くが、これを見落としています。<br/>
+                  TurboおよびNext.jsでこの問題を解決する方法を紹介し、比較します。
                 </p>
+                <div className={`text-center mt-4 text-xl tracking-wider`}>
+                  <StyledLink href="/commentaries/loading_animations">
+                    解説はこちら...
+                  </StyledLink>
+                </div>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a href="/popup"
                      className="btn-primary"

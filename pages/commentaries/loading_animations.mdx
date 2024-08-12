@@ -1,0 +1,27 @@
+import MDXRenderer from "../../components/MDXRenderer";
+import CommentaryLayout from "../../components/CommentaryLayout";
+import H2WithHash from "../../components/H2WithHash";
+
+下記のビデオは2024年8月に記録したNewsPicks社のウェブサイトです。Next.jsのSSRとGraphQLを使って作成されているようです。しかしUX上の大きな問題があります。
+
+下記ビデオをご覧になっていただくとわかりますが、ボタンをクリックしても全くフィードバックがなく、1秒後ぐらいにやっと画面が切り替わります。ユーザは自分がちゃんとクリックしたかどうかに自信が持てず、不安になります。またサイト全体がモッサリしている感覚があります。
+
+開発者が不注意であれば、同じことはTurbo FramesやTurbo Streamsを使っている場合も起こります。ここでは問題の原因を解説し、解決策を紹介します。
+
+<video width="733" height="606" controls className="my-8">
+  <source src="/videos/newspicks.mov" type="video/mp4"></source>
+</video>
+
+
+
+<H2WithHash id="create-tabbed-menus-with-turbo-frames">タブメニューはTurbo Framesで作ることが多い</H2WithHash>
+
+
+export default function NewTabbedMenus({children}) {
+  return <CommentaryLayout
+    title="Loading Animations"
+    subtitle="ローディングアニメーション"
+    section="Commentary">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}
