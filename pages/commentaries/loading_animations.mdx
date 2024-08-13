@@ -30,9 +30,9 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
   <Image src={mosaicImage} className="w-24"></Image>
 </div>
 
-しかしこの**ローディングアニメーションは、Ajax/fetchを使った場合には表示されません**。ブラウザは自動的にアニメーションを稼働させないのです。
+しかしこの**ローディングアニメーションは、Ajax/fetchを使った場合には表示されません**。MPA的な画面遷移であればアニメーションは表示しますが、Ajax/fetchによる遷移の時はこれをを表示しないのです。
 
-上記のNewspicksのウェブサイトはNext.jsのSSRで動いています。2ページ目以降はAjax/fetchを使って遷移します。だからローディングアニメーションが表示されません。
+上記のNewspicksのウェブサイトはNext.jsのSSRで動いています。そのため`Link`タグを使っている場合、2ページ目以降はAjax/fetchを使って遷移します。だからローディングアニメーションが表示されません。
 **本来は開発者がアニメーションを自分で実装する必要があるのですが、それを怠ったために、ブラウザネイティブなMPAよりもむしろUXが低下してしまいました。**
 
 <H2WithHash id="loading-animations-with-native">ブラウザネイティブなMPAの場合</H2WithHash>
