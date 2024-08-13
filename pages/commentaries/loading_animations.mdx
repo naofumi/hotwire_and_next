@@ -6,11 +6,13 @@ import netscapeImage from "../../public/images/netscape.gif"
 import mosaicImage from "../../public/images/mosaic.gif"
 import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animation.png"
 
-下記のビデオは2024年8月に記録したNewsPicks社のウェブサイトです。Next.jsのSSRとGraphQLを使って作成されているようです。しかしUX上の大きな問題があります。
+下記のビデオは2024年8月に記録したNewsPicks社のウェブサイトです。Next.jsのSSRとGraphQLを使って[作成されている](https://t.co/azISIUbbga)ようです。しかしUX上の大きな問題があります。
 
 下記ビデオをご覧になっていただくとわかりますが、**ボタンをクリックしても全くフィードバックがなく**、1秒後ぐらいにやっと画面が切り替わります。ユーザは自分がちゃんとクリックしたかどうかに自信が持てず、不安になります。またサイト全体がモッサリしている感覚があります。
 
-同じことはTurbo FramesやTurbo Streamsを使っている場合も起こります。ここでは問題の原因を解説し、解決策を紹介します。
+これは決してNewsPicks社が悪いわけではなく、AJAX/fetchによる非同期通信を使ってウェブページを更新する全てのサイトに共通する課題です。強いていうと、Next.js Pages RouterのSSRはフレームワークでも公式ドキュメントでも解決策を提案していなかったのが原因と言えます。
+
+同じことはTurbo FramesやTurbo Streamsを使っている場合も起こり得ます。ここでは問題の原因を解説し、解決策を紹介します。
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
   <source src="/videos/newspicks.mov" type="video/mp4"></source>
@@ -30,19 +32,41 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 しかしこの**ローディングアニメーションは、Ajax/fetchを使った場合には表示されません**。ブラウザは自動的にアニメーションを稼働させないのです。
 
-**開発者が意識してローディングアニメーションを設ける必要があります。** それを忘れると先ほどのNewspicksサイトのようなUXになってしまいます。
+上記のNewspicksのウェブサイトはNext.jsのSSRで動いています。2ページ目以降はAjax/fetchを使って遷移します。だからローディングアニメーションが表示されません。
+**本来は開発者がアニメーションを自分で実装する必要があるのですが、それを怠ったために、ブラウザネイティブなMPAよりもむしろUXが低下してしまいました。**
 
 <H2WithHash id="loading-animations-with-native">ブラウザネイティブなMPAの場合</H2WithHash>
 
 ブラウザネイティブなMPAの場合、30年前からローディングアニメーションが用意されています。
 
-これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[ブラウザネイティブ(MPA)画面遷移のデモ画面](/api/hotwire/users?native=true)に移動してください。画面下部の「...へ遷移(Turbo Off)」のボタンをクリックすると、ブラウザネイティブの画面遷移をご確認いただけます。その時にブラウザネイティブのローディングアニメーションが表示されることをご確認ください。(Safariだったらロケーションバーの下部を青い線が横ぎります。Chromeの場合はタブのfaviconのところが回転アニメーションになります)
+デモを使って解説します。まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[ブラウザネイティブ(MPA)画面遷移のデモ画面](/api/hotwire/users?native=true)に移動してください。画面下部の「...へ遷移(Turbo Off)」のボタンをクリックすると、ブラウザネイティブの画面遷移をご確認いただけます。その時にブラウザネイティブのローディングアニメーションが表示されることをご確認ください。(Safariだったらロケーションバーの下部を青い線が横ぎります。Chromeの場合はタブのfaviconのところが回転アニメーションになります)。
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/mpa-loading-animation.mov" type="video/mp4"></source>
+</video>
+
+2000msの遅延が入っているのでリンク先のページが表示されるまでに時間はかかりますが、ローディングアニメーションのおかげでブラウザが正しく動作していることが確認でき、安心感があります。
 
 <H2WithHash id="loading-animations-with-turbo-drive">Turbo Driveの場合</H2WithHash>
 
-Turbo Driveの場合はネイティブのMPAと非常によく似たローディングアニメーションがデフォルトで用意されています。
+Turbo Driveの場合は、ネイティブのMPAと非常によく似たローディングアニメーションを、ライブラリがデフォルトで用意してくれています。
 
 これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[Turbo Drive画面遷移遷移のデモ画面](/api/hotwire/users)に移動してください。画面下部の「...へ遷移(Turbo On)」のボタンをクリックすると、Turbo Driveの画面遷移をご確認いただけます。ローディングアニメーションはページコンテンツの最上部を横切る青い線になります。これはTurboが用意してくれているもので、[スタイルのカスタマイズ](https://turbo.hotwired.dev/handbook/drive#displaying-progress)が可能です。
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/turbo-drive-loading-animation.mov" type="video/mp4"></source>
+</video>
+
+なおTurbo Driveの場合はキャッシュが動作するので、同じページを再訪問するときは瞬間的にページ遷移します。
+
+1. 一番最初の画面遷移の時は **ボタンを押す => ローディングアニメーション => 画面遷移** の順番で動作します。画面遷移までは待たされます
+2. 以前に訪問したページを再訪問する時は、**ボタンを押す => 瞬間的に画面遷移 => ローディングアニメーション** の順番で動作します。画面遷移は瞬間的でまで待たされません。
+
+２番目の時は[Turbo Driveのキャッシュ](https://turbo.hotwired.dev/handbook/building#understanding-caching)が動作しています。ボタンを押した瞬間に表示されるものは"preview"を呼ばれ、同時に裏でサーバから最新のページが取得されます。ローディングアニメーションが表示されているのは、裏で最新のページを取得しているためです。最新ページが受信されると"preview"と差し替えます。こうやって**瞬間的にページを表示することと、最新ページを表示すること**を両立させています。
+
+サーバのレスポンスが遅い場合には非常に効果的なUXです。
+
+
 
 <H2WithHash id="loading-animations-with-ssr">Next.js Pages Router SSRの場合</H2WithHash>
 
@@ -50,9 +74,26 @@ Turbo Driveの場合はネイティブのMPAと非常によく似たローディ
 
 これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[Next.js Pages Router SSR画面遷移](/users_ssr)に移動してください。画面下部の「...へSSR(アニメーションを隠す)」ボタンをクリックすると、Next.js Pages Router SSRの画面遷移をご確認いただけます。
 
-　ボタンをクリックしてもフィードバックがなく、ウェブサイトが反応しているかどうかが全く確認できません。2000ms後にページが切り替わり、初めて正しく反応してくれたことがわかります。ユーザは操作していても自信が持てず、全体に反応が鈍く、モッサリした印象を与えます。
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/ssr-no-loading-animation.mov" type="video/mp4"></source>
+</video>
 
-隣の「...へSSR」ボタン((アニメーションを隠すの表示がない方)を押すと、今後は画面右上にローディングアニメーションが表示されます。これは`components/LoadingIndicator.tsx` ([GitHub](https://github.com/naofumi/hotwire_and_next/blob/bbdb8989d166cd95fc67cec81273921d8e84b5f6/components/LoadingIndicator.tsx))の`LoadingIndicator`コンポーネントで実装しています。下記に示したようにNext.jsの`routeChangeStart`、`routeChangeComplete`イベントに反応してローダーを表示する仕組みになっています。
+
+ボタンをクリックしてもフィードバックがなく、ウェブサイトが反応しているかどうかが全く確認できません。2000ms後にページが切り替わり、初めて正しく反応してくれたことがわかります。ユーザは操作していても自信が持てず、全体に反応が鈍く、モッサリした印象を与えます。
+
+これなら[古典的なMPAの方](/commentaries/loading_animations#loading-animations-with-ssr)がずっとマシです。
+
+### ローディングアニメーションを実装してUX改善
+
+同じ[Next.js Pages Router SSR画面遷移の画面](/users_ssr)で隣の「...へSSR」ボタン((アニメーションを隠すの表示がない方)を押すと、今度は画面右上にローディングアニメーションが表示されます。
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/ssr-loading-animation.mov" type="video/mp4"></source>
+</video>
+
+古典的なMPA、もしくはTurbo Driveと同じようなUXになります。リンク先のページが表示されるまでは時間がかかりますが、フィードバックがあるのでユーザは安心できます。モッサリ感も改善されます。
+
+Next.jsはローディングアニメーションを用意していませんので、これは`components/LoadingIndicator.tsx` ([GitHub](https://github.com/naofumi/hotwire_and_next/blob/bbdb8989d166cd95fc67cec81273921d8e84b5f6/components/LoadingIndicator.tsx))の`LoadingIndicator`コンポーネントでカスタム実装しています。下記に示したようにNext.jsの`routeChangeStart`、`routeChangeComplete`イベントに反応して表示する仕組みになっています。
 
 **components/LoadingIndicator.tsx**
 ```javascript
@@ -62,7 +103,7 @@ router.events.on('routeChangeComplete', handleRouteChangeComplete)
 ...
 ```
 
-また下記のようにイベントハンドラの中では500msの遅延をさせています。ローディングアニメーションはすぐに表示するのではなく、500msを置いてから表示しています。サーバからレスポンスが500ms以内に返ってきた場合にいちいちアニメーションを表示していると却ってうるさく感じてしまうので、その場合は何も表示させないようになっています。これは[Turbo Drive](/commentaries/loading_animations#loading-animations-with-turbo-drive)のにUXを合わせています。
+また下記のようにイベントハンドラの中では500msの遅延をさせています。ローディングアニメーションはすぐに表示するのではなく、500msを置いてから表示しています。サーバからレスポンスが500ms以内に返ってきた場合にいちいちアニメーションを表示していると、却ってうるさく感じてしまいます。そのための対策です。[Turbo Driveのアニメーション](/commentaries/loading_animations#loading-animations-with-turbo-drive)もこうなっています。
 
 **components/LoadingIndicator.tsx**
 ```javascript
@@ -73,16 +114,23 @@ const handleRouteChangeStart = async (url: any, {shallow}: any) => {
 }
 ```
 
-実際に体感していただければわかるように、サーバからのレスポンスが遅い場合、ローディングアニメーションの追加はUXを大きく改善させます。Turbo Driveはデフォルトでアニメーションを用意してくれますが、Next.jsの場合は手間がかかります。NewsPicksのようなUXでも大丈夫かどうか、カスタムでローディングアニメーションのコードを書いてかつメンテナンスするべきかを評価する必要があるでしょう。
+特にサーバからのレスポンスが遅い場合、ローディングアニメーションの追加はUXを大きく改善させます。Turbo Driveはデフォルトでアニメーションを用意してくれますが、Next.jsの場合は上記のように自作する必要があります。残念ながら、現実問題として、そこまでやっていないサイトの方が多いのではないかと思います。
+
+NewsPicksはサーバのレスポンスが遅いサイトです。ローディングアニメーションの導入はぜひ検討するべきでしょう。それが難しい場合は、Next.jsの`Link`タグによる[SPA的画面遷移](/loading_animations#loading-animations-with-ssr)を諦め、`a`タグを使用して[ブラウザネイティブなMPA画面遷移](/commentaries/loading_animations#loading-animations-with-native)に戻した方がむしろUXは改善するでしょう。
 
 
 <H2WithHash id="turboframes">Turbo Framesの場合</H2WithHash>
 
-Turbo Driveではデフォルトで[ローディングアニメーションが表示されます](/commentaries/loading_animations#loading-animations-with-turbo-drive)が、Turbo Framesの場合は表示されません。Turbo Frameが小さかったり、複数あったりするケースもあるので、画面全体のローディング状態を示すアニメーションをデフォルトで表示するのは適切ではないと判断したのかもしれません。
+Turbo Driveではデフォルトで[ローディングアニメーションが表示されます](/commentaries/loading_animations#loading-animations-with-turbo-drive)が、Turbo Framesの場合は表示されません。Turbo Frameが小さかったり、複数あったりするケースもあるので、画面全体のローディング状態を示すアニメーションをデフォルトで表示するのは適切ではないと判断したのかもしれません。その代わりに`turbo-frame`ごとにカスタマイズする仕組みが用意されています。
 
-その代わりにTurbo Framesがロード中の時は`turbo-frame`タグに[`busy`の属性がつけられます](https://turbo.hotwired.dev/reference/frames#html-attributes)。同様に[`aria-busy`もつきます](https://turbo.hotwired.dev/reference/attributes#automatically-added-attributes)。したがってCSSを使うことで、`turbo-frame`周辺に限定したローディングアニメーションがつけられます。
+Turbo Framesがロード中の時は`turbo-frame`タグに[`busy`の属性がつけられます](https://turbo.hotwired.dev/reference/frames#html-attributes)。同様に[`aria-busy`もつきます](https://turbo.hotwired.dev/reference/attributes#automatically-added-attributes)。したがってCSSを使うことで、`turbo-frame`周辺に限定したローディングアニメーションがつけられます。
 
-本サイトでは500msの遅延もつけているので少し複雑になっていますが、下記のCSSでTurbo Frameのローディングアニメーションを実装しています([GitHub](https://github.com/naofumi/hotwire_and_next/blob/a63ddd7828a40a6e2be5fe2fa4124767b4fe4474/public/hotwire/styles/input.css#L6))。
+本サイトでは500msの遅延もつけているので少し複雑になっていますが、下記のCSSでTurbo Frameのローディングアニメーションを実装しています([GitHub](https://github.com/naofumi/hotwire_and_next/blob/a63ddd7828a40a6e2be5fe2fa4124767b4fe4474/public/hotwire/styles/input.css#L6))。デモは[こちら](/api/hotwire/tabbed_segments_turboframes)でご確認いただけます。
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/turbo-frames-loading-animation.mov" type="video/mp4"></source>
+</video>
+
 
 **/public/hotwire/styles/input.css**
 ```css
@@ -137,18 +185,27 @@ Turbo Driveではデフォルトで[ローディングアニメーションが�
 </turbo-frame>
 ```
 
-Turbo Framesを注意せずに使用すると、上記のNewsPicksのようなUXになってしまいがちです。CSSだけでローディングアニメーションが実装できますので、なるべくなら用意したほうが良いでしょう。ただしやり過ぎると画面がうるさくなってしまいますので、ケースバイケースで検討する必要があります。
+サーバのレスポンスが遅いサイトで、ローディングアニメーションも用意せずにTurbo Framesを使用すると、上記のNewsPicksのようなUXになってしまいがちです。上記のようにCSSだけでローディングアニメーションが実装できますので、なるべくなら用意したほうが良いでしょう。ただしやり過ぎると画面がうるさくなってしまいますので、ケースバイケースで検討する必要があります。
 
-場合によっては、ボタンやリンクだけにロード中の印をつけるのも良いでしょう。例えばTurboで`form`の送信をするときは、`data-turbo-submits-with`属性を使えば、[送信中にボタンの文言を変更できます](https://turbo.hotwired.dev/reference/attributes#data-attributes)。
+うるさいと感じる場合、ボタンやリンクだけにロード中の印をつけるのも良いでしょう。例えばTurboで`form`の送信をするときは、`data-turbo-submits-with`属性を使えば、[送信中にボタンの文言を変更できます](https://turbo.hotwired.dev/reference/attributes#data-attributes)。
 
+またTurbo Framesの場合は[Turbo Driveの"preview"キャッシュ機能](https://turbo.hotwired.dev/handbook/building#understanding-caching)が働きません。スクロール位置などのステートを維持する必要がなければ、Turbo Framesではなく、[Turbo Drive](/commentaries/loading_animations#loading-animations-with-turbo-drive)の方がより良い選択かもしれません。
 
 <H2WithHash id="useeffect">ReactでuseEffectを使った場合</H2WithHash>
 
-Reactで古典的なSPAを作成する場合は、useEffectを使ってデータを`fetch`します。この場合は[条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)を使用してローディングアニメーションを表示します。
+Reactの古典的なSPAの場合は、useEffectを使ってデータを`fetch`します。この場合は[条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)を使用してローディングアニメーションを表示します。
 
-UXについては[Next.js useEffect画面遷移](/users)もしくは[タブメニューUI useEffect](/tabbed_segments)にデモを用意しています。
+[Next.js useEffect画面遷移](/users)および[タブメニューUI useEffect](/tabbed_segments)にデモを用意していますので、UXをご確認ください。
 
-この場合は画面の対象部分は必ずすべてクリアされます。旧画面の上にローダーを重ねるのは難しく、旧画面は即時に全て消されます。ただしサーバのレスポンスが極端に遅くなければこれが問題になることはなく、むしろ初期レスポンスが速く感じられるでしょう。近年では汎用的なローディングアニメーションではなく、[スケルトンが使われることも多く](https://ws-design.net/skeleton_screen/)、これには適しています。
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/use-effect-loading-animation.mov" type="video/mp4"></source>
+</video>
+
+
+この場合はリンクをクリックすると瞬間的にローディングアニメーションが画面いっぱいに広がります。リンク先の内容が表示されるまでは時間がかかりますが、ブラウザが反応していることは明確なので、ユーザは安心です。モッサリ感もなく、比較的良いUXです。少なくとも[下手に実装されたSSR](/commentaries/loading_animations#loading-animations-with-ssr)よりはずっと良いものです。
+
+古典的なMPAやTurbo Driveと比べると、画面が先にクリアされることが大きな違いになります。旧画面の上にローダーを重ねるのは難しく、旧画面は即時に全て消されます。ただしサーバのレスポンスが極端に遅くなければこれが問題になることはなく、むしろ初期レスポンスが速く感じられるでしょう。
 
 コードは一般に以下のようになります。
 
@@ -184,34 +241,42 @@ export default function UsersIndex() {
 }
 ```
 
-Next.jsの[Pages Router](/commentaries/loading_animations#loading-animations-with-ssr)のSSRに比べて、こっちのローディングアニメーションの方が考えやすく、かなり実装しやすくなっています。「SSRの方が却ってUXが悪い」という声を聞きますが、ここに原因があると思われます。
+Next.jsの[Pages Router](/commentaries/loading_animations#loading-animations-with-ssr)のSSRに比べて、こっちのローディングアニメーションの方が考えやすく、かなり実装しやすくなっています。
 
 
 <H2WithHash id="react-server-components">Next.js App Router Server Componentsを使った場合</H2WithHash>
 
-Next.jsの新しいApp Router Server Componentsの効果を確認します。
+Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認します。
 
 まず[トップ画面](/)最上部で遅延(delay)を2000msに設定し、[Next.js App Router Server Component画面遷移](/users_app)に移動してください。画面下部の「...へApp router」ボタンをクリックすると、Next.js App Router Server Componentsの画面遷移をご確認いただけます。
 
 コードはGitHubに公開しています([users](https://github.com/naofumi/hotwire_and_next/tree/main/app/users_app), [products](https://github.com/naofumi/hotwire_and_next/tree/main/app/products_app))。
 
-今回は`loading.tsx`ファイルを用意していますので、React Server ComponentsのSuspenseを使った[Loading UI](https://nextjs.org/docs/app/api-reference/file-conventions/loading)があります。実際に試していただくとわかる通り、[useEffectを使った場合に近い](/commentaries/loading_animations#useeffect)UXが実現されています。今回デモは用意していませんが、ここの`loading.tsx`のファイルを削除すると、UXは[Pages Router SSRでローディングアニメーションを設置しなかった場合](/commentaries/loading_animations#loading-animations-with-ssr)と同じになります。つまり、非常に反応が鈍く、モッサリしたものになってしまいます。サーバのレスポンスが遅い場合、この`loading.tsx`ファイルがUX上、非常に重要であることがわかります。
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/server-components-loading-animation.mov" type="video/mp4"></source>
+</video>
+
+
+
+今回は`loading.tsx`ファイルを用意していますので、React Server ComponentsのSuspenseを使った[Loading UI](https://nextjs.org/docs/app/api-reference/file-conventions/loading)があります。ご覧のように[useEffectを使った場合に非常に近い](/commentaries/loading_animations#useeffect)UXが実現されています。
+
+今回デモは用意していませんが、`loading.tsx`のファイルを削除すると、UXは[Pages Router SSRでローディングアニメーションを設置しなかった場合](/commentaries/loading_animations#loading-animations-with-ssr)と同じになります。つまり非常に反応が鈍く、モッサリしたものになってしまいます。特にサーバのレスポンスが遅い場合は、`loading.tsx`ファイルによるSuspenseがUX上非常に重要であることがわかります。
 
 タブメニューUIの方でも、Next.js App Routerの[Parallel Routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)を使った[デモ](/tabbed_segments_app/users)を用意しています。[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)をご覧いただくとわかる通り、ここでも`loading.tsx`を使っていますので、SSRの動作ではなく、useEffectを使った場合に近いUXになります。
 
-このようにReact Server ComponentsのSuspenseを使うと、[Pages RouterのSSRで問題](/commentaries/loading_animations#loading-animations-with-ssr)になりやすかった反応の鈍さを解消し、[useEffect的なUX](http://localhost:3000/commentaries/loading_animations#useeffect)に戻してくれます。`loading.tsx`ファイルを作るだけですので、実装も簡単です。
+このようにReact Server ComponentsのSuspenseを使うと、[Pages RouterのSSRで問題](/commentaries/loading_animations#loading-animations-with-ssr)となるフィードバックの無さを解消し、[useEffect的なUX](/commentaries/loading_animations#useeffect)のレベルに戻してくれます。`loading.tsx`ファイルを作るだけですので、[上に示した](/commentaries/loading_animations#loading-animations-with-ssr)SSR用のカスタムアニメーションの実装もかなり簡単です。
 
-おそらくNewsPicksのサイトもApp Routerに移行すれば、UXの問題を解消できるでしょう。
 
 <H2WithHash id="hotwire-and-next">HotwireとNext.jsの比較</H2WithHash>
 
 上記の議論を下図にまとめました。下記のことが言えるのではないかと思います。
 
 * 全画面遷移についてはHotwire/Turboはデフォルトでローディングアニメーションを用意してくれています
-* 一方でNext.jsはデフォルトでは何も用意してくれていません。加えてPages Router SSRでローディングアニメーションを実現するのは少し難易度が高めです。古典的なSPAで使われてきた`useEffect`と条件付きレンダーの組み合わせに比べ、気をつけないと却ってUXが落ちてしまうことがありました。一方でSuspenseにより、App Routerの方は簡単にローディングアニメーションが実現できます。デフォルトでは用意されていないので注意は必要ですが、大きな改善と言えます。
-* ページの部分置換についてはHotwireもNext.jsもデフォルトでは何も用意していません。しかしHotwireはCSSを使えば良いですし、Next.jsもApp RouterであればSuspenseで簡単にローディングアニメーションを実装できます。またPages Router SSRではそもそもページの部分置換はできず、`useEffect`と条件付きレンダーを使用しますので、SSR化のためにUXが落ちたということも起こりません。
-* なおHotwireの場合はprefetchを使って、リンクをクリックする前からフライングをしてリンク先のページを読み込むことができます。Next.jsでは、動的ページの場合、これができません。その分だけHotwireの反応は速くなり、より優れたUXになります。
-* Suspenseによるローディング画面の場合、部分置換する枠の中はすぐに消去します。以前の画面を残しつつ、その上にローディングアニメーションを重ねることは原理的にできません。一方でHotwireの場合は以前の画面が残りますので、アニメーションを重ねることもできますし、CSSで非表示にすることもできます。どのようなローディング画面を表示するかについては、Hotwireの方が若干柔軟性が高くなっています。
+* 一方でNext.jsのPages Router SSRはデフォルトでは何も用意されていません。そのため、古典的SPAで使われてきた`useEffect`と条件付きレンダーの組み合わせに比べ、却ってUXが落ちてしまうことがあります。加えてローディングアニメーションを実現するのは難易度が高めです。ただしSuspenseの登場により、App Routerならば簡単にローディングアニメーションが実現できます。デフォルトでは用意されていないので注意は必要ですが、大きな改善と言えます。
+* ページの部分置換(Turbo Frames)については、HotwireもNext.jsもデフォルトではローディングアニメーションを用意していません。しかしHotwireはCSSを使えば良いですし、Next.jsもApp RouterであればSuspenseで簡単にローディングアニメーションを実装できます。またPages Router SSRではそもそもページの部分置換はできず、`useEffect`と条件付きレンダーを使用するしかありませんので、SSR化のためにUXが落ちることも起こりません。
+* なおHotwireの場合はprefetchを使って、リンクをクリックする前からフライングをしてリンク先のページを読み込むことができます。Turbo Driveの時もTurbo Frameの時もprefetchは有効です。Next.jsでは、動的ページの場合、これができません。その分だけHotwireの反応は速くなり、より優れたUXになります。
+* 条件付きレンダーやSuspenseによるローディングアニメーションの場合、部分置換する枠の中はすぐに消去します。以前の画面を残しつつ、その上にアニメーションを重ねることは原理的にできません。一方でMPAやHotwireの場合は以前の画面が残りますので、アニメーションを重ねることもできますし、CSSで非表示にすることもできます。どのようなローディング画面を表示するかについては、Hotwireの方が若干柔軟性が高くなっています。
 
 <div className="mt-4">
   <Image src={hotwireAndNextImage}></Image>
@@ -219,7 +284,7 @@ Next.jsの新しいApp Router Server Componentsの効果を確認します。
 
 <H2WithHash id="closing">最後に</H2WithHash>
 
-サーバのレスポンスが遅い場合は、ローディングアニメーションは必須と言えます。難易度はそれぞれ異なりますが、HotwireもNext.jsもこれを実装する方法が用意されています。
+特にサーバのレスポンスが遅い場合は、ローディングアニメーションは必須と言えます。無いとUXに大きな影響があります。難易度はそれぞれ異なりますが、HotwireもNext.jsもこれを実装する方法が用意されています。Next.jsのPages RouterのSSRではアニメーションの実装が難しい部分があり、UXが悪いケースがありました。しかし、App RouterのSuspenseでこの問題も解消されています。
 
 一方で[闇雲にアニメーションを用意すれば良いというものでもありません](https://ws-design.net/skeleton_screen/)。ケースバイケースで判断しながら、適切な方法を選択するのが良いでしょう。
 
