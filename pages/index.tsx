@@ -28,7 +28,7 @@ export default function IndexPage() {
               「HotwireはRails専用じゃないの？」と思っている方も多いと思いますが、実はHotwireはバックエンド非依存です。Rails,
               Laravel, Django, Nodeでも関係なく動きます。
               このサイトも<strong>HotwireをNext.js上で動かしていて、すべてJavaScript
-              (TypeScript)で書かれています。</strong>
+              (TypeScript)で書かれています。Railsは一切使っていません。</strong>
               JavaScriptさえわかれば簡単にコードを追うことができます。</p>
             <p
               className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">本サイトのコードは<StyledLink
