@@ -4,7 +4,6 @@ import Layout from "@/components/Layout";
 import H2WithHash from "@/components/H2WithHash";
 import StyledLink from "@/components/StyledLink";
 import PrimaryButtonWithLink from "@/components/PrimaryButtonWithLink";
-import {isDev} from "@/helpers/feature_flags";
 
 export default function IndexPage() {
   return (
@@ -135,30 +134,28 @@ export default function IndexPage() {
             </div>
 
 
-
-            {isDev() && <>
-              <hr className="my-8"/>
-              <div className="bg-green-200">
-                <H2WithHash id="popup">
-                  ローディングアニメーション問題: Turbo Frames
-                </H2WithHash>
-                <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                  特にレスポンスが遅い場合、ボタンクリック後の「ローディング中」状態をユーザに伝えるのことはとても重要です。これを怠ると、ユーザを不安にさせてしまいます。<br/>
-                  残念ながら、AJAX/fetchで非同期通信をするサイトの多くが、これを見落としています。<br/>
-                  TurboおよびNext.jsでこの問題を解決する方法を紹介し、比較します。
-                </p>
-                <div className={`text-center mt-4 text-xl tracking-wider`}>
-                  <StyledLink href="/commentaries/loading_animations">
-                    解説はこちら...
-                  </StyledLink>
-                </div>
-                <div className="mt-10 flex items-center justify-center gap-x-6">
-                  <a href="/popup"
-                     className="btn-primary"
-                     data-turbo="false">ポップアップUI</a>
-                </div>
+            <hr className="my-8"/>
+            <div className="">
+              <H2WithHash id="popup">
+                ローディングアニメーション問題: Turbo Frames
+              </H2WithHash>
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
+                特にレスポンスが遅い場合、ボタンクリック後の「ローディング中」状態をユーザに伝えるのことはとても重要です。これを怠ると、ユーザを不安にさせてしまいます。<br/>
+                残念ながら、AJAX/fetchで非同期通信をするサイトの多くが、これを見落としています。<br/>
+                TurboおよびNext.jsでこの問題を解決する方法を紹介し、比較します。
+              </p>
+              <div className={`text-center mt-4 text-xl tracking-wider`}>
+                <StyledLink href="/commentaries/loading_animations">
+                  解説はこちら...
+                </StyledLink>
               </div>
-            </>}
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <a href="/popup"
+                   className="btn-primary"
+                   data-turbo="false">ポップアップUI</a>
+              </div>
+            </div>
+
 
             <hr className="my-8"/>
             <div className="">
@@ -175,7 +172,6 @@ export default function IndexPage() {
                    data-turbo="false">ポップアップUI</a>
               </div>
             </div>
-
 
 
             <hr className="my-8"/>
