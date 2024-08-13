@@ -9,7 +9,7 @@ export default class extends Controller {
   }
 
   hideAllPopups() {
-    document.querySelectorAll("[data-js=user-detail-popup]")
+    document.querySelectorAll("[data-js=user-detail-popup]:not(.hidden)")
       .forEach((popup) => popup.classList.add('hidden'))
   }
 }
