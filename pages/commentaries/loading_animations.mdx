@@ -116,14 +116,14 @@ const handleRouteChangeStart = async (url: any, {shallow}: any) => {
 
 特にサーバからのレスポンスが遅い場合、ローディングアニメーションの追加はUXを大きく改善させます。Turbo Driveはデフォルトでアニメーションを用意してくれますが、Next.jsの場合は上記のように自作する必要があります。残念ながら、現実問題として、そこまでやっていないサイトの方が多いのではないかと思います。
 
-NewsPicksはサーバのレスポンスが遅いサイトです。ローディングアニメーションの導入はぜひ検討するべきでしょう。それが難しい場合は、Next.jsの`Link`タグによる[SPA的画面遷移](/loading_animations#loading-animations-with-ssr)を諦め、`a`タグを使用して[ブラウザネイティブなMPA画面遷移](/commentaries/loading_animations#loading-animations-with-native)に戻した方がむしろUXは改善するでしょう。
+NewsPicksはサーバのレスポンスが遅いサイトです。そのため、UXへの悪影響を軽減するために、ローディングアニメーションの導入はぜひ検討するべきでしょう。それが難しい場合は、Next.jsの`Link`タグによる[SPA的画面遷移](/loading_animations#loading-animations-with-ssr)を諦め、`a`タグを使用して[ブラウザネイティブなMPA画面遷移](/commentaries/loading_animations#loading-animations-with-native)に戻した方がむしろUXは改善するでしょう。
 
 
 <H2WithHash id="turboframes">Turbo Framesの場合</H2WithHash>
 
 Turbo Driveではデフォルトで[ローディングアニメーションが表示されます](/commentaries/loading_animations#loading-animations-with-turbo-drive)が、Turbo Framesの場合は表示されません。Turbo Frameが小さかったり、複数あったりするケースもあるので、画面全体のローディング状態を示すアニメーションをデフォルトで表示するのは適切ではないと判断したのかもしれません。その代わりに`turbo-frame`ごとにカスタマイズする仕組みが用意されています。
 
-Turbo Framesがロード中の時は`turbo-frame`タグに[`busy`の属性がつけられます](https://turbo.hotwired.dev/reference/frames#html-attributes)。同様に[`aria-busy`もつきます](https://turbo.hotwired.dev/reference/attributes#automatically-added-attributes)。したがってCSSを使うことで、`turbo-frame`周辺に限定したローディングアニメーションがつけられます。
+Turbo Framesがロード中の時は`turbo-frame`タグに[`busy`の属性がつけられます](https://turbo.hotwired.dev/reference/frames#html-attributes)。同様に[`aria-busy`もつきます](https://turbo.hotwired.dev/reference/attributes#automatically-added-attributes)。したがってCSSを使うだけで、`turbo-frame`周辺に限定したローディングアニメーションがつけられます。
 
 本サイトでは500msの遅延もつけているので少し複雑になっていますが、下記のCSSでTurbo Frameのローディングアニメーションを実装しています([GitHub](https://github.com/naofumi/hotwire_and_next/blob/a63ddd7828a40a6e2be5fe2fa4124767b4fe4474/public/hotwire/styles/input.css#L6))。デモは[こちら](/api/hotwire/tabbed_segments_turboframes)でご確認いただけます。
 
@@ -274,8 +274,9 @@ Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認しま�
 
 * 全画面遷移についてはHotwire/Turboはデフォルトでローディングアニメーションを用意してくれています
 * 一方でNext.jsのPages Router SSRはデフォルトでは何も用意されていません。そのため、古典的SPAで使われてきた`useEffect`と条件付きレンダーの組み合わせに比べ、却ってUXが落ちてしまうことがあります。加えてローディングアニメーションを実現するのは難易度が高めです。ただしSuspenseの登場により、App Routerならば簡単にローディングアニメーションが実現できます。デフォルトでは用意されていないので注意は必要ですが、大きな改善と言えます。
-* ページの部分置換(Turbo Frames)については、HotwireもNext.jsもデフォルトではローディングアニメーションを用意していません。しかしHotwireはCSSを使えば良いですし、Next.jsもApp RouterであればSuspenseで簡単にローディングアニメーションを実装できます。またPages Router SSRではそもそもページの部分置換はできず、`useEffect`と条件付きレンダーを使用するしかありませんので、SSR化のためにUXが落ちることも起こりません。
-* なおHotwireの場合はprefetchを使って、リンクをクリックする前からフライングをしてリンク先のページを読み込むことができます。Turbo Driveの時もTurbo Frameの時もprefetchは有効です。Next.jsでは、動的ページの場合、これができません。その分だけHotwireの反応は速くなり、より優れたUXになります。
+* ページの部分置換をする時は、HotwireもNext.jsもデフォルトではローディングアニメーションを用意していません。しかしHotwireはCSSだけで可能ですし、Next.jsもApp RouterであればSuspenseで簡単に実装できます。Pages Router SSRについて言えば、SSRではそもそもページの部分置換の機能はなく、`useEffect`と条件付きレンダーを使用するしかありませんので、下手なSSR化をした時のようにUXが落ちることも起こりません。
+* なおHotwireの場合はprefetchを使って、リンクをクリックする前からフライングをしてリンク先のページを読み込むこと(prefetch)ができます。Turbo Driveの時もTurbo Frameの時もprefetchは有効です。Next.jsでは、動的ページの場合、これができません。その分だけHotwireの反応は速くなり、より優れたUXになります。
+* HotwireではTurbo Driveの"preview"というキャッシュ機能もあります。これがあると、以前に訪問したページを再訪問するときはTurbo Framesよりも大幅に高速化します。画面置換の粒度が粗い方が、却ってUXがよくなる可能性もあるということです。
 * 条件付きレンダーやSuspenseによるローディングアニメーションの場合、部分置換する枠の中はすぐに消去します。以前の画面を残しつつ、その上にアニメーションを重ねることは原理的にできません。一方でMPAやHotwireの場合は以前の画面が残りますので、アニメーションを重ねることもできますし、CSSで非表示にすることもできます。どのようなローディング画面を表示するかについては、Hotwireの方が若干柔軟性が高くなっています。
 
 <div className="mt-4">
