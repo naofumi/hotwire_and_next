@@ -1,32 +1,29 @@
-import React, {FormEvent, useEffect} from "react";
+import React, {FormEvent, useActionState, useEffect} from "react";
 import Modal from "@/app/modal_app_client/components/Modal";
 import {getGreeting, updateGreeting} from "@/app/modal_app_client/helpers/greeting";
 import Image from "next/image";
 import rocketImage from "@/public/images/rocket.gif";
 import {useRouter} from "next/navigation";
 
-
 export default function EditModal({closeModal}: {closeModal: () => void}) {
   const router = useRouter();
   const [currentGreeting, setCurrentGreeting] = React.useState<string | undefined>(undefined);
+
+  async function submitHander(formData: FormData) {
+    await updateGreeting(formData)
+    // We should normally do error handling here.
+    closeModal()
+    router.refresh()
+  }
 
   useEffect(() => {
     getGreeting().then((greeting) => setCurrentGreeting(greeting));
   }, [])
 
-  async function submitHandler(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const formData = new FormData(event.currentTarget);
-    await updateGreeting(formData);
-    router.refresh()
-    closeModal();
-  }
-
   return (
     <Modal>
       {currentGreeting
-        ? <form onSubmit={submitHandler}>
+        ? <form action={submitHander}>
           <label htmlFor="greeting-input" className="text-sm font-bold">Enter new greeting:</label>
           <input id="greeting-input"
                  name="greeting"

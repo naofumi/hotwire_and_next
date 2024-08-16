@@ -1,7 +1,7 @@
 export default function ModalTechNav({selected}) {
   return (
     <div className="flex flex-wrap gap-2 justify-center">
-      <a href="/ModalIndex"
+      <a href="/modal"
          className={selected === "use_effect"
                     ? " btn-primary"
                     : " btn-outline-primary"}
@@ -14,6 +14,13 @@ export default function ModalTechNav({selected}) {
                     : " btn-outline-primary"}
       >
         React Server Component
+      </a>
+      <a href="/modal_app_client"
+         className={selected === "client_component"
+                    ? " btn-primary"
+                    : " btn-outline-primary"}
+      >
+        React Client Component
       </a>
       <a href="/api/hotwire/modal_no_js"
          className={selected === "hotwire_no_js"

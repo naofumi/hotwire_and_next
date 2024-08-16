@@ -1,4 +1,5 @@
 import React, {ReactNode} from "react";
+import Link from "next/link";
 
 export default async function Modal({children}: {children: ReactNode}) {
   return (
