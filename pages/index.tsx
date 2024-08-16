@@ -4,6 +4,7 @@ import Layout from "@/components/Layout";
 import H2WithHash from "@/components/H2WithHash";
 import StyledLink from "@/components/StyledLink";
 import PrimaryButtonWithLink from "@/components/PrimaryButtonWithLink";
+import {isDev} from "@/helpers/feature_flags";
 
 export default function IndexPage() {
   return (
@@ -156,6 +157,32 @@ export default function IndexPage() {
               </div>
             </div>
 
+            {isDev() &&
+              <>
+                <hr className="my-8"/>
+                <div className="bg-green-200">
+                  <H2WithHash id="modal">
+                    モーダルダイアログ: Turbo Frames
+                  </H2WithHash>
+                  <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
+                    モーダルダイアログはUI要素として非常によく使われています。元の画面のステートを維持しつつ、その上に重ねて情報やFormを表示するのに使用されます。
+                    中身がダイナミックな場合はサーバからデータを取得する必要がありますので、Turbo Framesがよく使われます。<br/>
+                    Turbo Framesを使うとJavaScriptなしで実装することも可能ですが、やはり多少のJavaScriptがあった方がUXはよくなります。
+                    ここではNext.jsで実装したモーダルダイアログとも対比させながら、モーダルを実装する方法を複数検討します。
+                  </p>
+                  <div className={`text-center mt-4 text-xl tracking-wider`}>
+                    <StyledLink href="/commentaries/modal_dialogs">
+                      解説はこちら...
+                    </StyledLink>
+                  </div>
+                  <div className="mt-10 flex items-center justify-center gap-x-6">
+                    <a href="/ModalIndex"
+                       className="btn-primary"
+                       data-turbo="false">モーダルUI</a>
+                  </div>
+                </div>
+              </>
+            }
 
             <hr className="my-8"/>
             <div className="">

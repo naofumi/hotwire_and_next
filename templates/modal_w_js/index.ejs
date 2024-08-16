@@ -1,9 +1,8 @@
 <%- include("../layouts/header.ejs") -%>
 <div class="my-10 px-4 sm:px-6 lg:px-8">
-  <div class="flex justify-center">
+  <%- include("../modal_components/_tech_nav.ejs", {selected: "hotwire_w_js"}) %>
+  <div class="flex justify-center mt-48">
     <div>
-      <div class="font-bold text-sm mb-4 text-gray-400">遅いネットワークを再現するため<br>２秒間のディレイを入れています
-      </div>
       <a href="/api/hotwire/modal_w_js/modal"
          data-turbo-frame="modal"
          data-controller="modal"
@@ -11,16 +10,9 @@
          data-modal-opener-class="modal-open"
          data-action="click->modal#open"
          class="border bg-orange-600 rounded text-white p-2">
-        Show Modal (With JavaScript)
+        Show Modal (With Custom JavaScript)
       </a>
     </div>
-  </div>
-
-  <div class="flex justify-center mt-48">
-    <a href="/api/hotwire/modal_no_js"
-       class="border bg-orange-600 rounded text-white p-2">
-      JavaScript未使用バージョンへ
-    </a>
   </div>
 
   <div class="modal-dialog relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
@@ -29,7 +21,7 @@
     <div class="modal-panel fixed inset-0 z-10 w-screen overflow-y-auto">
       <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
         <turbo-frame id="modal">
-          <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+          <div class="!min-w-96 text-center relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
             Loading...
           </div>
         </turbo-frame>

@@ -9,8 +9,6 @@ export default async function handler(
   res: NextApiResponse<string>,
 ) {
 
-  await sleep(2000);
-
   const resultText = render("modal_w_js/modal.ejs",
     {}
   )

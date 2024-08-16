@@ -13,7 +13,6 @@ export default class extends Controller {
   }
 
   close() {
-    console.log(this.openerClass)
     const modalDialog = document.querySelector(this.selectorValue)
     modalDialog.classList.remove(this.openerClass)
   }

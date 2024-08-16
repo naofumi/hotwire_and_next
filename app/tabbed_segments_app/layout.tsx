@@ -30,7 +30,7 @@ export default function TabbedSegmentsLayout(
           <div className="mt-10">
             <div className="mb-2">
               <label htmlFor="search" className="text-sm mr-2">Search</label>
-              <input id="search" type="text" className="border rounded p-1" placeholder="ステート維持確認用"/>
+              <input id="search" type="search" className="border rounded p-1" placeholder="ステート維持確認用"/>
             </div>
             {tabs}
           </div>

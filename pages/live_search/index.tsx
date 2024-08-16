@@ -44,7 +44,7 @@ export default function LiveSearchIndex() {
             <div className="mt-4 flex justify-center">
               <div className="mb-2">
                 <label htmlFor="search" className="text-sm mr-2">Search</label>
-                <input id="search" type="text"
+                <input id="search" type="search"
                        onChange={(e) => handleSearch(e.target.value)}
                        className="border rounded p-1"/>
               </div>
