@@ -54,7 +54,7 @@ export default function IndexPage() {
 
 
             <hr className="my-8"/>
-            <div className="">
+            <article className="">
               <H2WithHash id="page-transition">
                 ページ遷移: Turbo Drive
               </H2WithHash>
@@ -88,11 +88,11 @@ export default function IndexPage() {
                   Next.js App Router Server component
                 </PrimaryButtonWithLink>
               </div>
-            </div>
+            </article>
 
 
             <hr className="my-8"/>
-            <div className="">
+            <article className="">
               <H2WithHash id="tabbed-menu">
                 タブメニュー: Turbo Frames
               </H2WithHash>
@@ -111,11 +111,11 @@ export default function IndexPage() {
                    className="btn-primary"
                    data-turbo="false">タブメニューUI</a>
               </div>
-            </div>
+            </article>
 
 
             <hr className="my-8"/>
-            <div className="">
+            <article className="">
               <H2WithHash id="tabbed-menu">
                 詳細パネル: Turbo Frames
               </H2WithHash>
@@ -132,11 +132,11 @@ export default function IndexPage() {
                    className="btn-primary"
                    data-turbo="false">詳細パネルUI</a>
               </div>
-            </div>
+            </article>
 
 
             <hr className="my-8"/>
-            <div className="">
+            <article className="">
               <H2WithHash id="popup">
                 ローディングアニメーション問題: Turbo Frames
               </H2WithHash>
@@ -155,7 +155,7 @@ export default function IndexPage() {
                    className="btn-primary"
                    data-turbo="false">ポップアップUI</a>
               </div>
-            </div>
+            </article>
 
             {isDev() &&
               <>
@@ -185,7 +185,7 @@ export default function IndexPage() {
             }
 
             <hr className="my-8"/>
-            <div className="">
+            <article className="">
               <H2WithHash id="popup">
                 ポップアップ: Turbo Frames
               </H2WithHash>
@@ -198,11 +198,11 @@ export default function IndexPage() {
                    className="btn-primary"
                    data-turbo="false">ポップアップUI</a>
               </div>
-            </div>
+            </article>
 
 
             <hr className="my-8"/>
-            <div className="">
+            <article className="">
               <H2WithHash id="hierarchical-menus">
                 ライブ検索: Turbo Frames
               </H2WithHash>
@@ -226,10 +226,10 @@ export default function IndexPage() {
                    className="btn-primary"
                    data-turbo="false">React ライブ検索</a>
               </div>
-            </div>
+            </article>
 
             <hr className="my-8"/>
-            <div className="">
+            <article className="">
               <H2WithHash id="hierarchical-menus">
                 階層プルダウンメニュー: Turbo Frames
               </H2WithHash>
@@ -246,7 +246,7 @@ export default function IndexPage() {
                    className="btn-primary"
                    data-turbo="false">Next 住所入力UI</a>
               </div>
-            </div>
+            </article>
           </div>
         </div>
       </div>
