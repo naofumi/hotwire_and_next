@@ -17,7 +17,7 @@ export default function RootLayout({
   const currentYear = new Date().getFullYear()
 
   return (
-    <html lang="en">
+    <html lang="ja">
     <body>
     <div className="bg-white flex justify-between p-1 items-start mx-4">
       <Link href="/" className="text-xl rounded text-orange-600">Top</Link>
