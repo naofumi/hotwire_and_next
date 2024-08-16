@@ -1,6 +1,6 @@
 import React, {ReactNode} from "react";
 
-export default async function Modal({children}: {children: ReactNode}) {
+export default function Modal({children}: {children: ReactNode}) {
   return (
     <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
       <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>

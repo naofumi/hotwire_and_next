@@ -1,20 +1,11 @@
+"use client"
+
 import ModalTechNav from "@/components/modal/TechNav";
-import Link from "next/link";
-import React, {Suspense} from "react";
-import {cookies} from "next/headers";
-import LoadingModal from "@/app/modal_app/components/LoadingModal";
-import EditModal from "@/app/modal_app/components/EditModal";
+import React, {useEffect, useState} from "react";
+import EditModal from "@/app/modal_app_client/components/EditModal";
+import {getGreeting} from "@/app/modal_app_client/helpers/greeting";
 
 export const dynamic = 'force-dynamic'
-export const revalidate = 0
-
-async function getGreeting() {
-  "use server"
-
-  /* We mimic database access by storing data in cookies */
-  const greeting = cookies().get("greeting")?.value as string | undefined;
-  return greeting
-}
 
 /*
 * Goal of this demo:
@@ -36,9 +27,18 @@ async function getGreeting() {
 * The problem with this approach, however, is when the network response is slow. To solve this,
 * we need suspense
 * */
-export default async function ModalAppPage({searchParams}: { searchParams: { showModal: string } }) {
-  const isModalOpen = searchParams.showModal === "true" ? true : false
-  const greeting = await getGreeting()
+
+export default function ModalAppPage() {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [greeting, setGreeting] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    getGreeting().then((greeting) => setGreeting(greeting));
+  }, [])
+
+  function closeModal() {
+    setIsModalOpen(false);
+  }
 
   return (
     <div className="my-10 px-4 sm:px-6 lg:px-8">
@@ -52,19 +52,16 @@ export default async function ModalAppPage({searchParams}: { searchParams: { sho
         </div>
 
         <div className="flex justify-center mt-16">
-          <Link
-            href="/modal_app?showModal=true"
+          <button
             className="border bg-orange-600 rounded text-white p-2"
-            scroll={false}
+            onClick={() => setIsModalOpen(true)}
           >
-            Show Modal (React server component)
-          </Link>
+            Show Modal (React server component/ client component)
+          </button>
         </div>
       </div>
       {isModalOpen &&
-        <Suspense fallback={<LoadingModal />}>
-          <EditModal/>
-        </Suspense>
+        <EditModal closeModal={closeModal}/>
       }
     </div>
   )
