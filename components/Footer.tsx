@@ -14,7 +14,7 @@ export default function Footer() {
               コンサルティング、業務委託等の<br />
               お問合せは、XでDMをお送りください
             </div>
-            <div className="flex space-x-6 md:justify-end">
+            <address className="flex space-x-6 md:justify-end">
               <a href="https://x.com/naofumi" target="_blank" className="text-gray-400 hover:text-gray-500">
                 <span className="sr-only">X</span>
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -38,7 +38,7 @@ export default function Footer() {
                         clipRule="evenodd"/>
                 </svg>
               </a>
-            </div>
+            </address>
           </div>
           <p className="mt-8 text-xs leading-5 text-gray-500 md:order-1 md:mt-0">
             &copy;
