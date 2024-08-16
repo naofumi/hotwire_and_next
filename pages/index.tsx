@@ -53,8 +53,7 @@ export default function IndexPage() {
             </div>
 
 
-            <hr className="my-8"/>
-            <article className="">
+            <article className="mt-16 border-t border-t-gray-200">
               <H2WithHash id="page-transition">
                 ページ遷移: Turbo Drive
               </H2WithHash>
@@ -91,8 +90,7 @@ export default function IndexPage() {
             </article>
 
 
-            <hr className="my-8"/>
-            <article className="">
+            <article className="mt-16 border-t border-t-gray-200">
               <H2WithHash id="tabbed-menu">
                 タブメニュー: Turbo Frames
               </H2WithHash>
@@ -114,8 +112,7 @@ export default function IndexPage() {
             </article>
 
 
-            <hr className="my-8"/>
-            <article className="">
+            <article className="mt-16 border-t border-t-gray-200">
               <H2WithHash id="tabbed-menu">
                 詳細パネル: Turbo Frames
               </H2WithHash>
@@ -135,8 +132,7 @@ export default function IndexPage() {
             </article>
 
 
-            <hr className="my-8"/>
-            <article className="">
+            <article className="mt-16 border-t border-t-gray-200">
               <H2WithHash id="popup">
                 ローディングアニメーション問題: Turbo Frames
               </H2WithHash>
@@ -159,8 +155,7 @@ export default function IndexPage() {
 
             {isDev() &&
               <>
-                <hr className="my-8"/>
-                <div className="bg-green-200">
+                <article className="bg-green-200 mt-16 border-t border-t-gray-200">
                   <H2WithHash id="modal">
                     モーダルダイアログ: Turbo Frames
                   </H2WithHash>
@@ -180,12 +175,11 @@ export default function IndexPage() {
                        className="btn-primary"
                        data-turbo="false">モーダルUI</a>
                   </div>
-                </div>
+                </article>
               </>
             }
 
-            <hr className="my-8"/>
-            <article className="">
+            <article className="mt-16 border-t border-t-gray-200">
               <H2WithHash id="popup">
                 ポップアップ: Turbo Frames
               </H2WithHash>
@@ -201,8 +195,7 @@ export default function IndexPage() {
             </article>
 
 
-            <hr className="my-8"/>
-            <article className="">
+            <article className="mt-16 border-t border-t-gray-200">
               <H2WithHash id="hierarchical-menus">
                 ライブ検索: Turbo Frames
               </H2WithHash>
@@ -228,8 +221,7 @@ export default function IndexPage() {
               </div>
             </article>
 
-            <hr className="my-8"/>
-            <article className="">
+            <article className="mt-16 border-t border-t-gray-200">
               <H2WithHash id="hierarchical-menus">
                 階層プルダウンメニュー: Turbo Frames
               </H2WithHash>

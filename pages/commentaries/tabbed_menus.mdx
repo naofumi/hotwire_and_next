@@ -91,9 +91,10 @@ MPA流のタブメニューは[ここでお試しいただけます](/api/hotwir
 
 例えば[食べログ](https://tabelog.com)のサイトでも、このようなMPA流のタブメニューが今でも現役です。別の問題としてページの読み込みが非常に遅いのが気になりますが、UX的には十分に優れたものになります。
 
-<div className="mt-4">
+<figure className="mt-4">
+  <figcaption className="font-bold">食べログのサイトのタブメニュー</figcaption>
   <Image src={tabelogImage} alt="tabelog tabs"></Image>
-</div>
+</figure>
 
 <H2WithHash id="tabs-turbodrive">Turbo Driveによるタブメニューの作り方</H2WithHash>
 
@@ -108,9 +109,10 @@ Turbo Driveによるタブメニューは[ここでお試しいただけます](
 * **Search** のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を置換する時にこのフィールドも丸ごと置換されるためです。
 * なお、今回は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)で画面全体が置換されると説明していますが、実は[Morphing](https://turbo.hotwired.dev/handbook/page_refreshes)を使うと、置換するのではなく差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、[Reactに近い感じの更新](https://ja.react.dev/learn/preserving-and-resetting-state)を可能にするもので、かなり強力なものです。
 
-<div className="mt-6">
+<figure className="mt-6">
+  <figcaption className="font-bold">Turbo Driveによるタブメニュー</figcaption>
   <Image src={turbodriveImage} alt="turbodrive image"></Image>
-</div>
+</figure>
 
 
 <H2WithHash id="tabs-turboframe">Turbo Framesによるタブメニューの作り方</H2WithHash>
@@ -130,9 +132,10 @@ Framesの外にあります（下図）。タブが切り替わっても、Searc
 
 Turbo Framesによるタブメニューの作り方はごく簡単です。まずは[Turbo Driveのバージョン](/commentaries/tabbed_menus#tabs-turbodrive)から出発します。そして、どこをTurbo Framesで囲むかを決めます。今回はSearchのテキスト入力フィールドの下のところからテーブルの最後までを囲むことにします。
 
-<div className="mt-4">
+<figure className="mt-4">
+  <figcaption className="font-bold">Turbo Framesによるタブメニュー</figcaption>
   <Image src={turboframesImage} alt="turbo frames image"></Image>
-</div>
+</figure>
 
 次にエディタで該当するEJSファイルの内容を確認し、囲みたいところを `<turbo-frame
 id="[適当な名前]"></turbo-frame>`のタグで囲みます。今回は２つのページ
