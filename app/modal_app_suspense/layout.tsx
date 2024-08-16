@@ -53,7 +53,7 @@ export default async function ModalAppLayout({children}: { children: ReactNode }
             className="border bg-orange-600 rounded text-white p-2"
             scroll={false}
           >
-            Show Modal (React server component)
+            Show Modal (React server component w/ suspense)
           </Link>
         </div>
       </div>
