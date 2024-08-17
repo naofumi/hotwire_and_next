@@ -71,7 +71,7 @@ export default function UsersList() {
                                 className="absolute z-10 -top-12 left-48 w-72 px-4 pt-1 pb-8 bg-white border shadow-lg rounded-md border-gray-400">
                                 <div className="flex justify-between mb-4 border-b border-gray-200">
                                   <div></div>
-                                  <div className="p-1 text-sm w-auto hover:cursor-pointer translate-x-2"
+                                  <div className="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
                                        onClick={() => setshowUserDetailKey(null)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                          className="size-6 text-orange-600">

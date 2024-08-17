@@ -29,7 +29,7 @@ export default function UserDetailModal({closeModal, id}: {
             className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-1 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:pt-2">
             <div className="flex justify-between mb-4 border-b border-gray-200">
               <div></div>
-              <div className="p-1 text-sm w-auto hover:cursor-pointer translate-x-2"
+              <div className="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
                    onClick={closeModal}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                      className="size-6 text-orange-600">
