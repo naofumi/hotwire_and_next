@@ -8,9 +8,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string>,
 ) {
+  const users: User[] = await allUsers()
 
   const resultText = render("modal_no_js/index.ejs",
-    {}
+    {users}
   )
 
   res.appendHeader("Content-Type", "text/html")
