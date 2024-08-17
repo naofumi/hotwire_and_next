@@ -1,0 +1,49 @@
+import MDXRenderer from "../../components/MDXRenderer";
+import CommentaryLayout from "../../components/CommentaryLayout";
+import H2WithHash from "../../components/H2WithHash";
+import Image from "next/image";
+import netscapeImage from "../../public/images/netscape.gif"
+import mosaicImage from "../../public/images/mosaic.gif"
+import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animation.webp"
+
+モーダルダイアログはUI要素としてウェブデザインで非常によく使われます。使われすぎているぐらいです<sup>※</sup>。したがってUXもそうですが、開発者としては**簡単にモーダルダイアログが作れることが重要**です。
+
+またモーダルに表示する内容は、サーバから動的に取得することもよくあります。この場合はモーダルを表示・非表示にするだけでなく、サーバにリクエストを投げてレスポンスを埋め込むことも必要になります。このすべてを、元の画面のスクロール位置などのステートを維持しながら行う必要があります。**結構大変です**。
+
+下記ではUXの加えて、実装が簡単かという視点でモーダルダイアログの作り方を検討します。強み弱みも紹介しながら、どのような時に使えて、どのような時にはUX的の問題になるかを解説します。また新しいApp Routerと従来のPages Routerの双方を見ながら、**Next.jsでのモーダルの出し方**も検討します。
+
+また今回はCSSクラスだけで開閉状態を変更できるモーダルを使用しています。Bootstrapやブラウザネイティブの`dialog`によるモーダルなどはJavaScriptで開閉を制御しますので、別途紹介したいと思います。
+
+なおモーダルの種類も用途は様々なので、今回だけではコツをすべてカバーできません。これについては追って紹介していきたいと思います。
+
+<p className="text-gray-500 text-sm leading-5">※) モーダルダイアログは、元の画面のステートを維持しつつ、新しい画面を表示してくれるUI要素です。ステートとは`input`タグに入力されている内容、スクロール位置、アコーディオンの開閉状態などで、逆に言うとこれらを維持する必要がない場合はモーダルダイアログの価値がありません。一方でステートを維持したい場合、選択肢はモーダルダイアログだけではありません。ポップアップやインラインに追加情報を記載することもできます。本当にモーダルが必要かを考えた上で、もし必要なら、より良い方法がないかを検討するべきだと私は思います。例えばRuby on Railsを作った37signals社は元々ウェブデザイン会社として創業していますが、ここのSaaS製品はモーダルダイアログではなく、別の方法を使います。とはいえ、世界はモーダルで溢れています。簡単に作れるかどうかは重要です。</p>
+
+<H2WithHash id="turbo-without-custom-javascript">Turbo Frames: カスタムJavaScriptなしでモーダルを出す方法</H2WithHash>
+
+<H2WithHash id="turbo-with-custom-javascript">Turbo Frames: JavaScriptありでモーダルのUXを改善する方法</H2WithHash>
+
+<H2WithHash id="turbo-without-custom-javascript">React: useEffectでモーダルを出す方法</H2WithHash>
+
+<H2WithHash id="turbo-without-custom-javascript">React: Client Componentsでモーダルを出す方法</H2WithHash>
+
+<H2WithHash id="turbo-without-custom-javascript">React: Server Componentsでモーダルを出す簡易法</H2WithHash>
+
+<H2WithHash id="turbo-without-custom-javascript">React: Server Componentsに加えてNext.js Layoutを使いUXを改善する方法</H2WithHash>
+
+<H2WithHash id="summary">まとめ</H2WithHash>
+
+モーダルダイアログのUXに大きな課題が出るのは、サーバのレスポンスが遅い時です。速ければ、上記のどれを選択しても大差ありません。遅い時に違いが出ます。
+
+サーバ・ネットワークが十分に速いのであれば(一貫して300ms程度でレスポンスを返してくれる)、React Server Componentsの簡易法、もしくはHotwireでカスタムJSを使わない方法などで十分でしょう。ただし**ReactであればuseEffectやClient Componentを使った方法、HotwireであればカスタムJSを使った方法も分かりやすく、最初からこっちにしておく方が賢明に思えます**。
+
+Server Componentsでは簡易法の他にLayoutを使ったり、それを拡張したParallel Routesを使う方法もあり、Next.js公式ドキュメントでも紹介されています。しかし私が検討した限り、JavaScriptが使えない中で良いUXを実現するのは難しく、やろうと思うとかなり複雑になります。あまりお勧めしません。
+
+
+export default function ModalDialogs({children}) {
+  return <CommentaryLayout
+    title="Modal Dialogs"
+    subtitle="モーダル"
+    section="Commentary">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}
