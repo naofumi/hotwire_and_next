@@ -81,7 +81,7 @@ export default async function ModalAppPage({searchParams}: { searchParams: { use
                       <td
                         className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
                         <Link href={`/modal_app?userId=${user.id}`}
-                              className="underline text-orange-600 active:font-bold">
+                              className="underline text-orange-600 inline-block active:scale-105">
                           {user.name}
                         </Link>
                       </td>
