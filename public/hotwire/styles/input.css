@@ -12,11 +12,19 @@
         transition-delay: 500ms;
     }
 
+    .turbo-with-loader.no-delay .turbo-hide-on-loading {
+        transition-delay: 0ms;
+    }
+
     .turbo-with-loader .turbo-hide-on-loading::before {
         visibility: hidden !important;
         opacity: 0 !important;
         transition-delay: 500ms;
         transition-property: opacity;
+    }
+
+    .turbo-with-loader.no-delay .turbo-hide-on-loading::before {
+        transition-delay: 0ms;
     }
 
     .turbo-with-loader[busy] .turbo-hide-on-loading {

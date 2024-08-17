@@ -34,14 +34,14 @@ export default function ModalTechNav({selected}: {selected: string}) {
            ? " btn-primary"
            : " btn-outline-primary"}
       >
-        Hotwire Custom JavaScript未使用
+        Hotwire Custom JavaScriptなし
       </a>
       <a href="/api/hotwire/modal_w_js"
          className={selected === "hotwire_w_js"
            ? " btn-primary"
            : " btn-outline-primary"}
       >
-        Hotwire Custom JavaScript使用
+        Hotwire Custom JavaScriptあり
       </a>
     </div>
   )

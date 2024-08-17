@@ -52,10 +52,10 @@ export default function ModalIndex({users}: {users: User[]}) {
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
                     {users.map((user, i) => (
-                      <tr key={i} className="divide-x divide-gray-200 cursor-pointer" onClick={() => setSelectedUserId(i + 1)}>
+                      <tr key={i} className="divide-x divide-gray-200 cursor-pointer">
                         <td
                           className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
-                          {user.name}
+                          <button className="underline text-orange-600" onClick={() => setSelectedUserId(i + 1)}>{user.name}</button>
                         </td>
                         <td className="whitespace-nowrap p-4 text-sm text-gray-500">
                           {user.title}

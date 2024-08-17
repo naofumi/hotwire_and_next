@@ -171,7 +171,7 @@ export default function IndexPage() {
                     </StyledLink>
                   </div>
                   <div className="mt-10 flex items-center justify-center gap-x-6">
-                    <a href="/ModalIndex"
+                    <a href="/modal"
                        className="btn-primary"
                        data-turbo="false">モーダルUI</a>
                   </div>
