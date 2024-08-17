@@ -1,4 +1,4 @@
-export default function ModalTechNav({selected}) {
+export default function ModalTechNav({selected}: {selected: string}) {
   return (
     <div className="flex flex-wrap gap-2 justify-center">
       <a href="/modal"
@@ -14,6 +14,13 @@ export default function ModalTechNav({selected}) {
                     : " btn-outline-primary"}
       >
         React Server Component
+      </a>
+      <a href="/modal_app_layout"
+         className={selected === "server_component_layout"
+                    ? " btn-primary"
+                    : " btn-outline-primary"}
+      >
+        React Server Component w/ Layout
       </a>
       <a href="/modal_app_client"
          className={selected === "client_component"
