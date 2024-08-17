@@ -55,7 +55,7 @@ export default function ModalIndex({users}: {users: User[]}) {
                       <tr key={i} className="divide-x divide-gray-200 cursor-pointer">
                         <td
                           className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
-                          <button className="underline text-orange-600" onClick={() => setSelectedUserId(i + 1)}>{user.name}</button>
+                          <button className="underline text-orange-600 active:font-bold" onClick={() => setSelectedUserId(i + 1)}>{user.name}</button>
                         </td>
                         <td className="whitespace-nowrap p-4 text-sm text-gray-500">
                           {user.title}
