@@ -169,7 +169,7 @@ Turbo Framesを実現しているのは下記の部分です。
 はい、以上でおしまいです！
 
 1. `templates/tabbed_segments_turboframes/index.ejs`に`<turbo-frame>`タグを加える
-2. `templates/tabbed_segments_turboframes/products.ejs`に同じIDの`<turbo-frame>`タグを加える
+2. `templates/tabbed_segments_turboframes/products.ejs`に同じIDの`<section>`タグを加える
 3. 必要に応じて[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)でURLと連動させたり、ロード時に自動的に追加される[`busy`](https://turbo.hotwired.dev/reference/frames#html-attributes)属性を利用してCSSでローダーを表示したり、`autoscroll`属性で[スクロールの動作を変える](https://turbo.hotwired.dev/reference/frames#html-attributes)など、機能を追加します。
 
 この３つのステップだけで、Turbo Frames的なタブメニューができ上がりました！
@@ -242,7 +242,7 @@ Turbo Frameリクエストの場合は、HTTPヘッダー`Turbo-Frame`が送ら�
   ...
 </turbo-frame>
 ```
-</turbo-frame>
+</section>
 
 <section>
 <H2WithHash id="tabs-comparison-with-react">一般的なReactとの比較</H2WithHash>
