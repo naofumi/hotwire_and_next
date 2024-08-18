@@ -24,10 +24,10 @@
               <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
                 <a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
                    data-turbo-frame="modal"
-                   data-controller="modal"
-                   data-modal-selector-value=".modal-dialog"
-                   data-modal-opener-class="modal-open"
-                   data-action="click->modal#open"
+                   data-controller="labeler"
+                   data-labeler-selector-value=".modal-dialog"
+                   data-labeler-label-class="modal-open"
+                   data-action="click->labeler#add"
                    class="text-orange-600 underline inline-block active:scale-105">
                   <%= user.name %>
                 </a>
