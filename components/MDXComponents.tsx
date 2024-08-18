@@ -22,5 +22,5 @@ export function ul({children}: {children?: ReactNode}) {
 }
 
 export function ol({children}: {children?: ReactNode}) {
-  return <ol className="ml-12 my-4 space-y-2">{children}</ol>;
+  return <ol className="ml-12 my-2">{children}</ol>;
 }

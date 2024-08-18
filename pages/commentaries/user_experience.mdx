@@ -1,0 +1,51 @@
+import MDXRenderer from "../../components/MDXRenderer";
+import CommentaryLayout from "../../components/CommentaryLayout";
+import H2WithHash from "../../components/H2WithHash";
+import Image from "next/image";
+import netscapeImage from "../../public/images/netscape.gif"
+import mosaicImage from "../../public/images/mosaic.gif"
+import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animation.webp"
+
+本サイトではHotwireというフロントエンドライブラリを評価し、ReactやNext.jsと比較をしています。評価の軸として、以下の２点のバランスに着目しています。
+
+* **実現できるUI/UXの視点:** ユーザにとって快適に使えるインタフェースを実現できるか
+* **コードのシンプルさ:** 開発者にとってライブラリの仕組みがわかりやすく、カスタムで各コードがシンプルで済み、バグが入りにくく、メンテナンスしやすいか
+
+どのフロントエンド ライブラリーを使ったとしても、結局はHTML/CSS/JavaScriptしか動かないブラウザ上の話です。したがってどんなライブラリを使ったとしても、実現できるUI/UXは究極的には同じになります。
+
+したがって **「どんなUI/UXが実現できるか？」は質問として誤っています**。**正しい質問は「十分に優れたUI/UXをシンプルに実装できるか？」** になります。
+
+これに答えるためには、まず **「十分に優れたUI/UX」** が定義できないといけません。
+
+<H2WithHash id="definition">UI/UXの定義</H2WithHash>
+
+UI(User Interface)とUX(User Experience)は厳密には大きく意味が異なります。UIはユーザとウェブサイトやアプリとの接点に着目するのに対して、[UXは製品のブランディング体験・購入体験・使用体験などを含めた、より総合的なものとして定義](https://www.nngroup.com/articles/definition-user-experience/)されている。
+
+一方で[「UIデザイナの多くがUXデザイナに変身し」、UXというキーワードが「流行語」になった](https://u-site.jp/lecture/ux-ui)ため、ウェブ開発の現場ではUIとUXがほぼ同義で使われていることが多い。
+
+本サイトでもUI/UXはほぼ同義として扱う。そしてユーザがウェブサイトを使う上でのわかりやすさ、使いやすさに加え、使い続けたいと思う感情的な部分まで含めて考えている。
+
+<H2WithHash id="definition">10ユーザビリティヒューリスティック</H2WithHash>
+
+ヤコブ・ニールセン氏は[UIデザインのための10の経験則](https://u-site.jp/alertbox/ten-usability-heuristics)を提唱している。この中からフロントエンドフレームワークが貢献すべき領域について取り上げる
+
+* [**システム状態の視認性:**](https://u-site.jp/alertbox/ten-usability-heuristics) システムがどういう状態になっているのかをユーザーに明確に伝え、できるだけ早くフィードバックすることの大切さについて述べている。本サイトで紹介しているHotwire/TurboやNext.jsは、ネットワーク越しにサーバと通信をするが、ネットワークの特性として遅延や通信エラーが生じる。したがってネットワーク通信の状態をユーザに迅速に・明確に伝えることは、ユーザビリティ上、重要な要件だと私は考えている
+* [**一貫性と標準**](https://u-site.jp/alertbox/ten-usability-heuristics) 単純に「プラットフォームと業界の慣例に従おう」ということである。ユーザは大半の時間を他のウェブサイトで過ごしているので、それに合わせたUI/UXにすることが大切である。SPAはブラウザ標準の機能をオーバーライドしてしまうので、バックボタン、リロードボタン、ブックマークなどの機能がそのまま使えないことが多い。一方で世の中のウェブサイトのほとんどはSPAではなく、MPAである。このことを考慮して、SPAだったとしてもMPA的に動くことが大切である。
+
+
+「一貫性と標準」から言えるもう一つのことは、一般的に使われていないUI/UXを作ってもあまり価値がないということ。それよりは既存のUI/UXの問題点を改善し、完成度を高めていくことの方が大切。つまり中途半端なSPAやNext.jsのアプリを作るよりは、枯れていてかつブラウザがネイティブで動作してくれるMPAを使った方が良いケースが多いということ。
+
+
+
+
+
+
+
+export default function ModalDialogs({children}) {
+  return <CommentaryLayout
+    title="User Interface / User Experience (UI/UX)"
+    subtitle="ユーザインタフェース / ユーザー体験"
+    section="Commentary">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}

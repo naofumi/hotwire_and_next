@@ -21,6 +21,12 @@
         list-style: decimal outside none;
         margin: 0;
         vertical-align: middle;
+        > p {
+            @apply my-0
+        }
+        li {
+            list-style: lower-alpha;
+        }
     }
 
 

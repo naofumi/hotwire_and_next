@@ -6,21 +6,175 @@ import netscapeImage from "../../public/images/netscape.gif"
 import mosaicImage from "../../public/images/mosaic.gif"
 import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animation.webp"
 
-モーダルダイアログはUI要素としてウェブデザインで非常によく使われます。使われすぎているぐらいです<sup>※</sup>。したがってUXもそうですが、開発者としては**簡単にモーダルダイアログが作れることが重要**です。
+モーダルダイアログはUI要素としてウェブデザインで非常によく使われます。したがって開発者としては**簡単にモーダルダイアログが作れることが重要**です。
 
-またモーダルに表示する内容は、サーバから動的に取得することもよくあります。この場合はモーダルを表示・非表示にするだけでなく、サーバにリクエストを投げてレスポンスを埋め込むことも必要になります。このすべてを、元の画面のスクロール位置などのステートを維持しながら行う必要があります。**結構大変です**。
+またモーダルに表示する内容は、サーバから動的に取得することもよくあります。この場合はモーダルの表示・非表示だけでなく、サーバにリクエストを投げてレスポンスを表示することも必要になります。これをすべて、裏の画面のステート(スクロール位置など)を維持しながら行う必要があります。**ネットワーク由来の遅延対策も必要であり、ちゃんとやろうとすると意外と大変です**。
 
-下記ではUXの加えて、実装が簡単かという視点でモーダルダイアログの作り方を検討します。Hotwireだけでなく、**Next.jsのApp RouterとPages Routerについてもモーダルの出し方を検討します**。
-
-今回はCSSクラスだけで開閉状態を変更できるモーダルを使用しています。Bootstrapやブラウザネイティブの`dialog`によるモーダルなどはJavaScriptで開閉を制御しますので、別途紹介したいと思います。
-
-またモーダルの種類も用途は様々なので、今回だけではコツをすべてカバーできません。これについては追って紹介していきたいと思います。
-
-<p className="text-gray-500 text-sm leading-5">※) モーダルダイアログは、元の画面のステートを維持しつつ、新しい画面を表示してくれるUI要素です。ステートとは`input`タグに入力されている内容、スクロール位置、アコーディオンの開閉状態などです。逆に言うとステートを維持する必要がない場合はモーダルダイアログの価値がありません。一方でステートを維持したい場合、選択肢はモーダルダイアログだけではありません。ポップアップやインラインに追加情報を記載することもできます。本当にモーダルが必要かを考えた上で、もし必要だとしても、他により良い方法がないかを検討するべきだと私は思います。例えばRuby on Railsを作った37signals社は元々ウェブデザイン会社として創業していますが、ここのSaaS製品はモーダルダイアログではなく、別の方法を使います。とはいえ、世界はモーダルで溢れています。簡単に作れるかどうかはいずれにしても重要です。</p>
+下記ではUXおよび実装の簡単さを重視しつつ、モーダルダイアログの作り方を複数検討します。Hotwireに加え、**Next.jsのApp RouterとPages Routerについてもモーダルの出し方を検討し**、比較します。
 
 <H2WithHash id="turbo-without-custom-javascript">Turbo Frames: カスタムJavaScriptなしでモーダルを出す方法</H2WithHash>
 
+まずはHotwire/Turbo Framesを使って、カスタムのJavaScriptを書かずにモーダルを出す方法を紹介します。この方法のポイントは以下になります。
+
+1. サーバから得た動的な内容をモーダルを表示する際は、通常は２つのステップが必要です。
+    1. モーダルを表示する (JavaScriptで行う)
+    2. モーダルのコンテンツをサーバにリクエストし、結果をモーダル内に表示する (AJAX/fetchで行う)
+2. しかし、サーバからの**レスポンスと一緒にモーダルの「枠」も送り返せば**、モーダルを開くステップは省略が可能になります
+
+### Turbo Frames: カスタムJavaScriptなし – コード
+
+必要なコードは以下になります。
+
+1. モーダルの「枠」と内容を含むHTMLページ
+2. モーダルの表示をトリガーするリンク・ボタン
+3. 元のページのどこにモーダルHTML断片を差し込むかの目印
+4. モーダルを閉じるボタン
+
+なおコントローラアクションが`pages/api/hotwire/modal_no_js`にありますが、一般的なものなので解説を省略します。
+
+**1. モーダルの「枠」と内容を含むHTMLページ: `templates/modal_no_js/modal.ejs`**
+
+```html
+<turbo-frame id="modal">
+   ...[モーダルのコンテンツ]...
+</turbo-frame>
+```
+`turbo-frame`の`id`は、HTML断片の差し込み先を示すために必要です。
+
+**2. モーダル表示のトリガー: `templates/modal_no_js/index.ejs`**
+
+```html
+<a href="/api/hotwire/modal_no_js/modal?id=<%= user.id %>"
+   data-turbo-frame="modal"
+   class="text-orange-600 underline inline-block active:scale-105"><%= user.name %></a>
+```
+`href`には1.に示したモーダルHTMLへのリンクがきます。`data-turbo-frame="modal"`というのは、リンク先のHTMLを`id="modal"`の`turbo-frame`に差し込んでくださいという指示になります。
+
+**3. モーダルHTML断片の差し込み先: `templates/modal_no_js/index.ejs`**
+
+```html
+<turbo-frame id="modal"></turbo-frame>
+```
+`id`には1.と2.に記載した`modal`が入ります。`modal`という名前のHTML断片はここに差し込んでくださいという指示です。
+
+**4. モーダルを閉じるボタン: `templates/modal_no_js/modal.ejs`**
+
+```html
+<a class="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
+     href="/api/hotwire/modal_no_js">
+```
+カスタムJavaScriptを使用しませんので、ブラウザの操作は`a`タグや`form`タグに限定されます。ここでは`a`タグを使用して、モーダルを表示していないページ(空の`turbo-frame`を持つ)をサーバからリクエストしています。
+
+レスポンスを受け取ると、既存の`turbo-frame`が新しく届いた空の`turbo-frame`に入れ替えられ、その結果、モーダルが閉じます。
+
+### Turbo Frames: カスタムJavaScriptなし – UI/UX
+
+[カスタムJavaScriptなしで作ったデモ](/api/hotwire/modal_no_js)を用意していますので、ご覧ください。[トップページ](/)からで遅延を設定できますので、300msの場合と2000msの場合を比較してください。
+
+* 遅延が少なく、サーバのレスポンスが十分に速い場合は動作が快適です。
+* しかし遅延を2000msにするとUXが悪くなります。リンクを押してもフィードバックがなく、ユーザはシステムが正しく動作している自信が持てません。(リンク等をクリックした時のCSS `:active`を使っていますが、十分なフィードバックとは言えません)
+* モーダルを閉じるだけの動作の時も遅延が発生します。「閉じるだけなら瞬間的に行くのでは？」という期待と反します
+
+## まとめ
+
+コードは非常に簡素で、直感的にもわかりやすいです。ただし、特にネットワークが遅い場合は、操作のフィードバックが弱いのは問題です。
+
 <H2WithHash id="turbo-with-custom-javascript">Turbo Frames: JavaScriptありでモーダルのUXを改善する方法</H2WithHash>
+
+上記の「Turbo Frames: カスタムJavaScriptなし」の問題点を解消し、ネットワークが遅い場合でも十分なUI/UXを提供するアプローチになります。上記ではモーダルの「枠」をサーバから送ることでモーダルを開くステップを省略していましたが、これをちゃんと入れるというのが違いです。
+
+### コード
+
+コードは以下のパーツから構成されます。
+
+1. モーダルの「枠」のHTML。これはあらかじめページに挿入しておきますが、`display:none`などで隠しています。またこの中にHTML断片を差し込むかの目印となる`turbo-frame`を入れておきます
+2. モーダルの表示をトリガーするJavaScriptの設置
+3. サーバにリクエストを飛ばし、レスポンスを`turbo-frame`に差し込む`a`タグの設置。
+4. 元のページのどこにモーダルHTML断片を差し込むかの目印
+5. モーダルを閉じるボタンのJavaScriptの設置
+
+上記と異なるのは、モーダルの表示・非表示を制御するJavaScriptを別途設置している点だけです。
+
+
+**1. モーダルの「枠」と内容を含むHTMLページ: `templates/modal_w_js/modal.ejs`**
+
+```html
+<turbo-frame id="modal">
+   ...[モーダルのコンテンツ]...
+</turbo-frame>
+```
+`turbo-frame`の`id`は、HTML断片の差し込み先を示すために必要です。
+
+**2. モーダル表示のJavaScript: `public/hotwire/javascript/modal_controller.js`**
+
+```js
+  open() {
+    const modalDialog = document.querySelector(this.selectorValue)
+    modalDialog.classList.add(this.openerClass)
+  }
+
+  close() {
+    const modalDialog = document.querySelector(this.selectorValue)
+    modalDialog.classList.remove(this.openerClass)
+  }
+```
+
+`open()`はモーダルを開き、`close()`はモーダルを閉じます。CSSクラスの追加・削除で表示を制御しています。
+
+**3. モーダル表示のトリガー: `templates/modal_w_js/index.ejs`**
+
+```html
+<a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
+   ...
+   data-controller="modal"
+   data-modal-selector-value=".modal-dialog"
+   data-modal-opener-class="modal-open"
+   data-action="click->modal#open"
+   class="text-orange-600 underline inline-block active:scale-105">
+  <%= user.name %>
+</a>
+```
+
+1. `data-controller="modal"`はここのコードを上記の`javascript/modal_controller.js`に繋げるます。
+2. `data-action="click->modal#open"`は、このリンクがクリックされた時に`javascript/modal_controller.js`の`open()`を呼び出すように指示します。
+3. `data-modal-selector-value=".modal-dialog"`はどのモーダルを制御するか、`data-modal-opener-class="modal-open"`はモーダル開閉に使うCSSクラスを指定しています。
+
+
+**3. モーダルHTML断片の差し込み先: `templates/modal_w_js/index.ejs`**
+
+```html
+<turbo-frame id="modal"></turbo-frame>
+```
+`id`には1.と2.に記載した`modal`が入ります。`modal`という名前のHTML断片はここに差し込んでくださいという指示です。
+
+**4. モーダルを閉じるボタン: `templates/modal_w_js/modal.ejs`**
+
+```html
+  <div class="relative z-10"
+       aria-labelledby="modal-title"
+       role="dialog"
+       aria-modal="true"
+       data-controller="modal"
+       data-modal-selector-value=".modal-dialog"
+       data-modal-opener-class="modal-open"
+  >
+    ...
+    <button class="..."
+            data-action="click->modal#close:prevent keydown.esc@window->modal#close:prevent:stop">
+```
+ここはモーダルのクローズボタンの制御です。
+
+1. `data-action="click->modal#close:prevent keydown.esc@window->modal#close:prevent:stop"`のところは、`button`タグをクリックすると`modal_controller.js`の`close()`を実行しなさいという指示になります
+2. その上の`data-controller="modal"`のところは
+
+
+
+
+
+
+
+
+
 
 <H2WithHash id="turbo-without-custom-javascript">React: useEffectでモーダルを出す方法</H2WithHash>
 
@@ -39,6 +193,15 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 いずれにしても、サーバからのレスポンスが遅い場合も想定しながらUXをテストすることが重要だと思います。
 
 Server Componentsでは簡易法の他にLayoutを使ったり、それを拡張したParallel Routesを使う方法もあり、Next.js公式ドキュメントでも紹介されています。UXも改善します。しかし実際にやってみたところ、ファイルベースルータのファイル構成が複雑になり、直感的でなくなりました。あまりお勧めしません。
+
+<H2WithHash id="appendix">補足</H2WithHash>
+
+
+今回はCSSクラスだけで開閉状態を変更できるモーダルを使用しています。Bootstrapやブラウザネイティブの`dialog`によるモーダルなどはJavaScriptで開閉を制御しますので、別途紹介したいと思います。
+
+またモーダルの種類も用途は様々なので、今回だけではコツをすべてカバーできません。これについては追って紹介していきたいと思います。
+
+<p className="text-gray-500 text-sm leading-5">※) モーダルダイアログは、元の画面のステートを維持しつつ、新しい画面を表示してくれるUI要素です。ステートとは`input`タグに入力されている内容、スクロール位置、アコーディオンの開閉状態などです。逆に言うとステートを維持する必要がない場合はモーダルダイアログの価値がありません。一方でステートを維持したい場合、選択肢はモーダルダイアログだけではありません。ポップアップやインラインに追加情報を記載することもできます。本当にモーダルが必要かを考えた上で、もし必要だとしても、他により良い方法がないかを検討するべきだと私は思います。例えばRuby on Railsを作った37signals社は元々ウェブデザイン会社として創業していますが、ここのSaaS製品はモーダルダイアログではなく、別の方法を使います。とはいえ、世界はモーダルで溢れています。簡単に作れるかどうかはいずれにしても重要です。</p>
 
 
 export default function ModalDialogs({children}) {
