@@ -182,7 +182,7 @@ Frame内に限定された **部分画面** 遷移をするように変化しま
 
 今回はTurbo Frameの中にタブがくるように配置しましたので、`Users`, `Products`のタブはTurbo Frame内を置換しながら切り替わっています。Turbo Frame内のみが変化するので、Searchのテキストフィールドもリセットされないわけです。
 
-タブをクリックすると、通常の`a`タグと同じようにHTTPリクエストは飛びます。そしてHTMLがサーバから返ってきます。ここからがTurbo Framesの動きです。通常なら画面全体を置換するのですが、Turbo Framesの場合は**新しいページ**の中にある`<turbo-frame></turbo-frame>`を探し出し、**元のページ**の中にある`<turbo-frame></turbo-frame>`の中身と置換するのです。この時、`id`属性をみて`<turbo-frame>`のペアを認識するので、`id`の値を揃えておく必要があります。
+タブをクリックすると、通常の`a`タグと同じようにHTTPリクエストは飛びます。そしてHTMLがサーバから返ってきます。ここからがTurbo Framesの動きです。通常なら画面全体を置換するのですが、Turbo Framesの場合は**新しいページ**の中にある`<turbo-frame></turbo-frame>`を探し出し、**元のページ**の中にある`<turbo-frame></turbo-frame>`の中身と置換するのです。この時、`id`属性をみて`turbo-frame`のペアを認識するので、`id`の値を揃えておく必要があります。
 
 今回、Turbo Framesは通常の`a`タグで起動しています。`a`タグなので、Turbo Driveの機能である[prefetch](/commentaries/page_transitions#page-transition-ux)も働きます。このためprefetchによるUXの大幅向上、ヌルサクな体感も、何もしなくても勝手についてきます。
 

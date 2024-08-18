@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer components {
+    .mdx h2 {
+        @apply sticky bg-white top-9 sm:top-10
+    }
+
     .mdx ul li {
         background: url('/images/check-circle.svg') no-repeat left top 12px;
         padding: 4px 16px 4px 32px;
