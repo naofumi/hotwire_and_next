@@ -8,18 +8,16 @@ export default async function handler(
   res: NextApiResponse<string>,
 ) {
   const id = req.query.id
-  let resultText = ""
-  if (typeof id === 'string') {
-    const userDetail = await findUserWithDetails(parseInt(id))
+  if (!(typeof id === 'string')) throw "Bad request"
 
-    resultText = render("modal_no_js/modal.ejs",
-      {id: userDetail.id, userDetail}
-    )
-  } else {
-    resultText = "<turbo-frame id='modal'></turbo-frame>"
-  }
+  const userDetail = await findUserWithDetails(parseInt(id))
+
+  const resultText = render("modal_no_js/modal.ejs",
+    {id: userDetail.id, userDetail}
+  )
 
   res.appendHeader("Content-Type", "text/html")
     .status(200)
     .send(resultText)
 }
+
