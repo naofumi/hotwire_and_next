@@ -2,9 +2,6 @@ import MDXRenderer from "../../components/MDXRenderer";
 import CommentaryLayout from "../../components/CommentaryLayout";
 import H2WithHash from "../../components/H2WithHash";
 import Image from "next/image";
-import netscapeImage from "../../public/images/netscape.gif"
-import mosaicImage from "../../public/images/mosaic.gif"
-import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animation.webp"
 
 モーダルダイアログはUI要素としてウェブデザインで非常によく使われます。したがって開発者としては**簡単にモーダルダイアログが作れることが重要**です。
 
@@ -12,6 +9,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 下記ではUXおよび実装の簡単さを重視しつつ、モーダルダイアログの作り方を複数検討します。Hotwireに加え、**Next.jsのApp RouterとPages Routerについてもモーダルの出し方を検討し**、比較します。
 
+<section>
 <H2WithHash id="turbo-without-custom-javascript">Turbo Frames: カスタムJavaScriptなしでモーダルを出す方法</H2WithHash>
 
 まずはHotwire/Turbo Framesを使って、カスタムのJavaScriptを書かずにモーダルを出す方法を紹介します。この方法のポイントは以下になります。
@@ -78,7 +76,9 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 ## まとめ
 
 コードは非常に簡素で、直感的にもわかりやすいです。ただし、特にネットワークが遅い場合は、操作のフィードバックが弱いのは問題です。
+</section>
 
+<section>
 <H2WithHash id="turbo-with-custom-javascript">Turbo Frames: JavaScriptありでモーダルのUXを改善する方法</H2WithHash>
 
 上記の「Turbo Frames: カスタムJavaScriptなし」の問題点を解消し、ネットワークが遅い場合でも十分なUI/UXを提供するアプローチになります。上記ではモーダルの「枠」をサーバから送ることでモーダルを開くステップを省略していましたが、これをちゃんと入れるというのが違いです。
@@ -167,6 +167,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 1. `data-action="click->modal#close:prevent keydown.esc@window->modal#close:prevent:stop"`のところは、`button`タグをクリックすると`modal_controller.js`の`close()`を実行しなさいという指示になります
 2. その上の`data-controller="modal"`のところは
 
+</section>
 
 
 
@@ -174,17 +175,22 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 
 
-
-
+<section>
 <H2WithHash id="turbo-without-custom-javascript">React: useEffectでモーダルを出す方法</H2WithHash>
-
+</section>
+<section>
 <H2WithHash id="turbo-without-custom-javascript">React: Client Componentsでモーダルを出す方法</H2WithHash>
-
+</section>
+<section>
 <H2WithHash id="turbo-without-custom-javascript">React: Server Componentsでモーダルを出す簡易法</H2WithHash>
-
+</section>
+<section>
 <H2WithHash id="turbo-without-custom-javascript">React: Server Componentsに加えてNext.js Layoutを使いUXを改善する方法</H2WithHash>
+</section>
 
+<section>
 <H2WithHash id="summary">まとめ</H2WithHash>
+</section>
 
 モーダルダイアログのUXに大きな課題が出るのは、サーバのレスポンスが遅い時です。速ければ、上記のどれを選択しても大差ありません。遅い時に違いが出ます。
 

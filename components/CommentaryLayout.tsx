@@ -7,17 +7,15 @@ export default function CommentaryLayout(
   return <Layout hideTechLabel={true}>
     <div className="bg-white px-6 py-16 lg:px-8">
       <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
-        <hgroup>
-          <p className="text-base font-semibold leading-7 text-orange-600">
-            {section}
-          </p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            {title}
-          </h1>
-          <p className="mt-6 text-xl leading-8">
-            {subtitle}
-          </p>
-        </hgroup>
+        <p className="text-base font-semibold leading-7 text-orange-600">
+          {section}
+        </p>
+        <h1 className="z-10 bg-white sticky top-0 mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          {title}
+        </h1>
+        <p className="mt-6 text-xl leading-8">
+          {subtitle}
+        </p>
         <div className="mt-10 max-w-2xl mx-auto">
           {children}
         </div>

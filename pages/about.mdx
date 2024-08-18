@@ -10,19 +10,23 @@ Railエンジニアに限らず、**すべてのウェブ開発者にHotwireの�
 
 本サイトは**Hotwireで書かれたページとReact (Next.js)で書かれた実際のウェブページを並べ**、それぞれのUXを体験していただき、さらに[GitHubに上げたコード](https://github.com/naofumi/hotwire_and_next)を確認していただきながら、実装の理解を深けめていただく構成になっています。
 
+<section>
 <H2WithHash id="great-UX-with-small-teams">Hotwireは優れたUXを小チームで作るための技術</H2WithHash>
 
 Hotwireおよびその前身の技術は、ウェブデザイン会社として創業した37signals社が、[Basecamp](https://basecamp.com/)、[Hey](https://www.hey.com/)などのSaaS製品を開発するために作成されたものです。ユーザ向けのすべての画面で使われているのはもちろんのこと、iOS、Android用のモバイルアプリでもHotwireは使われています。このように、Hotwireが人気の有料SaaSアプリでも十分なUXを提供できることが証明されています。
 
 一方で[37signals社の各チームのサイズはデザイナーを含めてたったの３人です](https://3.basecamp-help.com/article/35-the-six-week-cycle#who-does-the-work?)。開発効率が高く、小さいチームでの開発も可能であることも実証されています。
+</section>
 
+<section>
 <H2WithHash id="UX-comparable-or-exceeding-next-js">Next.jsに勝るとも劣らないUX</H2WithHash>
 
 Hotwireは実装が楽だけど、やれることが限定されていると考えている人がいます。React/Next.jsほどのUXは作れないと思っている人がいます。「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」という声も聞こえます。**しかしこれは誤り**です。お客様がお金を払ってでも使いたくなる製品のUXが、Hotwireで十分に実現できることは**37signals社が明確に実証されているのます**。また本サイトでは細かい仕組みの議論をしながら、HotwireのUXの方が優れている面を紹介します。
 
 もちろん全てにおいてHotwireがReact/Next.jsに勝るわけではありません。ただし少なくとも対等であると考えて間違いありません。
+</section>
 
-
+<section>
 <H2WithHash id="hotwire-components">Hotwireの構成</H2WithHash>
 
 * **Turbo:** [Turbo](https://turbo.hotwired.dev)はサーバにレクエストを投げて、返ってきたHTMLをDOMに埋め込むためのライブラリです。敢えてサーバからHTMLしか返せないように制限をかけているのが大きな特徴です。Turbo自身はさらにTurbo Drive, Turbo Frames, Turbo Streamsに分かれています。<br />
@@ -36,7 +40,9 @@ Hotwireは上記の３つを組み合わせることにより、シンプルさ�
 <div className="mt-4">
   <Image src={hotwireComponentStructureImage} alt="hotwire component structure image"></Image>
 </div>
+</section>
 
+<section>
 <H2WithHash id="turbo-components">Turboの構成</H2WithHash>
 
   Turboは<code>fetch</code>を使い、ウェブページの部分置換をするライブラリです。Hotwireの中心的な技術です。置換する範囲と付随する機能に応じて、3種類の置換方法があります。
@@ -49,9 +55,9 @@ Next.js app routerの[Layout](https://nextjs.org/docs/app/building-your-applicat
 この他、Turboには[Morphing](https://turbo.hotwired.dev/handbook/page_refreshes)があります。これは[Reactの差分検出処理](https://ja.legacy.reactjs.org/docs/reconciliation.html)と似たものであり、ブラウザのDOMとサーバから送られてきたHTMLの差分を検出し、なるべくブラウザのステートを保持しつつ更新処理をかけるものです。
 
 Turboは上記のたった３つのパーツしかないのですが、実際にやってみるとこれだけでほとんどのインタラクティブなUIが作れてしまいます。
+</section>
 
-
-
+<section>
 <H2WithHash id="triggering-turbo">Turboの呼び出し</H2WithHash>
 
 Turboは基本的に`a`タグのクリックや`form`タグの送信によって起動し、サーバにリクエストを投げます。不必要にJavaScriptからTurboを呼び出すのを避けます。なるべくブラウザのネイティブな動作に沿うのはTurboの大きな特徴です。
@@ -64,8 +70,9 @@ Turboは基本的に`a`タグのクリックや`form`タグの送信によって
 
 それでもGET以外のリクエストやTurbo StreamsリクエストをJavaScriptから呼び出す必要があるときもあります。そのときはRailsが管理している[request.js](https://github.com/rails/request.js)を使うと便利です。
 
+</section>
 
-
+<section>
 <H2WithHash id="turbo-components">Hotwireに不慣れなエンジニアの特徴</H2WithHash>
 
 個人的見解ではありますが、初めてHotwireを使い始めるエンジニアは下記の傾向があるように感じています。
@@ -83,7 +90,9 @@ Hotwireに慣れていない人は画面置換を細かい単位に分解しす�
 例えばインターネットでは「Turboを使うと、JavaScriptなしでモーダルダイアログが作れるよ」と謳っている記事を多く見かけます。一見するととても便利そうですが、実際には細かいUXの不具合が出やすく、そもそもHotwireの設計思想にマッチしていません。HotwireにはカスタムJavaScriptが必要ですし、そのためにわざわざStimulusがバンドルされているわけです。
 
 モーダルダイアログの例でいうと、カスタムJavaScriptなしで作るとTurboのキャッシュとぶつかるようになります。そうではなくブラウザステート（モーダルの開閉状態）とサーバステート（更新データ）を分けて考え、前者はStimulus、後者はTurboで処理するようにすると、無理のないコードが書けるようになります。そしてトランジションの導入など、より良いUXに発展させやすくなります。
+</section>
 
+<section>
 <H2WithHash id="hotwire-features">Hotwireの特徴</H2WithHash>
 
 * **バックエンド技術非依存:** [Ruby on Rails](https://rubyonrails.org)に限らず、[Django](https://www.djangoproject.com)、[Laravel](https://laravel.com)、[Java](https://www.java.com/ja/)、[Node](https://nodejs.org/en)、[Wordpress](https://wordpress.com/)など、バックエンド技術がなんであってもHotwireは使用できます。実際、本サイトのHotwireデモはすべてNext.js
@@ -94,8 +103,9 @@ Hotwireに慣れていない人は画面置換を細かい単位に分解しす�
 * **コンポーネント化:** Hotwireのコンポーネント化は各バックエンド技術のテンプレートエンジンによります。Ruby on Railsであれば[partial](https://guides.rubyonrails.org/layouts_and_rendering.html#using-partials)や[view helper](https://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html)、もしくは最近話題の[ViewComponent](https://viewcomponent.org)や[Phlex](https://www.phlex.fun)などのコンポーネント化技術があります。Laravel, Djangoなどもそれぞれのコンポーネント化技術があります。
 * **注目されている技術です:** [Elixir Phoenix](https://www.phoenixframework.org)のLiveview、PHP Laravelの[Livewire](https://laravel-livewire.com)、さらにHotwire同様にバックエンド非依存の[HTMX](https://htmx.org)など、Hotwireと同様のアプローチでモダンフロントエンドを作る技術が近年、注目を集めています。HTMXはDjangoで話題になっており、さらにSSG/SSR JavaScriptフレームワークのAstroではHTMXを意識した[page partials](https://docs.astro.build/en/basics/astro-pages/#page-partials)という機能も導入されています。
 * **セキュリティが高い:** レンダリング済みのHTMLのみをブラウザに送信するので、誤ってプライベートな情報を漏洩する心配がありません。例えば秘密キーをブラウザに預ける必要がなく、またJSON APIに機密情報を流してしまうこともありません。詳しくは[ページ遷移の解説](/commentaries/page_transitions)で議論しています。
+</section>
 
-
+<section>
 <H2WithHash id="structure-of-this-site">本サイトの構成</H2WithHash>
 
 * 本サイトのコードはすべて[GitHub](https://github.com/naofumi/hotwire_and_next)に公開しています。また[Vercel](https://hotwire-and-next.vercel.app)でデプロイしています。コードをGitHubで確認しながら、UXをデプロイ先サイトで確認すると理解が深まるのではないかと思います。
@@ -107,15 +117,16 @@ Hotwireに慣れていない人は画面置換を細かい単位に分解しす�
     * フレームワークはNext.jsを使用しています。ただしまた[app router](https://nextjs.org/docs/app)はまだ使用しているプロジェクトが少ないと考え、[pages router](https://nextjs.org/docs/pages)を中心に作成しています。ただし一部app routerと比較したいケースの時はこれも使っています。
     * 内容が頻繁に更新されるウェブアプリ（例えば業務アプリや管理画面、注文予約アプリなど）を想定しているため、古いデータが表示されたままになってしまうタイプのキャッシュは使用していません。特にapp routerを使っている時は[Route Cache](https://nextjs.org/docs/app/building-your-application/caching#router-cache)、[Full Route Cache](https://nextjs.org/docs/app/building-your-application/caching#full-route-cache)、[Data Cache](https://nextjs.org/docs/app/building-your-application/caching#data-cache)は[オフにしています](https://nextjs.org/docs/app/building-your-application/caching#segment-config-options)。
 * **遅延:** 高速なサイトだとどんなフロントエンド技術を使ってもサクサク動いてしまいます。何をやっても非常に快適になってしまい、技術の違いが見えなくなります。そこで本サイトではあえて数百msの遅延を入れています（例示しない内容に応じて増やしています）。ただし静的なファイルやNext.jsのSSGなど、一般にCDNの載せるようなものについては遅延を入れていません。
+</section>
 
-
+<section>
 <H2WithHash id="hotwire-resources">Hotwireのリソース</H2WithHash>
 * **公式サイト:**<br/>
     * [Turbo公式サイト](https://turbo.hotwired.dev)
     * [Stimulus公式サイト](https://stimulus.hotwired.dev)
 * **コミュニティサイト:**
     * [Hotwire.io](https://hotwire.io)
-
+</section>
 
 export default function ({children}) {
   return <CommentaryLayout

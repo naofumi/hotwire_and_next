@@ -6,12 +6,15 @@ import tabelogImage from "@/public/images/tabbed_tabelog.webp"
 import turbodriveImage from "@/public/images/tabbed_turbodrive.webp"
 import turboframesImage from "@/public/images/tabbed_turboframes.webp"
 
+<section>
 <H2WithHash id="create-tabbed-menus-with-turbo-frames">タブメニューはTurbo Framesで作ることが多い</H2WithHash>
 
 他にも作り方はありますが、タブメニューは[Turbo Frames](https://turbo.hotwired.dev/handbook/frames)で作ることが多いです。Turbo Frames入門としては最適なUI要素です。
 
 まずタブメニューの作る方に入る前に、Turbo Framesについて概略を説明します。
+</section>
 
+<section>
 <H2WithHash id="turbo-ranking">Turboの序列</H2WithHash>
 
 私の経験では、Turbo Drive, Turbo Frames, Turbo Streamsのうち、Turbo Driveはデフォルトで全てのページに適応されるので一番使います。ついで部分置換が必要な時は、Turbo Framesを使います。Turbo Framesでは難しい時に初めてTurbo Streamsを使います。ただしmorphingが導入されてからはTurbo Driveだけでできるものが非常に増えましたので、Turbo Streamsを使う頻度はさらに下がりそうです。
@@ -62,7 +65,9 @@ import turboframesImage from "@/public/images/tabbed_turboframes.webp"
   </div>
 </div>
 <div className="mt-2 text-gray-400 text-sm">※）頻度はあくまでも著者の経験であり、条件によって変わります。モーダル等を頻繁に使う場合や、少数の画面のUXに徹底的に注力する場合は異なります。また私はコードの単純化を優先してTurbo Framesを多く使いますが、逆にTurbo Streamsによる細かい制御を好む人もにいます。</div>
+</section>
 
+<section>
 <H2WithHash id="partial-rewrites-with-turbo-frames">Turbo Framesは部分的置換のパッケージ</H2WithHash>
 
 Turbo Driveがページ遷移、つまり画面全体を置換するのに対して、[Turbo Frames](https://turbo.hotwired.dev/handbook/drive)はサーバから送られてきたデータを使って画面の部分置換をする時に使います。
@@ -75,8 +80,9 @@ Turbo Framesは部分置換だけではなく、これらのUI要素を作る時
 loading (遅延ロード)](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)、[prefetch](https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover)、[URL同期](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[ローダー表示用のCSS](https://turbo.hotwired.dev/reference/frames#html-attributes)など、それに伴う便利機能もパッケージとして提供しています。
 
 一方でReactなどの場合は[`useState`フック](https://ja.react.dev/reference/react/useState)や[条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)などのパターンを提供してくれますが、これを組み合わせてUI要素を作るのは開発者しだいです。その意味でReactはフルスクラッチでUI要素を作成するのに適している一方、HotwireはUIライブラリとまではいかないものの、パッケージしたものを提供していると言えます。
+</section>
 
-
+<section>
 <H2WithHash id="tabs-MPA">古典的なMPAによるタブメニューの作り方 (Turbo開発の出発点)</H2WithHash>
 
 MPA流のタブメニューは[ここでお試しいただけます](/api/hotwire/tabbed_segments_no_js)。コードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_no_js)でご確認いただけます。
@@ -95,7 +101,9 @@ MPA流のタブメニューは[ここでお試しいただけます](/api/hotwir
   <figcaption className="font-bold">食べログのサイトのタブメニュー</figcaption>
   <Image src={tabelogImage} alt="tabelog tabs"></Image>
 </figure>
+</section>
 
+<section>
 <H2WithHash id="tabs-turbodrive">Turbo Driveによるタブメニューの作り方</H2WithHash>
 
 Turbo Driveによるタブメニューは[ここでお試しいただけます](http://localhost:3000/api/hotwire/tabbed_segments_turbodrive)。コードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turbodrive)でご確認いただけます。
@@ -113,8 +121,9 @@ Turbo Driveによるタブメニューは[ここでお試しいただけます](
   <figcaption className="font-bold">Turbo Driveによるタブメニュー</figcaption>
   <Image src={turbodriveImage} alt="turbodrive image"></Image>
 </figure>
+</section>
 
-
+<section>
 <H2WithHash id="tabs-turboframe">Turbo Framesによるタブメニューの作り方</H2WithHash>
 
 Turbo Framesによるタブメニューは[ここでお試しいただけます](/api/hotwire/tabbed_segments_turboframes)。コードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)でご確認いただけます。
@@ -233,8 +242,9 @@ Turbo Frameリクエストの場合は、HTTPヘッダー`Turbo-Frame`が送ら�
   ...
 </turbo-frame>
 ```
+</turbo-frame>
 
-
+<section>
 <H2WithHash id="tabs-comparison-with-react">一般的なReactとの比較</H2WithHash>
 
 Reactによるタブメニューは[ここでお試しいただけます](/tabbed_segments)。コードは[GitHubで](https://github.com/naofumi/hotwire_and_next/blob/main/pages/tabbed_segments/index.tsx)ご確認ください。
@@ -246,8 +256,10 @@ Reactのコードの特徴は以下の通りです。一般的なReactのデー�
 * データは`Users`、`Products`コンポーネントの中の`useEffect`の中の`fetch`で行う
 
 コンポーネントの切り替えはブラウザの中だけで行うので瞬間的ですが、データフェッチに時間がかかり、その間はローディング画面を表示します。そしてコンポーネントがDOMにロードされるまで`useEffect`は動きませんので、prefetchは効きません。
+</section>
 
 
+<section>
 <H2WithHash id="tabs-with-parallel-routes">Next.js App Router Parallel Routesとの比較</H2WithHash>
 
 Next.js Pages RouterのSSRはページ全体を遷移するのには適していますが、Turbo Framesのように部分置換をする機能がありません。画面の一部分のみを置換する場合は従来のSPAと同様に、`useEffect`でステートを更新する必要があります。
@@ -270,13 +282,15 @@ LayoutやParallel Routesを使うと、Client Componentを使わずにServer Com
 * [３つのフォルダに７つのファイルを配置](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)するので、[Turbo Frames](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)を使った場合や[useEffectを使った場合](https://github.com/naofumi/hotwire_and_next/tree/main/pages/tabbed_segments)と比べて複雑になっています
 
 個人的には、たかがタブメニューを実装するために随分と大袈裟で複雑なことをするなぁと感じます。Client Componentで`useState`、`useEffect`を使ってもUX上のメリットがありませんので、わざわざParallel Routesを使う動機は弱いと感じています。
+</section>
 
+<section>
 <H2WithHash id="tabs-summary">タブメニューのまとめ</H2WithHash>
 
 今回はTurbo Framesによるタブメニューを実装しました。簡単なものだったため、UX的にMPAと大きな差はありませんでした。しかしTurbo Framesを使うと、**枠**の外のステートが維持できていることが確認できました。スクロール位置やフォーム要素のステート維持が必要な場合は、Turbo Framesを使う必要があります。
 
 React、Next.jsと比較すると、Turbo Framesによるタブメニューは実装が簡単である一方で、機能的にも遜色がないことが確認できました。**Turbo Framesの方がむしろ高速で多機能**というケースが多いのもわかります。
-
+</section>
 
 export default function NewTabbedMenus({children}) {
   return <CommentaryLayout

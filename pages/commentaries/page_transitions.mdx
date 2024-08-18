@@ -16,10 +16,6 @@ Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwir
   ここでは最初にサイトを訪問した時のUXではなく、サイト内のリンクをクリックしたときの動作にフォーカスします</p>
 
 
-
-
-
-
 <div className="mt-8 flow-root">
   <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -95,6 +91,7 @@ Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwir
   </div>
 </div>
 
+<section>
 <H2WithHash id="installing-turbo">Turboの実装</H2WithHash>
 
 Hotwireは[Turbo](https://turbo.hotwired.dev)/[Stimulus](https://stimulus.hotwired.dev)/[Strada](https://strada.hotwired.dev)の３つのパーツからなっています。ウェブで使用するのはTurboとStimulusですが、双方ともJavaScriptのファイルを読み込むだけで使用できます。ここでは[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)を使用しますので、TurboのJavaScriptファイルを読み込みます。
@@ -114,8 +111,9 @@ Hotwireは[Turbo](https://turbo.hotwired.dev)/[Stimulus](https://stimulus.hotwir
 ```
 
 Turbo Driveを導入した時の効果は[デモページ](/api/hotwire/users)でご確認ください。
+</section>
 
-
+<section>
 <H2WithHash id="page-transition-ux">ページ遷移のUX</H2WithHash>
 
 本サイトでは、各技術を使った際のUXを確認していただくために、デモを用意しています。上の表の各技術名をクリックして、実際にUXをご体験ください。
@@ -164,9 +162,9 @@ Turbo Driveには[仕組みをほとんど理解していなくても安心し�
 Turbo Driveではプレビューとしてキャッシュを使用し、同時にサーバにリクエストを投げます。サーバから最新のページを受け取ると、プレビューの内容に入れ替えますので、古い情報が表示されたままになる心配がありません。その一方でプレビュー画面が瞬時に表示されますので、ユーザとしてはページ遷移が瞬間的に起こったように感じます。
 
 このようにprefetchだけでは完全に瞬間的に表示できないケースであっても、すでに訪問済みのページであれば瞬間的に遷移しているように感じられます。Next.jsでデフォルトオフになったキャッシュの弊害がなく、利点しかないものになっています。
+</section>
 
-
-
+<section>
 <H2WithHash id="security">セキュリティ: データ漏洩</H2WithHash>
 
 ここではサーバからブラウザに機密性の高い情報が流れてしまうデータ漏洩の問題を取り上げます。上記の各方式は、サーバからブラウザにデータを渡す仕組みが異なります。ネイティブとTurbo DriveはHTMLのみを送ります。Next.js pages routerのSSRはHTMLに加え、React Hydration用のデータを送り、一方でapp routerはServer Componentの場合はHTMLに加えてRSC payloadを送ります。またuseEffectの中からfetchをする場合はJSON APIを送ります。
@@ -220,7 +218,7 @@ Taint API](https://nextjs.org/docs/app/building-your-application/data-fetching/p
             referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
   </div>
 </div>
-
+</section>
 
 
 export default function ({children}) {

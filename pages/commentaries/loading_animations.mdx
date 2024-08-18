@@ -18,7 +18,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
   <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/newspicks.mov" type="video/mp4"></source>
 </video>
 
-
+<section>
 <H2WithHash id="create-tabbed-menus-with-turbo-frames">Ajax/fetchではローディングアニメーションは表示されない</H2WithHash>
 
 ウェブブラウザは30年前からローディングアニメーションを表示していました。これはページのデータが読み込まれている間、「ちゃんと働いているよ」の合図となり、特にネットワークが非常に遅かった時代には必須なUI要素でした。
@@ -34,7 +34,9 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 上記のNewspicksのウェブサイトはNext.jsのSSRで動いています。そのため`Link`タグを使っている場合、2ページ目以降はAjax/fetchを使って遷移します。だからローディングアニメーションが表示されません。
 **本来は開発者がアニメーションを自分で実装する必要があるのですが、それを怠ったために、ブラウザネイティブなMPAよりもむしろUXが低下してしまいました。**
+</section>
 
+<section>
 <H2WithHash id="loading-animations-with-native">ブラウザネイティブなMPAの場合</H2WithHash>
 
 ブラウザネイティブなMPAの場合、30年前からローディングアニメーションが用意されています。
@@ -46,7 +48,9 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 </video>
 
 2000msの遅延が入っているのでリンク先のページが表示されるまでに時間はかかりますが、ローディングアニメーションのおかげでブラウザが正しく動作していることが確認でき、安心感があります。
+</section>
 
+<section>
 <H2WithHash id="loading-animations-with-turbo-drive">Turbo Driveの場合</H2WithHash>
 
 Turbo Driveの場合は、ネイティブのMPAと非常によく似たローディングアニメーションを、ライブラリがデフォルトで用意してくれています。
@@ -65,9 +69,9 @@ Turbo Driveの場合は、ネイティブのMPAと非常によく似たローデ
 ２番目の時は[Turbo Driveのキャッシュ](https://turbo.hotwired.dev/handbook/building#understanding-caching)が動作しています。ボタンを押した瞬間に表示されるものは"preview"を呼ばれ、同時に裏でサーバから最新のページが取得されます。ローディングアニメーションが表示されているのは、裏で最新のページを取得しているためです。最新ページが受信されると"preview"と差し替えます。こうやって**瞬間的にページを表示することと、最新ページを表示すること**を両立させています。
 
 サーバのレスポンスが遅い場合には非常に効果的なUXです。
+</section>
 
-
-
+<section>
 <H2WithHash id="loading-animations-with-ssr">Next.js Pages Router SSRの場合</H2WithHash>
 
 いよいよ一番最初で紹介したNewsPicksの問題の話です。
@@ -117,8 +121,9 @@ const handleRouteChangeStart = async (url: any, {shallow}: any) => {
 特にサーバからのレスポンスが遅い場合、ローディングアニメーションの追加はUXを大きく改善させます。Turbo Driveはデフォルトでアニメーションを用意してくれますが、Next.jsの場合は上記のように自作する必要があります。残念ながら、現実問題として、そこまでやっていないサイトの方が多いのではないかと思います。
 
 NewsPicksはサーバのレスポンスが遅いサイトです。そのため、UXへの悪影響を軽減するために、ローディングアニメーションの導入はぜひ検討するべきでしょう。それが難しい場合は、Next.jsの`Link`タグによる[SPA的画面遷移](/loading_animations#loading-animations-with-ssr)を諦め、`a`タグを使用して[ブラウザネイティブなMPA画面遷移](/commentaries/loading_animations#loading-animations-with-native)に戻した方がむしろUXは改善するでしょう。
+</section>
 
-
+<section>
 <H2WithHash id="turboframes">Turbo Framesの場合</H2WithHash>
 
 Turbo Driveではデフォルトで[ローディングアニメーションが表示されます](/commentaries/loading_animations#loading-animations-with-turbo-drive)が、Turbo Framesの場合は表示されません。Turbo Frameが小さかったり、複数あったりするケースもあるので、画面全体のローディング状態を示すアニメーションをデフォルトで表示するのは適切ではないと判断したのかもしれません。その代わりに`turbo-frame`ごとにカスタマイズする仕組みが用意されています。
@@ -190,7 +195,9 @@ Turbo Framesがロード中の時は`turbo-frame`タグに[`busy`の属性がつ
 うるさいと感じる場合、ボタンやリンクだけにロード中の印をつけるのも良いでしょう。例えばTurboで`form`の送信をするときは、`data-turbo-submits-with`属性を使えば、[送信中にボタンの文言を変更できます](https://turbo.hotwired.dev/reference/attributes#data-attributes)。
 
 またTurbo Framesの場合は[Turbo Driveの"preview"キャッシュ機能](https://turbo.hotwired.dev/handbook/building#understanding-caching)が働きません。スクロール位置などのステートを維持する必要がなければ、Turbo Framesではなく、[Turbo Drive](/commentaries/loading_animations#loading-animations-with-turbo-drive)の方がより良い選択かもしれません。
+</section>
 
+<section>
 <H2WithHash id="useeffect">ReactでuseEffectを使った場合</H2WithHash>
 
 Reactの古典的なSPAの場合は、useEffectを使ってデータを`fetch`します。この場合は[条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)を使用してローディングアニメーションを表示します。
@@ -242,8 +249,9 @@ export default function UsersIndex() {
 ```
 
 Next.jsの[Pages Router](/commentaries/loading_animations#loading-animations-with-ssr)のSSRに比べて、こっちのローディングアニメーションの方が考えやすく、かなり実装しやすくなっています。
+</section>
 
-
+<section>
 <H2WithHash id="react-server-components">Next.js App Router Server Componentsを使った場合</H2WithHash>
 
 Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認します。
@@ -266,8 +274,9 @@ Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認しま�
 タブメニューUIの方でも、Next.js App Routerの[Parallel Routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)を使った[デモ](/tabbed_segments_app/users)を用意しています。[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)をご覧いただくとわかる通り、ここでも`loading.tsx`を使っていますので、SSRの動作ではなく、useEffectを使った場合に近いUXになります。
 
 このようにReact Server ComponentsのSuspenseを使うと、[Pages RouterのSSRで問題](/commentaries/loading_animations#loading-animations-with-ssr)となるフィードバックの無さを解消し、[useEffect的なUX](/commentaries/loading_animations#useeffect)のレベルに戻してくれます。`loading.tsx`ファイルを作るだけですので、[上に示した](/commentaries/loading_animations#loading-animations-with-ssr)SSR用のカスタムアニメーションの実装もかなり簡単です。
+</section>
 
-
+<section>
 <H2WithHash id="hotwire-and-next">HotwireとNext.jsの比較</H2WithHash>
 
 上記の議論を下図にまとめました。下記のことが言えるのではないかと思います。
@@ -282,12 +291,15 @@ Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認しま�
 <div className="mt-4">
   <Image src={hotwireAndNextImage}></Image>
 </div>
+</section>
 
+<section>
 <H2WithHash id="closing">最後に</H2WithHash>
 
 特にサーバのレスポンスが遅い場合は、ローディングアニメーションは必須と言えます。無いとUXに大きな影響があります。難易度はそれぞれ異なりますが、HotwireもNext.jsもこれを実装する方法が用意されています。Next.jsのPages RouterのSSRではアニメーションの実装が難しい部分があり、UXが悪いケースがありました。しかし、App RouterのSuspenseでこの問題も解消されています。
 
 一方で[闇雲にアニメーションを用意すれば良いというものでもありません](https://ws-design.net/skeleton_screen/)。ケースバイケースで判断しながら、適切な方法を選択するのが良いでしょう。
+</section>
 
 export default function NewTabbedMenus({children}) {
   return <CommentaryLayout

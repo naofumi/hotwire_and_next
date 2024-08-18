@@ -6,6 +6,7 @@ import H2WithHash from "../../components/H2WithHash";
 
 [タブメニュー](/commentaries/tabbed_menus)のページでTurbo Framesを使ってタブメニューを実装しました。ここではTurbo Framesの**別の使い方**を紹介します。違いは**ページのどこを**部分置換するかです。
 
+<section>
 <H2WithHash id="turbo-frame-targeting-outside">別のTurbo Frameを更新するパターン</H2WithHash>
 
 Turboは`fetch`でサーバにリクエストを飛ばし、レスポンスを使ってページの部分置換をするライブラリです。Turbo Drive、Turbo Frames、Turbo Streamsの3種類がありますが、置換場所をどのように指定するかが異なります。
@@ -50,7 +51,9 @@ Turboは`fetch`でサーバにリクエストを飛ばし、レスポンスを�
   </div>
 </div>
 <div className="mt-4 text-gray-400 text-sm">※）トリガーは一般に`a`タグもしくは`form`タグになります。またGETでかつTurbo Streams以外であればJavaScriptから[Turbo.visit()](https://turbo.hotwired.dev/reference/drive#turbo.visit)を呼び、Turboを稼働することも可能です。JavaScriptでGET以外、もしくはTurbo Streamのリクエストを飛ばしたい場合は[request.jsライブラリ](https://github.com/rails/request.js)を使うのが便利です。</div>
+</section>
 
+<section>
 <H2WithHash id="details-panel-targetting">右側の詳細パネルの部分置換をする</H2WithHash>
 
 下図のように、[タブメニュー](/commentaries/tabbed_menus)の場合は、`turbo-frame`がクリックする`a`タグ(タブ)を囲んでいました。`a`タグをクリックした時、それを包む最も近い`turbo-frame`を探し出し、その`turbo-frame`を部分置換すると判断したのです。
@@ -85,7 +88,9 @@ Turboは`fetch`でサーバにリクエストを飛ばし、レスポンスを�
 <div className="mt-12">
   <Image src={detailsTurboframeImage}/>
 </div>
+</section>
 
+<section>
 <H2WithHash id="comparison-with-react">Reactとの比較</H2WithHash>
 
 ### コードの簡潔さ
@@ -109,6 +114,7 @@ Hotwire版は`a`タグを使ってTurbo Framesを稼働させているため、p
 一方でReact版は`useEffect`を使いますので、Next.jsのprefetchが効きません。クリックしてから詳細パネルのデータを読み込みますので、ネットワーク遅延、サーバ処理時間の分だけユーザは待たされます。ローダーは出していますので無反応というわけではないのですが、必要なデータが表示されるまでは待つことになります。
 
 この分だけ、Hotwire版の方がヌルサクなUXになります。
+</section>
 
 export default function ({children}) {
   return <CommentaryLayout
