@@ -10,25 +10,21 @@ import Image from "next/image";
 下記ではUXおよび実装の簡単さを重視しつつ、モーダルダイアログの作り方を複数検討します。Hotwireに加え、**Next.jsのApp RouterとPages Routerについてもモーダルの出し方を検討し**、比較します。
 
 <section>
-<H2WithHash id="turbo-without-custom-javascript">Turbo Frames: カスタムJavaScriptなしでモーダルを出す方法</H2WithHash>
+<H2WithHash id="turbo-without-custom-javascript">Turbo Frames: カスタムJavaScriptなし</H2WithHash>
 
-まずはHotwire/Turbo Framesを使って、カスタムのJavaScriptを書かずにモーダルを出す方法を紹介します。この方法のポイントは以下になります。
+まずはHotwire/Turbo Framesを使って、カスタムのJavaScriptを書かずにモーダルを出す方法を紹介します。
 
-1. サーバから得た動的な内容をモーダルを表示する際は、通常は２つのステップが必要です。
-    1. モーダルを表示する (JavaScriptで行う)
-    2. モーダルのコンテンツをサーバにリクエストし、結果をモーダル内に表示する (AJAX/fetchで行う)
-2. しかし、サーバからの**レスポンスと一緒にモーダルの「枠」も送り返せば**、モーダルを開くステップは省略が可能になります
+サーバから動的な内容をモーダルを表示する際は、通常は２つのステップが必要です。
 
-### Turbo Frames: カスタムJavaScriptなし – コード
+1. モーダルを表示する (JavaScriptで行う)
+2. モーダルのコンテンツをサーバにリクエストし、結果をモーダル内に表示する (AJAX/fetchで行う)
 
-必要なコードは以下になります。
+しかし、サーバからの**レスポンスと一緒にモーダルの「枠」も送り返せば**、モーダルを開くJavaScriptが必要なステップ1.は省略可能になります。これがこの方法の特徴です。
 
-1. モーダルの「枠」と内容を含むHTMLページ
-2. モーダルの表示をトリガーするリンク・ボタン
-3. 元のページのどこにモーダルHTML断片を差し込むかの目印
-4. モーダルを閉じるボタン
+### コード
 
-なおコントローラアクションが`pages/api/hotwire/modal_no_js`にありますが、一般的なものなので解説を省略します。
+必要なコードは以下のようになります。ただしコントローラアクションは一般的なものなので、省略します(`pages/api/hotwire/modal_no_js`)。
+
 
 **1. モーダルの「枠」と内容を含むHTMLページ: `templates/modal_no_js/modal.ejs`**
 
