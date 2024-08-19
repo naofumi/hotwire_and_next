@@ -4,7 +4,7 @@
 
 @layer components {
     .mdx h2 {
-        @apply sticky bg-white top-9 sm:top-10
+        @apply sticky bg-white top-9 scroll-mt-9 sm:top-10 sm:scroll-mt-10
     }
 
     .mdx ul li {
