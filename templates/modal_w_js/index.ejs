@@ -4,7 +4,19 @@
 
   <div class="mt-8 flow-root">
     <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
+           data-controller="labeler"
+           data-labeler-selector-value=".modal-dialog"
+           data-labeler-label-class="modal-open"
+      >
+        <script>
+          function openModal() {
+            const turboFrame = document.querySelector("turbo-frame#modal")
+            turboFrame.innerHTML = '<div class="!min-w-96 text-center relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">Loading... </div>'
+            const modal = document.querySelector(".modal-dialog")
+            modal.classList.add("modal-open")
+          }
+        </script>
         <table class="min-w-full divide-y divide-gray-300">
           <thead>
           <tr class="divide-x divide-gray-200">
@@ -24,13 +36,16 @@
               <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
                 <a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
                    data-turbo-frame="modal"
-                   data-controller="labeler"
-                   data-labeler-selector-value=".modal-dialog"
-                   data-labeler-label-class="modal-open"
+                   onclick="openModal()"
+                   class="text-orange-600 underline inline-block active:scale-105">
+                  <%= user.name %>
+                </a>(Inline JS)<br>
+                <a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
+                   data-turbo-frame="modal"
                    data-action="click->labeler#add"
                    class="text-orange-600 underline inline-block active:scale-105">
                   <%= user.name %>
-                </a>
+                </a>(Stimulus)
               </td>
               <td class="whitespace-nowrap p-4 text-sm text-gray-500">
                 <%= user.title %>

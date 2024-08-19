@@ -9,31 +9,42 @@ import Image from "next/image";
 
 下記ではUXおよび実装の簡単さを重視しつつ、モーダルダイアログの作り方を複数検討します。Hotwireに加え、**Next.jsのApp RouterとPages Routerについてもモーダルの出し方を検討し**、比較します。
 
-<section>
+1. [Turbo Frames: カスタムJavaScriptなしでモーダルを出す方法](/commentaries/modal_dialogs#turbo-without-custom-javascript)
+2. [Turbo Frames: カスタムJavaScriptを追加してモーダルのUI/UXを改善する方法](/commentaries/modal_dialogs#turbo-with-custom-javascript)
+    1. JavaScriptをインラインで書いた場合
+    2. Stimulusを使った場合
+    3. さらにCSSでローディングアニメーションを追加
+3. [React: useEffectでモーダルを出す方法](/commentaries/modal_dialogs#react-useeffect)
+4. [React: Client Componentsでモーダルを出す方法](/commentaries/modal_dialogs#react-client-components)
+5. [React: Server Componentsでモーダルを出す方法](/commentaries/modal_dialogs#react-server-components)
+5. [React: Server ComponentsとLayoutでモーダルを出す方法](/commentaries/modal_dialogs#react-server-components-with-layouts)
+
 <H2WithHash id="turbo-without-custom-javascript">Turbo Frames: カスタムJavaScriptなし</H2WithHash>
 
 まずはHotwire/Turbo Framesを使って、カスタムのJavaScriptを書かずにモーダルを出す方法を紹介します。
 
-サーバから動的な内容をモーダルを表示する際は、通常は２つのステップが必要です。
+サーバから動的な内容をモーダルを表示する際は、通常は２つステップが必要です。
 
-1. モーダルを表示する (JavaScriptで行う)
-2. モーダルのコンテンツをサーバにリクエストし、結果をモーダル内に表示する (AJAX/fetchで行う)
+1. モーダルを表示する (カスタムJavaScriptで行う: HotwireならStimulus)
+2. モーダルのコンテンツをサーバにリクエストし、結果をモーダル内に表示する (AJAX/fetchで行う: HotwireならTurbo Frames)
 
 しかし、サーバからの**レスポンスと一緒にモーダルの「枠」も送り返せば**、モーダルを開くJavaScriptが必要なステップ1.は省略可能になります。これがこの方法の特徴です。
 
 ### コード
 
-必要なコードは以下のようになります。ただしコントローラアクションは一般的なものなので、省略します(`pages/api/hotwire/modal_no_js`)。
+必要なコードは以下のものになります。ただしコントローラアクションは一般的なものなので、省略します(`pages/api/hotwire/modal_no_js`)。
 
-
-**1. モーダルの「枠」と内容を含むHTMLページ: `templates/modal_no_js/modal.ejs`**
+**1. モーダルの「枠」とコンテンツのHTMLページ: `templates/modal_no_js/modal.ejs`**
 
 ```html
 <turbo-frame id="modal">
    ...[モーダルのコンテンツ]...
 </turbo-frame>
 ```
-`turbo-frame`の`id`は、HTML断片の差し込み先を示すために必要です。
+
+サーバから送り込むコンテンツのHTMLページです。今回は`turbo-frame`の中身しかありませんが、周りに関係のないHTMLがあったとしても<sup>※</sup>、`turbo-frame`の中身だけが切り抜かれて差し込まれます。そのためにコンテンツを`turbo-frame`で囲む必要があります。
+
+<p className="text-gray-500 text-sm leading-5">※) 全画面ロードの時にも、またHTML部分置換の時にも、双方とも全く同じ１つのHTMLファイルが使えるようにTurbo Framesは設計されています。通常のTurbo Drive的なナビゲーションの時には`body`タグの中身をすべて使用してページを表示し、Ajax/fetch的なナビゲーションの時には`turbo-frame`のところだけで部分置換をするというやり方です。この中で`turbo-frame`を記述するのは冗長な気もしますが、全く同じHTMLページでも、リクエストに応じて２通りの使い方をするために必要なのです。</p>
 
 **2. モーダル表示のトリガー: `templates/modal_no_js/index.ejs`**
 
@@ -42,14 +53,18 @@ import Image from "next/image";
    data-turbo-frame="modal"
    class="text-orange-600 underline inline-block active:scale-105"><%= user.name %></a>
 ```
-`href`には1.に示したモーダルHTMLへのリンクがきます。`data-turbo-frame="modal"`というのは、リンク先のHTMLを`id="modal"`の`turbo-frame`に差し込んでくださいという指示になります。
+
+ユーザがこの`a`タグをクリックすると、モーダルが表示されます。`href`にはモーダルの中身のエンドポイントを指定します。1.に示したコンテンツのHTMLページです。
+
+`data-turbo-frame="modal"`は、「サーバから送られてきたHTMLを`id="modal"`の`turbo-frame`に差し込んでください」という指示になります。
 
 **3. モーダルHTML断片の差し込み先: `templates/modal_no_js/index.ejs`**
 
 ```html
 <turbo-frame id="modal"></turbo-frame>
 ```
-`id`には1.と2.に記載した`modal`が入ります。`modal`という名前のHTML断片はここに差し込んでくださいという指示です。
+
+サーバから送られてきたHTMLはここに差し込まれます。
 
 **4. モーダルを閉じるボタン: `templates/modal_no_js/modal.ejs`**
 
@@ -57,40 +72,32 @@ import Image from "next/image";
 <a class="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
      href="/api/hotwire/modal_no_js">
 ```
-カスタムJavaScriptを使用しませんので、ブラウザの操作は`a`タグや`form`タグに限定されます。ここでは`a`タグを使用して、モーダルを表示していないページ(空の`turbo-frame`を持つ)をサーバからリクエストしています。
+カスタムJavaScriptを使用しませんので、ブラウザの操作は`a`タグや`form`タグに限定されます。ここでは`a`タグを使用して、モーダル表示前のページをリクエストしています。
 
-レスポンスを受け取ると、既存の`turbo-frame`が新しく届いた空の`turbo-frame`に入れ替えられ、その結果、モーダルが閉じます。
+ブラウザが受け取るHTMLレスポンスには空の`turbo-frame`が含まれています。そこで既存の`turbo-frame`をこの空の`turbo-frame`に入れ替えて、その結果、モーダルが閉じます。ブラウザが受け取るHTMLは`turbo-frame`だけではなく、`templates/modal_no_js/index.ejs`のすべてです。しかし画面に反映されるのは`turbo-frames`の中身(空)であることに注意してください。
 
-### Turbo Frames: カスタムJavaScriptなし – UI/UX
+### UI/UX
 
 [カスタムJavaScriptなしで作ったデモ](/api/hotwire/modal_no_js)を用意していますので、ご覧ください。[トップページ](/)からで遅延を設定できますので、300msの場合と2000msの場合を比較してください。
 
-* 遅延が少なく、サーバのレスポンスが十分に速い場合は動作が快適です。
-* しかし遅延を2000msにするとUXが悪くなります。リンクを押してもフィードバックがなく、ユーザはシステムが正しく動作している自信が持てません。(リンク等をクリックした時のCSS `:active`を使っていますが、十分なフィードバックとは言えません)
-* モーダルを閉じるだけの動作の時も遅延が発生します。「閉じるだけなら瞬間的に行くのでは？」という期待と反します
+* サーバのレスポンスが十分に速い場合(300msの場合)は快適です。
+* しかし遅延を2000msに設定するとUI/UXの弱点が見えてきます。リンクを押してもフィードバックがなく、ユーザはシステムが正しく動作している自信が持てません。またモーダルを閉じる時も遅延が発生します。「閉じるだけなら瞬間的に行くのでは？」というユーザ期待と反して、サーバからレスポンスが帰ってくるまでモーダルは閉じません。<br />(リンク等をクリックした時にCSS `:active`を使っていますが、十分なフィードバックとは言えません)
 
-## まとめ
+カスタムJavaScriptなしの場合はコードが非常に簡素で、直感的にもわかりやすいものになります。しかし、特にネットワークが遅い場合は、ユーザの操作に対するフィードバックが弱く、良いUI/UXとは言えません。
 
-コードは非常に簡素で、直感的にもわかりやすいです。ただし、特にネットワークが遅い場合は、操作のフィードバックが弱いのは問題です。
-</section>
 
-<section>
-<H2WithHash id="turbo-with-custom-javascript">Turbo Frames: JavaScriptありでモーダルのUXを改善する方法</H2WithHash>
 
-上記の「Turbo Frames: カスタムJavaScriptなし」の問題点を解消し、ネットワークが遅い場合でも十分なUI/UXを提供するアプローチになります。上記ではモーダルの「枠」をサーバから送ることでモーダルを開くステップを省略していましたが、これをちゃんと入れるというのが違いです。
+<H2WithHash id="turbo-with-custom-javascript">Turbo Frames: JavaScriptあり</H2WithHash>
+
+上記の[Turbo Frames: カスタムJavaScriptなし](http://localhost:3000/commentaries/modal_dialogs#turbo-without-custom-javascript)の問題点を解消し、ネットワークが遅い場合でも十分なUI/UXを提供するアプローチになります。上記ではモーダルの「枠」をサーバから送ることでモーダルを開くステップを省略していました。しかしここではちゃんとJavaScriptを使って、**サーバレスポンスの遅延の有無に関わらず、リクエストを投げた瞬間にモーダルを開きます**。これがユーザに対するフィードバックとなり、UI/UXの改善に繋がります。
 
 ### コード
 
-コードは以下のパーツから構成されます。
+JavaScriptなしの場合と比較して、以下のコードが追加されます。
 
-1. モーダルの「枠」のHTML。これはあらかじめページに挿入しておきますが、`display:none`などで隠しています。またこの中にHTML断片を差し込むかの目印となる`turbo-frame`を入れておきます
-2. モーダルの表示をトリガーするJavaScriptの設置
-3. サーバにリクエストを飛ばし、レスポンスを`turbo-frame`に差し込む`a`タグの設置。
-4. 元のページのどこにモーダルHTML断片を差し込むかの目印
-5. モーダルを閉じるボタンのJavaScriptの設置
-
-上記と異なるのは、モーダルの表示・非表示を制御するJavaScriptを別途設置している点だけです。
-
+1. モーダルの「枠」のHTMLをあらかじめ元のページに挿入しておきます。ただし`display:none`で隠して見えなくします。この中にHTML断片を差し込む目印の`turbo-frame`を入れておきます
+2. モーダルの表示をトリガーするJavaScriptの設置。Turboがサーバにリクエストを投げるのは変わらないのですが、これとは独立にモーダルを表示するJavaScriptを用意し、リンクをクリックしたときにこれも合わせて実行されるようにします。
+3. モーダルを閉じるボタンがJavaScriptを呼び、モーダルだけが閉じるようにします。
 
 **1. モーダルの「枠」と内容を含むHTMLページ: `templates/modal_w_js/modal.ejs`**
 
@@ -99,94 +106,150 @@ import Image from "next/image";
    ...[モーダルのコンテンツ]...
 </turbo-frame>
 ```
-`turbo-frame`の`id`は、HTML断片の差し込み先を示すために必要です。
 
-**2. モーダル表示のJavaScript: `public/hotwire/javascript/modal_controller.js`**
+JavaScriptなしの場合と比べると、モーダルの「枠」がないのが特徴です。モーダルの中身だけを置いておきます。
+
+**2. モーダル表示のJavaScript: `public/hotwire/javascript/labeler_controller.js`**
 
 ```js
-  open() {
-    const modalDialog = document.querySelector(this.selectorValue)
-    modalDialog.classList.add(this.openerClass)
+  add() {
+    const labelable = document.querySelector(this.selectorValue)
+    labelable.classList.add(this.labelClass)
   }
 
-  close() {
-    const modalDialog = document.querySelector(this.selectorValue)
-    modalDialog.classList.remove(this.openerClass)
+  remove() {
+    const labelable = document.querySelector(this.selectorValue)
+    labelable.classList.remove(this.labelClass)
   }
 ```
 
-`open()`はモーダルを開き、`close()`はモーダルを閉じます。CSSクラスの追加・削除で表示を制御しています。
+モーダルの開閉は、モーダル「枠」の表示・非表示の切り替え操作だけになります。
+
+今回は`labeler_controller.js`をStimulusで作成し、トリガーを押した時に切り替えられるようにしています。`this.selectorValue`はモーダル「枠」をDOMから選択するためのCSSセレクター、`this.labelClass`は表示・非表示の切り替えに使用するCSSクラスで、別途HTMLの中に記述しておきます。こうすることで、`labeler_controller.js`が使いまわせるようにしています。
+
+`add()`はモーダルを開き、`remove()`はモーダルを閉じます。
 
 **3. モーダル表示のトリガー: `templates/modal_w_js/index.ejs`**
 
 ```html
+<div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
+     data-controller="labeler"
+     data-labeler-selector-value=".modal-dialog"
+     data-labeler-label-class="modal-open"
+>
+  ...
+  <a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
+     ...
+     data-action="click->labeler#add"
+     class="text-orange-600 underline inline-block active:scale-105">
+    <%= user.name %>
+  </a>
+  ...
+</div>
+```
+
+JavaScriptなしの場合と同様に、`a`タグをクリックすることでモーダルが開くようにしています。`a`タグには多数の属性が付いていますが、これはどのモーダルにどのようなCSSクラスを付与し、開閉をするかの指示になります。
+
+1. `data-controller="labeler"`は、この`div`タグに囲まれている部分を`javascript/labeler_controller.js`に繋げるためのものです。この中を`javascript/labeler_controller.js`に制御させているイメージになります。
+2. `data-labeler-selector-value=".modal-dialog"`、`data-labeler-label-class="modal-open"`は`javascript/labeler_controller.js`の動きをカスタマイズするための引数です。どのモーダル「枠」を制御するか、および開閉指示に使用するCSSクラスを指定しています。
+3. `data-action="click->modal#open"`は、このリンクがクリックされた時に`javascript/labeler_controller.js`の`add()`メソッドを呼び出すように指示します。
+
+少しくどい記述ですが、`javascript/labeler_controller.js`の使い回しが効くようにするため、変更できるパラメータが多くなっているためです。
+
+Reactでは、コンポーネントの中に、表示用HTMLとイベント処理JavaScriptを合わせて持たせています。同じロジックを複数のコンポーネントで繰り返し使っている場合は、カスタムフックなどを作ってDRYにします。
+
+Stimulusの場合は表示用HTMLとイベント処理用JavaScriptを別のファイルに持ちます。そしてHTMLに`data-controller`などの属性を書くことで繋げます。Stimulus controllerはReactのカスタムフックに対応し、同じような役割を担っています。この辺りはまた別の機会に紹介したいと思います。
+
+なお、Stimulus controllerを使うのが面倒であれば、下記のように直接書き込んでも構いません。ただしキーボードイベントなど、より複雑なイベントを処理する可能性がある場合、さらにコードの再利用性を高めたい場合は、やはりStimulusがおすすめです。
+
+**`templates/modal_w_js/index.ejs`**
+```html
+<div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
+>
+  ...
+  <a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
+     ...
+     onclick="openModal"
+     class="text-orange-600 underline inline-block active:scale-105">
+    <%= user.name %>
+  </a>
+  ...
+  <script>
+    function openModal() {
+      document.querySelector(".modal-dialog")
+              ?.classList.add("modal-open")
+    }
+  </script>
+</div>
+
+```
+
+**4. Turbo Framesを使ったサーバリクエスト**
+
+`templates/modal_w_js/index.ejs`の、先ほどモーダル表示のトリガーを追加した`a`タグに`data-turbo-frame`タグを追加します。
+
+```html
 <a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
-   ...
-   data-controller="modal"
-   data-modal-selector-value=".modal-dialog"
-   data-modal-opener-class="modal-open"
-   data-action="click->modal#open"
+   data-turbo-frame="modal"
+   data-action="click->labeler#add"
    class="text-orange-600 underline inline-block active:scale-105">
   <%= user.name %>
 </a>
 ```
 
-1. `data-controller="modal"`はここのコードを上記の`javascript/modal_controller.js`に繋げるます。
-2. `data-action="click->modal#open"`は、このリンクがクリックされた時に`javascript/modal_controller.js`の`open()`を呼び出すように指示します。
-3. `data-modal-selector-value=".modal-dialog"`はどのモーダルを制御するか、`data-modal-opener-class="modal-open"`はモーダル開閉に使うCSSクラスを指定しています。
+このすると、`a`タグをクリックした時にモーダルが開くと同時に、`/api/hotwire/modal_w_js/modal?id=[...]`のエンドポイントにリクエストが投げられます。そしてレスポンスの`turbo-frame`の内容が、`id="modal"`の`turbo-frame`に差し込まれます。(1.で作成したモーダル「枠」の中)
 
-
-**3. モーダルHTML断片の差し込み先: `templates/modal_w_js/index.ejs`**
-
-```html
-<turbo-frame id="modal"></turbo-frame>
-```
-`id`には1.と2.に記載した`modal`が入ります。`modal`という名前のHTML断片はここに差し込んでくださいという指示です。
-
-**4. モーダルを閉じるボタン: `templates/modal_w_js/modal.ejs`**
+**5. モーダルを閉じるボタン: `templates/modal_w_js/modal.ejs`**
 
 ```html
   <div class="relative z-10"
        aria-labelledby="modal-title"
        role="dialog"
        aria-modal="true"
-       data-controller="modal"
-       data-modal-selector-value=".modal-dialog"
-       data-modal-opener-class="modal-open"
+       data-controller="labeler"
+       data-labeler-selector-value=".modal-dialog"
+       data-labeler-label-class="modal-open"
   >
     ...
     <button class="..."
-            data-action="click->modal#close:prevent keydown.esc@window->modal#close:prevent:stop">
+            data-action="click->labeler#remove keydown.esc@window->labeler#remove">
 ```
-ここはモーダルのクローズボタンの制御です。
 
-1. `data-action="click->modal#close:prevent keydown.esc@window->modal#close:prevent:stop"`のところは、`button`タグをクリックすると`modal_controller.js`の`close()`を実行しなさいという指示になります
-2. その上の`data-controller="modal"`のところは
+ここはモーダルのクローズボタンの制御です。先ほどの`a`タグとはDOM的に離れている箇所に配置される可能性がありますので、別途`javascript/labeler_controller.js`と繋げています。同じモーダルを操作しますので、`data-labeler-selector-value`や`data-labeler-label-class`は共通です。
 
-</section>
+クローズボタンは`button`タグのところです。`data-action`の中の`click->labeler#remove`は、クリックしたら`javascript/labeler_controller.js`の`remove()`メソッドを呼び出します。CSSクラスの`modal-open`がモーダル枠から外されるので、モーダルが閉じます。
 
+また`esc@window->labeler#remove`はESCキーのイベント処理を記述しています。ESCキーが押されたら同様に`remove()`メソッドを呼び出す指示です。このようにStimulus controllerを書くと、イベント処理が非常に簡潔にわかりやすく記述できます。
 
-
-
+### UI/UX
 
 
+### まとめ
 
-<section>
-<H2WithHash id="turbo-without-custom-javascript">React: useEffectでモーダルを出す方法</H2WithHash>
-</section>
-<section>
-<H2WithHash id="turbo-without-custom-javascript">React: Client Componentsでモーダルを出す方法</H2WithHash>
-</section>
-<section>
-<H2WithHash id="turbo-without-custom-javascript">React: Server Componentsでモーダルを出す簡易法</H2WithHash>
-</section>
-<section>
-<H2WithHash id="turbo-without-custom-javascript">React: Server Componentsに加えてNext.js Layoutを使いUXを改善する方法</H2WithHash>
-</section>
+以上Stimulusの紹介もしたために長くなってしまいましたが、Turbo FramesにJavaScriptを追加するとUI/UXを大きく改善できることが確認できたかと思います。
 
-<section>
+* Turbo Framesにごく少量のJavaScriptを追加するとUI/UXが大きく改善します
+* CSSを使うだけでローディングアニメーションが実装できます
+* Stimulus controllerは多少慣れが必要ですが、使うとキーボードイベントなどのイベント処理が大きく簡素化され、かつコードの再利用性が高まります
+
+
+
+
+<H2WithHash id="react-useeffect">React: useEffectでモーダルを出す方法</H2WithHash>
+
+
+<H2WithHash id="react-client-components">React: Client Componentsでモーダルを出す方法</H2WithHash>
+
+
+<H2WithHash id="react-server-components">React: Server Componentsでモーダルを出す簡易法</H2WithHash>
+
+
+<H2WithHash id="react-server-components-with-layouts">React: Server Componentsに加えてNext.js Layoutを使いUXを改善する方法</H2WithHash>
+
+
+
 <H2WithHash id="summary">まとめ</H2WithHash>
-</section>
+
 
 モーダルダイアログのUXに大きな課題が出るのは、サーバのレスポンスが遅い時です。速ければ、上記のどれを選択しても大差ありません。遅い時に違いが出ます。
 
