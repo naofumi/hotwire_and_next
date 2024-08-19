@@ -9,11 +9,11 @@ import Image from "next/image";
 
 下記ではUXおよび実装の簡単さを重視しつつ、モーダルダイアログの作り方を複数検討します。Hotwireに加え、**Next.jsのApp RouterとPages Routerについてもモーダルの出し方を検討し**、比較します。
 
-1. [Turbo Frames: カスタムJavaScriptなしでモーダルを出す方法](/commentaries/modal_dialogs#turbo-without-custom-javascript)
-2. [Turbo Frames: カスタムJavaScriptを追加してモーダルのUI/UXを改善する方法](/commentaries/modal_dialogs#turbo-with-custom-javascript)
-    1. JavaScriptをインラインで書いた場合
-    2. Stimulusを使った場合
-    3. さらにCSSでローディングアニメーションを追加
+1. [Turbo Frames: カスタムJavaScriptなしでモーダルを出す方法](#turbo-without-custom-javascript)
+2. Turbo Frames: カスタムJavaScriptを追加してモーダルのUI/UXを改善する方法
+    1. [JavaScriptをインラインで書いた場合](#turbo-with-custom-javascript)
+    2. [CSSでローディングアニメーションを追加した場合](#turbo-css-loader)
+    3. Stimulusでイベント処理を改善した場合
 3. [React: useEffectでモーダルを出す方法](/commentaries/modal_dialogs#react-useeffect)
 4. [React: Client Componentsでモーダルを出す方法](/commentaries/modal_dialogs#react-client-components)
 5. [React: Server Componentsでモーダルを出す方法](/commentaries/modal_dialogs#react-server-components)
@@ -87,16 +87,18 @@ import Image from "next/image";
 
 
 
-<H2WithHash id="turbo-with-custom-javascript">Turbo Frames: JavaScriptあり</H2WithHash>
+<H2WithHash id="turbo-with-custom-javascript">Turbo Frames: Inline JavaScript</H2WithHash>
 
-上記の[Turbo Frames: カスタムJavaScriptなし](http://localhost:3000/commentaries/modal_dialogs#turbo-without-custom-javascript)の問題点を解消し、ネットワークが遅い場合でも十分なUI/UXを提供するアプローチになります。上記ではモーダルの「枠」をサーバから送ることでモーダルを開くステップを省略していました。しかしここではちゃんとJavaScriptを使って、**サーバレスポンスの遅延の有無に関わらず、リクエストを投げた瞬間にモーダルを開きます**。これがユーザに対するフィードバックとなり、UI/UXの改善に繋がります。
+上記の[Turbo Frames: カスタムJavaScriptなし](http://localhost:3000/commentaries/modal_dialogs#turbo-without-custom-javascript)の問題点を解消し、ネットワークが遅い場合でも十分なUI/UXを提供するためにカスタムJavaScriptを書きます。上記ではモーダルの「枠」をサーバから送ることでモーダルを開くステップを省略していました。しかしここではちゃんとJavaScriptを使って、**サーバレスポンスの遅延の有無に関わらず、リクエストを投げた瞬間にモーダルを開きます**。これがユーザに対するフィードバックとなり、UI/UXの改善に繋がります。
+
+なおHotwireでカスタムJavaScriptを書く場合は、一般には[Stimulus](https://stimulus.hotwired.dev)を使います。これは非常に便利ですが、最初はとっつきにくいので、インラインJavaScriptを使った例から紹介します。
 
 ### コード
 
 JavaScriptなしの場合と比較して、以下のコードが追加されます。
 
 1. モーダルの「枠」のHTMLをあらかじめ元のページに挿入しておきます。ただし`display:none`で隠して見えなくします。この中にHTML断片を差し込む目印の`turbo-frame`を入れておきます
-2. モーダルの表示をトリガーするJavaScriptの設置。Turboがサーバにリクエストを投げるのは変わらないのですが、これとは独立にモーダルを表示するJavaScriptを用意し、リンクをクリックしたときにこれも合わせて実行されるようにします。
+2. モーダルの表示をトリガーするJavaScriptの設置。Turboがサーバにリクエストを投げるのは前回と変わらないのですが、これとは独立にモーダルを表示するJavaScriptを用意します。リンクをクリックしたときに、この２つが同時に実行されます。
 3. モーダルを閉じるボタンがJavaScriptを呼び、モーダルだけが閉じるようにします。
 
 **1. モーダルの「枠」と内容を含むHTMLページ: `templates/modal_w_js/modal.ejs`**
@@ -107,7 +109,102 @@ JavaScriptなしの場合と比較して、以下のコードが追加されま�
 </turbo-frame>
 ```
 
-JavaScriptなしの場合と比べると、モーダルの「枠」がないのが特徴です。モーダルの中身だけを置いておきます。
+JavaScriptなしの場合と比べると、モーダルの「枠」をここに書いていないのが特徴です。モーダルの中身だけを置いておきます。
+
+
+**2. モーダル表示のJavaScript: `templates/modal_w_js/index.ejs`**
+
+```html
+<script>
+  function openModal() {
+    const turboFrame = document.querySelector("turbo-frame#modal")
+    turboFrame.innerHTML = '<div class="!min-w-96 text-center relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">Loading... </div>'
+    const modal = document.querySelector(".modal-dialog")
+    modal.classList.add("modal-open")
+  }
+
+  function closeModal() {
+    const modal = document.querySelector(".modal-dialog")
+    modal.classList.remove("modal-open")
+  }
+</script>
+```
+
+モーダルの表示・非表示を制御するJavaScriptを、`script`タグで囲んでインラインで書いています。内容は単にモーダルの「枠」に`.modal-open`のCSSクラスをつけたり外したりするだけです。さらに`openModal()`では、`turbo-frame`の"Loading..."と表示させ、ローディング中の表示をさせています。
+
+
+**3. モーダル表示のトリガー: `templates/modal_w_js/index.ejs`**
+
+```html
+<a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
+   data-turbo-frame="modal"
+   onclick="openModal()"
+   class="text-orange-600 underline inline-block active:scale-105">
+  <%= user.name %>
+</a>(Inline JS)<br>
+```
+
+"Inline JS"と書いてある方の`a`タグに着目します。まず`onclick`属性で`openModal()`を呼び出して、モーダルを表示させています。さらに`data-turbo-frame="modal"`属性がありますので、`href`で指定したエンドポイントから得られたHTMLを`turbo-frame id="modal"`に差し込むという指示になります(上記と同じ)。
+
+`a`タグにこの２つの属性をつけることにより、モーダルを表示させるコードとTurbo Frameにデータを読み込むコードを分けることができました。そのため、サーバからのレスポンスが遅延しても、まず先にモーダルを表示させることができます。"Loading..."を表示させるようにしたもの、空白のモーダルでは味気ないからです。
+
+「モーダルの開閉」「サーバからのデータの読み込み」を独立させたことがポイントと言えます。
+
+**4. モーダルを閉じるボタン: `templates/modal_w_js/modal.ejs`**
+
+```html
+<button class="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
+        onclick="closeModal()">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+       class="mx-auto size-6 text-orange-600">
+    ...
+  </svg>(Inline JS)
+</button>
+```
+
+モーダルを閉じる`button`タグでは、`onclick="closeModal()"`としています。先ほど用意した`closeModal()`を呼び出して、モーダルを閉じています。[カスタムJavaScriptを使わない例](/commentaries/modal_dialogs#turbo-without-custom-javascript)と異なり、モーダルの開閉とサーバからのデータの読み込みが分かれていますので、モーダルだけ瞬時に閉じることができています。
+
+### UI/UX
+
+[JavaScriptを使った例のデモを用意しています](/api/hotwire/modal_w_js)ので、お試しください。他の例も同じデモ画面に含めていますので、"Inline Javascript"のUI/UXを確認する場合は、"Inline JS"と書いてあるボタンを押してください。
+
+* モーダルダイアログは瞬時に表示されます
+* サーバのレスポンスが遅い場合は"Loading..."と表示されますので、リクエストが送信され、サーバのレスポンス待ちであることがわかります。ユーザへのフィードバックが適切にされていますので、UI/UXは良くなっています。
+* クローズボタンを押したときにモーダルダイアログは瞬時に閉じます。これはユーザの期待に沿いますので、UI/UXは良くなっています。
+
+### まとめ
+
+* カスタムJavaScriptなしの例に比べて多少はコードが増えていますが、10行程度です
+* モーダル「枠」はサーバから送信されるのではなく、元のページに含まれています
+
+Turbo Framesを使うと[カスタムJavaScriptなし](commentaries/modal_dialogs#turbo-without-custom-javascript)でもモーダルが作れます。宣伝文句としてはインパクトがあるせいか、このやり方を非常に多く見かけるように思います。しかしHotwireがStimulusとセットになっていることからも分かるように、**HotwireはむしろカスタムJavaScriptを書くことを奨励しています**。そしてここで確認したように、わずか10行程度のJavaScriptでUI/UXを大きく改善できています。
+
+ぜひ「JavaScriptなし」の宣伝文句に踊らされず、UI/UXを改善する簡単なJavaScriptを使うようにしていただければと思います。
+
+
+
+<H2WithHash id="turbo-css-loader">Turbo Frames: CSSローディングアニメーション</H2WithHash>
+
+[Inline JavaScript](#turbo-with-custom-javascript)の項では、カスタムJavaScriptを使ったおかげでモーダルが瞬時に表示されるようになりました。つまりサーバからのレスポンスよりも前にモーダルが表示されます。そのため、なんらかのローディングアニメーションが必要になります。
+
+前の項では単純に"Loading..."の文字列をJavaScriptで差し込みました。これでも良いのですが、Turboはロード中に`busy`のHTML属性を自動的に付けてくれますので、CSSだけでもローディングアニメーションを表示できます。ここではこの方法を紹介します。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 **2. モーダル表示のJavaScript: `public/hotwire/javascript/labeler_controller.js`**
 
