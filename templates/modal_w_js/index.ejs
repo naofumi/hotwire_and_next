@@ -12,7 +12,12 @@
         <script>
           function openModal() {
             const turboFrame = document.querySelector("turbo-frame#modal")
-            turboFrame.innerHTML = '<div class="!min-w-96 text-center relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">Loading... </div>'
+            turboFrame.innerHTML = '<div>Loading... </div>'
+            const modal = document.querySelector(".modal-dialog")
+            modal.classList.add("modal-open")
+          }
+
+          function openModalCSSLoader() {
             const modal = document.querySelector(".modal-dialog")
             modal.classList.add("modal-open")
           }
@@ -47,6 +52,12 @@
                 </a>(Inline JS)<br>
                 <a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
                    data-turbo-frame="modal"
+                   onclick="openModalCSSLoader()"
+                   class="text-orange-600 underline inline-block active:scale-105">
+                  <%= user.name %>
+                </a>(CSS loader)<br>
+                <a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
+                   data-turbo-frame="modal"
                    data-action="click->labeler#add"
                    class="text-orange-600 underline inline-block active:scale-105">
                   <%= user.name %>
@@ -74,12 +85,47 @@
 
     <div class="modal-panel fixed inset-0 z-10 w-screen overflow-y-auto">
       <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <turbo-frame id="modal" class="turbo-with-loader no-delay">
-          <div class="!min-w-96 text-center relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
-            Loading...
+        <div class="relative z-10"
+             aria-labelledby="modal-title"
+             role="dialog"
+             aria-modal="true"
+             data-controller="labeler"
+             data-labeler-selector-value=".modal-dialog"
+             data-labeler-label-class="modal-open"
+        >
+          <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+            <div class="flex justify-end mb-4 border-b border-gray-200">
+              <div></div>
+              <button class="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
+                      onclick="closeModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                     class="mx-auto size-6 text-orange-600">
+                  <path fill-rule="evenodd"
+                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z"
+                        clip-rule="evenodd"/>
+                </svg>
+                (Inline JS)
+              </button>
+              <button class="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
+                      data-action="click->labeler#remove keydown.esc@window->labeler#remove">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                     class="mx-auto size-6 text-orange-600">
+                  <path fill-rule="evenodd"
+                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z"
+                        clip-rule="evenodd"/>
+                </svg>
+                (Stimulus)
+              </button>
+            </div>
+            <div class="!min-w-64 !min-h-40 mt-5 sm:mt-6">
+              <turbo-frame id="modal" class="turbo-with-loader no-delay">
+                <div class="turbo-hide-on-loading ">
+                  Loading...
+                </div>
+              </turbo-frame>
+            </div>
           </div>
-        </turbo-frame>
-
+        </div>
       </div>
     </div>
   </div>

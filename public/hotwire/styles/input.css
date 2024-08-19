@@ -3,10 +3,6 @@
 @tailwind utilities;
 
 @layer components {
-    .turbo-with-loader {
-        position: relative;
-    }
-
     .turbo-with-loader .turbo-hide-on-loading {
         position: relative;
         transition-delay: 500ms;

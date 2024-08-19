@@ -13,7 +13,7 @@ import Image from "next/image";
 2. Turbo Frames: カスタムJavaScriptを追加してモーダルのUI/UXを改善する方法
     1. [JavaScriptをインラインで書いた場合](#turbo-with-custom-javascript)
     2. [CSSでローディングアニメーションを追加した場合](#turbo-css-loader)
-    3. Stimulusでイベント処理を改善した場合
+    3. [Stimulusでイベント処理を改善した場合](#turbo-with-stimulus)
 3. [React: useEffectでモーダルを出す方法](/commentaries/modal_dialogs#react-useeffect)
 4. [React: Client Componentsでモーダルを出す方法](/commentaries/modal_dialogs#react-client-components)
 5. [React: Server Componentsでモーダルを出す方法](/commentaries/modal_dialogs#react-server-components)
@@ -118,7 +118,7 @@ JavaScriptなしの場合と比べると、モーダルの「枠」をここに�
 <script>
   function openModal() {
     const turboFrame = document.querySelector("turbo-frame#modal")
-    turboFrame.innerHTML = '<div class="!min-w-96 text-center relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">Loading... </div>'
+    turboFrame.innerHTML = '<div>Loading... </div>'
     const modal = document.querySelector(".modal-dialog")
     modal.classList.add("modal-open")
   }
@@ -146,7 +146,7 @@ JavaScriptなしの場合と比べると、モーダルの「枠」をここに�
 
 "Inline JS"と書いてある方の`a`タグに着目します。まず`onclick`属性で`openModal()`を呼び出して、モーダルを表示させています。さらに`data-turbo-frame="modal"`属性がありますので、`href`で指定したエンドポイントから得られたHTMLを`turbo-frame id="modal"`に差し込むという指示になります(上記と同じ)。
 
-`a`タグにこの２つの属性をつけることにより、モーダルを表示させるコードとTurbo Frameにデータを読み込むコードを分けることができました。そのため、サーバからのレスポンスが遅延しても、まず先にモーダルを表示させることができます。"Loading..."を表示させるようにしたもの、空白のモーダルでは味気ないからです。
+`a`タグにこの２つの属性をつけることにより、モーダルを表示させるコードとTurbo Frameにデータを読み込むコードを分けることができました。そのため、サーバからのレスポンスが遅延しても、まず先にモーダルを表示させることができました。
 
 「モーダルの開閉」「サーバからのデータの読み込み」を独立させたことがポイントと言えます。
 
@@ -189,7 +189,77 @@ Turbo Framesを使うと[カスタムJavaScriptなし](commentaries/modal_dialog
 
 前の項では単純に"Loading..."の文字列をJavaScriptで差し込みました。これでも良いのですが、Turboはロード中に`busy`のHTML属性を自動的に付けてくれますので、CSSだけでもローディングアニメーションを表示できます。ここではこの方法を紹介します。
 
+### コード
 
+デモで使用しているコードはもう少し複雑ですが、ポイントを下に記しました。
+
+**hotwire/styles/input.css**
+```css
+.turbo-with-loader .turbo-hide-on-loading {
+    /*　GIFイメージは`position: absolute`で配置するので、
+        ここを`position: relative` にする*/
+    position: relative;
+}
+
+.turbo-with-loader .turbo-hide-on-loading::before {
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+.turbo-with-loader[busy] .turbo-hide-on-loading {
+    visibility: hidden !important;
+}
+
+.turbo-with-loader[busy] .turbo-hide-on-loading::before {
+    content: '';
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: absolute !important;
+    display: block;
+    background-image: url('../../images/rocket.gif');
+    width: 64px;
+    height: 64px;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+```
+
+* `turbo-frame`には`turbo-with-loader`CSSクラスを付けています。
+* アニメーション表示のときに隠したい部分を`turbo-hide-on-loading`で囲っています。ここの`::before`擬似要素にローディングのGIFアニメーションを表示します
+* アニメーションの表示・非表示は`turbo-with-loader`CSSクラスがついている`turbo-frame`の`busy`属性で切り替えます。`busy`なら隠したい部分(`turbo-hide-on-loading`を持つ)が非表示になり、かつ`::before`のところのGIFアニメーションが表示されます
+* 結論として、`turbo-with-loader`と`turbo-hide-on-loading`を適切にHTMLに付けてあげるだけでローディングアニメーションが動きます
+
+### UI/UX
+
+[デモ画面](/api/hotwire/modal_w_js)の"CSS loader"と付いているボタンを押してください。このボタンを使うと、`turbo-hide-on-loading`がついたHTML要素が使われ、適切にアニメーションが動きます。特にサーバレスポンスを遅延させてお試しください。
+
+* モーダルが表示されると中にアニメーションが表示され、システムが正しく動作している安心感をユーザに与えます。良いUI/UXです
+
+### まとめ
+
+* Turbo Framesは動作中に`turbo-frame`要素に[`busy`属性を付けてくれます](https://turbo.hotwired.dev/reference/frames#html-attributes)([`busy-aria`属性も付けてくれます](https://turbo.hotwired.dev/reference/attributes#automatically-added-attributes))
+* これを使うと、ローディングアニメーションをCSSだけで実装できます
+
+
+
+<H2WithHash id="turbo-with-stimulus">Stimulusでイベント処理を改善</H2WithHash>
+
+上に示したように、Turbo FramesとカスタムJavaScriptおよびCSSを使うと、かなりUI/UXの良いモーダルダイアログが作成できます。サーバからリクエストを受け取ってデータを表示しているにも関わらず、必要なコードは少なく、処理の流れも直感的でわかりやすくなっています。
+
+ただしHTMLの`onclick`属性を使用しているところに問題があります。`onclick`属性等の[インラインのイベントハンドラーはとても使いやすいのですが、一般には使用するべきではないとされています](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_—_dont_use_these)。主な理由は、`onclick`等の属性の中に記述できるのはグローバル関数であり、コードがこんがらがってしまうことにあるようです。(その心配がない程度の小さいところなら、実は私も良く使ったりしていますが...)
+
+一般に推奨されているのは[`addEventListener()`](https://developer.mozilla.org/en-US/docs/Web/Events/Event_handlers#eventtarget.addeventlistener)です。ただしAJAX/fetchによる部分置換が多いと、DOMが入れ替わるたびにイベントを付けたり外したりするのが大変になります(例えばイベントハンドラをつけるのに`onload`イベントがよく使われますが、AJAX/fetchで読み込んでも`onload`は発火しないので使えません)。またHTMLとJavaScriptが分かれているおかげで責務の分離ができているのは良いのですが、関連が分かりにくくなるという欠点もあります。
+
+Stimulusはこの問題を解決してくれるライブラリで、下記の特徴があります。
+
+* AJAX/fetchをするページでのイベントハンドラー処理を完全自動化
+* HTMLとJavaScriptの関連が分かりやすくなる
+* JavaScriptコードの再利用性が高まる
+
+今回は各ポイントに軽く触れながら、Stimulusで書いたコードを紹介します。
+
+<hr />
 
 
 
