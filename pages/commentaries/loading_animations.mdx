@@ -18,8 +18,29 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
   <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/newspicks.mov" type="video/mp4"></source>
 </video>
 
+1. [フィードバックの重要性](#importance-of-feedback)
+2. [Fetchではローディングアニメーションが出ない](#no-animation-on-fetch)
+3. [ブラウザネイティブなMPAの場合](#loading-animations-with-native)
+4. [Turbo Driveの場合](#loading-animations-with-turbo-drive)
+5. [Next.js Pages Router SSRの場合](#loading-animations-with-ssr)
+6. [Turbo Framesの場合](#turboframes)
+7. [ReactでuseEffectを使った場合](#useeffect)
+8. [React Server Componentsの場合](#react-server-components)
+9. [HotwireとNext.jsの比較](#hotwire-and-next)
+10. [最後に](#closing)
 
-<H2WithHash id="create-tabbed-menus-with-turbo-frames">Ajax/fetchではローディングアニメーションは表示されない</H2WithHash>
+<H2WithHash id="importance-of-feedback">フィードバックの重要性</H2WithHash>
+
+ユーザビリティの第一人者であるジェイコブ・ニールセンは[「ユーザインタフェース設計の10の経験則」](https://www.nngroup.com/articles/ten-usability-heuristics/)を発表しています。その一番最初のものが[「システムステータスの可視化」](https://www.nngroup.com/articles/ten-usability-heuristics/)です。
+
+> * Communicate clearly to users what the system’s state is — no action with consequences to users should be taken without informing them.
+> * Present feedback to the user as quickly as possible (ideally, immediately).
+
+なるべく早くユーザにフィードバックを提供することの重要性が謳われています。
+
+ボタンをクリックした時のCSS擬似セレクターの`:active`を使用するなど、ユーザにフィードバックする方法はローディングアニメーションだけではありませんが、`:active`はボタンを離すと消えてしまう問題があります。サーバからのレスポンスが１秒以上かかるのであれば、やはりローディングアニメーションのようなものが必要と言えるでしょう。
+
+<H2WithHash id="no-animation-on-fetch">Fetchではローディングアニメーションが出ない</H2WithHash>
 
 ウェブブラウザは30年前からローディングアニメーションを表示していました。これはページのデータが読み込まれている間、「ちゃんと働いているよ」の合図となり、特にネットワークが非常に遅かった時代には必須なUI要素でした。
 
@@ -252,7 +273,7 @@ Next.jsの[Pages Router](/commentaries/loading_animations#loading-animations-wit
 
 
 
-<H2WithHash id="react-server-components">Next.js App Router Server Componentsを使った場合</H2WithHash>
+<H2WithHash id="react-server-components">Server Componentsの場合</H2WithHash>
 
 Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認します。
 
@@ -281,12 +302,12 @@ Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認しま�
 
 上記の議論を下図にまとめました。下記のことが言えるのではないかと思います。
 
-* 全画面遷移についてはHotwire/Turboはデフォルトでローディングアニメーションを用意してくれています
-* 一方でNext.jsのPages Router SSRはデフォルトでは何も用意されていません。そのため、古典的SPAで使われてきた`useEffect`と条件付きレンダーの組み合わせに比べ、却ってUXが落ちてしまうことがあります。加えてローディングアニメーションを実現するのは難易度が高めです。ただしSuspenseの登場により、App Routerならば簡単にローディングアニメーションが実現できます。デフォルトでは用意されていないので注意は必要ですが、大きな改善と言えます。
-* ページの部分置換をする時は、HotwireもNext.jsもデフォルトではローディングアニメーションを用意していません。しかしHotwireはCSSだけで可能ですし、Next.jsもApp RouterであればSuspenseで簡単に実装できます。Pages Router SSRについて言えば、SSRではそもそもページの部分置換の機能はなく、`useEffect`と条件付きレンダーを使用するしかありませんので、下手なSSR化をした時のようにUXが落ちることも起こりません。
-* なおHotwireの場合はprefetchを使って、リンクをクリックする前からフライングをしてリンク先のページを読み込むこと(prefetch)ができます。Turbo Driveの時もTurbo Frameの時もprefetchは有効です。Next.jsでは、動的ページの場合、これができません。その分だけHotwireの反応は速くなり、より優れたUXになります。
-* HotwireではTurbo Driveの"preview"というキャッシュ機能もあります。これがあると、以前に訪問したページを再訪問するときはTurbo Framesよりも大幅に高速化します。画面置換の粒度が粗い方が、却ってUXがよくなる可能性もあるということです。
-* 条件付きレンダーやSuspenseによるローディングアニメーションの場合、部分置換する枠の中はすぐに消去します。以前の画面を残しつつ、その上にアニメーションを重ねることは原理的にできません。一方でMPAやHotwireの場合は以前の画面が残りますので、アニメーションを重ねることもできますし、CSSで非表示にすることもできます。どのようなローディング画面を表示するかについては、Hotwireの方が若干柔軟性が高くなっています。
+* Hotwire/Turboはデフォルトで全画面遷移時のローディングアニメーションを用意してくれています
+* 一方でNext.jsのPages Router SSRはローディングアニメーションの仕組みが用意されていません。そのため、古典的SPAで使われてきた`useEffect`と条件付きレンダーの組み合わせに比べ、却ってUXが落ちてしまうことがあります。SSRでローディングアニメーションを実現するにはイベントハンドラを書く必要があり、難易度は高めです。ただしSuspenseの登場により、App Routerならば簡単に実現できます。デフォルトでは用意されていないので注意は必要ですが、大きな改善と言えます。
+* 上記は前画面推移の話ですが、画面の部分置換をする時は、HotwireもNext.jsもデフォルトではローディングアニメーションを用意していません。ただしHotwireはCSSだけでこれを実現する方法を用意していますし、Next.jsもApp RouterであればSuspenseで簡単に実装できます。Pages Router SSRについて言えば、SSRではそもそも画面部分置換の機能はなく、`useEffect`と条件付きレンダーを使用するしかありませんので、下手なSSR化をした時のようにUXが落ちることも起こりません。
+* Hotwireの場合はprefetchを使って、リンクをクリックする前からフライングをしてリンク先のページを読み込むこと(prefetch)ができます。Next.jsでは、動的ページの場合、これができません(App Routerなら各`Link`タグに個別指定すればできます)。その分だけHotwireの反応は速くなり、そもそもローディングアニメーションが必要になるケースを減らしてくれます。
+* HotwireではTurbo Driveの"preview"というキャッシュ機能もあります。以前に訪問したページを再訪問するときに使用され、大幅な高速化が実現できます。ただしTurbo Framesでは使われません。そのため画面置換の粒度が粗い方が、却ってUXがよくなる可能性があります。
+* React、Next.jsで条件付きレンダーやSuspenseによるローディングアニメーションを作る際、部分置換する枠の中の旧コンテンツはすぐに消去されます。旧画面を残しつつ、その上にアニメーションを重ねるUIは困難です。一方でMPAやHotwireの場合は旧画面が残りますので、アニメーションを重ねることもできますし、CSSで非表示にすることもできます。どのようにローディング画面を表示するかについては、Hotwireの方が若干柔軟性が高くなっています。
 
 <div className="mt-4">
   <Image src={hotwireAndNextImage}></Image>
@@ -296,7 +317,9 @@ Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認しま�
 
 <H2WithHash id="closing">最後に</H2WithHash>
 
-特にサーバのレスポンスが遅い場合は、ローディングアニメーションは必須と言えます。無いとUXに大きな影響があります。難易度はそれぞれ異なりますが、HotwireもNext.jsもこれを実装する方法が用意されています。Next.jsのPages RouterのSSRではアニメーションの実装が難しい部分があり、UXが悪いケースがありました。しかし、App RouterのSuspenseでこの問題も解消されています。
+特にサーバのレスポンスが遅い場合は、ローディングアニメーションは必須と言えます。無いとUI/UXに大きな影響があります。使用する技術によって難易度はそれぞれ異なりますが、HotwireもNext.jsもこれを実装する方法は用意されています。特にHotwire Turbo Driveの場合はデフォルトでローディングアニメーションが用意されていますので、インストールするだけで使用できます。
+
+ただしNext.jsのPages Router SSRではアニメーションの実装が難しい部分があり、それを省略してUXが悪くなっているケースがあります。App RouterのSuspenseでこの問題も解消されていますので、改善が期待されます。
 
 一方で[闇雲にアニメーションを用意すれば良いというものでもありません](https://ws-design.net/skeleton_screen/)。ケースバイケースで判断しながら、適切な方法を選択するのが良いでしょう。
 
