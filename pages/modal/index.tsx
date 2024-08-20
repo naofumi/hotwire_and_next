@@ -14,10 +14,6 @@ export async function getServerSideProps() {
 export default function ModalIndex({users}: {users: User[]}) {
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
-  function closeModal() {
-    setSelectedUserId(null)
-  }
-
   return (
     <Layout>
         <>
@@ -55,7 +51,8 @@ export default function ModalIndex({users}: {users: User[]}) {
                       <tr key={i} className="divide-x divide-gray-200 cursor-pointer">
                         <td
                           className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
-                          <button className="underline text-orange-600 inline-block active:scale-105" onClick={() => setSelectedUserId(i + 1)}>{user.name}</button>
+                          <button className="underline text-orange-600 inline-block active:scale-105"
+                                  onClick={() => setSelectedUserId(i + 1)}>{user.name}</button>
                         </td>
                         <td className="whitespace-nowrap p-4 text-sm text-gray-500">
                           {user.title}
@@ -76,7 +73,7 @@ export default function ModalIndex({users}: {users: User[]}) {
             </div>
           </div>
         </>
-      { selectedUserId && <Modal id={selectedUserId} closeModal={closeModal} />}
+      { selectedUserId && <Modal id={selectedUserId} closeModal={() => setSelectedUserId(null)} />}
     </Layout>
   )
 }

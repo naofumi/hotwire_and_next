@@ -4,9 +4,6 @@ export default class extends Controller {
   static values = {"selector": String}
   static classes = ["label"]
 
-  connect() {
-  }
-
   add() {
     const labelable = document.querySelector(this.selectorValue)
     labelable.classList.add(this.labelClass)

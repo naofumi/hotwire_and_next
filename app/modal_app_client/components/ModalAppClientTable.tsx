@@ -8,10 +8,6 @@ import {createPortal} from "react-dom";
 export default function ModalAppClientTable({users}: { users: User[] }) {
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
-  function closeModal() {
-    setSelectedUserId(null)
-  }
-
   return (
     <>
       <table className="min-w-full divide-y divide-gray-300">
@@ -56,7 +52,7 @@ export default function ModalAppClientTable({users}: { users: User[] }) {
         </tbody>
       </table>
       {(typeof window !== 'undefined') && createPortal(
-        <>{selectedUserId && <UserDetailModal id={selectedUserId} closeModal={closeModal}/>}</>,
+        <>{selectedUserId && <UserDetailModal id={selectedUserId} closeModal={() => setSelectedUserId(null)}/>}</>,
         window.document.body
       )}
     </>

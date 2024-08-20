@@ -245,11 +245,13 @@ Turbo Framesを使うと[カスタムJavaScriptなし](commentaries/modal_dialog
 
 <H2WithHash id="turbo-with-stimulus">Stimulusでイベント処理を改善</H2WithHash>
 
-上に示したように、Turbo FramesとカスタムJavaScriptおよびCSSを使うと、かなりUI/UXの良いモーダルダイアログが作成できます。サーバからリクエストを受け取ってデータを表示しているにも関わらず、必要なコードは少なく、処理の流れも直感的でわかりやすくなっています。
+上記のように、Turbo FramesとカスタムJavaScriptおよびCSSを使うと、かなりUI/UXの良いモーダルダイアログが作成できます。サーバからリクエストを受け取ってデータを表示しているにも関わらず、必要なコードは少なく、処理の流れも直感的でわかりやすくなっています。
 
-ただしHTMLの`onclick`属性を使用しているところに問題があります。`onclick`属性等の[インラインのイベントハンドラーはとても使いやすいのですが、一般には使用するべきではないとされています](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_—_dont_use_these)。主な理由は、`onclick`等の属性の中に記述できるのはグローバル関数であり、コードがこんがらがってしまうことにあるようです。(その心配がない程度の小さいところなら、実は私も良く使ったりしていますが...)
+しかしHTMLの`onclick`属性を使用しているところが問題です。`onclick`属性等の[インラインのイベントハンドラーはとても使いやすいのですが、一般には使用するべきではないとされています](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_—_dont_use_these)。主な理由は、`onclick`等の属性の中に記述できるのはグローバル関数であり、コードがこんがらがってしまうことにあるようです。(その心配がない程度の小さいところなら、実は私も良く使ったりしていますが...)
 
-一般に推奨されているのは[`addEventListener()`](https://developer.mozilla.org/en-US/docs/Web/Events/Event_handlers#eventtarget.addeventlistener)です。ただしAJAX/fetchによる部分置換が多いと、DOMが入れ替わるたびにイベントを付けたり外したりするのが大変になります(例えばイベントハンドラをつけるのに`onload`イベントがよく使われますが、AJAX/fetchで読み込んでも`onload`は発火しないので使えません)。またHTMLとJavaScriptが分かれているおかげで責務の分離ができているのは良いのですが、関連が分かりにくくなるという欠点もあります。
+一般に推奨されているのは[`addEventListener()`](https://developer.mozilla.org/en-US/docs/Web/Events/Event_handlers#eventtarget.addeventlistener)を使うことです。ただしHTMLとJavaScriptが分かれているおかげで責務の分離ができているのは良いのですが、関連が分かりにくくなるという欠点もあります。
+
+もう１つ`addEventListener()`を使った場合の欠点があります。AJAX/fetchによる部分置換が多いインタラクティブなページの場合、イベントを付けたり外したりするのが大変になります。例えばfetchにより新たなHTML要素が表示された場合、その都度`addEventListner()`でイベントをつけなければなりませんが、その処理が大変です。
 
 Stimulusはこの問題を解決してくれるライブラリで、下記の特徴があります。
 
@@ -257,28 +259,17 @@ Stimulusはこの問題を解決してくれるライブラリで、下記の特
 * HTMLとJavaScriptの関連が分かりやすくなる
 * JavaScriptコードの再利用性が高まる
 
-今回は各ポイントに軽く触れながら、Stimulusで書いたコードを紹介します。
+今回は各ポイントに軽く触れながら、Stimulusで書いたコードを紹介します。[CSSローディングアニメーションをつけたデモ](#turbo-css-loader)をベースに話します。
 
-<hr />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-**2. モーダル表示のJavaScript: `public/hotwire/javascript/labeler_controller.js`**
+**1. モーダル表示のJavaScript: `public/hotwire/javascript/labeler_controller.js`**
 
 ```js
+import {Controller} from "/hotwire/javascript/stimulus.js"
+
+export default class extends Controller {
+  static values = {"selector": String}
+  static classes = ["label"]
+
   add() {
     const labelable = document.querySelector(this.selectorValue)
     labelable.classList.add(this.labelClass)
@@ -288,15 +279,15 @@ Stimulusはこの問題を解決してくれるライブラリで、下記の特
     const labelable = document.querySelector(this.selectorValue)
     labelable.classList.remove(this.labelClass)
   }
+}
 ```
 
-モーダルの開閉は、モーダル「枠」の表示・非表示の切り替え操作だけになります。
+ここがStimulus Controllerです。行う処理は選択されたHTML要素(`labelable`)にCSSクラス(`this.labelClass`)を付けるだけの非常にシンプルなものです。
+名前は`labeler_controller.js`としています。[Inline JavaScriptの例](#turbo-with-custom-javascript)の数行のJavaScriptを代替しているだけですので、それもそのはずです。`add()`でCSSクラスをつけて、`remove()`で外しているだけです。
 
-今回は`labeler_controller.js`をStimulusで作成し、トリガーを押した時に切り替えられるようにしています。`this.selectorValue`はモーダル「枠」をDOMから選択するためのCSSセレクター、`this.labelClass`は表示・非表示の切り替えに使用するCSSクラスで、別途HTMLの中に記述しておきます。こうすることで、`labeler_controller.js`が使いまわせるようにしています。
+これではよくわからないかと思いますが、次のトリガーを一緒に見ながらStimulusの特徴を紹介します。
 
-`add()`はモーダルを開き、`remove()`はモーダルを閉じます。
-
-**3. モーダル表示のトリガー: `templates/modal_w_js/index.ejs`**
+**2. モーダル表示のトリガー: `templates/modal_w_js/index.ejs`**
 
 ```html
 <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
@@ -306,112 +297,248 @@ Stimulusはこの問題を解決してくれるライブラリで、下記の特
 >
   ...
   <a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
-     ...
-     data-action="click->labeler#add"
+     data-turbo-frame="modal"
+     data-action="click->labeler#add "
      class="text-orange-600 underline inline-block active:scale-105">
     <%= user.name %>
-  </a>
+  </a>(Stimulus)
   ...
 </div>
 ```
 
-JavaScriptなしの場合と同様に、`a`タグをクリックすることでモーダルが開くようにしています。`a`タグには多数の属性が付いていますが、これはどのモーダルにどのようなCSSクラスを付与し、開閉をするかの指示になります。
+ここがモーダル表示のトリガーです。
 
-1. `data-controller="labeler"`は、この`div`タグに囲まれている部分を`javascript/labeler_controller.js`に繋げるためのものです。この中を`javascript/labeler_controller.js`に制御させているイメージになります。
+1. `data-controller="labeler"`は、この`div`タグに囲まれている部分を`javascript/labeler_controller.js`に繋げるためのものです。
 2. `data-labeler-selector-value=".modal-dialog"`、`data-labeler-label-class="modal-open"`は`javascript/labeler_controller.js`の動きをカスタマイズするための引数です。どのモーダル「枠」を制御するか、および開閉指示に使用するCSSクラスを指定しています。
-3. `data-action="click->modal#open"`は、このリンクがクリックされた時に`javascript/labeler_controller.js`の`add()`メソッドを呼び出すように指示します。
+3. `data-action="click->labeler#add"`は、このリンクがクリックされた時に`javascript/labeler_controller.js`の`add()`メソッドを呼び出すように指示します。
 
-少しくどい記述ですが、`javascript/labeler_controller.js`の使い回しが効くようにするため、変更できるパラメータが多くなっているためです。
+実は`labeler_controller.js`はモーダルダイアログだけでなく、CSSクラスの付け外しを担う汎用的なコードとして設計しました。`labeler`と名前を選択しているのもそのためです。そして今回は`.modal-dialog`で指定されたHTML要素に`modal-open`というCSSクラスを付け外ししてもらうのですが、それを指定するのが`data-labeler-selector-value`および`data-labeler-label-class`だったわけです。
 
-Reactでは、コンポーネントの中に、表示用HTMLとイベント処理JavaScriptを合わせて持たせています。同じロジックを複数のコンポーネントで繰り返し使っている場合は、カスタムフックなどを作ってDRYにします。
+ReactではComponentのロジックを再利用したい場合、カスタムフックなどを使います。Stimulus Controllerはカスタムフックと同じように、再利用がしやすいように設計されているというわけです。（もちろん再利用せず、モーダル専用にしても良かったのですが）
 
-Stimulusの場合は表示用HTMLとイベント処理用JavaScriptを別のファイルに持ちます。そしてHTMLに`data-controller`などの属性を書くことで繋げます。Stimulus controllerはReactのカスタムフックに対応し、同じような役割を担っています。この辺りはまた別の機会に紹介したいと思います。
-
-なお、Stimulus controllerを使うのが面倒であれば、下記のように直接書き込んでも構いません。ただしキーボードイベントなど、より複雑なイベントを処理する可能性がある場合、さらにコードの再利用性を高めたい場合は、やはりStimulusがおすすめです。
-
-**`templates/modal_w_js/index.ejs`**
-```html
-<div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"
->
-  ...
-  <a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
-     ...
-     onclick="openModal"
-     class="text-orange-600 underline inline-block active:scale-105">
-    <%= user.name %>
-  </a>
-  ...
-  <script>
-    function openModal() {
-      document.querySelector(".modal-dialog")
-              ?.classList.add("modal-open")
-    }
-  </script>
-</div>
-
-```
-
-**4. Turbo Framesを使ったサーバリクエスト**
-
-`templates/modal_w_js/index.ejs`の、先ほどモーダル表示のトリガーを追加した`a`タグに`data-turbo-frame`タグを追加します。
+**3. モーダルを閉じるボタン**
 
 ```html
-<a href="/api/hotwire/modal_w_js/modal?id=<%= user.id %>"
-   data-turbo-frame="modal"
-   data-action="click->labeler#add"
-   class="text-orange-600 underline inline-block active:scale-105">
-  <%= user.name %>
-</a>
+<button class="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
+        data-action="click->labeler#remove keydown.esc@window->labeler#remove">
 ```
 
-このすると、`a`タグをクリックした時にモーダルが開くと同時に、`/api/hotwire/modal_w_js/modal?id=[...]`のエンドポイントにリクエストが投げられます。そしてレスポンスの`turbo-frame`の内容が、`id="modal"`の`turbo-frame`に差し込まれます。(1.で作成したモーダル「枠」の中)
-
-**5. モーダルを閉じるボタン: `templates/modal_w_js/modal.ejs`**
-
-```html
-  <div class="relative z-10"
-       aria-labelledby="modal-title"
-       role="dialog"
-       aria-modal="true"
-       data-controller="labeler"
-       data-labeler-selector-value=".modal-dialog"
-       data-labeler-label-class="modal-open"
-  >
-    ...
-    <button class="..."
-            data-action="click->labeler#remove keydown.esc@window->labeler#remove">
-```
-
-ここはモーダルのクローズボタンの制御です。先ほどの`a`タグとはDOM的に離れている箇所に配置される可能性がありますので、別途`javascript/labeler_controller.js`と繋げています。同じモーダルを操作しますので、`data-labeler-selector-value`や`data-labeler-label-class`は共通です。
-
-クローズボタンは`button`タグのところです。`data-action`の中の`click->labeler#remove`は、クリックしたら`javascript/labeler_controller.js`の`remove()`メソッドを呼び出します。CSSクラスの`modal-open`がモーダル枠から外されるので、モーダルが閉じます。
-
-また`esc@window->labeler#remove`はESCキーのイベント処理を記述しています。ESCキーが押されたら同様に`remove()`メソッドを呼び出す指示です。このようにStimulus controllerを書くと、イベント処理が非常に簡潔にわかりやすく記述できます。
-
-### UI/UX
-
+上記はモーダルを閉じるボタンです。`click->labeler#remove`の他に、`keydown.esc@window->labeler#remove`があるのがわかります。前者はマウスクリックに対してStimulus controllerの`remove()`を実行してモーダルを閉じるものです。後者な`keydown.esc@window`がついていますが、これは`window`オブジェクトに対する`keydown`イベントを捉え、キーボードショートカットを実装するものです。このようにStimulusを使うと[キーボードショートカットを非常に簡単に実装できます](https://stimulus.hotwired.dev/reference/actions#keyboardevent-filter)。
 
 ### まとめ
 
-以上Stimulusの紹介もしたために長くなってしまいましたが、Turbo FramesにJavaScriptを追加するとUI/UXを大きく改善できることが確認できたかと思います。
+[Stimulusを使ったデモ](/api/hotwire/modal_w_js)で"Simulus"ボタンをクリックすることでUI/UXを確認できます。CSS loaderのInline JavaScriptを使った場合と動作は同じですが、"ESC"ボタンでモーダルを閉じる機能が追加されています。
 
-* Turbo Framesにごく少量のJavaScriptを追加するとUI/UXが大きく改善します
-* CSSを使うだけでローディングアニメーションが実装できます
-* Stimulus controllerは多少慣れが必要ですが、使うとキーボードイベントなどのイベント処理が大きく簡素化され、かつコードの再利用性が高まります
-
+* Stimulusを使うとJavaScriptのイベントハンドリングの付け外しが簡単になります
+* コードはStimulus controllerにまとめられ、整理されます
+* 汎用的なcontrollerを作れば、必要な引数はHTML属性だけで渡せます
+* キーボードイベントなどにも簡単に対応できます
 
 
 
 <H2WithHash id="react-useeffect">React: useEffectでモーダルを出す方法</H2WithHash>
 
+比較のためにReactのuseEffectでモーダルを出す一般的な方法をおさらいします。[こちらにuseEffectのデモ](/modal)を用意しています。[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/pages/modal)にあります。
 
-<H2WithHash id="react-client-components">React: Client Componentsでモーダルを出す方法</H2WithHash>
+**1. モーダル表示のトリガー**
+```tsx
+<button className="underline text-orange-600 inline-block active:scale-105"
+        onClick={() => setSelectedUserId(i + 1)}>{user.name}</button>
+```
 
+`selectedUserId`ステートを変更することがモーダル表示のトリガーになっています。
+
+**2. モーダル表示のJavaScript**
+```tsx
+{ selectedUserId && <Modal id={selectedUserId} closeModal={() => setSelectedUserId(null)} />}
+```
+
+`selectedUserId`による[条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)で`Modal`コンポーネントの表示・非表示を切り替えています。`Modal`コンポーネントには`id`と`closeModal`のpropsを渡していますが、`closeModal`は`setSelectedUserId`を`null`にして、モーダルを閉じるものになっています。
+
+**3. モーダル表示内容の取得 components/Modal.tsx**
+
+```tsx
+export default function Modal({closeModal, id}: {
+  closeModal: () => void,
+  id: number,
+}) {
+  const [userDetail, setuserDetail] = useState<User & UserDetail | null>(null);
+
+  useEffect(() => {
+    setuserDetail(null)
+    fetch(`/api/user?id=${id}`).then(res => res.json())
+      .then(data => {
+        setuserDetail(data)
+      })
+  }, [id])
+
+  return <>
+<div>
+  <div className="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
+       onClick={closeModal}>
+    ...
+  </div>
+</div>
+<div className="mt-5 sm:mt-6">
+  {
+    !userDetail
+      ? <div>
+        <Image src={rocketImage} alt="loader" className="m-auto mt-10 w-16 h-16"/>
+      </div>
+      : <div>
+        ...[モーダルの内容]...
+      </div>
+  }
+</div>
+  </>
+}
+```
+
+React useEffectの場合、元のページでやるのは条件付きレンダーだけです。サーバにリクエストを投げて、結果を表示するなどの実質的な処理は全て`Modal`コンポーネントの中でやります。
+
+`Modal`コンポーネントが読み込まれると、`useEffect()`の中の`fetch()`でサーバからデータを取得します。レスポンスが帰って来れば、これを`userDetail`ステートの入れて画面に表示します。
+
+またサーバからデータが得られていない時点では`userDetail`が`null`なので、この間はローディング画面を表示します。
+
+### まとめ
+
+[useEffect](/modal)のデモでもご覧いただけるように、ちゃんとフィードバックのあるUI/UXが実現できています。コードも少なく、流れが直感的にわかります。HotwireでJavaScriptを使用した場合と同じような感じになっています。
+
+<H2WithHash id="react-client-components">React: Client Componentsでモーダルを出す簡易法</H2WithHash>
+
+ReactではRSC(React Server Components)が話題になっていますので、Client Componentを使ってモーダルを作ってみました。[こちらにClient Componentのデモ](/modal_app_client)を用意しています。[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/modal_app_client)にあります。
+
+結論から言うと、[useEffectでモーダルを出す場合](/commentaries/modal_dialogs#react-useeffect)とほとんど差がなく、ほぼ同じ結果になりました。何か固有の書き方を見逃しているかもしれませんが、RSCの話題もServer Componentがほとんどですので、おそらくClient Component側はほぼ変わっていないという理解で良いかと思います。
 
 <H2WithHash id="react-server-components">React: Server Componentsでモーダルを出す簡易法</H2WithHash>
 
+モーダルはインタラクティブな要素ですので、上記のようにClient Componentで作るのが王道に思えます。公式ドキュメントでもClient Componentのメリットを下記のように紹介しています。
 
-<H2WithHash id="react-server-components-with-layouts">React: Server Componentsに加えてNext.js Layoutを使いUXを改善する方法</H2WithHash>
+> **Interactivity:** Client Components can use state, effects, and event listeners, meaning they can provide immediate feedback to the user and update the UI.
+
+一方で[Parallel RoutesとIntercepting Routesを使って、Server Componentでモーダルを実現](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#modals)する例も紹介されています。
+
+そこで、ここでは実際にServer Componentでモーダルを作って見ながら、そのUI/UXやコードの複雑さを確認したいと思います。ただしIntercepting routesとParallel routesを一度にやるのは流石に複雑なので、最初に[簡易法](#react-server-components)を紹介し、次に[Layoutを使った方法](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates#layouts)を紹介します。Intercepting routesとParallel routesはさらにこの２つの先にある手法だと思っていて、いきなりは紹介できないと思ったからです。なお最初に示す[簡易法は私のここのブログ記事で知りました](https://medium.com/@dtulpa16/next-js-modals-made-easy-7bdce15b2a5e)。
+
+### コード
+
+**1. モーダルの表示 app/modal_app/page.tsx**
+
+```tsx
+async function getUsers(): Promise<User[]> {
+  console.log("Fetch start for Users")
+  const res = await fetch(process.env.URL + "/api/users")
+  const users = await res.json()
+  return users
+}
+
+export default async function ModalAppPage({searchParams}: { searchParams: { userId: string | undefined } }) {
+  const userId = searchParams.userId
+  const users = await getUsers()
+
+  return (
+    <>
+      ...[ページのコンテンツはここ]...
+      <Link href={`/modal_app?userId=${user.id}`}
+            className="underline text-orange-600 inline-block active:scale-105"
+            scroll={false}>
+        {user.name}
+      </Link>
+      ...[ページのコンテンツはここ]...
+      {userId && <Modal userId={userId}/>}
+    </>
+  )
+}
+```
+
+仕組みとしては下記のような簡単なものです。
+
+1. `/modal_app`でこのページにアクセスした場合はモーダルが表示されない
+3. `/modal_app?userId=1`でこのページにアクセスした場合は、userId=1のUserの情報がモーダルに表示される
+
+これを実装するために以下のロジックになっています。
+1. `Link`タグのところをクリックすると、`/modal_app?userId=1`などに遷移します
+2. `userId = searchParams.userId`のところで、URLの`?userId=1`の箇所を読み取り、`userId`変数に格納します
+3. 最後の`{userId && <Modal userId={userId}/>}`で条件付きレンダーをして、`userId`がセットされている場合は`Modal`コンポーネントを表示します
+
+なお`Link`タグには`scroll={false}`がありますので、リンク先に遷移する場合でもスクロール位置が変わらず、元の画面のステートが保たれます。
+
+このように、「モーダルだけ」を表示するように見せかけているが、実際にはページ全体が再表示されています。でもネットワークが速い場合は全く気になりません。
+
+**2. モーダルのクローズ app/modal_app/components/Modal.tsx**
+
+```tsx
+export default async function Modal({userId}: { userId: string }) {
+  const userDetail = await getUserDetails(userId);
+
+  return (
+    ...[モーダルの内容]...
+      <Link className="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
+            href={`/modal_app`}
+            scroll={false}
+            prefetch={true} >
+        ...[ボタンのイメージ]...
+      </Link>
+    ...[モーダルの内容]...
+  )
+}
+```
+
+モーダルを閉じるところは上記のようになっています。
+
+一番最初に紹介した[カスタムJavaScriptの例](#turbo-without-custom-javascript)と非常によく似ています。React Server Componentsは`Link`と`form`で稼働されるServer Action以外はJavaScriptのイベント処理がありませんので、`onclick`などが使えません。通常の`Link`をトリガーにしてモーダルを閉じるしかありません。
+
+ここでは`/modal_app`にリンクしています。`/modal_app`は**1.**で示した通り、モーダルを表示しません。実際には画面全体が再表示されているのですが、ユーザにとってはモーダルだけが消えたように見えます。
+
+### UI/UX
+
+[Server Componentsでモーダルを出す簡易法のデモはこちら](http://localhost:3000/modal_app)で、[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/modal_app)にあります。
+
+* サーバのレスポンスタイムが300ms程度であれば、快適なUI/UXになります。これは[カスタムJavaScriptの例](#turbo-without-custom-javascript)の例と同じです
+* ただしレスポンスタイムを2000msに設定するともたつきを感じます。モーダルを表示する時も、そしてモーダルを閉じる時もフィードバックがなく、ユーザは不安を感じてしまいます。
+
+### まとめ
+
+* コードは非常にシンプルです。これ以上シンプルにはできないぐらいにシンプルです
+* サーバのレスポンスタイムが早ければ、この簡易法でも十分快適なUIを提供してくれます
+* しかしサーバのレスポンスが遅い可能性がある場合は、違う方法を使った方が良いでしょう
+
+
+<H2WithHash id="react-server-components-with-layouts">React: Server Components + Layout</H2WithHash>
+
+Server Componentを使ったもう１つの方法を紹介します。[Layout](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates#layouts)を使用します。
+
+React Server ComponentsではページのコンテンツをRSC payloadというフォーマットでサーバからブラウザに送信します。
+
+[公式ドキュメントより RSC Payloadについて](https://nextjs.org/docs/app/building-your-application/rendering/server-components#what-is-the-react-server-component-payload-rsc)
+> The RSC Payload is a compact binary representation of the rendered React Server Components tree. It's used by React on the client to update the browser's DOM. The RSC Payload contains:
+> * The rendered result of Server Components
+> * Placeholders for where Client Components should be rendered and references to their JavaScript files
+> * Any props passed from a Server Component to a Client Component
+
+私の理解では、これはHotwireがサーバから送るHTMLと非常によく似ています。違いはClient Componentとの接続端子が用意されていることぐらいに思えます。したがってページの部分置換をするには、Turbo Framesのような仕組みが必要になってきます。
+
+今のところ、Next.jsでTurbo Framesのような部分置換機能を提供しているのは`Layout`だけです。`Parallel routes`もありますが、これは`Layout`を拡張したもので、実質的には同じものではないかなと思っています。
+
+### コード
+
+[コードはGitHubに掲載](https://github.com/naofumi/hotwire_and_next/tree/main/app/modal_app_layout)しています。
+
+パーツが多いので、先に概要を示します
+
+1. [`layout.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/layout.tsx): 少しわかりにくいのですが、Next.jsのLayoutの仕組みでは、部分置換をしても変わらない部分は`layout.tsx`に配置します。今回のケースではUserのリストは`layout.tsx`に表示します。また`layout.tsx`にはモーダルを表示するための「窓」を`{children}`として用意しています。
+2. [`page.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/page.tsx): ブラウザが`/modal_app_layout`にアクセスした時、上記の`layout.tsx`の`{children}`に差し込まれるのが`page.tsx`です。モーダルを出さないため、何も表示しませんので、`null`を返します
+3. [`modal/[userId]/page.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/modal/%5BuserId%5D/page.tsx): ブラウザが`/modal_app_layout/modal/1`にアクセスした時、上記の`layout.tsx`の`{children}`に差し込まれる内容です。`[userId]`の内容を読みとり、モーダルの枠およびUserのデータを返します
+4. [`modal/loading.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/modal/loading.tsx): ブラウザが`/modal_app_layout/modal/1`にリクエストを投げ、レスポンスを待っている間に`layout.tsx`の`{children}`に差し込まれる内容です。ローディングアニメーションを含んでいます。
+
+コードの詳細の解説は今回は省略させていたきます。モーダルを表示するトリガー、モーダルを閉じるボタンなども併せてご確認いただけると理解が深まるかなと思います。
+
+### UI/UX
+
+* サーバのレスポンスが速い場合は、簡易法と同様の快適なUI/UXが実現できています
+* サーバのレスポンスが遅くても、モーダルを表示させる際はすぐにローディングアニメーションが表示され、フィードバックが得られます。十分なUI/UXが提供できています
+* 
+
 
 
 
