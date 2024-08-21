@@ -516,15 +516,15 @@ React Server ComponentsではページのコンテンツをRSC payloadという�
 > * Placeholders for where Client Components should be rendered and references to their JavaScript files
 > * Any props passed from a Server Component to a Client Component
 
-私の理解では、これはHotwireがサーバから送るHTMLと非常によく似ています。違いはClient Componentとの接続端子が用意されていることぐらいに思えます。したがってページの部分置換をするには、Turbo Framesのような仕組みが必要になってきます。
+私の理解では、これはHotwireがサーバから送るHTMLと非常によく似ています。違いはClient Componentとの接続インタフェースが用意されていることぐらいに思えます。したがってページの部分置換をするには、Turbo Framesのように、レンダーされた結果を入れ替える仕組みが必要になってきます。
 
-今のところ、Next.jsでTurbo Framesのような部分置換機能を提供しているのは`Layout`だけです。`Parallel routes`もありますが、これは`Layout`を拡張したもので、実質的には同じものではないかなと思っています。
+今のところ、Next.jsでTurbo Framesのような部分置換機能を提供しているのは`Layout`だけではないかと思います。`Parallel routes`もありますが、これは`Layout`を拡張したもので、実質的には同じものではないかなと思っています。
 
 ### コード
 
 [コードはGitHubに掲載](https://github.com/naofumi/hotwire_and_next/tree/main/app/modal_app_layout)しています。
 
-パーツが多いので、先に概要を示します
+パーツが多いので、概要だけ示します
 
 1. [`layout.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/layout.tsx): 少しわかりにくいのですが、Next.jsのLayoutの仕組みでは、部分置換をしても変わらない部分は`layout.tsx`に配置します。今回のケースではUserのリストは`layout.tsx`に表示します。また`layout.tsx`にはモーダルを表示するための「窓」を`{children}`として用意しています。
 2. [`page.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/page.tsx): ブラウザが`/modal_app_layout`にアクセスした時、上記の`layout.tsx`の`{children}`に差し込まれるのが`page.tsx`です。モーダルを出さないため、何も表示しませんので、`null`を返します
@@ -537,31 +537,23 @@ React Server ComponentsではページのコンテンツをRSC payloadという�
 
 * サーバのレスポンスが速い場合は、簡易法と同様の快適なUI/UXが実現できています
 * サーバのレスポンスが遅くても、モーダルを表示させる際はすぐにローディングアニメーションが表示され、フィードバックが得られます。十分なUI/UXが提供できています
-* 
+* モーダルを閉じる場合は、サーバのレスポンスが遅いともたつきます。フィードバックがなく、しばらく経ってからモーダルが消えるだけです。良くないUI/UXです。これについては何か工夫をすると改善できるかもしれませんが、私にはわかりませんでした
 
+### まとめ
 
+* 必要なファイル数が多く、それぞれの役割を理解するのが大変です。複雑で直感的ではないと言えます。特にUserのリストを`layout.tsx`に記述しなければならないのはわかりにくいです
+* 簡易法と比べて、モーダルを表示する時はUI/UXが改善されています
+* サーバのレスポンスが遅いケースでモーダルを閉じる際、UI/UXに問題が出てきます
 
+何よりもコードが複雑なのがこのアプローチの欠点だと思います。[Parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)や[Intercepting routes](https://nextjs.org/docs/app/building-your-application/routing/intercepting-routes)を使うことでUI/UXが改善する可能性はありますが、今回のLayoutと比べてさらにコードは複雑になります。したがって現時点でおすすめはできません。
 
-<H2WithHash id="summary">まとめ</H2WithHash>
+<H2WithHash id="summary">各技術のまとめ</H2WithHash>
 
+今回は大きく分けて６通り、細かく分けると８通りのモーダルダイアログの出し方を検討しました。これでも全然網羅的ではなく、他の方法もきっとあるはずです。その中で以下のことが言えるのではないかと思います。
 
-モーダルダイアログのUXに大きな課題が出るのは、サーバのレスポンスが遅い時です。速ければ、上記のどれを選択しても大差ありません。遅い時に違いが出ます。
-
-サーバ・ネットワークが十分に速いのであれば(例えば一貫して300ms程度でレスポンスを返してくれる状態であれば)、React Server Componentsの簡易法、もしくはHotwireでカスタムJSを使わない方法などで十分でしょう。これより遅い場合であっても、prefetchを要所に使えば大丈夫なケースも多いです。ただし**ReactであればuseEffectやClient Componentを使った方法、HotwireであればカスタムJSを使った方法も分かりやすく、最初からこっちにしておく方が賢明に思えます**。
-
-いずれにしても、サーバからのレスポンスが遅い場合も想定しながらUXをテストすることが重要だと思います。
-
-Server Componentsでは簡易法の他にLayoutを使ったり、それを拡張したParallel Routesを使う方法もあり、Next.js公式ドキュメントでも紹介されています。UXも改善します。しかし実際にやってみたところ、ファイルベースルータのファイル構成が複雑になり、直感的でなくなりました。あまりお勧めしません。
-
-<H2WithHash id="appendix">補足</H2WithHash>
-
-
-今回はCSSクラスだけで開閉状態を変更できるモーダルを使用しています。Bootstrapやブラウザネイティブの`dialog`によるモーダルなどはJavaScriptで開閉を制御しますので、別途紹介したいと思います。
-
-またモーダルの種類も用途は様々なので、今回だけではコツをすべてカバーできません。これについては追って紹介していきたいと思います。
-
-<p className="text-gray-500 text-sm leading-5">※) モーダルダイアログは、元の画面のステートを維持しつつ、新しい画面を表示してくれるUI要素です。ステートとは`input`タグに入力されている内容、スクロール位置、アコーディオンの開閉状態などです。逆に言うとステートを維持する必要がない場合はモーダルダイアログの価値がありません。一方でステートを維持したい場合、選択肢はモーダルダイアログだけではありません。ポップアップやインラインに追加情報を記載することもできます。本当にモーダルが必要かを考えた上で、もし必要だとしても、他により良い方法がないかを検討するべきだと私は思います。例えばRuby on Railsを作った37signals社は元々ウェブデザイン会社として創業していますが、ここのSaaS製品はモーダルダイアログではなく、別の方法を使います。とはいえ、世界はモーダルで溢れています。簡単に作れるかどうかはいずれにしても重要です。</p>
-
+* Turbo Framesを使用する場合、JavaScriptなしで非常に簡単に実装することができます。しかし、もう少しだけ頑張ってカスタムJavaScriptおよびCSSを書けば、使い回し可能でUI/UXが優れたモーダルダイアログが作れます。なるべくならば少し手間をかけてここまでやっていただければと思います
+* Reactを使う場合は、`useEffect`などを使ってブラウザでJavaScriptを動かし、ブラウザでデータをフェッチするのが良さそうです。コードも簡単でわかりやすく、UI/UXも優れています
+* React Server Componentsを使った例がNext.jsの公式サイトに紹介されていますが、コードのわかりやすさとUI/UXを総合的に加味すると、現時点ではお勧めするのは難しいと思います
 
 export default function ModalDialogs({children}) {
   return <CommentaryLayout
