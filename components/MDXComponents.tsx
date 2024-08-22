@@ -9,6 +9,10 @@ export function h3({children}: {children?: ReactNode}) {
   return <h3 className="mt-8 mb-4 text-xl font-bold tracking-tight text-gray-900">{children}</h3>
 }
 
+export function h4({children}: {children?: ReactNode}) {
+  return <h4 className="mt-4 mb-4 text-lg font-bold tracking-tight text-gray-900">{children}</h4>
+}
+
 export function p({children}: {children?: ReactNode}) {
   return <p className="text-gray-700 my-4 text-base/7">{children}</p>;
 }
