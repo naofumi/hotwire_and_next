@@ -34,17 +34,17 @@ import Image from "next/image";
 
 必要なコードは以下のものになります。ただしコントローラアクションは一般的なものなので、省略します(`pages/api/hotwire/modal_no_js`)。
 
-**1. モーダルの「枠」とコンテンツのHTMLページ: `templates/modal_no_js/modal.ejs`**
+#### 1. モーダルの「枠」とコンテンツのHTMLページ: `templates/modal_no_js/modal.ejs`
 
 ```html
 <turbo-frame id="modal">
    ...[モーダルのコンテンツ]...
 </turbo-frame>
 ```
-* モーダルの中に表示する内容およびモーダルの「枠」です
-* サーバからブラウザに送信されます
+* これはモーダルの中に表示する内容 + モーダルの「枠」です
+* ブラウザからのTurbo Framesのリクエストを受けて、サーバからブラウザに送信されます
 
-**2. モーダル表示のトリガー: `templates/modal_no_js/index.ejs`**
+#### 2. モーダル表示のトリガー: `templates/modal_no_js/index.ejs`
 
 ```html
 <a href="/api/hotwire/modal_no_js/modal?id=<%= user.id %>"
@@ -55,7 +55,7 @@ import Image from "next/image";
 * `/api/hotwire/modal_no_js/modal?id=1`からモーダルの中身をダウンロードする指示です
 * ダウンロードされたHTMLを`turbo-frame "modal"`に表示する指示です
 
-**3. モーダルHTML断片の差し込み先: `templates/modal_no_js/index.ejs`**
+#### 3. モーダルHTML断片の差し込み先: `templates/modal_no_js/index.ejs`
 
 ```html
 <turbo-frame id="modal"></turbo-frame>
@@ -64,7 +64,7 @@ import Image from "next/image";
 * ここが`turbo-frame "modal"`であるという指示です
 * サーバからダウンロードされたHTMLをここに挿入しなさいという指示です
 
-**4. モーダルを閉じるボタン: `templates/modal_no_js/modal.ejs`**
+#### 4. モーダルを閉じるボタン: `templates/modal_no_js/modal.ejs`
 
 ```html
 <a class="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
