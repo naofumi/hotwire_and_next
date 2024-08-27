@@ -3,7 +3,7 @@ import CommentaryLayout from "../../components/CommentaryLayout";
 import H2WithHash from "../../components/H2WithHash";
 import Image from "next/image";
 
-モーダルダイアログはUI要素としてウェブデザインで非常によく使われます。したがって開発者としては**簡単にモーダルダイアログが作れることが重要**です。
+モーダルダイアログはUI要素としてウェブデザインで非常によく使われます。よって**簡単にモーダルダイアログが作れることが開発者としては重要**です。
 
 またモーダルに表示する内容は、**サーバから動的に取得する**こともよくあります。この場合はモーダルの表示・非表示だけでなく、サーバにリクエストを投げてレスポンスを表示することも必要になります。これをすべて、裏の画面のステート(スクロール位置など)を維持しながら行う必要があります。**ネットワーク由来の遅延対策も必要であり、ちゃんとやろうとすると意外と大変です**。
 
@@ -28,7 +28,7 @@ import Image from "next/image";
 1. モーダルを表示する (カスタムJavaScriptで行う: HotwireならStimulus)
 2. モーダルのコンテンツをサーバにリクエストし、結果をモーダル内に表示する (AJAX/fetchで行う: HotwireならTurbo Frames)
 
-しかし、サーバからの**レスポンスと一緒にモーダルの「枠」も送り返せば、モーダルを開くJavaScriptが必要なステップ1.は省略可能**になります。これがこの方法の特徴です。
+しかし、サーバからの**レスポンスと一緒にモーダルの「枠」も同時に送り返せば、モーダルを開くJavaScriptが必要なステップ1.は省略可能**になります。これがこの方法の特徴です。
 
 ### コード
 
@@ -38,7 +38,7 @@ import Image from "next/image";
 
 ```html
 <turbo-frame id="modal">
-   ...[モーダルのコンテンツ]...
+   ...[モーダルのコンテンツおよびモーダルの枠]...
 </turbo-frame>
 ```
 * これはモーダルの中に表示する内容 + モーダルの「枠」です
@@ -52,8 +52,8 @@ import Image from "next/image";
    class="text-orange-600 underline inline-block active:scale-105"><%= user.name %></a>
 ```
 
-* `/api/hotwire/modal_no_js/modal?id=1`からモーダルの中身をダウンロードする指示です
-* ダウンロードされたHTMLを`turbo-frame "modal"`に表示する指示です
+* `a`タグをクリックすると、`/api/hotwire/modal_no_js/modal?id=1`からモーダルの中身(HTML)がダウンロードされます
+* ダウンロードされたHTMLを`turbo-frame "modal"`に挿入します（既存の中身と差し替えます）
 
 #### 3. モーダルHTML断片の差し込み先: `templates/modal_no_js/index.ejs`
 
@@ -62,7 +62,7 @@ import Image from "next/image";
 ```
 
 * ここが`turbo-frame "modal"`であるという指示です
-* サーバからダウンロードされたHTMLをここに挿入しなさいという指示です
+* サーバからダウンロードされたHTMLをここに挿入しなさいという指示になります
 
 #### 4. モーダルを閉じるボタン: `templates/modal_no_js/modal.ejs`
 
@@ -70,9 +70,11 @@ import Image from "next/image";
 <a class="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
      href="/api/hotwire/modal_no_js">
 ```
-カスタムJavaScriptを使用しませんので、ブラウザの操作は`a`タグや`form`タグに限定されます。ここでは`a`タグを使用して、モーダル表示前のページをリクエストしています。
+* 今回はカスタムJavaScriptを避けますので、`onclick`等が使えません
+* JavaScriptを使わない場合、ブラウザのインタラクションは`a`タグや`form`タグにほぼ限定されます。
+* そこで`a`タグを使用して、モーダル表示前のページをリクエストしています。
 
-ブラウザが受け取るHTMLレスポンスには空の`turbo-frame`が含まれています。そこで既存の`turbo-frame`をこの空の`turbo-frame`に入れ替えて、その結果、モーダルが閉じます。ブラウザが受け取るHTMLは`turbo-frame`だけではなく、`templates/modal_no_js/index.ejs`のすべてです。しかし画面に反映されるのは`turbo-frames`の中身(空)であることに注意してください。
+ブラウザが受け取るHTMLレスポンスには空の`turbo-frame`が含まれています。Turbo Framesは既存の`turbo-frame`をこの空の`turbo-frame`に入れ替えます。その結果、`turbo-frame`の中身は空になり、枠も無くなるのでモーダルが閉じます。ブラウザが受け取るHTMLは`turbo-frame`だけではなく、`templates/modal_no_js/index.ejs`のすべてですが、画面に反映される（差し込まれる）のは`turbo-frames`の中身(空)だけであることに注意してください。
 
 ### UI/UX
 
@@ -87,9 +89,9 @@ import Image from "next/image";
 
 <H2WithHash id="turbo-with-custom-javascript">Turbo Frames: Inline JavaScript</H2WithHash>
 
-上記の[Turbo Frames: カスタムJavaScriptなし](http://localhost:3000/commentaries/modal_dialogs#turbo-without-custom-javascript)の問題点を解消し、ネットワークが遅い場合でも十分なUI/UXを提供するためにカスタムJavaScriptを書きます。上記ではモーダルの「枠」をサーバから送ることでモーダルを開くステップを省略していました。しかしここではちゃんとJavaScriptを使って、**サーバレスポンスの遅延の有無に関わらず、リクエストを投げた瞬間にモーダルを開きます**。これがユーザに対するフィードバックとなり、UI/UXの改善に繋がります。
+上記の[Turbo Frames: カスタムJavaScriptなし](http://localhost:3000/commentaries/modal_dialogs#turbo-without-custom-javascript)の問題点を解消し、ネットワークが遅い場合でも十分なUI/UXを提供するためにカスタムJavaScriptを書きます。上記ではモーダルの「枠」をサーバから送ることでモーダルを開くステップを省略していました。しかしここでは**ちゃんとJavaScriptを使って、サーバレスポンスの遅延の有無に関わらず、リクエストを投げた瞬間にモーダルを開きます**。これがユーザに対するフィードバックとなり、UI/UXの改善に繋がります。
 
-なおHotwireでカスタムJavaScriptを書く場合は、一般には[Stimulus](https://stimulus.hotwired.dev)を使います。これは非常に便利ですが、最初はとっつきにくいので、インラインJavaScriptを使った例から紹介します。
+なおHotwireでカスタムJavaScriptを書く場合は、一般には[Stimulus](https://stimulus.hotwired.dev)を使います。これは非常に便利ですが、**最初はとっつきにくいので、インラインJavaScriptを使った例から紹介します**。
 
 ### コード
 
