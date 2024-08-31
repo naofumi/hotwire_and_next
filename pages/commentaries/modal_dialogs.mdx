@@ -149,7 +149,7 @@ JavaScriptなしの場合と比較して、以下のコードが追加されま�
 </turbo-frame>
 ```
 
-* モーダルの中身だけです。枠は**1.**の方にありますので、不要です
+* モーダルの中身だけです。枠は **1.** の方にありますので、ここには含めません。ここは純粋にモーダルの中身だけです
 
 
 **3. モーダル表示のJavaScript: `templates/modal_w_js/index.ejs`**
@@ -170,9 +170,9 @@ JavaScriptなしの場合と比較して、以下のコードが追加されま�
 </script>
 ```
 
-* **1.**のモーダルの「枠」はCSSで非表示になっていました。ここのコードはそれを表示させるものです
-* `script`タグで囲んでインラインで書いています。通常であればStimulusを使うのですが、ここでは説明するためのわかりやすさを優先しました。
-* JavaScriptは**1.**のモーダル「枠」に`.modal-open`のCSSクラスをつけたり外したりするだけです
+* 先ほどの **1.** のモーダルの「枠」はCSSで非表示になっていました。ここのコードはその「枠」を表示させるものです
+* JavaScriptは`script`タグで囲んでインラインで書いています。通常であればStimulusを使うのですが、ここでは説明するためのわかりやすさを優先し、インラインJavaScriptを使っています。
+* JavaScriptは**1.** のモーダル「枠」に`.modal-open`のCSSクラスをつけたり外したりするだけです
 * さらに`openModal()`では、`turbo-frame`の"Loading..."と表示させ、ローディング中の表示をさせています。内容が異なっても同じモーダルを使うので、毎回リフレッシュするためです。これをやらないと前回開いた時の内容が一瞬モーダル内に表示されてしまいます
 
 **3. モーダル表示のトリガー: `templates/modal_w_js/index.ejs`**
@@ -186,11 +186,12 @@ JavaScriptなしの場合と比較して、以下のコードが追加されま�
 </a>(Inline JS)<br>
 ```
 
-"Inline JS"と書いてある方の`a`タグに着目します。まず`onclick`属性で`openModal()`を呼び出して、モーダルを表示させています。さらに`data-turbo-frame="modal"`属性がありますので、`href`で指定したエンドポイントから得られたHTMLを`turbo-frame id="modal"`に差し込むという指示になります(上記と同じ)。
+* `a`タグをクリックするとモーダルを表示するようにしています。`onclick`属性で`openModal()`を呼び出して、モーダルを表示させています
+* この`a`タグは`data-turbo-frame="modal"`属性もありますので、同時に`href`で指定したエンドポイントにリクエストを飛ばし、返ってきたHTMLを`turbo-frame id="modal"`に差し込みます。ここは上述の「カスタムJavaScriptなし」のケースと同じです
 
-`a`タグにこの２つの属性をつけることにより、モーダルを表示させるコードとTurbo Frameにデータを読み込むコードを分けることができました。そのため、サーバからのレスポンスが遅延しても、まず先にモーダルを表示させることができました。
+「カスタムJavaScriptなし」のケースと大きく異なるのは、`a`タグにこの２つの属性をつけることにより、モーダルを表示させるコードとTurbo Frameにデータを読み込むコードを分割したことです。そのため、サーバからのレスポンスが遅延しても、それとは無関係に先にモーダルを表示しています
 
-「モーダルの開閉」「サーバからのデータの読み込み」を独立させたことがポイントと言えます。
+「モーダルの開閉」と「サーバからのデータの読み込み」を独立させたことにより、UXを大幅に改善しています。
 
 **4. モーダルを閉じるボタン: `templates/modal_w_js/modal.ejs`**
 
@@ -204,11 +205,12 @@ JavaScriptなしの場合と比較して、以下のコードが追加されま�
 </button>
 ```
 
-モーダルを閉じる`button`タグでは、`onclick="closeModal()"`としています。先ほど用意した`closeModal()`を呼び出して、モーダルを閉じています。[カスタムJavaScriptを使わない例](/commentaries/modal_dialogs#turbo-without-custom-javascript)と異なり、モーダルの開閉とサーバからのデータの読み込みが分かれていますので、モーダルだけ瞬時に閉じることができています。
+* `button`タグでモーダルを閉じます。`onclick="closeModal()"`がありますので、これが先ほど用意した`closeModal()`を呼び出して、モーダルを閉じています。
+* [カスタムJavaScriptを使わない例](/commentaries/modal_dialogs#turbo-without-custom-javascript)と異なり、モーダルの開閉とサーバからのデータの読み込みが分かれていますので、モーダルだけ瞬時に閉じられます
 
 ### UI/UX
 
-[JavaScriptを使った例のデモを用意しています](/api/hotwire/modal_w_js)ので、お試しください。他の例も同じデモ画面に含めていますので、"Inline Javascript"のUI/UXを確認する場合は、"Inline JS"と書いてあるボタンを押してください。
+[JavaScriptを使った例のデモを用意しています](/api/hotwire/modal_w_js)ので、お試しください。他の例も同じデモ画面に含めていますので、"Inline Javascript"のUI/UXを確認する場合は、**"Inline JS"と書いてあるボタンを押してください。**
 
 * モーダルダイアログは瞬時に表示されます
 * サーバのレスポンスが遅い場合は"Loading..."と表示されますので、リクエストが送信され、サーバのレスポンス待ちであることがわかります。ユーザへのフィードバックが適切にされていますので、UI/UXは良くなっています。
@@ -219,9 +221,9 @@ JavaScriptなしの場合と比較して、以下のコードが追加されま�
 * カスタムJavaScriptなしの例に比べて多少はコードが増えていますが、10行程度です
 * モーダル「枠」はサーバから送信されるのではなく、元のページに含まれています
 
-Turbo Framesを使うと[カスタムJavaScriptなし](commentaries/modal_dialogs#turbo-without-custom-javascript)でもモーダルが作れます。宣伝文句としてはインパクトがあるせいか、このやり方を非常に多く見かけるように思います。しかしHotwireがStimulusとセットになっていることからも分かるように、**HotwireはむしろカスタムJavaScriptを書くことを奨励しています**。そしてここで確認したように、わずか10行程度のJavaScriptでUI/UXを大きく改善できています。
+Turbo Framesを使うと[カスタムJavaScriptなし](commentaries/modal_dialogs#turbo-without-custom-javascript)でもモーダルが作れます。宣伝文句としてはインパクトがあるせいか、このやり方を非常に多く見かけるように思います。しかしHotwireがStimulusとセットになっていることからも分かるように、**HotwireはむしろカスタムJavaScriptを書くことを奨励しています。JavaScriptを全く書かないのではなく、少ないJavaScriptしか書かないのがHotwireです**。そしてここで確認したように、わずか10行程度のJavaScriptでUI/UXを大きく改善できました。
 
-ぜひ「JavaScriptなし」の宣伝文句に踊らされず、UI/UXを改善する簡単なJavaScriptを使うようにしていただければと思います。
+ぜひ「JavaScriptなし」の宣伝文句に踊らされず、UI/UXを改善するたも少量の簡単なJavaScriptを使うようにしていただければと思います。
 
 
 
