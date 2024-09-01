@@ -59,8 +59,8 @@ export default function IndexPage() {
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 HotwireのTurbo Driveは、Next.jsの<code>Link</code>タグとほぼ同じ位置付けの機能です。
-                主にリンクをクリックした時の画面遷移のヌルサク感を大幅に向上させます。<br/>
-                なお、Next.jsはdev環境ではprefetchが動かないので、ローカル環境でUXを確認する場合はbuild, startしてからお試しください。
+                主に画面遷移のヌルサク感を大幅に向上させます。<br/>
+                ダイナミックなコンテンツを中心としたサイトでは、prefetch等の違いにより、<strong>Hotwireの方が高速なUI/UXになります</strong>。
               </p>
               <div className="text-center mt-4 text-xl tracking-wider">
                 <StyledLink href="/commentaries/page_transitions">

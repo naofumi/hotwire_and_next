@@ -16,7 +16,7 @@ export default function CommentaryLayout(
         <p className="mt-6 text-xl leading-8">
           {subtitle}
         </p>
-        <div className="mt-10 max-w-2xl mx-auto">
+        <div className="mt-10 max-w-3xl mx-auto">
           {children}
         </div>
       </div>

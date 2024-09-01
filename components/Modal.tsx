@@ -19,6 +19,16 @@ export default function Modal({closeModal, id}: {
       })
   }, [id])
 
+  useEffect(() => {
+    const close = (e: KeyboardEvent) => {
+      if(e.key === "Escape"){
+        closeModal()
+      }
+    }
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
+  }, [])
+
   return <>
     <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
       <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
