@@ -42,6 +42,6 @@ function linkableHeader(name:string, linkCss: string, hashSymbolCss: string, chi
       <Link href={`#${link}`} className={hashSymbolCss}>#</Link>
     </>);
   } else {
-    return createElement(name, {className: linkCss}, <span>children</span>)
+    return createElement(name, {className: linkCss}, <span>{children}</span>)
   }
 }
