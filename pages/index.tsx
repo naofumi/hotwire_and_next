@@ -20,16 +20,20 @@ export default function IndexPage() {
             </h1>
             <h2
               className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">フロントエンドエンジニアのためのHotwire入門</h2>
-            <p className="text-left mx-auto mt-20 max-w-2xl text-lg leading-8 text-gray-600">
-              Hotwireは近年、大きく注目を集めているフロントエンド技術です。</p>
-            <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">
-              本サイトでは、<strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを体感しながらHotwireとReact/Next.jsを比較します。<strong>コードの書きやすさはもちろん、UX的にもHotwireが大変優れていることをお伝えできればと思っています。</strong>
+            <H2WithHash id="hotwire-vs-nextjs">
+              Hotwire vs. Next.js
+            </H2WithHash>
+            <p className="text-left mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600">
+              本サイトでは、<strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを体感しながらHotwireとReact/Next.jsを比較します。
             </p>
             <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">
-              「HotwireはRails専用じゃないの？」と思っている方も多いと思いますが、実はHotwireはバックエンド非依存です。Rails,
+              「Hotwireは簡単だけど、React/Next.jsの方が優れたUI/UXが作れる」という声をよく聞きます。しかし私はフレームワークではなく、デザイナーとエンジニアのスキルと本気度が最重要だと思っています。<strong>HotwireでもNext.jsと同等か、それ以上のUI/UXが実現できる</strong>ことを本サイトで実証したいと思っています。
+            </p>
+            <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">
+              「HotwireはRails専用じゃないの？」と思っている方も多いと思いますが、実は<strong>Hotwireはバックエンド非依存です</strong>。Rails,
               Laravel, Django, Nodeでも関係なく動きます。
-              このサイトも<strong>HotwireをNext.js上で動かしていて、すべてJavaScript
-              (TypeScript)で書かれています。Railsは一切使っていません。</strong>
+              <strong>このサイトもHotwireをNext.js上で動かしていて</strong>、すべてJavaScript
+              (TypeScript)で書かれています。Railsは一切使っていません。
               JavaScriptさえわかれば簡単にコードを追うことができます。</p>
             <p
               className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">本サイトのコードは<StyledLink
@@ -163,7 +167,8 @@ export default function IndexPage() {
                     モーダルダイアログはUI要素として非常によく使われています。元の画面のスクロール位置などのステートを維持しつつ、追加の情報や編集用のFormを表示するのに使用されます。
                     中身がダイナミックな場合はサーバからデータを取得する必要がありますので、Turbo Framesがよく使われます。<br/>
                     JavaScriptなしで実装することも可能ですが、<strong>やはり多少のJavaScriptやCSSがあった方がUXは随分とよくなります</strong>ので、その違いを紹介します。<br/>
-                    Next.jsは新しくApp Routerが出てきて、ベストプラクティスがまだ模索中のところがあります。従来のPage Routerを使った方法に加えて、<strong>App Routerでのモーダルの出し方もいくつか比較検討します</strong>。
+                    Next.jsは新しくApp Routerが出てきて、ベストプラクティスがまだ模索中のところがあります。従来のPage
+                    Routerを使った方法に加えて、<strong>App Routerでのモーダルの出し方もいくつか比較検討します</strong>。
                   </p>
                   <div className={`text-center mt-4 text-xl tracking-wider`}>
                     <StyledLink href="/commentaries/modal_dialogs">
