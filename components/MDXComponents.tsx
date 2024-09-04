@@ -1,12 +1,14 @@
-import {ReactNode} from "react";
+import {createElement, ReactNode} from "react";
 import StyledLink from "@/components/StyledLink";
+import {renderToString} from "react-dom/server";
+import Link from "next/link";
 
 export function h2({children}: {children?: ReactNode}) {
-  return <h2 className="mt-16 mb-8 text-2xl font-bold tracking-tight text-gray-900">{children}</h2>
+  return linkableHeader("h2", "mt-16 text-2xl font-bold tracking-tight text-gray-900", "ml-2 text-gray-400 hover:text-orange-600", children)
 }
 
 export function h3({children}: {children?: ReactNode}) {
-  return <h3 className="mt-8 mb-4 text-xl font-bold tracking-tight text-gray-900">{children}</h3>
+  return linkableHeader("h3", "mt-8 mb-4 text-xl font-bold tracking-tight text-gray-900", "ml-2 text-gray-400 hover:text-orange-600", children)
 }
 
 export function h4({children}: {children?: ReactNode}) {
@@ -27,4 +29,19 @@ export function ul({children}: {children?: ReactNode}) {
 
 export function ol({children}: {children?: ReactNode}) {
   return <ol className="ml-12 my-2">{children}</ol>;
+}
+
+function linkableHeader(name:string, linkCss: string, hashSymbolCss: string, children: ReactNode) {
+  const htmlString = renderToString(children);
+  const matches = htmlString.match(/===([\w-_]+)===/)
+  if (matches) {
+    const link = matches[1]
+    const modifiedChildrenString = htmlString.replace(`===${link}===`, "");
+    return createElement(name, {className: linkCss, id: link}, <>
+      <span dangerouslySetInnerHTML={{__html: modifiedChildrenString}} />
+      <Link href={`#${link}`} className={hashSymbolCss}>#</Link>
+    </>);
+  } else {
+    return createElement(name, {className: linkCss}, <span>children</span>)
+  }
 }
