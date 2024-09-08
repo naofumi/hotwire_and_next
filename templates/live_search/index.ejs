@@ -1,18 +1,26 @@
 <%- include("../layouts/header.ejs") -%>
 <div class="my-10 px-4 sm:px-6 lg:px-8">
+  <%- include("_tech_nav.ejs", {selected: "turbo_frames"}) %>
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
       <h1 class="demo-h1">ライブ検索: Turbo Frames</h1>
-      <h2 class="demo-h2">Users</h2>
     </div>
   </div>
   <div class="mt-4 flex justify-center">
-    <div class="mb-2">
-      <label htmlFor="search" class="text-sm mr-2">Search</label>
-      <input id="search" type="search"
-             oninput="search(this.value)"
-             value="<%= queryString %>"
-             class="border rounded p-1"/>
+    <div>
+      <div class="mb-2">
+        <label htmlFor="search" class="text-sm mr-2">Test input state</label>
+        <input id="input-state" type="search"
+               class="border rounded p-1"
+        />
+      </div>
+      <div class="mb-2">
+        <label htmlFor="search" class="text-sm mr-2">Search</label>
+        <input id="search" type="search"
+               oninput="search(this.value)"
+               value="<%= queryString %>"
+               class="border rounded p-1"/>
+      </div>
     </div>
     <script>
       function search(query) {
@@ -61,10 +69,5 @@
       </div>
     </div>
   </turbo-frame>
-  <div class="my-10 flex items-center justify-center gap-x-6">
-    <a href="/live_search"
-       class="btn-primary"
-       data-turbo="false">Next.js useEffectによるLive Searchへ</a>
-  </div>
 </div>
 <%- include("../layouts/footer.ejs") -%>

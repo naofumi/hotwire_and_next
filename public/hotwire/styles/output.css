@@ -1087,6 +1087,10 @@ select {
   margin-bottom: 12rem;
 }
 
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }

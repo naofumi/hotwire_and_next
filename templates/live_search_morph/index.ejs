@@ -1,0 +1,72 @@
+<%- include("../layouts/header_morph.ejs") -%>
+<div class="my-10 px-4 sm:px-6 lg:px-8">
+  <%- include("../live_search/_tech_nav.ejs", {selected: "morph"}) %>
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="demo-h1">ライブ検索: Turbo Drive Morph</h1>
+  </div>
+  </div>
+  <div class="mt-4 flex justify-center">
+    <div>
+      <div class="mb-2">
+        <label htmlFor="search" class="text-sm mr-2">Test input state</label>
+        <input id="input-state" type="search"
+               class="border rounded p-1"
+        />
+      </div>
+      <div class="mb-2">
+        <label htmlFor="search" class="text-sm mr-2">Search</label>
+        <input id="search" type="search"
+               oninput="search(this.value)"
+               value="<%= queryString %>"
+               class="border rounded p-1"
+        />
+      </div>
+    </div>
+    <script>
+      function search(query) {
+        const escapedQuery = encodeURIComponent(query)
+        Turbo.visit(`?query=${escapedQuery}`, {action: "replace"})
+      }
+    </script>
+  </div>
+  <div class="mt-8 flow-root">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <table class="min-w-full divide-y divide-gray-300">
+          <thead>
+          <tr class="divide-x divide-gray-200">
+            <th scope="col" class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+              Name
+            </th>
+            <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Title</th>
+            <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
+            <th scope="col" class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pr-0">
+              Role
+            </th>
+          </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white">
+          <% users.forEach((user) => { %>
+            <tr class="divide-x divide-gray-200">
+              <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
+                <%= user.name %>
+              </td>
+              <td class="whitespace-nowrap p-4 text-sm text-gray-500">
+                <%= user.title %>
+              </td>
+              <td class="whitespace-nowrap p-4 text-sm text-gray-500">
+                <%= user.email %>
+              </td>
+              <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0">
+                <%= user.role %>
+              </td>
+            </tr>
+          <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include("../layouts/footer.ejs") -%>
