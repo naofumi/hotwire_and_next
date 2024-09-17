@@ -2,12 +2,11 @@ import CommentaryLayout from "../../components/CommentaryLayout";
 import MDXRenderer from "../../components/MDXRenderer";
 import Image from "next/image"
 import detailsTurboframeImage from "@/public/images/details_panel_turboframes.webp"
-import H2WithHash from "../../components/H2WithHash";
 
 [タブメニュー](/commentaries/tabbed_menus)のページでTurbo Framesを使ってタブメニューを実装しました。ここではTurbo Framesの**別の使い方**を紹介します。違いは**ページのどこを**部分置換するかです。
 
 
-<H2WithHash id="turbo-frame-targeting-outside">別のTurbo Frameを更新するパターン</H2WithHash>
+## 別のTurbo Frameを更新するパターン ===turbo-frame-targeting-outside===
 
 Turboは`fetch`でサーバにリクエストを飛ばし、レスポンスを使ってページの部分置換をするライブラリです。Turbo Drive、Turbo Frames、Turbo Streamsの3種類がありますが、置換場所をどのように指定するかが異なります。
 
@@ -54,7 +53,7 @@ Turboは`fetch`でサーバにリクエストを飛ばし、レスポンスを�
 
 
 
-<H2WithHash id="details-panel-targetting">右側の詳細パネルの部分置換をする</H2WithHash>
+## 右側の詳細パネルの部分置換をする ===details-panel-targetting===
 
 下図のように、[タブメニュー](/commentaries/tabbed_menus)の場合は、`turbo-frame`がクリックする`a`タグ(タブ)を囲んでいました。`a`タグをクリックした時、それを包む最も近い`turbo-frame`を探し出し、その`turbo-frame`を部分置換すると判断したのです。
 
@@ -91,7 +90,7 @@ Turboは`fetch`でサーバにリクエストを飛ばし、レスポンスを�
 
 
 
-<H2WithHash id="comparison-with-react">Reactとの比較</H2WithHash>
+## Reactとの比較 ===comparison-with-react===
 
 ### コードの簡潔さ
 

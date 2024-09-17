@@ -1,6 +1,5 @@
 import MDXRenderer from "../../components/MDXRenderer";
 import CommentaryLayout from "../../components/CommentaryLayout";
-import H2WithHash from "../../components/H2WithHash";
 import Image from "next/image";
 import netscapeImage from "../../public/images/netscape.gif"
 import mosaicImage from "../../public/images/mosaic.gif"
@@ -10,7 +9,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 下記ビデオをご覧になっていただくとわかりますが、**ボタンをクリックしても全くフィードバックがなく**、1秒後ぐらいにやっと画面が切り替わります。ユーザは自分がちゃんとクリックしたかどうかに自信が持てず、不安になります。またサイト全体がモッサリしている感覚があります。
 
-これは決してNewsPicks社が悪いわけではなく、AJAX/fetchによる非同期通信を使ってウェブページを更新する全てのサイトに共通する課題です。強いていうと、Next.js Pages RouterのSSRはフレームワークでも公式ドキュメントでも解決策を提案していなかったのが原因と言えます。
+これは決してNewsPicks社が悪いわけではなく、**AJAX/fetchによる非同期通信を使ってウェブページを更新する全てのサイトに共通する課題**です。強いていうと、Next.jsが解決策を提供していなかったのが原因と言えると思います。
 
 同じことはTurbo FramesやTurbo Streamsを使っている場合も起こり得ます。ここでは問題の原因を解説し、解決策を紹介します。
 
@@ -18,18 +17,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
   <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/newspicks.mov" type="video/mp4"></source>
 </video>
 
-1. [フィードバックの重要性](#importance-of-feedback)
-2. [Fetchではローディングアニメーションが出ない](#no-animation-on-fetch)
-3. [ブラウザネイティブなMPAの場合](#loading-animations-with-native)
-4. [Turbo Driveの場合](#loading-animations-with-turbo-drive)
-5. [Next.js Pages Router SSRの場合](#loading-animations-with-ssr)
-6. [Turbo Framesの場合](#turboframes)
-7. [ReactでuseEffectを使った場合](#useeffect)
-8. [React Server Componentsの場合](#react-server-components)
-9. [HotwireとNext.jsの比較](#hotwire-and-next)
-10. [最後に](#closing)
-
-<H2WithHash id="importance-of-feedback">フィードバックの重要性</H2WithHash>
+## フィードバックの重要性 ===importance-of-feedback===
 
 ユーザビリティの第一人者であるジェイコブ・ニールセンは[「ユーザインタフェース設計の10の経験則」](https://www.nngroup.com/articles/ten-usability-heuristics/)を発表しています。その一番最初のものが[「システムステータスの可視化」](https://www.nngroup.com/articles/ten-usability-heuristics/)です。
 
@@ -40,7 +28,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 ボタンをクリックした時のCSS擬似セレクターの`:active`を使用するなど、ユーザにフィードバックする方法はローディングアニメーションだけではありませんが、`:active`はボタンは離すとすぐに消えてしまう問題があります。サーバからのレスポンスが１秒以上かかるのであれば、やはりローディングアニメーションのようなものが必要と言えるでしょう。
 
-<H2WithHash id="no-animation-on-fetch">Fetchではローディングアニメーションが出ない</H2WithHash>
+## Fetchではローディングアニメーションが出ない ===no-animation-on-fetch===
 
 ウェブブラウザは30年前からローディングアニメーションを表示していました。これはページのデータが読み込まれている間、「ちゃんと働いているよ」の合図となり、特にネットワークが非常に遅かった時代には必須なUI要素でした。
 
@@ -58,7 +46,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 
 
-<H2WithHash id="loading-animations-with-native">ブラウザネイティブなMPAの場合</H2WithHash>
+## ブラウザネイティブなMPAの場合 ===loading-animations-with-native===
 
 ブラウザネイティブなMPAの場合、30年前からローディングアニメーションが用意されています。
 
@@ -72,7 +60,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 
 
-<H2WithHash id="loading-animations-with-turbo-drive">Turbo Driveの場合</H2WithHash>
+## Turbo Driveの場合 ===loading-animations-with-turbo-drive===
 
 Turbo Driveの場合は、ネイティブのMPAと非常によく似たローディングアニメーションを、ライブラリがデフォルトで用意してくれています。
 
@@ -93,7 +81,7 @@ Turbo Driveの場合は、ネイティブのMPAと非常によく似たローデ
 
 
 
-<H2WithHash id="loading-animations-with-ssr">Next.js Pages Router SSRの場合</H2WithHash>
+## Next.js Pages Router SSRの場合 ===loading-animations-with-ssr===
 
 いよいよ一番最初で紹介したNewsPicksの問題の話です。
 
@@ -145,7 +133,7 @@ NewsPicksはサーバのレスポンスが遅いサイトです。そのため�
 
 
 
-<H2WithHash id="turboframes">Turbo Framesの場合</H2WithHash>
+## Turbo Framesの場合 ===turboframes===
 
 Turbo Driveではデフォルトで[ローディングアニメーションが表示されます](/commentaries/loading_animations#loading-animations-with-turbo-drive)が、Turbo Framesの場合は表示されません。Turbo Frameが小さかったり、複数あったりするケースもあるので、画面全体のローディング状態を示すアニメーションをデフォルトで表示するのは適切ではないと判断したのかもしれません。その代わりに`turbo-frame`ごとにカスタマイズする仕組みが用意されています。
 
@@ -219,7 +207,7 @@ Turbo Framesがロード中の時は`turbo-frame`タグに[`busy`の属性がつ
 
 
 
-<H2WithHash id="useeffect">ReactでuseEffectを使った場合</H2WithHash>
+## ReactでuseEffectを使った場合 ===useeffect===
 
 Reactの古典的なSPAの場合は、useEffectを使ってデータを`fetch`します。この場合は[条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)を使用してローディングアニメーションを表示します。
 
@@ -273,7 +261,7 @@ Next.jsの[Pages Router](/commentaries/loading_animations#loading-animations-wit
 
 
 
-<H2WithHash id="react-server-components">Server Componentsの場合</H2WithHash>
+## Server Componentsの場合 ===react-server-components===
 
 Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認します。
 
@@ -298,7 +286,7 @@ Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認しま�
 
 
 
-<H2WithHash id="hotwire-and-next">HotwireとNext.jsの比較</H2WithHash>
+## HotwireとNext.jsの比較 ===hotwire-and-next===
 
 上記の議論を下図にまとめました。下記のことが言えるのではないかと思います。
 
@@ -315,7 +303,7 @@ Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認しま�
 
 
 
-<H2WithHash id="closing">最後に</H2WithHash>
+## 最後に ===closing===
 
 特にサーバのレスポンスが遅い場合は、ローディングアニメーションは必須と言えます。無いとUI/UXに大きな影響があります。使用する技術によって難易度はそれぞれ異なりますが、HotwireもNext.jsもこれを実装する方法は用意されています。特にHotwire Turbo Driveの場合はデフォルトでローディングアニメーションが用意されていますので、インストールするだけで使用できます。
 

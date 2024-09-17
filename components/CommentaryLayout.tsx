@@ -12,7 +12,7 @@ export default function CommentaryLayout(
   return <Layout hideTechLabel={true}>
 
     <div className="lg:max-w-6xl lg:mx-auto">
-      <div className="hidden lg:w-72 lg:fixed lg:block">
+      <div className="hidden ml-2 lg:w-72 lg:fixed lg:block">
         <ChapterList htmlString={htmlString}/>
       </div>
       <div className="bg-white px-6 py-16 lg:px-8 lg:pl-80">

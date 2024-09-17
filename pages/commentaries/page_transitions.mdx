@@ -1,7 +1,6 @@
 import MDXRenderer from "../../components/MDXRenderer";
 import CommentaryLayout from "../../components/CommentaryLayout";
 import StyledLink from "../../components/StyledLink";
-import H2WithHash from "../../components/H2WithHash";
 import Image from "next/image"
 import transitionImage from "@/public/images/transition-after-first-load.webp"
 import StyledList from "../../components/StyledList";
@@ -92,7 +91,7 @@ Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwir
 </div>
 
 
-<H2WithHash id="installing-turbo">Turboの実装</H2WithHash>
+## Turboの実装 ===installing-turbo===
 
 Hotwireは[Turbo](https://turbo.hotwired.dev)/[Stimulus](https://stimulus.hotwired.dev)/[Strada](https://strada.hotwired.dev)の３つのパーツからなっています。ウェブで使用するのはTurboとStimulusですが、双方ともJavaScriptのファイルを読み込むだけで使用できます。ここでは[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)を使用しますので、TurboのJavaScriptファイルを読み込みます。
 
@@ -114,11 +113,11 @@ Turbo Driveを導入した時の効果は[デモページ](/api/hotwire/users)�
 
 
 
-<H2WithHash id="page-transition-ux">ページ遷移のUX</H2WithHash>
+## ページ遷移のUX ===page-transition-ux===
 
 本サイトでは、各技術を使った際のUXを確認していただくために、デモを用意しています。上の表の各技術名をクリックして、実際にUXをご体験ください。
 
-### SPAの効果
+### SPAの効果 ===spa-effect===
 
 上記の表に挙げた技術は、ネイティブを除いて、全てSPA ([Single-page Application: シングルページアプリケーション](https://ja.wikipedia.org/wiki/シングルページアプリケーション))です。Next.jsの場合はSSRであっても、２つ目のページはSPA的に遷移します。
 
@@ -128,13 +127,13 @@ Turbo Driveを導入した時の効果は[デモページ](/api/hotwire/users)�
 
 SPA的な画面遷移の効果を強く感じさせてくれるのは、次に紹介するprefetchと組み合わせた時です。
 
-### Prefetchの効果
+### Prefetchの効果 ===prefetch-effect===
 
 [Turbo Driveをインストール](#installing-turbo)するだけで、ページ遷移はヌルサクになります。ネイティブな画面遷移とTurbo Driveによる[画面遷移を比べていただくと](/api/hotwire/users)一目瞭然です。
 
 この効果のほとんどは[prefetch](https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover)によるものです。マウスカーソルがリンクの上をホバーした時に、**フライング**をしてサーバにリクエストを飛ばします。そして実際にユーザがリンクをクリックしたとき、すでにリンク先ページは読み込まれていますので、瞬間的に画面遷移ができます。
 
-### Next.jsのprefetchは条件によっては動かない
+### Next.jsのprefetchは条件によっては動かない ===next-prefetch-only-works-sometimes===
 
 Next.jsにもprefetchがあります。しかし多くのケースでは効果がありません。Pages routerの場合、SSRのページではprefetchは効果がありません。またApp routerで[Dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)の場合は最初の`loading.js`ファイルまでしかprefetchしませんので、[prefetchはローディング画面の表示を早めてくれるだけ](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching)の効果しかありません。逆に言うと、**Next.jsの場合、Pages routerのSSGやApp routerのStatic renderingの場合に限ってならprefetchが有効になります**。
 
@@ -155,29 +154,29 @@ Next.jsにもprefetchがあります。しかし多くのケースでは効果�
   <Image src={transitionImage} alt="Page Transition image"></Image>
 </figure>
 
-### キャッシュの効果
+### キャッシュの効果 ===cache-effect===
 
-Turbo Driveには[仕組みをほとんど理解していなくても安心して使用できるキャッシュ](https://turbo.hotwired.dev/handbook/building#understanding-caching)があります。多くの場合、キャッシュを導入すると予想しない動きが起きてしまい、うまく利用するのが困難です。最近で言えば、Next.jsでキャッシュを導入してみたものの、[評判が悪くてv15でデフォルトをキャッシュオフにした](https://nextjs.org/blog/next-15-rc#caching-updates)のは記憶に新しいところです。
+Turbo Driveには[仕組みをほとんど理解していなくても安心して使用できるキャッシュ](https://turbo.hotwired.dev/handbook/building#understanding-caching)があります。
 
-Turbo Driveではプレビューとしてキャッシュを使用し、同時にサーバにリクエストを投げます。サーバから最新のページを受け取ると、プレビューの内容に入れ替えますので、古い情報が表示されたままになる心配がありません。その一方でプレビュー画面が瞬時に表示されますので、ユーザとしてはページ遷移が瞬間的に起こったように感じます。
+以前に訪問したページに遷移すると、Turbo Driveは以前のページ内容をプレビューとして表示します(キャッシュから表示)。そして同時にサーバにリクエストを投げ、サーバから最新のページを受け取ると、すぐにプレビューの内容と入れ替えます。
 
-このようにprefetchだけでは完全に瞬間的に表示できないケースであっても、すでに訪問済みのページであれば瞬間的に遷移しているように感じられます。Next.jsでデフォルトオフになったキャッシュの弊害がなく、利点しかないものになっています。
+キャッシュの問題は古い情報が表示されたままになってしまうことですが、この仕組みのおかげでTurbo Driveはこの問題を回避しています。つまりキャッシュを利用しているおかげでユーザとしてはページ遷移が瞬間的に起こったように感じ、UI/UXが大幅に向上する一方、キャッシュの欠点がないわけです。
 
+これは簡単なことではありません。多くの場合、キャッシュを導入すると予想しない動きが起きてしまい、うまく利用するのが困難です。最近で言えば、Next.jsでキャッシュを導入してみたものの、[評判が悪くてv15でデフォルトをキャッシュオフにした](https://nextjs.org/blog/next-15-rc#caching-updates)のは記憶に新しいところです。残念ながらNext.jsではまだ代替案が用意されておらず、キャッシュを利用できるかどうかは慎重に判断する必要があります。
 
-
-<H2WithHash id="security">セキュリティ: データ漏洩</H2WithHash>
+## セキュリティ: データ漏洩 ===security===
 
 ここではサーバからブラウザに機密性の高い情報が流れてしまうデータ漏洩の問題を取り上げます。上記の各方式は、サーバからブラウザにデータを渡す仕組みが異なります。ネイティブとTurbo DriveはHTMLのみを送ります。Next.js pages routerのSSRはHTMLに加え、React Hydration用のデータを送り、一方でapp routerはServer Componentの場合はHTMLに加えてRSC payloadを送ります。またuseEffectの中からfetchをする場合はJSON APIを送ります。
 
 用いる方式の違いにより、データ漏洩のリスクおよび注意しなければならないポイントが異なります。ここでは実際のデモを見せながら、具体的に紹介します。
 
-### HTMLだけを送る場合はリスクが少ない
+### HTMLだけを送る場合はリスクが少ない ===sending-html-is-secure===
 
 ネイティブ(MPA)及ぼHotwireでは、サーバはHTML<strong>のみ</strong>をブラウザに送ります。HTMLには画面に表示される情報しかありません。そのため、意図しないデータをブラウザに送ってしまう可能性は低く、データ漏洩のリスクは少ないと言えます。
 
 またユーザの権限によって見せるべきデータを変えなければならないときは、controllerもしくはviewテンプレートの中で出し分けることが一般的で、追加のセキュリティーレイヤーなどは不要です。
 
-### JSONを送る場合は注意が必要
+### JSONを送る場合は注意が必要 ===sending-json-requires-care===
 
 `useEffect`を使う場合は、`useEffect`の中からサーバのJSON APIに対してデータfetchをすることが一般的です。このAPIは一般にバックエンドのエンジニアが管理し、フロントエンドと合意したAPI設計に基づいて、出すべくデータと隠しておくべきデータを明確に管理します。その結果、データ漏洩が起こりにくい体制になっています。
 
@@ -185,7 +184,7 @@ Turbo Driveではプレビューとしてキャッシュを使用し、同時に
 
 `useEffect`の時のJSON APIの時と異なり、`getStaticProps()`, `getServerSideProps()`の返り値を明確に取り決めることはないと思います。しかしここで隠すべきデータをしっかりブロックしなければ、機密データは漏洩してしまいます。
 
-### セキュリティのデモ
+### セキュリティのデモ ===security-demo===
 
 本デモでは、敢えてセキュリティ上問題のあるコードをバックエンドで書いています。セキュリティの問題を浮き彫りにするためです。
 

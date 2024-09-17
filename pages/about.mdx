@@ -3,40 +3,43 @@ import CommentaryLayout from "../components/CommentaryLayout";
 import H2WithHash from "../components/H2WithHash";
 import Image from "next/image"
 import hotwireComponentStructureImage from "@/public/images/hotwire-component-structure.webp"
-import StyledLink from "../components/StyledLink";
+import hotwireNextImage from "@/public/images/Hotwire-Next.webp"
 
 「Hotwire for Frontend
 Developers（フロントエンドエンジニアのためのHotwire入門）」は、Ruby on
 Railエンジニアに限らず、**すべてのウェブ開発者にHotwireの良さを体感していただくために**作成したサイトです。
 
-本サイトは**Hotwireで書かれたページとReact (Next.js)で書かれた実際のウェブページを並べ**、それぞれのUXを体験していただき、さらに[GitHubに上げたコード](https://github.com/naofumi/hotwire_and_next)を確認していただきながら、実装の理解を深けめていただく構成になっています。
+本サイトは**Hotwireで書かれたページとReact (Next.js)で書かれた実際のウェブページを横に並べ**、それぞれの**UXを体験していただき**、さらに[GitHubに上げたコード](https://github.com/naofumi/hotwire_and_next)を確認していただきながら、実装の理解を深けめていただく構成になっています。
 
 
 ## Hotwireは優れたUXを小さいチームで作るための技術===great-UX-with-small-teams===
 
-Hotwireおよびその前身の技術は、ウェブデザイン会社として創業した37signals社が、[Basecamp](https://basecamp.com/)、[Hey](https://www.hey.com/)などのSaaS製品を開発するために作成されたものです。ユーザ向けのすべての画面で使われているのはもちろんのこと、iOS、Android用のモバイルアプリでもHotwireは使われています。このように、Hotwireが人気の有料SaaSアプリでも十分なUI/UXを提供できることが証明されています。
+Hotwireおよびその前身の技術([TurboLinks](https://github.com/turbolinks/turbolinks), [UJS](https://github.com/rails/rails-ujs))は、ウェブデザイン会社として創業した37signals社が、[Basecamp](https://basecamp.com/)、[Hey](https://www.hey.com/)などのSaaS製品を開発するために作成されたものです。ユーザ向けのすべての画面で使われているのはもちろんのこと、iOS、Android用のモバイルアプリでもHotwireは使われています。このように、Hotwireが**人気の有料SaaSアプリでも十分なUI/UXを提供できる**ことが証明されています。
 
-一方で[37signals社の各チームのサイズはデザイナーを含めてたったの３人です](https://3.basecamp-help.com/article/35-the-six-week-cycle#who-does-the-work?)。開発効率が高く、小さいチームでの開発も可能であることも実証されています。
+一方で[37signals社の各チームのサイズはデザイナーを含めてたったの３人です](https://3.basecamp-help.com/article/35-the-six-week-cycle#who-does-the-work?)。開発効率が非常に高く、小さいチームでの開発ができることも実証されています。
 
 
 
-## Next.jsに勝るとも劣らないUX ===UX-comparable-or-exceeding-next-js===
+## Next.jsに勝るとも劣らないUI/UX ===UX-comparable-or-exceeding-next-js===
 
-「Hotwireは実装が楽だけど、限界がある」と考えている人がいます。React/Next.jsほどのUI/UXは作れないと思っている人がいます。「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」という声も聞こえます。**しかしこれは誤り**です。お客様がお金を払ってでも使いたくなる製品のUXが、Hotwireで十分に実現できることは**37signals社が明確に実証されているのます**。また本サイトでは細かい仕組みの議論をしながら、HotwireのUXの方が優れている面もあることを紹介します。
+「Hotwireは実装が楽だけど、限界がある」と考えている人がいます。React/Next.jsほどのUI/UXは作れないと思っている人がいます。「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」という声も聞こえます。**しかしこれは誤り**です。お客様がお金を払ってでも使いたくなる製品がHotwireだけで作成できることを、**37signals社が明確に実証ずみです**。さらに本サイトでは細かい仕組みの議論をしながら、HotwireのUI/UXの方がむしろ優れている面もあることを紹介します。
 
 もちろん全てにおいてHotwireがReact/Next.jsに勝るわけではありません。ただし少なくとも対等であると考えて間違いありません。
 
+<Image src={hotwireNextImage} alt="Hotwire is capable of High fidelity UI/UX" />
 
 
 ## Hotwireの構成 ===hotwire-components===
 
-* **Turbo:** [Turbo](https://turbo.hotwired.dev)はサーバにレクエストを投げて、返ってきたHTMLをDOMに埋め込むためのライブラリです。敢えてサーバからHTMLしか返せないように制限をかけているのが大きな特徴です。Turbo自身はさらにTurbo Drive, Turbo Frames, Turbo Streamsに分かれています。<br />
-（Turbo以前のRailsでは[サーバからJavaScriptを返す](https://signalvnoise.com/posts/3697-server-generated-javascript-responses)ことが一般的でした。Turboよりむしろ遥かに柔軟性がありました。この柔軟さを捨てて、シンプルさを優先したのがHotwireとも言えます）
-* **Stimulus:** [Stimulus](https://stimulus.hotwired.dev)はHTMLを新たにレンダリングするのではなく、すでにあるHTMLにJavaScriptを結びつけることに注力しています。Controllerというまとまりを作ることで、イベントハンドラのスパゲッティを避けています
+Hotwireは以下の３つのパーツから構成されています。
+
+* **Turbo:** [Turbo](https://turbo.hotwired.dev)はサーバにレクエストを投げて、返ってきたHTMLをDOMに埋め込むためのライブラリです。いわゆる非同期通信(AJAX)を担当します。大きな特徴はJSONを介して通信をせず、敢えてHTMLのみを使う点です。**HTMLのみの通信により、ブラウザ側の処理を大幅に簡略化しています**。Turbo自身はさらにTurbo Drive, Turbo Frames, Turbo Streamsに分かれています。<br />
+（Turbo以前のRailsでは[サーバからJavaScriptを返す](https://signalvnoise.com/posts/3697-server-generated-javascript-responses)ことが一般的で、Turboよりむしろ遥かに柔軟性がありました。この柔軟さを捨てて、シンプルさを優先したのがHotwireと言えます）
+* **Stimulus:** [Stimulus](https://stimulus.hotwired.dev)はHTMLを新たにレンダリングするのではなく、すでにあるHTMLにJavaScriptを結びつけることに注力しています。再利用可能なControllerというまとまりを作ることで、イベントハンドラのスパゲッティを避けています
 * **Strada:** [Strada](https://strada.hotwired.dev)はWebとiOS,
 Androidを繋ぎ合わせる役割を担う、モバイルアプリ作成のためのライブラリです
 
-Hotwireは上記の３つを組み合わせることにより、シンプルさを維持しつつ、モダンフロントエンドの要件を十分に満たすウェブサイト、さらにネイティブアプリの作成を可能にしてくれます。
+上記の３つを組み合わせることにより、シンプルさを維持しつつ、モダンフロントエンドの要件を十分に満たすウェブサイト、さらにはネイティブアプリの作成が可能になります。
 
 大雑把に言えば、守備範囲としては<strong>Hotwire == React + Next.js + React Native</strong>の関係となります。
 
@@ -50,9 +53,9 @@ Hotwireは上記の３つを組み合わせることにより、シンプルさ�
 
   Turboは<code>fetch</code>を使い、ウェブページの部分置換をするライブラリです。Hotwireの中心的な技術です。置換する範囲と付随する機能に応じて、3種類の置換方法があります。
 
-* **Turbo Drive:**[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は`body`タグの中身を丸々置換する技術です。Next.jsの[router](https://nextjs.org/docs/pages/building-your-application/routing)、あるいは[React Router](https://reactrouter.com/)に相当します。`Link`タグのような特別なものは使わず、`a`タグが全て自動的にTurbo Driveを使うようになります。
+* **Turbo Drive:**[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は`body`タグの中身を丸々置換する技術です。Next.jsの[router](https://nextjs.org/docs/pages/building-your-application/routing)、あるいは[React Router](https://reactrouter.com/)に相当し、ページ全体をSPA的に置換・遷移する仕組みです。`Link`タグのような特別なものは使わず、`a`タグが全て自動的にTurbo Driveを使うようになります。
 * **Turbo Frames:** [Turbo Frames](https://turbo.hotwired.dev/handbook/frames)は部分置換を実現するものです。画面の一部を置換するだけではなく、画面を **「枠」** に分割する性質があり、デフォルトでは枠内の **a** タグおよび **form** タグも中に閉じ込めるように動きます。[ルータとの連携](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[Lazy Load](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)なども用意され、画面の部分置換だけでなく、関連するUXもパッケージされています。柔軟性も高く、**これだけでほとんどの部分置換は可能です** (Turbo Streamsをあまり使わなくても用が足りてしまう)。<br />
-Next.js app routerの[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)に近い性質もありますが、ページURLと独立にできることや、１つのページに複数のTurbo Frameがおけることなど、より小回りが効く柔軟な仕組みです。
+Next.js app routerの[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)に近い性質もありますが、URLとの連動が必須ではないことや、１つのページに複数のTurbo Frameが配置できることなど、より小回りが効く柔軟な仕組みです。
 * **Turbo Streams:** [Turbo Streams](https://turbo.hotwired.dev/handbook/streams)は画面を細かく、柔軟に置換する技術です。IDで指定された要素を１つずつ追加・置換したり、削除したりできます。またWebSocketを介した置換も可能になっています。柔軟性は非常に高いのですが、それだけに置換ステップ数が増大する傾向があり、必要なところで慎重に使うのがポイントではないかと思います。[jQuery](https://api.jquery.com/category/manipulation/)の`prepend()`, `append()`, `remove()`, `html()`をHTML属性から呼び出す感覚に近いとも言えます。Turbo StreamsとTurbo Framesの使い分けは明確ではなく、人よってどちらを多く使うかが異なります。私はTurbo Framesを多く使いますので、本サイトもこちらが中心になっています。
 
 この他、Turboには[Morphing](https://turbo.hotwired.dev/handbook/page_refreshes)があります。これは[Reactの差分検出処理](https://ja.legacy.reactjs.org/docs/reconciliation.html)と似たものであり、ブラウザのDOMとサーバから送られてきたHTMLの差分を検出し、なるべくブラウザのステートを保持しつつ更新処理をかけるものです。

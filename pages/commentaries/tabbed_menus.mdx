@@ -1,13 +1,12 @@
 import MDXRenderer from "../../components/MDXRenderer";
 import CommentaryLayout from "../../components/CommentaryLayout";
-import H2WithHash from "../../components/H2WithHash";
 import Image from "next/image"
 import tabelogImage from "@/public/images/tabbed_tabelog.webp"
 import turbodriveImage from "@/public/images/tabbed_turbodrive.webp"
 import turboframesImage from "@/public/images/tabbed_turboframes.webp"
 
 
-<H2WithHash id="create-tabbed-menus-with-turbo-frames">タブメニューはTurbo Framesで作ることが多い</H2WithHash>
+## タブメニューはTurbo Framesで作ることが多い ===create-tabbed-menus-with-turbo-frames===
 
 他にも作り方はありますが、タブメニューは[Turbo Frames](https://turbo.hotwired.dev/handbook/frames)で作ることが多いです。Turbo Frames入門としては最適なUI要素です。
 
@@ -15,7 +14,7 @@ import turboframesImage from "@/public/images/tabbed_turboframes.webp"
 
 
 
-<H2WithHash id="turbo-ranking">Turboの序列</H2WithHash>
+## Turboの序列 ===turbo-ranking===
 
 私の経験では、Turbo Drive, Turbo Frames, Turbo Streamsのうち、Turbo Driveはデフォルトで全てのページに適応されるので一番使います。ついで部分置換が必要な時は、Turbo Framesを使います。Turbo Framesでは難しい時に初めてTurbo Streamsを使います。ただしmorphingが導入されてからはTurbo Driveだけでできるものが非常に増えましたので、Turbo Streamsを使う頻度はさらに下がりそうです。
 
@@ -68,7 +67,7 @@ import turboframesImage from "@/public/images/tabbed_turboframes.webp"
 
 
 
-<H2WithHash id="partial-rewrites-with-turbo-frames">Turbo Framesは部分的置換のパッケージ</H2WithHash>
+## Turbo Framesは部分的置換のパッケージ ===partial-rewrites-with-turbo-frames===
 
 Turbo Driveがページ遷移、つまり画面全体を置換するのに対して、[Turbo Frames](https://turbo.hotwired.dev/handbook/drive)はサーバから送られてきたデータを使って画面の部分置換をする時に使います。
 
@@ -83,7 +82,7 @@ loading (遅延ロード)](https://turbo.hotwired.dev/handbook/frames#lazy-loadi
 
 
 
-<H2WithHash id="tabs-MPA">古典的なMPAによるタブメニューの作り方 (Turbo開発の出発点)</H2WithHash>
+## 古典的なMPAによるタブメニューの作り方 (Turbo開発の出発点) ===tabs-MPA===
 
 MPA流のタブメニューは[ここでお試しいただけます](/api/hotwire/tabbed_segments_no_js)。コードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_no_js)でご確認いただけます。
 
@@ -104,7 +103,7 @@ MPA流のタブメニューは[ここでお試しいただけます](/api/hotwir
 
 
 
-<H2WithHash id="tabs-turbodrive">Turbo Driveによるタブメニューの作り方</H2WithHash>
+## Turbo Driveによるタブメニューの作り方 ===tabs-turbodrive===
 
 Turbo Driveによるタブメニューは[ここでお試しいただけます](http://localhost:3000/api/hotwire/tabbed_segments_turbodrive)。コードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turbodrive)でご確認いただけます。
 
@@ -124,7 +123,7 @@ Turbo Driveによるタブメニューは[ここでお試しいただけます](
 
 
 
-<H2WithHash id="tabs-turboframe">Turbo Framesによるタブメニューの作り方</H2WithHash>
+## Turbo Framesによるタブメニューの作り方 ===tabs-turboframe===
 
 Turbo Framesによるタブメニューは[ここでお試しいただけます](/api/hotwire/tabbed_segments_turboframes)。コードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)でご確認いただけます。
 
@@ -137,7 +136,7 @@ Framesの外にあります（下図）。タブが切り替わっても、Searc
 
 このようにTurbo Framesの特徴は画面を枠で分割し、枠内を置換しつつ、枠外をそのままに維持するところです。
 
-### Turbo Frames実装方法
+### Turbo Frames実装方法 ===using-turbo-frames===
 
 Turbo Framesによるタブメニューの作り方はごく簡単です。まずは[Turbo Driveのバージョン](/commentaries/tabbed_menus#tabs-turbodrive)から出発します。そして、どこをTurbo Framesで囲むかを決めます。今回はSearchのテキスト入力フィールドの下のところからテーブルの最後までを囲むことにします。
 
@@ -174,7 +173,7 @@ Turbo Framesを実現しているのは下記の部分です。
 
 この３つのステップだけで、Turbo Frames的なタブメニューができ上がりました！
 
-### 解説
+### 解説 ===description===
 
 `<turbo-frame></turbo-frame>`でくくることによって、Turbo
 Frame中に含まれる`a`タグや`form`タグは通常と違う性質を持つようになります。通常であれば[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)のような **全画面** 遷移をするのですが、 **全画面** ではなくて、同じTurbo
@@ -186,7 +185,7 @@ Frame内に限定された **部分画面** 遷移をするように変化しま
 
 今回、Turbo Framesは通常の`a`タグで起動しています。`a`タグなので、Turbo Driveの機能である[prefetch](/commentaries/page_transitions#page-transition-ux)も働きます。このためprefetchによるUXの大幅向上、ヌルサクな体感も、何もしなくても勝手についてきます。
 
-### 余計なHTMLを送ることは悪いことじゃない
+### 余計なHTMLを送ることは悪いことじゃない ===sending-extra-html-is-fine===
 
 Turboの大きな特徴は、余計なHTMLをサーバから送ることを気にしないことです。タブを切り替えるだけならタブの中身だけをサーバから送信すれば良いのですが、今回のケースは常にページ全体を送っています。これは古典的なMPAによるタブメニューと完全に同じです。
 
@@ -196,7 +195,7 @@ Turboの大きな特徴は、余計なHTMLをサーバから送ることを気�
 
 Turbo Frameリクエストの場合は、HTTPヘッダー`Turbo-Frame`が送られてくるので、これを見て余計なところを送信しないという選択肢もあります（turbo-rails gemを使えば、コントローラに`#turbo_frame_request?`メソッドが[用意されている](https://github.com/hotwired/turbo-rails/blob/9b17a3be3705786d72c3ae77fde5a9b3006555d7/app/controllers/turbo/frames/frame_request.rb#L31)ので、これは容易にできます）。しかし上述のように、最適化の効果は微々たるもので、特に気にしないことが多いです。
 
-### ローダーの表示
+### ローダーの表示 ===displaying-loaders===
 
 また、タブのロードに時間がかかってしまう時のために、ローダーの表示もさせています。Turbo Framesはサーバに問い合わせするときに[`busy`属性がつく](https://turbo.hotwired.dev/reference/frames#html-attributes)のを利用します。
 
@@ -245,7 +244,7 @@ Turbo Frameリクエストの場合は、HTTPヘッダー`Turbo-Frame`が送ら�
 
 
 
-<H2WithHash id="tabs-comparison-with-react">一般的なReactとの比較</H2WithHash>
+## 一般的なReactとの比較 ===tabs-comparison-with-react===
 
 Reactによるタブメニューは[ここでお試しいただけます](/tabbed_segments)。コードは[GitHubで](https://github.com/naofumi/hotwire_and_next/blob/main/pages/tabbed_segments/index.tsx)ご確認ください。
 
@@ -260,7 +259,7 @@ Reactのコードの特徴は以下の通りです。一般的なReactのデー�
 
 
 
-<H2WithHash id="tabs-with-parallel-routes">Next.js App Router Parallel Routesとの比較</H2WithHash>
+## Next.js App Router Parallel Routesとの比較 ===tabs-with-parallel-routes===
 
 Next.js Pages RouterのSSRはページ全体を遷移するのには適していますが、Turbo Framesのように部分置換をする機能がありません。画面の一部分のみを置換する場合は従来のSPAと同様に、`useEffect`でステートを更新する必要があります。
 
@@ -285,7 +284,7 @@ LayoutやParallel Routesを使うと、Client Componentを使わずにServer Com
 
 
 
-<H2WithHash id="tabs-summary">タブメニューのまとめ</H2WithHash>
+## タブメニューのまとめ ===tabs-summary===
 
 今回はTurbo Framesによるタブメニューを実装しました。簡単なものだったため、UX的にMPAと大きな差はありませんでした。しかしTurbo Framesを使うと、**枠**の外のステートが維持できていることが確認できました。スクロール位置やフォーム要素のステート維持が必要な場合は、Turbo Framesを使う必要があります。
 
