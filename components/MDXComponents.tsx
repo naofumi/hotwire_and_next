@@ -4,7 +4,7 @@ import {renderToString} from "react-dom/server";
 import Link from "next/link";
 
 export function h2({children}: {children?: ReactNode}) {
-  return linkableHeader("h2", "mt-16 text-2xl font-bold tracking-tight text-gray-900", "ml-2 text-gray-400 hover:text-orange-600", children)
+  return linkableHeader("h2", "mt-8 py-4 text-2xl font-bold tracking-tight text-gray-900", "ml-2 text-gray-400 hover:text-orange-600", children)
 }
 
 export function h3({children}: {children?: ReactNode}) {

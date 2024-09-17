@@ -15,7 +15,7 @@ export default function CommentaryLayout(
         <p className="text-base font-semibold leading-7 text-orange-600">
           {section}
         </p>
-        <h1 className="z-10 bg-white sticky top-0 mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <h1 className="z-10 bg-white sticky top-0 pt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           {title}
         </h1>
         <p className="mt-6 text-xl leading-8">

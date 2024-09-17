@@ -12,7 +12,7 @@ Railエンジニアに限らず、**すべてのウェブ開発者にHotwireの�
 本サイトは**Hotwireで書かれたページとReact (Next.js)で書かれた実際のウェブページを並べ**、それぞれのUXを体験していただき、さらに[GitHubに上げたコード](https://github.com/naofumi/hotwire_and_next)を確認していただきながら、実装の理解を深けめていただく構成になっています。
 
 
-<H2WithHash id="great-UX-with-small-teams">Hotwireは優れたUXを小さいチームで作るための技術</H2WithHash>
+## Hotwireは優れたUXを小さいチームで作るための技術===great-UX-with-small-teams===
 
 Hotwireおよびその前身の技術は、ウェブデザイン会社として創業した37signals社が、[Basecamp](https://basecamp.com/)、[Hey](https://www.hey.com/)などのSaaS製品を開発するために作成されたものです。ユーザ向けのすべての画面で使われているのはもちろんのこと、iOS、Android用のモバイルアプリでもHotwireは使われています。このように、Hotwireが人気の有料SaaSアプリでも十分なUI/UXを提供できることが証明されています。
 
@@ -20,7 +20,7 @@ Hotwireおよびその前身の技術は、ウェブデザイン会社として�
 
 
 
-<H2WithHash id="UX-comparable-or-exceeding-next-js">Next.jsに勝るとも劣らないUX</H2WithHash>
+## Next.jsに勝るとも劣らないUX ===UX-comparable-or-exceeding-next-js===
 
 「Hotwireは実装が楽だけど、限界がある」と考えている人がいます。React/Next.jsほどのUI/UXは作れないと思っている人がいます。「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」という声も聞こえます。**しかしこれは誤り**です。お客様がお金を払ってでも使いたくなる製品のUXが、Hotwireで十分に実現できることは**37signals社が明確に実証されているのます**。また本サイトでは細かい仕組みの議論をしながら、HotwireのUXの方が優れている面もあることを紹介します。
 
@@ -28,7 +28,7 @@ Hotwireおよびその前身の技術は、ウェブデザイン会社として�
 
 
 
-<H2WithHash id="hotwire-components">Hotwireの構成</H2WithHash>
+## Hotwireの構成 ===hotwire-components===
 
 * **Turbo:** [Turbo](https://turbo.hotwired.dev)はサーバにレクエストを投げて、返ってきたHTMLをDOMに埋め込むためのライブラリです。敢えてサーバからHTMLしか返せないように制限をかけているのが大きな特徴です。Turbo自身はさらにTurbo Drive, Turbo Frames, Turbo Streamsに分かれています。<br />
 （Turbo以前のRailsでは[サーバからJavaScriptを返す](https://signalvnoise.com/posts/3697-server-generated-javascript-responses)ことが一般的でした。Turboよりむしろ遥かに柔軟性がありました。この柔軟さを捨てて、シンプルさを優先したのがHotwireとも言えます）
@@ -46,7 +46,7 @@ Hotwireは上記の３つを組み合わせることにより、シンプルさ�
 
 
 
-<H2WithHash id="turbo-components">Turboの構成</H2WithHash>
+## Turboの構成 ===turbo-components===
 
   Turboは<code>fetch</code>を使い、ウェブページの部分置換をするライブラリです。Hotwireの中心的な技術です。置換する範囲と付随する機能に応じて、3種類の置換方法があります。
 
@@ -61,7 +61,7 @@ Turboは上記のたった３つのパーツしかないのですが、実際に
 
 
 
-<H2WithHash id="hotwire-features">Hotwireの特徴</H2WithHash>
+## Hotwireの特徴 ===hotwire-features===
 
 * **バックエンド技術非依存:** [Ruby on Rails](https://rubyonrails.org)に限らず、[Django](https://www.djangoproject.com)、[Laravel](https://laravel.com)、[Java](https://www.java.com/ja/)、[Node](https://nodejs.org/en)、[Wordpress](https://wordpress.com/)など、バックエンド技術がなんであってもHotwireは使用できます。実際、本サイトのHotwireデモはすべてNext.js
 の[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)で動いています。
@@ -74,7 +74,7 @@ Turboは上記のたった３つのパーツしかないのですが、実際に
 
 
 
-<H2WithHash id="structure-of-this-site">本サイトの構成</H2WithHash>
+## 本サイトの構成 ===structure-of-this-site===
 
 * 本サイトのコードはすべて[GitHub](https://github.com/naofumi/hotwire_and_next)に公開しています。また[Vercel](https://hotwire-and-next.vercel.app)でデプロイしています。コードをGitHubで確認しながら、UXをデプロイ先サイトで確認すると理解が深まるのではないかと思います。
 * **HotwireはEJS:** Hotwireはバックエンド技術非依存なので、HTMLが出力できればどこでも動きます。本プロジェクトでは **Next.js pages router** の[API
@@ -88,7 +88,7 @@ Turboは上記のたった３つのパーツしかないのですが、実際に
 
 
 
-<H2WithHash id="hotwire-resources">Hotwireのリソース</H2WithHash>
+## Hotwireのリソース ===hotwire-resources===
 * **公式サイト:**<br/>
     * [Turbo公式サイト](https://turbo.hotwired.dev)
     * [Stimulus公式サイト](https://stimulus.hotwired.dev)
