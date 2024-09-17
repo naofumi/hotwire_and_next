@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout";
 import React, {ReactNode} from "react";
 import {renderToString} from "react-dom/server";
+import ChapterList from "@/components/ChapterList";
 
 export default function CommentaryLayout(
   {children, title, subtitle, section}: { children: ReactNode, title: string, subtitle: string, section: string }
@@ -20,6 +21,7 @@ export default function CommentaryLayout(
         <p className="mt-6 text-xl leading-8">
           {subtitle}
         </p>
+        <ChapterList htmlString={htmlString}/>
         <div className="mt-10 max-w-3xl mx-auto">
           {children}
         </div>

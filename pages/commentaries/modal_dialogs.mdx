@@ -7,17 +7,6 @@ import CommentaryLayout from "../../components/CommentaryLayout";
 
 下記ではUXおよび実装の簡単さを重視しつつ、モーダルダイアログの作り方を複数検討します。Hotwireに加え、**Next.jsのApp RouterとPages Routerについてもモーダルの出し方を検討し**、比較します。
 
-1. [Turbo Frames: カスタムJavaScriptなしでモーダルを出す方法](#turbo-without-custom-javascript)
-2. Turbo Frames: カスタムJavaScriptを追加してモーダルのUI/UXを改善する方法
-    1. [JavaScriptをインラインで書いた場合](#turbo-with-custom-javascript)
-    2. [CSSでローディングアニメーションを追加した場合](#turbo-css-loader)
-    3. [Stimulusでイベント処理を改善した場合](#turbo-with-stimulus)
-3. [React: useEffectでモーダルを出す方法](#react-useeffect)
-4. [React: Client Componentsでモーダルを出す方法](#react-client-components)
-5. [React: Server Componentsでモーダルを出す方法](#react-server-components)
-5. [React: Server ComponentsとLayoutでモーダルを出す方法](#react-server-components-with-layouts)
-6. [各技術のまとめ](#summary)
-
 ## Turbo Frames: カスタムJavaScriptなし===turbo-without-custom-javascript===
 
 まずはHotwire/Turbo Framesを使って、カスタムのJavaScriptを書かずにモーダルを出す方法を紹介します。
