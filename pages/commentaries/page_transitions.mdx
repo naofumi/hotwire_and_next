@@ -5,14 +5,12 @@ import Image from "next/image"
 import transitionImage from "@/public/images/transition-after-first-load.webp"
 import StyledList from "../../components/StyledList";
 
-Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)です。Turbo Driveはページ遷移のUXを大幅に向上させます。
+Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)です。Turbo Driveはリンクのクリックによるページ遷移（全画面置換）の技術で、Next.jsでいうと[Linkタグ](https://nextjs.org/docs/pages/api-reference/components/link)に相当します。
 
-ウェブの根幹をなすのはリンクです。ウェブの最も基本的でかつ重要な動作は、リンクをクリックした後のページの遷移です。それだけにUXへのインパクトが大きいものです。
-
-[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は大幅にUXを向上させるだけでなく、サーバからJSON APIを送信する際のセキュリティの心配も不要です。Next.jsよりも気楽に使え、かつ良いUXになりやすいです。
+画面遷移なので、一見すると従来のMPAと変わらない動きですが、Turbo DriveもNext.jsのLinkタグも内部ではSPA的な技術を採用しており、スピード等のUI/UXが改善されています。画面数が多いウェブサイト・ウェブアプリでは、全体のUI/UXに大きなインパクトがあります。
 
 <p className="my-2 text-sm text-gray-600">※
-  ここでは最初にサイトを訪問した時のUXではなく、サイト内のリンクをクリックしたときの動作にフォーカスします</p>
+  Turbo DriveもLinkタグも最初にサイトを訪問した時のUI/UXではなく、サイト内のリンクをクリックしたときの動作を担います</p>
 
 
 <div className="mt-8 flow-root">
@@ -93,9 +91,9 @@ Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwir
 
 ## Turboの実装 ===installing-turbo===
 
-Hotwireは[Turbo](https://turbo.hotwired.dev)/[Stimulus](https://stimulus.hotwired.dev)/[Strada](https://strada.hotwired.dev)の３つのパーツからなっています。ウェブで使用するのはTurboとStimulusですが、双方ともJavaScriptのファイルを読み込むだけで使用できます。ここでは[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)を使用しますので、TurboのJavaScriptファイルを読み込みます。
+Hotwireは[Turbo](https://turbo.hotwired.dev)/[Stimulus](https://stimulus.hotwired.dev)/[Strada](https://strada.hotwired.dev)の３つのパーツからなっています。ウェブで使用するのはTurboとStimulusですが、双方ともJavaScriptのファイルを読み込むだけで使用でき、インストールは簡単です。ここでは[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)を使用しますので、TurboのJavaScriptファイルを読み込みます。
 
-**繰り返しますがMPAのページにTurboのJavaScriptファイルを読み込むだけで、Turbo Driveによる画面遷移が手に入ります。** インストール方法はファイルを読み込むだけです。[公式ドキュメント](https://turbo.hotwired.dev/handbook/installing)を確認してください。
+**MPAのページにTurboのJavaScriptファイルを読み込むだけで、Turbo Driveによる画面遷移が手に入ります。** インストール方法はファイルを読み込むだけです。[公式ドキュメント](https://turbo.hotwired.dev/handbook/installing)を確認してください。
 
 本サイトではnpm等を使用せずに、コンパイル済みのJavaScriptファイルをダウンロードしてインストールしました。TurboのJavaScriptファイルは`public/hotwire/javascript/turbo.es2017-esm.js`にダウンロードされており、`templates/layouts/header.ejs`から参照されています。
 
@@ -121,7 +119,7 @@ Turbo Driveを導入した時の効果は[デモページ](/api/hotwire/users)�
 
 上記の表に挙げた技術は、ネイティブを除いて、全てSPA ([Single-page Application: シングルページアプリケーション](https://ja.wikipedia.org/wiki/シングルページアプリケーション))です。Next.jsの場合はSSRであっても、２つ目のページはSPA的に遷移します。
 
-ここでいうSPA的というのは、ページ切り替え時に[AJAX](https://ja.wikipedia.org/wiki/Ajax)等を使っていて、一見するとページ全体は切り替わっているものの、裏でロードされたJavaScriptやCSSはそのまま残しているという意味です。先のページのメモリ等を残しているため、よりスムーズなページ切り替えが可能になり、またキャッシュなどのパフォーマンス最適化の工夫がしやすくなっています。
+ここでいうSPA的というのは、ページ切り替え時に[AJAX](https://ja.wikipedia.org/wiki/Ajax)等を使っていて、一見するとページ全体は切り替わっているものの、裏でロードされたJavaScriptやCSSはそのまま残しているという意味です。先のページをメモリに残しつつ画面遷移するため、よりスムーズなページ切り替えが可能になり、またキャッシュなどのパフォーマンス最適化がしやすくなっています。
 
 ただし最近の高性能マシンではJavaScriptやCSSを読み込まないことによる効果はわずかであり、ほとんど感じることができません。実際[Astro](https://astro.build)などのフレームワークはSSRをするものの、２ページ目のSPA的遷移は省略しています。
 
