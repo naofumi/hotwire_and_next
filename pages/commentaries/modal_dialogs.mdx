@@ -485,7 +485,7 @@ ReactではRSC(React Server Components)が話題になっていますので、Cl
 
 ### コード
 
-### 1. モーダルの表示
+#### 1. モーダルの表示
 
 **app/modal_app/page.tsx**
 ```tsx
@@ -572,9 +572,7 @@ export default async function Modal({userId}: { userId: string }) {
 
 Server Componentを使ったもう１つの方法を紹介します。[Layout](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates#layouts)を使用します。
 
-私が理解している限りでは、RSCはページ全体をレンダリングする状況を主に想定しています。そしてRSCでインタラクティブにウェブページの部分置換をする方法は`Layout`だけです。`Parallel routes`もありますが、これは`Layout`を拡張したもので、実質的には同じものではないかなと思っています。つまりNext.jsにおいて、Turbo Framesに一番近い機能が`Layout`ではないかと思います。
-
-これを使った場合のコードの書き味およびUI/UXを確認します。
+私が理解している限りでは、RSCはページ全体をレンダリングする状況を主に想定しています。そしてRSCでインタラクティブにウェブページの部分置換をする方法は`Layout`だけです。[`Parallel routes`](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)もありますが、これは`Layout`を拡張したもので、実質的には同じものではないかなと思っています。つまりNext.jsにおいて、Turbo Framesに一番近い機能が`Layout`ではないかと思います。
 
 ### コード
 
@@ -601,7 +599,7 @@ Server Componentを使ったもう１つの方法を紹介します。[Layout](h
 * 簡易法と比べて、モーダルを表示する時はUI/UXが改善されています
 * サーバのレスポンスが遅いケースでモーダルを閉じる際、UI/UXに問題が出てきます
 
-何よりもコードが複雑なのがこのアプローチの欠点だと思います。[Parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)や[Intercepting routes](https://nextjs.org/docs/app/building-your-application/routing/intercepting-routes)を使うことでUI/UXが改善する可能性はありますが、今回のLayoutと比べてさらにコードは複雑になります。したがって現時点でおすすめはできません。
+何よりもコードが複雑なのがこのアプローチの欠点だと思います。[Parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)や[Intercepting routes](https://nextjs.org/docs/app/building-your-application/routing/intercepting-routes)を使うことでUI/UXが改善する可能性はありますが、さらにコードは複雑になるようです。したがって私としては現時点でおすすめはできません。
 
 ## 各技術のまとめ ===summary===
 
@@ -610,7 +608,7 @@ Server Componentを使ったもう１つの方法を紹介します。[Layout](h
 * Turbo Framesを使用する場合、JavaScriptなしで非常に簡単に実装することができます。しかし、もう少しだけ頑張ってカスタムJavaScriptおよびCSSを書けば、使い回し可能でUI/UXが優れたモーダルダイアログが作れます。なるべくならば少し手間をかけてここまでやっていただければと思います
 * Turbo FramesでStimulusを使用すると、少ないコードで優れたUI/UXが実現できます
 * Reactを使う場合は、`useEffect`などを使い、ブラウザでデータをフェッチし、かつJavaScriptでDOMを操作するのが良さそうです。これはPages RouterでもApp Router (Client Component)でも変わりません。コードも簡単でわかりやすく、UI/UXも優れています
-* React Server Componentsを使ったモーダルの作り方がNext.jsの公式サイトに紹介されています。しかしコードのわかりやすさとUI/UXを総合的に加味すると、現時点ではお勧めするのは難しいでしょう。
+* React Server Componentsを使ったモーダルの作り方がNext.jsの公式サイトに紹介されています。しかしコードのわかりやすさとUI/UXを総合的に加味すると、私としては現時点でお勧めできません。特定の用途では有用かもしれませんが、一般的なものではメリットを感じませんでした。
 
 export default function ModalDialogs({children}) {
   return <CommentaryLayout
