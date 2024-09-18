@@ -4,7 +4,6 @@ import Layout from "@/components/Layout";
 import H2WithHash from "@/components/H2WithHash";
 import StyledLink from "@/components/StyledLink";
 import PrimaryButtonWithLink from "@/components/PrimaryButtonWithLink";
-import {isDev} from "@/helpers/feature_flags";
 
 export default function IndexPage() {
   return (
@@ -157,32 +156,29 @@ export default function IndexPage() {
               </div>
             </article>
 
-            {isDev() &&
-              <>
-                <article className="bg-green-200 mt-16 border-t border-t-gray-200">
-                  <H2WithHash id="modal">
-                    モーダルダイアログ: Turbo Frames
-                  </H2WithHash>
-                  <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                    モーダルダイアログはUI要素として非常によく使われています。元の画面のスクロール位置などのステートを維持しつつ、追加の情報や編集用のFormを表示するのに使用されます。
-                    中身がダイナミックな場合はサーバからデータを取得する必要がありますので、Turbo Framesがよく使われます。<br/>
-                    JavaScriptなしで実装することも可能ですが、<strong>やはり多少のJavaScriptやCSSがあった方がUXは随分とよくなります</strong>ので、その違いを紹介します。<br/>
-                    Next.jsは新しくApp Routerが出てきて、ベストプラクティスがまだ模索中のところがあります。従来のPage
-                    Routerを使った方法に加えて、<strong>App Routerでのモーダルの出し方もいくつか比較検討します</strong>。
-                  </p>
-                  <div className={`text-center mt-4 text-xl tracking-wider`}>
-                    <StyledLink href="/commentaries/modal_dialogs">
-                      解説はこちら...
-                    </StyledLink>
-                  </div>
-                  <div className="mt-10 flex items-center justify-center gap-x-6">
-                    <a href="/modal"
-                       className="btn-primary"
-                       data-turbo="false">モーダルUI</a>
-                  </div>
-                </article>
-              </>
-            }
+            <article className="bg-green-200 mt-16 border-t border-t-gray-200">
+              <H2WithHash id="modal">
+                モーダルダイアログ: Turbo Frames
+              </H2WithHash>
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
+                モーダルダイアログはUI要素として非常によく使われています。元の画面のスクロール位置などのステートを維持しつつ、追加の情報や編集用のFormを表示するのに使用されます。
+                中身がダイナミックな場合はサーバからデータを取得する必要がありますので、Turbo
+                Framesがよく使われます。<br/>
+                JavaScriptなしで実装することも可能ですが、<strong>やはり多少のJavaScriptやCSSがあった方がUXは随分とよくなります</strong>ので、その違いを紹介します。<br/>
+                Next.jsは新しくApp Routerが出てきて、ベストプラクティスがまだ模索中のところがあります。従来のPage
+                Routerを使った方法に加えて、<strong>App Routerでのモーダルの出し方もいくつか比較検討します</strong>。
+              </p>
+              <div className={`text-center mt-4 text-xl tracking-wider`}>
+                <StyledLink href="/commentaries/modal_dialogs">
+                  解説はこちら...
+                </StyledLink>
+              </div>
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <a href="/modal"
+                   className="btn-primary"
+                   data-turbo="false">モーダルUI</a>
+              </div>
+            </article>
 
             <article className="mt-16 border-t border-t-gray-200">
               <H2WithHash id="popup">
