@@ -8,7 +8,8 @@
     }
 
     .mdx h3 {
-        @apply sticky bg-white top-24 scroll-mt-24 sm:top-24 sm:scroll-mt-24
+        /*@apply sticky bg-white top-24 scroll-mt-24 sm:top-24 sm:scroll-mt-24*/
+        @apply scroll-mt-24 sm:scroll-mt-24
     }
 
     .mdx ul li {
