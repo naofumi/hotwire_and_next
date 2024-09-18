@@ -156,7 +156,7 @@ export default function IndexPage() {
               </div>
             </article>
 
-            <article className="bg-green-200 mt-16 border-t border-t-gray-200">
+            <article className="mt-16 border-t border-t-gray-200">
               <H2WithHash id="modal">
                 モーダルダイアログ: Turbo Frames
               </H2WithHash>
