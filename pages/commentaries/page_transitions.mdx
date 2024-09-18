@@ -7,7 +7,7 @@ import StyledList from "../../components/StyledList";
 
 Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)です。Turbo Driveはリンクのクリックによるページ遷移（全画面置換）の技術で、Next.jsでいうと[Linkタグ](https://nextjs.org/docs/pages/api-reference/components/link)に相当します。
 
-画面遷移なので、一見すると従来のMPAと変わらない動きですが、Turbo DriveもNext.jsのLinkタグも内部ではSPA的な技術を採用しており、スピード等のUI/UXが改善されています。画面数が多いウェブサイト・ウェブアプリでは、全体のUI/UXに大きなインパクトがあります。
+画面遷移なので、一見すると従来のMPAと変わらない動きですが、Turbo DriveもNext.jsのLinkタグも内部ではSPA的な技術を採用しており、スピード等のUI/UXが改善されています。画面数が多いウェブサイト・ウェブアプリでは、**全体のUI/UXに大きなインパクトがあります**。
 
 <p className="my-2 text-sm text-gray-600">※
   Turbo DriveもLinkタグも最初にサイトを訪問した時のUI/UXではなく、サイト内のリンクをクリックしたときの動作を担います</p>
@@ -121,9 +121,9 @@ Turbo Driveを導入した時の効果は[デモページ](/api/hotwire/users)�
 
 ここでいうSPA的というのは、ページ切り替え時に[AJAX](https://ja.wikipedia.org/wiki/Ajax)等を使っていて、一見するとページ全体は切り替わっているものの、裏でロードされたJavaScriptやCSSはそのまま残しているという意味です。先のページをメモリに残しつつ画面遷移するため、よりスムーズなページ切り替えが可能になり、またキャッシュなどのパフォーマンス最適化がしやすくなっています。
 
-ただし最近の高性能マシンではJavaScriptやCSSを読み込まないことによる効果はわずかであり、ほとんど感じることができません。実際[Astro](https://astro.build)などのフレームワークはSSRをするものの、２ページ目のSPA的遷移は省略しています。
+ただし最近の高性能マシンではJavaScriptやCSSの読み込みが高速であり、上記のメリットをほとんど感じることができません。実際[Astro](https://astro.build)などのフレームワークはSSRをするものの、２ページ目のSPA的遷移は省略しています。
 
-SPA的な画面遷移の効果を強く感じさせてくれるのは、次に紹介するprefetchと組み合わせた時です。
+そのため、Turbo DriveやLinkタグによるUI/UXを感じるためには、次に紹介するprefetchと組み合わせる必要があります。
 
 ### Prefetchの効果 ===prefetch-effect===
 

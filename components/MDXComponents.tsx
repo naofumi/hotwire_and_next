@@ -12,7 +12,7 @@ export function h3({children}: {children?: ReactNode}) {
 }
 
 export function h4({children}: {children?: ReactNode}) {
-  return <h4 className="mt-4 mb-4 text-base font-bold tracking-tight text-gray-900">{children}</h4>
+  return <h4 className="mt-4 mb-0 text-lg font-bold tracking-tight text-gray-900">{children}</h4>
 }
 
 export function p({children}: {children?: ReactNode}) {
