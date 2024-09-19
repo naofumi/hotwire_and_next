@@ -12,29 +12,6 @@
         @apply scroll-mt-24 sm:scroll-mt-24
     }
 
-    .mdx ul li {
-        background: url('/images/check-circle.svg') no-repeat left top 12px;
-        padding: 4px 16px 4px 32px;
-        list-style: none;
-        margin: 0;
-        vertical-align: middle;
-    }
-
-    .mdx ul li li {
-        background: url('/images/check-circle-gray.svg') no-repeat left top 12px;
-    }
-
-    .mdx ol li {
-        /*background: url('/images/check-circle.svg') no-repeat left top 12px;*/
-        padding: 4px 16px 4px 4px;
-        list-style: decimal outside none;
-        margin: 0;
-        vertical-align: middle;
-        li {
-            list-style: lower-alpha;
-        }
-    }
-
     .mdx blockquote {
         @apply pl-4 border-l-4 border-gray-200
     }
@@ -64,4 +41,28 @@
     .demo-h2 {
         @apply text-base font-semibold leading-6 text-gray-900
     }
+
+    ul li {
+        background: url('/images/check-circle.svg') no-repeat left top 12px;
+        padding: 4px 16px 4px 32px;
+        list-style: none;
+        margin: 0;
+        vertical-align: middle;
+    }
+
+    ul li li {
+        background: url('/images/check-circle-gray.svg') no-repeat left top 12px;
+    }
+
+    ol li {
+        /*background: url('/images/check-circle.svg') no-repeat left top 12px;*/
+        padding: 4px 16px 4px 4px;
+        list-style: decimal outside none;
+        margin: 0;
+        vertical-align: middle;
+        li {
+            list-style: lower-alpha;
+        }
+    }
+
 }

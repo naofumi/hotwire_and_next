@@ -50,10 +50,13 @@ function headersToOrderedList(headers: ChapterPage[]) {
 
 export default function ChapterList({htmlString}: {htmlString: string}) {
   const headers = headersFromHtml(htmlString)
+  return ChapterListFromHeaders({headers})
+}
+
+export function ChapterListFromHeaders({headers}: {headers: ChapterPage[]}) {
   return <div className="my-8 border border-gray-300 rounded p-4">
     <Link href="" className="block font-bold text-lg mb-2 hover:text-orange-600">目次</Link>
     {headersToOrderedList(headers)}
   </div>;
 }
-
 
