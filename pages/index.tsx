@@ -56,7 +56,7 @@ export default function IndexPage() {
               href="https://github.com/naofumi/hotwire_and_next">GitHub</StyledLink>に公開しています。また<StyledLink
               href="https://vercel.com">Vercel</StyledLink>でデプロイしています。実際に触って、さらにコードを見て、上記が誇張かどうかを確認していただければと思います。
             </p>
-            <div className="text-center mt-4 text-xl tracking-wider">
+            <div className="text-center my-12 text-xl tracking-wider">
               <StyledLink href="/about">
                 もっと詳しく...
               </StyledLink>
@@ -82,7 +82,7 @@ export default function IndexPage() {
                 主に画面遷移のヌルサク感を大幅に向上させます。<br/>
                 ダイナミックなコンテンツを中心としたサイトでは、prefetch等の違いにより、<strong>Hotwireの方が高速なUI/UXになります</strong>。
               </p>
-              <div className="text-center mt-4 text-xl tracking-wider">
+              <div className="text-center my-12 text-xl tracking-wider">
                 <StyledLink href="/commentaries/page_transitions">
                   解説はこちら...
                 </StyledLink>
@@ -118,7 +118,7 @@ export default function IndexPage() {
                 インタラクティブなウェブUIは、突き詰めると画面の部分的な書き換えに集約されます。ほとんどの場合、これは難しくありません。<br/>
                 厄介なのは新しい内容をサーバから読み込む時です。Turbo Framesはここを担当し、簡単に実現してくれます。
               </p>
-              <div className={`text-center mt-4 text-xl tracking-wider`}>
+              <div className={`text-center my-12 text-xl tracking-wider`}>
                 <StyledLink href="/commentaries/tabbed_menus">
                   解説はこちら...
                 </StyledLink>
@@ -138,7 +138,7 @@ export default function IndexPage() {
               <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                 リスト項目を選択して、その詳細をパネルに表示するUIです。メールアプリなどでよく見かけるタイプのUIです。タブメニューとよく似ていますが、サーバから読み込んだ内容が、リンクがあったところとは別の場所に埋め込まれる点が異なります。
               </p>
-              <div className={`text-center mt-4 text-xl tracking-wider`}>
+              <div className={`text-center my-12 text-xl tracking-wider`}>
                 <StyledLink href="/commentaries/details_panel">
                   解説はこちら...
                 </StyledLink>
@@ -160,7 +160,7 @@ export default function IndexPage() {
                 残念ながら、AJAX/fetchで非同期通信をするサイトの多くが、これを見落としています。<br/>
                 TurboおよびNext.jsでこの問題を解決する方法を紹介し、比較します。
               </p>
-              <div className={`text-center mt-4 text-xl tracking-wider`}>
+              <div className={`text-center my-12 text-xl tracking-wider`}>
                 <StyledLink href="/commentaries/loading_animations">
                   解説はこちら...
                 </StyledLink>
@@ -184,7 +184,7 @@ export default function IndexPage() {
                 Next.jsは新しくApp Routerが出てきて、ベストプラクティスがまだ模索中のところがあります。従来のPage
                 Routerを使った方法に加えて、<strong>App Routerでのモーダルの出し方もいくつか比較検討します</strong>。
               </p>
-              <div className={`text-center mt-4 text-xl tracking-wider`}>
+              <div className={`text-center my-12 text-xl tracking-wider`}>
                 <StyledLink href="/commentaries/modal_dialogs">
                   解説はこちら...
                 </StyledLink>

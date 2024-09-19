@@ -261,28 +261,26 @@ Reactのコードの特徴は以下の通りです。一般的なReactのデー�
 
 ## Next.js App Router Parallel Routesとの比較 ===tabs-with-parallel-routes===
 
-Next.js Pages RouterのSSRはページ全体を遷移するのには適していますが、Turbo Framesのように部分置換をする機能がありません。画面の一部分のみを置換する場合は従来のSPAと同様に、`useEffect`でステートを更新する必要があります。
+Next.js Pages RouterのSSRはページ全体を遷移するのには適していますが、Turbo Framesのように部分置換をする機能がありません。これは従来のSPAと同様に、ブラウザ上で`useEffect`を使ってステートを更新し、CSRで更新する必要があります。
 
-一方でApp Routerは部分置換の仕組みが用意されています。[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)と[Parallel Routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)がこれに相当します。特にこのページで紹介しているタブメニューについては、Parallel Routesのドキュメントに[わざわざタブメニューの言及](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#tab-groups)もあり、この方法が奨励されているようです。
+一方でApp Routerは部分置換の仕組みが用意されています。[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)と[Parallel Routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)がこれに相当します。特にこのページで紹介しているタブメニューについては、Parallel Routesのドキュメントに[わざわざタブメニューの言及](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#tab-groups)もあり、この方法が奨励されていると受け取れます。
 
 LayoutやParallel Routesを使うと、Client Componentを使わずにServer Componentだけでタブメニューが実装できます。App Routerでは[なるべくServer Componentを使う](https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns#moving-client-components-down-the-tree)ことが推奨されていますし、[なるべくサーバでデータフェッチをする](https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#fetching-data-on-the-server)ことがベストプラクティスとされています。LayoutやParallel Routesを使うと、これが可能になるわけです。
 
 [Parellel Routesを使ったデモ](http://localhost:3000/tabbed_segments_app/users)も用意しましたのでご確認ください。またコードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)にあります。
 
-[Parallel Routesを使った場合のUX](http://localhost:3000/tabbed_segments_app/users)の特徴は以下の通りです
+[Parallel Routesを使った場合のUI/UX](http://localhost:3000/tabbed_segments_app/users)の特徴は以下の通りです
 
 * どのタブを開いているかによってURLが変化します。つまり特定のタブを開いた状態をブックマークできる利点があります。これはTurbo Driveを使った場合、あるいはTurbo Framesで[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)を設定した時と同じ効果です。
-* 小さくて副次的な内容のタブの場合は、それは画面のメインではありませんので、URLを変化させるのは不自然です。しかしURLを変化させずにタブを切り替える方法がないようです。一方でTurbo Framesの場合は`data-turbo-action`を指定しなければ、URLをそのままにしてタブを切り替えることが可能です。
+* 小さくて副次的な内容のタブの場合は、URLを変化させるのは不自然です。それは画面のメインではないためです。しかしServer ComponentsではURLを変化させずにタブを切り替える方法がないようです。一方でTurbo Framesの場合は`data-turbo-action`を省略するだけで、URLを固定してタブを切り替えることが可能です。
 * `loading.js`を配置することでローディングアニメーションが出せます。配置しなければ、表示されません。
 * データフェッチはサーバ側で行いますが、動的なルート([Dynamic Rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering))の場合は最初の`loading.js`ファイルまでしか[prefetchをしてくれません](https://nextjs.org/docs/app/api-reference/components/link#prefetch)。そのため、コンテンツが表示されるまでにかかる時間は短くなりません。[ReactでuseEffectを使った場合](/commentaries/new_tabbed_menus#tabs-comparison-with-react)とほぼ同じUXになります。
 
 また[Parallel Routesを使った場合のコード](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)の特徴は以下の通りです。
 
-* [３つのフォルダに７つのファイルを配置](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)するので、[Turbo Frames](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)を使った場合や[useEffectを使った場合](https://github.com/naofumi/hotwire_and_next/tree/main/pages/tabbed_segments)と比べて複雑になっています
+* [厳密に役割が規定されたフォルダとファイルを適切に配置](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)する必要があるので、[Turbo Frames](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)を使った場合や[useEffectを使った場合](https://github.com/naofumi/hotwire_and_next/tree/main/pages/tabbed_segments)と比べて複雑になっています
 
-個人的には、たかがタブメニューを実装するために随分と大袈裟で複雑なことをするなぁと感じます。Client Componentで`useState`、`useEffect`を使ってもUX上のメリットがありませんので、わざわざParallel Routesを使う動機は弱いと感じています。
-
-
+個人的には、随分と大袈裟で複雑なことをするなぁと感じます。Client Componentで`useState`、`useEffect`を使ってもUX上のメリットがありませんので、わざわざParallel Routesを使う動機は弱いと感じています。
 
 ## タブメニューのまとめ ===tabs-summary===
 
