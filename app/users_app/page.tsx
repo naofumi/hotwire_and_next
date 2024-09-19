@@ -1,5 +1,6 @@
 import {User} from "@/repositories/user";
 import Link from "next/link";
+import TransitionTechNav from "@/pages/users/TransitionTechNav";
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -17,6 +18,8 @@ export default async function UsersAppIndex() {
 
   return (
     <>
+      <TransitionTechNav selected="server_component" />
+      <hr className="mt-8"/>
       <div className="my-10 px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">

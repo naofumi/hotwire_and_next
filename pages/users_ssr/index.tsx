@@ -2,6 +2,7 @@ import Link from "next/link";
 import {User} from "@/repositories/user";
 import Layout from "@/components/Layout";
 import {GetServerSidePropsContext} from "next";
+import TransitionTechNav from "@/pages/users/TransitionTechNav";
 
 // Simulate Next.js acting as a BFF for a JSON API server
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -15,6 +16,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 export default function UsersSsrIndex({users, hideLoadingIndicator}: { users: User[], hideLoadingIndicator: boolean }) {
   return (
     <Layout hideLoadingIndicator={hideLoadingIndicator}>
+      <TransitionTechNav selected="ssr" />
+      <hr className="mt-8"/>
       <>
         <div className="my-10 px-4 sm:px-6 lg:px-8">
           <div className="sm:flex sm:items-center">

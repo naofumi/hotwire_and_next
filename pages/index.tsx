@@ -89,22 +89,7 @@ export default function IndexPage() {
               </div>
               <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
                 <PrimaryButtonWithLink href="/api/hotwire/users">
-                  ブラウザネイティブ
-                </PrimaryButtonWithLink>
-                <PrimaryButtonWithLink href="/api/hotwire/users">
-                  Turbo Drive
-                </PrimaryButtonWithLink>
-                <PrimaryButtonWithLink href="/users_ssg">
-                  Next.js SSG
-                </PrimaryButtonWithLink>
-                <PrimaryButtonWithLink href="/users">
-                  Next.js useEffect
-                </PrimaryButtonWithLink>
-                <PrimaryButtonWithLink href="/users_ssr">
-                  Next.js Pages Router SSR
-                </PrimaryButtonWithLink>
-                <PrimaryButtonWithLink href="/users_app">
-                  Next.js App Router Server component
+                  ページ遷移
                 </PrimaryButtonWithLink>
               </div>
             </article>

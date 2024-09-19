@@ -4,6 +4,7 @@ import {User} from "@/repositories/user";
 import Layout from "@/components/Layout";
 import Image from "next/image"
 import rocketImage from "@/public/images/rocket.gif"
+import TransitionTechNav from "@/pages/users/TransitionTechNav";
 
 export default function UsersIndex() {
   const [users, setUsers] = useState<User[]>([]);
@@ -20,6 +21,8 @@ export default function UsersIndex() {
 
   return (
     <Layout>
+      <TransitionTechNav selected="use_effect" />
+      <hr className="mt-8"/>
       {loading
         ? <div className="flex justify-evenly w-full mt-24 h-96 mb-48">
           <Image src={rocketImage} alt="loader" className="w-16 h-16"/>

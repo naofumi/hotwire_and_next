@@ -1,5 +1,7 @@
 <%- include("layouts/header.ejs") -%>
 <div class="my-10 px-4 sm:px-6 lg:px-8">
+  <%- include("_transition_tech_nav", {selected: (native ? "mpa" : "turbo_drive")}) %>
+  <hr class="my-8">
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
       <% if (native) { %>
@@ -46,12 +48,15 @@
           </tbody>
         </table>
         <div class="my-10 flex items-center justify-center gap-x-6">
-          <a href="/api/hotwire/users"
-             class="btn-primary"
-             data-turbo="true">Usersへ推移 (Turbo On)</a>
-          <a href="/api/hotwire/users?native=true"
-             class="btn-primary-muted"
-             data-turbo="false">Usersへ推移 (Turbo Off)</a>
+          <% if (native) { %>
+            <a href="/api/hotwire/users?native=true"
+               class="btn-primary"
+               data-turbo="false">Usersへ推移 (Turbo Off)</a>
+          <% } else { %>
+            <a href="/api/hotwire/users"
+               class="btn-primary"
+               data-turbo="true">Usersへ推移 (Turbo On)</a>
+          <% } %>
         </div>
       </div>
     </div>

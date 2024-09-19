@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {allUsers, User} from "@/repositories/user";
 import Layout from "@/components/Layout";
+import TransitionTechNav from "@/pages/users/TransitionTechNav";
 
 export async function getStaticProps() {
   const users = await allUsers()
@@ -10,6 +11,8 @@ export async function getStaticProps() {
 export default function UsersSsgIndex({users}: { users: User[] }) {
   return (
     <Layout>
+      <TransitionTechNav selected="ssg" />
+      <hr className="mt-8"/>
       <>
         <div className="my-10 px-4 sm:px-6 lg:px-8">
           <div className="sm:flex sm:items-center">

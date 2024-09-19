@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Layout from "@/components/Layout";
 import {allProducts, Product} from "@/repositories/product";
+import TransitionTechNav from "@/pages/users/TransitionTechNav";
 
 export async function getStaticProps() {
   const products = await allProducts()
@@ -11,6 +12,8 @@ export default function ProductsSsgIndex({products}: {products: Product[]}) {
   return (
     <Layout>
       <>
+        <TransitionTechNav selected="ssg" />
+        <hr className="mt-8"/>
         <div className="my-10 px-4 sm:px-6 lg:px-8">
           <div className="sm:flex sm:items-center">
             <div className="sm:flex-auto">

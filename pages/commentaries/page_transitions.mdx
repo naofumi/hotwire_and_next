@@ -3,7 +3,9 @@ import CommentaryLayout from "../../components/CommentaryLayout";
 import StyledLink from "../../components/StyledLink";
 import Image from "next/image"
 import transitionImage from "@/public/images/transition-after-first-load.webp"
-import StyledList from "../../components/StyledList";
+import spaMpaImage from "@/public/images/spa-mpa.webp"
+import nextSecurityImage from "@/public/images/next-security.webp"
+import prefetchImage from "@/public/images/prefetch.webp"
 
 Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)です。Turbo Driveはリンクのクリックによるページ遷移（全画面置換）の技術で、Next.jsでいうと[Linkタグ](https://nextjs.org/docs/pages/api-reference/components/link)に相当します。
 
@@ -88,6 +90,10 @@ Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwir
   </div>
 </div>
 
+<figure className="mt-12">
+  <figcaption className="font-bold">MPAとSPAのページ遷移</figcaption>
+  <Image src={spaMpaImage} alt="MPA SPA description" />
+</figure>
 
 ## Turboの実装 ===installing-turbo===
 
@@ -131,13 +137,18 @@ Turbo Driveを導入した時の効果は[デモページ](/api/hotwire/users)�
 
 この効果のほとんどは[prefetch](https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover)によるものです。マウスカーソルがリンクの上をホバーした時に、**フライング**をしてサーバにリクエストを飛ばします。そして実際にユーザがリンクをクリックしたとき、すでにリンク先ページは読み込まれていますので、瞬間的に画面遷移ができます。
 
+<figure className="mt-12">
+  <figcaption className="font-bold">Prefetchの効果</figcaption>
+  <Image src={prefetchImage} alt="Prefetch effect" />
+</figure>
+
 ### Next.jsのprefetchは条件によっては動かない ===next-prefetch-only-works-sometimes===
 
-Next.jsにもprefetchがあります。しかし多くのケースでは効果がありません。Pages routerの場合、SSRのページではprefetchは効果がありません。またApp routerで[Dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)の場合は最初の`loading.js`ファイルまでしかprefetchしませんので、[prefetchはローディング画面の表示を早めてくれるだけ](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching)の効果しかありません。逆に言うと、**Next.jsの場合、Pages routerのSSGやApp routerのStatic renderingの場合に限ってならprefetchが有効になります**。
+Next.jsにもprefetchがあります。しかし多くのケースでは効果がありません。Pages routerの場合、SSRのページではprefetchが効きません。またApp routerで[Dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)の場合も最初の`loading.js`ファイルまでしかprefetchしませんので、[prefetchはローディング画面の表示を早めてくれるだけ](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching)の効果しかありません。逆に言うと、**Next.jsの場合、Pages routerのSSGやApp routerのStatic renderingの場合に限ってならprefetchが有効になります**。
 
-本サイトの例を見ても、[Next SSGの場合](/users_ssg)はヌルサクな画面遷移をしますが、[Next useEffect](/users)、[Next app router](/users_app)の場合はまずはローダー画面だけがすぐに表示され、後になってちゃんとデータのある画面が現れます。そして[Next SSR](/users_ssr)の場合はクリック直後はページが変わらず、データのある画面が現れるのが遅れます。
+本サイトの例を見ても、[Next SSGの場合](/users_ssg)はヌルサクな画面遷移をします。しかし[Next useEffect](/users)、[Next app router](/users_app)の場合はまずはローダー画面だけがすぐに表示されるものの、データのある画面が現れるまでは待たされます。そして[Next SSR](/users_ssr)の場合はクリック直後はページがローダーも現れず、しばらく経ってからデータのある画面が現れます。
 
-このようにNext.jsはprefetch機能はありますが、機能するのは静的なページのところまでです。動的なコンテンツはprefetchされません。動的コンテンツが多いサイトの場合はNext.jsのprefetchは効果がかなり限定的です。なお本サイトは動的コンテンツのサイトを作成している開発者を念頭にした解説を行っています。そのため、App routerのキャッシュは極力オフにしており、全てのページは[Dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)させています。
+このように**Next.jsはprefetch機能はありますが、機能するのは静的なページのところまで**です。動的なコンテンツはprefetchされません。動的コンテンツが多いサイトの場合はNext.jsのprefetchは効果がかなり限定的になります。なお、本サイトは動的コンテンツのサイトを作成している開発者を念頭にしています。そのため、App routerのキャッシュは極力オフにしており、全てのページは[Dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)させています。
 
 <div className="mt-12">
   <div className="w-max-[560px] flex justify-center">
@@ -158,54 +169,116 @@ Turbo Driveには[仕組みをほとんど理解していなくても安心し�
 
 以前に訪問したページに遷移すると、Turbo Driveは以前のページ内容をプレビューとして表示します(キャッシュから表示)。そして同時にサーバにリクエストを投げ、サーバから最新のページを受け取ると、すぐにプレビューの内容と入れ替えます。
 
-キャッシュの問題は古い情報が表示されたままになってしまうことですが、この仕組みのおかげでTurbo Driveはこの問題を回避しています。つまりキャッシュを利用しているおかげでユーザとしてはページ遷移が瞬間的に起こったように感じ、UI/UXが大幅に向上する一方、キャッシュの欠点がないわけです。
+Next.jsもキャッシュがありますが、キャッシュの更新処理がわかりにくく、古い情報が残ってしまいやすい問題がありました。[評判が悪いために、v15ではデフォルトがキャッシュオフになりました](https://nextjs.org/blog/next-15-rc#caching-updates)。Next.jsの仕組みはサーバ負荷、ネットワーク負荷低減の効果は大きかったのですが、開発者としては管理が難しくなっていた印象です。
 
-これは簡単なことではありません。多くの場合、キャッシュを導入すると予想しない動きが起きてしまい、うまく利用するのが困難です。最近で言えば、Next.jsでキャッシュを導入してみたものの、[評判が悪くてv15でデフォルトをキャッシュオフにした](https://nextjs.org/blog/next-15-rc#caching-updates)のは記憶に新しいところです。残念ながらNext.jsではまだ代替案が用意されておらず、キャッシュを利用できるかどうかは慎重に判断する必要があります。
+Turbo Driveのキャッシュの場合は古い情報は一時的に表示されますが、すぐに最新情報に更新されます。サーバ負荷、ネットワーク負荷低減効果はありませんが、優れたUI/UXに加え、開発者として扱いやすい利点があります。
 
 ## セキュリティ: データ漏洩 ===security===
 
-ここではサーバからブラウザに機密性の高い情報が流れてしまうデータ漏洩の問題を取り上げます。上記の各方式は、サーバからブラウザにデータを渡す仕組みが異なります。ネイティブとTurbo DriveはHTMLのみを送ります。Next.js pages routerのSSRはHTMLに加え、React Hydration用のデータを送り、一方でapp routerはServer Componentの場合はHTMLに加えてRSC payloadを送ります。またuseEffectの中からfetchをする場合はJSON APIを送ります。
+機密性の高い情報が意図に反してブラウザに流れてしまうリスクを取り上げます。実際のデモを見ながら、具体的に紹介していきます。
 
-用いる方式の違いにより、データ漏洩のリスクおよび注意しなければならないポイントが異なります。ここでは実際のデモを見せながら、具体的に紹介します。
+<figure className="mt-12">
+  <figcaption className="font-bold">HotwireとNext.jsの情報漏洩リスク</figcaption>
+  <Image src={nextSecurityImage} alt="Next.js Security Concern" />
+</figure>
 
 ### HTMLだけを送る場合はリスクが少ない ===sending-html-is-secure===
 
-ネイティブ(MPA)及ぼHotwireでは、サーバはHTML<strong>のみ</strong>をブラウザに送ります。HTMLには画面に表示される情報しかありません。そのため、意図しないデータをブラウザに送ってしまう可能性は低く、データ漏洩のリスクは少ないと言えます。
+HotwireはHTMLのみをブラウザに送ります。送信されるのは画面に表示される内容だけです（上図で言うと、"password_digest"はブラウザに送られません）。万が一、意図しないデータをブラウザに送ったとしても、開発者もしくはQAはすぐに気づきますので、データ漏洩のリスクは少ないと言えます。
 
-またユーザの権限によって見せるべきデータを変えなければならないときは、controllerもしくはviewテンプレートの中で出し分けることが一般的で、追加のセキュリティーレイヤーなどは不要です。
+Next.jsの場合も、Server Componentに限り同様のことが言えます。Server ComponentはHTMLの他に"RSC payload"というものがブラウザに送信されますが、画面に表示される内容しか含まれておらず、ほぼHTMLと同じように考えることができるためです。
 
-### JSONを送る場合は注意が必要 ===sending-json-requires-care===
+この場合はHTMLテンプレート自体がセキュリティレイヤーとなり、安全な情報のみが選別され、チェックも行われると考えて良いでしょう。
 
-`useEffect`を使う場合は、`useEffect`の中からサーバのJSON APIに対してデータfetchをすることが一般的です。このAPIは一般にバックエンドのエンジニアが管理し、フロントエンドと合意したAPI設計に基づいて、出すべくデータと隠しておくべきデータを明確に管理します。その結果、データ漏洩が起こりにくい体制になっています。
+### Hydrationをする場合やJSONを送る場合は注意が必要 ===sending-json-requires-care===
 
-一方でNext.jsによるSSG/SSRページ作成は、フロントエンドに任されることが多くなります。しかし実際には、Next.jsも（見えないところで）JSON APIが作られます。`getStaticProps()`, `getServerSideProps()`の返り値がそのままJSON APIになるのです。このJSON APIは２回目以降のページ遷移の時にそのままサーバからブラウザに送られます。また初回ロードの時も、SSRのHTMLの最後に、hydration用のデータとしてブラウザに送られます。このように`getStaticProps()`, `getServerSideProps()`の返り値はそのままブラウザに送られます。
+Next.jsでは、Client Componentが含まれる場合、あるいはPages RouterでSSR/SSGをしている場合（つまり純粋にServer Componentだけを使っている以外の場合）はデータ漏洩の注意が必要です。注意がおろそかだと機密情報("password_digest")をブラウザに送ってしまい、それに気づかないケースが起こり得ます。
 
-`useEffect`の時のJSON APIの時と異なり、`getStaticProps()`, `getServerSideProps()`の返り値を明確に取り決めることはないと思います。しかしここで隠すべきデータをしっかりブロックしなければ、機密データは漏洩してしまいます。
+下記はPages RouterでSSGを行った場合のコードです。`allUser()`関数の返り値をそのままpropsとしてコンポーネントに渡してしまっています。そしてこの中には機密情報の"password_digest"が漏洩してしまっています。
+
+**pages/users_ssg/index.tsx**
+```tsx
+export async function getStaticProps() {
+  const users = await allUsers()
+  return {props: {users}}
+}
+```
+
+次にブラウザで[SSGのページ](/users_ssg)に訪問し、開発者用のネットワークタブから`/users_ssg`へのリクエスト結果を確認します。そしてHTMLの一番最後にある`script`タグの中を確認すると、"password_digest"の中身が見えます（見やすく整形してあります）。もちろん画面には"password_digest"が表示されていませんので、開発者もQAも漏洩に気づかない恐れがあります。
+
+これを防ぐには、コードレビュー等をしっかり行い、データベースから取得されたUser情報がそのままコンポーネントに渡されないように注意する必要があります。
+
+```html
+<script id="__NEXT_DATA__" type="application/json">
+{
+    "buildId": "tfKzayy7vVgrY4oirxrPI",
+    "gsp": true,
+    "isFallback": false,
+    "page": "/users_ssg",
+    "props":
+    {
+        "__N_SSG": true,
+        "pageProps":
+        {
+            "users":
+            [
+                {
+                    "email": "hogeta@example.com",
+                    "id": 1,
+                    "name": "Hogeta Hogeo",
+                    "password_digest": "dbfcfd0d87220f629339bd3adcf452d083fde3246625fb3a93e314f833e20d37",
+                    "role": "Member",
+                    "title": "Front-end developer"
+                },
+                {
+                    "email": "hogeko@example.com",
+                    "id": 2,
+                    "name": "Hogehara Hogeko",
+                    "password_digest": "4bdd0bbfe3f4c52cc2c8ff02f1fef29663dd9938f230304915805af1fa71e968",
+                    "role": "Member",
+                    "title": "Designer"
+                },
+                ...
+            ]
+        }
+    },
+    "query":
+    {},
+    "scriptLoader":
+    []
+}
+</script>
+```
 
 ### セキュリティのデモ ===security-demo===
 
-本デモでは、敢えてセキュリティ上問題のあるコードをバックエンドで書いています。セキュリティの問題を浮き彫りにするためです。
+上記でも触れましたが、本デモでは、敢えてセキュリティ上問題のあるコードをバックエンドで書いています。セキュリティの問題を浮き彫りにするためです。
 
 具体的には`User repository`がそのまま`password_digest`(秘密の情報)を返してしまうようにしています。また各エンドポイントでも`password_digest`をブロックする処理を行っていません。
 
 * [ネイティブ画面遷移(MPA)](/api/hotwire/users)および[Turbo Drive](/api/hotwire/users)を使っている場合は`password_digest`は漏洩しません。レスポンスにはHTMLしか含まれないので、画面に表示しない内容はブラウザに送信されないためです。ブラウザの検証画面のネットワークタブを確認し、送信されてくる各ファイルの中身を見ても、`password_digest`の情報はありません。
-* [Next.js useEffect](/users)の時は`/api/users`からのJSONレスポンスに`password_digest`が出てしまうように作ってありますので、ここから漏洩します。しかしこのようなAPIは注意深く設計されることがほとんどだと思いますので、問題にはなりにくいと考えられます。
+* [Next.js useEffect](/users)の時は`/api/users`からのJSONレスポンスに`password_digest`が出てしまうように作ってありますので、ここから漏洩します。しかしこのようなAPIはOpen APIでドキュメントをやり取りしながら、注意深く設計されることがほとんどだと思いますので、問題にはなりにくいと考えられます。
 * Next.js Pages
 routerの[SSG](/users_ssg)および[SSR](/users_ssr)の時は、最初にダウンロードされるHTMLファイル最下部の`script`タグ中に`password_digest`が漏洩します。これはhydration用のデータであり、HTMLに`password_digest`がレンダリングされるかどうかに関わらず含まれます。またページ遷移をするたびにダウンロードされるJSONファイルにも漏洩します。
 * [Next.js App routerのServer componentだけ](/users_app)を使っている場合は`password_digest`は漏洩しません。RSC
 payloadはHTMLにレンダリングされる内容しか含まないためです。しかしServer componentの中にClient
-componentを埋め込んでいる場合は[データが漏洩する可能性があります](https://zenn.dev/moozaru/articles/d270bbc476758e)ので、要注意です。
+componentを埋め込んでいる場合はそこがHydrationされますので、[データが漏洩する可能性があります](https://zenn.dev/moozaru/articles/d270bbc476758e)。要注意です。
 
+### セキュリティ対策 ===security-measures===
 
-Next.jsをセキュアにする場合は`User repository`のデータをそのままコンポーネントに渡さず、[Data Access
+Next.jsの場合は、コンポーネントに機密性のあるデータを渡さないことが対策になります。純粋なSPAのReactではサーバとブラウザが完全に別れており、セキュリティに注意しながらOpen API等でAPIを設計していました。APIで十分に気を使うことで、情報漏洩を防ぐことができました。
+
+しかしNext.jsのSSG/SSR、さらにRSCのおかげでサーバとブラウザの境界はより自由に行き来できるようになりました。**うっかりするとセキュリティに注意を払う場面がなくなりますので、あえてレイヤーを挟む対策などが有効です**。
+
+例えば`User repository`のデータをそのままコンポーネントに渡さず、[Data Access
 Layer](https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer)を作り、この中で権限に応じて必要なデータのみを含むDTO(Data
-Transfer Object)を作成することが公式ページで奨励されています。
+Transfer Object)を作成することがNext.jsの公式ページで奨励されています。
 Reactの方でも[React
 Taint API](https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#preventing-sensitive-data-from-being-exposed-to-the-client)で対策されていく見込みですが、ただしこれはどちらかというと注意喚起のメカニズムだけであり、対応は別途必要になりそうです。
 
-一方でHotwireの場合は、HTMLを出力するテンプレートファイル自身がこのようなData Access Layerの役割を果たしているとも言えます。実際、権限チェックなどはview Templateの中でやることが多いです。不要な情報が漏れ出ている場合は画面でもすぐに確認できますので、安全性が高いと言えます。
+一方でHotwireの場合は、HTMLを出力するテンプレートファイル自身がこのようなData Access Layerの役割を果たしているとも言えます。不要な情報が漏れ出ている場合は画面でもすぐに確認できますので、安全性が高いと言えます。
 
-結論としてMPAやTurbo Driveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです。
+結論として**MPAやTurbo Driveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです**。
 
 <div className="mt-12">
   <div className="w-max-[560px] flex justify-center">
