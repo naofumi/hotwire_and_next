@@ -33,8 +33,11 @@ export default function Layout({children, hideTechLabel, hideTopButton, showDela
 
         {hideTitle
           ? <span></span>
-          : <Link href="/" className="text-xl p-1 font-bold text-gray-400 hover:text-orange-600">Hotwire for Frontend
-            Developers</Link>}
+          : <div className="flex flex-col">
+            <Link href="/" className="text-xl p-1 font-bold text-gray-400 hover:text-orange-600">Hotwire for Frontend
+            Developers</Link>
+            <Link href="/delay_setter" className="mx-auto block btn-outline-primary text-xs !p-1">Set delay</Link>
+          </div>}
 
         {hideTechLabel
           ? <span></span>
