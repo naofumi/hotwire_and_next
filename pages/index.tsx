@@ -216,10 +216,7 @@ export default function IndexPage() {
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/api/hotwire/live_search"
                    className="btn-primary"
-                   data-turbo="false">Hotwire ライブ検索</a>
-                <a href="/live_search"
-                   className="btn-primary"
-                   data-turbo="false">React ライブ検索</a>
+                   data-turbo="false">ライブ検索</a>
               </div>
             </article>
 
@@ -235,10 +232,7 @@ export default function IndexPage() {
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/api/hotwire/address_selector"
                    className="btn-primary"
-                   data-turbo="false">Hotwire 住所入力UI</a>
-                <a href="/address_selector"
-                   className="btn-primary"
-                   data-turbo="false">Next 住所入力UI</a>
+                   data-turbo="false">住所入力UI</a>
               </div>
             </article>
           </div>

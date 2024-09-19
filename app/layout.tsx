@@ -4,7 +4,6 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import React from "react";
 import Banner from "@/components/Banner";
-import DelaySetter from "@/components/DelaySetter";
 
 export const metadata: Metadata = {
   title: "Next app | Hotwire for Frontend devs",
@@ -20,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
     <body>
-    <div className="bg-white flex justify-between p-1 items-start mx-4">
+    <div className="bg-white grid grid-cols-3 p-1 items-start mx-4">
       <Link href="/" className="text-xl rounded text-orange-600 flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
              stroke="currentColor" className="size-6">
@@ -33,7 +32,9 @@ export default function RootLayout({
           Developers</Link>
         <Link href="/delay_setter" className="mx-auto block btn-outline-primary text-xs !p-1">Set delay</Link>
       </div>
-      <div className="text-lg p-1 rounded bg-black text-white">Next.js App router</div>
+      <div>
+        <div className="w-fit ml-auto text-lg p-1 rounded bg-black text-white">Next.js App router</div>
+      </div>
     </div>
     <Banner/>
     {children}
