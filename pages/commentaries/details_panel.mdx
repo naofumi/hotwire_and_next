@@ -8,9 +8,9 @@ import detailsTurboframeImage from "@/public/images/details_panel_turboframes.we
 
 ## 別のTurbo Frameを更新するパターン ===turbo-frame-targeting-outside===
 
-Turboは`fetch`でサーバにリクエストを飛ばし、レスポンスを使ってページの部分置換をするライブラリです。Turbo Drive、Turbo Frames、Turbo Streamsの3種類がありますが、置換場所をどのように指定するかが異なります。
+Turboは`fetch`でサーバに非同期的にリクエストを飛ばし、レスポンスを使ってページの部分置換をするライブラリです。[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)、[Turbo Frames](https://turbo.hotwired.dev/handbook/frames)、[Turbo Streams](https://turbo.hotwired.dev/handbook/streams)の3種類がありますが、置換場所をどのように指定するかが異なります。
 
-[タブメニュー](/commentaries/tabbed_menus)では、**"Turbo Frames" > "トリガーを囲む`turbo-frame`タグ"を置換する** 仕組みを使いました。今回の詳細パネルでは、**"Turbo Frames" > "任意の`turbo-frame`タグ"を置換する** 仕組みを使用します。
+[タブメニュー](/commentaries/tabbed_menus)を実装したときは、**"Turbo Frames" > "トリガーを囲む`turbo-frame`タグ"を置換する** 仕組みを使いました。今回の詳細パネルでは、**"Turbo Frames" > "任意の`turbo-frame`タグ"を置換する** 仕組みを使用します。
 
 <div className="mt-8 flow-root">
   <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

@@ -121,7 +121,7 @@ export default function IndexPage() {
                 詳細パネル: Turbo Frames
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                リスト項目を選択して、その詳細をパネルに表示するUIです。メールアプリなどでよく見かけるタイプのUIです。タブメニューとよく似ていますが、サーバから読み込んだ内容が、リンクがあったところとは別の場所に埋め込まれる点が異なります。
+                リスト項目を選択して、その詳細をパネルに表示するUIです。メールアプリなどでよく見かけるタイプのUIです。タブメニューとよく似ていますが、画面上で離れている要素どうしが連携する点が異なります。
               </p>
               <div className={`text-center my-12 text-xl tracking-wider`}>
                 <StyledLink href="/commentaries/details_panel">
