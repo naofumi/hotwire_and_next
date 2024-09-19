@@ -4,11 +4,13 @@ import Image from "next/image"
 import tabelogImage from "@/public/images/tabbed_tabelog.webp"
 import turbodriveImage from "@/public/images/tabbed_turbodrive.webp"
 import turboframesImage from "@/public/images/tabbed_turboframes.webp"
-
+import tabsNoJs from "@/public/images/tabs-no-js.webp"
+import tabsTurboFrames from "@/public/images/tabs-turbo-frames.webp"
+import tabsParallelRoutes from "@/public/images/tabs-parallel-routes.webp"
 
 ## タブメニューはTurbo Framesで作ることが多い ===create-tabbed-menus-with-turbo-frames===
 
-他にも作り方はありますが、タブメニューは[Turbo Frames](https://turbo.hotwired.dev/handbook/frames)で作ることが多いです。Turbo Frames入門としては最適なUI要素です。
+タブメニューは[Turbo Frames](https://turbo.hotwired.dev/handbook/frames)で作ることが多いです。Turbo Frames入門としては最適なUI要素です。
 
 まずタブメニューの作る方に入る前に、Turbo Framesについて概略を説明します。
 
@@ -96,12 +98,15 @@ MPA流のタブメニューは[ここでお試しいただけます](/api/hotwir
 
 例えば[食べログ](https://tabelog.com)のサイトでも、このようなMPA流のタブメニューが今でも現役です。別の問題としてページの読み込みが非常に遅いのが気になりますが、UX的には十分に優れたものになります。
 
-<figure className="mt-4">
+<figure className="my-4">
   <figcaption className="font-bold">食べログのサイトのタブメニュー</figcaption>
   <Image src={tabelogImage} alt="tabelog tabs"></Image>
 </figure>
 
-
+<figure className="my-4">
+  <figcaption className="font-bold">ファイル・フォルダ構成は下記のようになります</figcaption>
+  <Image src={tabsNoJs} alt="Tabs No JS" />
+</figure>
 
 ## Turbo Driveによるタブメニューの作り方 ===tabs-turbodrive===
 
@@ -116,7 +121,7 @@ Turbo Driveによるタブメニューは[ここでお試しいただけます](
 * **Search** のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を置換する時にこのフィールドも丸ごと置換されるためです。
 * なお、今回は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)で画面全体が置換されると説明していますが、実は[Morphing](https://turbo.hotwired.dev/handbook/page_refreshes)を使うと、置換するのではなく差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、[Reactに近い感じの更新](https://ja.react.dev/learn/preserving-and-resetting-state)を可能にするもので、かなり強力なものです。
 
-<figure className="mt-6">
+<figure className="my-4">
   <figcaption className="font-bold">Turbo Driveによるタブメニュー</figcaption>
   <Image src={turbodriveImage} alt="turbodrive image"></Image>
 </figure>
@@ -140,7 +145,7 @@ Framesの外にあります（下図）。タブが切り替わっても、Searc
 
 Turbo Framesによるタブメニューの作り方はごく簡単です。まずは[Turbo Driveのバージョン](/commentaries/tabbed_menus#tabs-turbodrive)から出発します。そして、どこをTurbo Framesで囲むかを決めます。今回はSearchのテキスト入力フィールドの下のところからテーブルの最後までを囲むことにします。
 
-<figure className="mt-4">
+<figure className="my-4">
   <figcaption className="font-bold">Turbo Framesによるタブメニュー</figcaption>
   <Image src={turboframesImage} alt="turbo frames image"></Image>
 </figure>
@@ -242,6 +247,12 @@ Turbo Frameリクエストの場合は、HTTPヘッダー`Turbo-Frame`が送ら�
 </turbo-frame>
 ```
 
+<figure className="my-4">
+  <figcaption className="font-bold">ファイル・フォルダ構成は下記のようになります</figcaption>
+  <Image src={tabsTurboFrames} alt="Tabs Turbo Frames" />
+</figure>
+
+
 
 
 ## 一般的なReactとの比較 ===tabs-comparison-with-react===
@@ -278,9 +289,14 @@ LayoutやParallel Routesを使うと、Client Componentを使わずにServer Com
 
 また[Parallel Routesを使った場合のコード](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)の特徴は以下の通りです。
 
-* [厳密に役割が規定されたフォルダとファイルを適切に配置](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)する必要があるので、[Turbo Frames](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)を使った場合や[useEffectを使った場合](https://github.com/naofumi/hotwire_and_next/tree/main/pages/tabbed_segments)と比べて複雑になっています
+* [厳密に役割が規定されたフォルダとファイルを適切に配置](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)する必要があるので、[Turbo Frames](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)を使った場合や[useEffectを使った場合](https://github.com/naofumi/hotwire_and_next/tree/main/pages/tabbed_segments)と比べて学習コストが高いと感じます
 
-個人的には、随分と大袈裟で複雑なことをするなぁと感じます。Client Componentで`useState`、`useEffect`を使ってもUX上のメリットがありませんので、わざわざParallel Routesを使う動機は弱いと感じています。
+個人的には、随分と大袈裟なことをするなぁと感じます。タブは大小のものがありますし、厳密にURLと結びつく必要がありません。ルーティングと強く結びつくServer Componentとの相性の悪さを感じます。Client Componentで`useState`、`useEffect`を使った場合と比較して、UX上のメリットがありませんので、わざわざParallel Routesを使う動機は弱いと感じています。
+
+<figure className="my-4">
+  <figcaption className="font-bold">ファイル・フォルダ構成は下記のようになります</figcaption>
+  <Image src={tabsParallelRoutes} alt="Tabs Parallel Routes" />
+</figure>
 
 ## タブメニューのまとめ ===tabs-summary===
 
