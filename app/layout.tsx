@@ -20,11 +20,18 @@ export default function RootLayout({
     <html lang="ja">
     <body>
     <div className="bg-white flex justify-between p-1 items-start mx-4">
-      <Link href="/" className="text-xl rounded text-orange-600">Top</Link>
-      <Link href="/" className="text-xl p-1 font-bold text-gray-400 hover:text-orange-600">Hotwire for Frontend Developers</Link>
+      <Link href="/" className="text-xl rounded text-orange-600 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+             stroke="currentColor" className="size-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+        </svg>
+        <span>Top</span>
+      </Link>
+      <Link href="/" className="text-xl p-1 font-bold text-gray-400 hover:text-orange-600">Hotwire for Frontend
+        Developers</Link>
       <div className="text-lg p-1 rounded bg-black text-white">Next.js App router</div>
     </div>
-    <Banner />
+    <Banner/>
     {children}
     <Footer />
     </body>

@@ -20,20 +20,19 @@ export default function IndexPage() {
             <h2
               className="mt-4 text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">フロントエンドエンジニアのためのHotwire入門</h2>
             <H2WithHash id="hotwire-vs-nextjs">
-              Hotwire vs. Next.js
+              HotwireとNext.jsを見て比よう
             </H2WithHash>
             <p className="text-left mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600">
-              本サイトでは、<strong>React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に</strong>、実際に動くコードを体感しながらHotwireとReact/Next.jsを比較します。
+              本サイトでは、React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に、<strong>実際に動くコードと実際に動くデモ</strong>を体感しながらHotwireとReact/Next.jsを比較します。
             </p>
             <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">
-              「Hotwireは簡単だけど、React/Next.jsの方が優れたUI/UXが作れる」という声をよく聞きます。しかし私はフレームワークではなく、デザイナーとエンジニアのスキルと本気度が最重要だと思っています。<strong>HotwireでもNext.jsと同等か、それ以上のUI/UXが実現できる</strong>ことを本サイトで実証したいと思っています。
+              「Hotwireは簡単だけど、React/Next.jsの方が優れたUI/UXが作れる」という声をよく聞きます。しかし私はフレームワークではなく、デザイナーとエンジニアのスキルと本気度が最重要だと思っています。<strong>本気さえあればHotwireでもNext.jsと同等か、それ以上のUI/UXが実現できる</strong>ことを本サイトで実証したいと思っています。
             </p>
             <p className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">
               「HotwireはRails専用じゃないの？」と思っている方も多いと思いますが、実は<strong>Hotwireはバックエンド非依存です</strong>。Rails,
               Laravel, Django, Nodeでも関係なく動きます。
               <strong>このサイトもHotwireをNext.js上で動かしていて</strong>、すべてJavaScript
-              (TypeScript)で書かれています。Railsは一切使っていません。
-              JavaScriptさえわかれば簡単にコードを追うことができます。</p>
+              (TypeScript)で書かれています。Railsは一切使っていません。</p>
             <p
               className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">本サイトのコードは<StyledLink
               href="https://github.com/naofumi/hotwire_and_next">GitHub</StyledLink>に公開しています。また<StyledLink
@@ -48,7 +47,7 @@ export default function IndexPage() {
 
             <div className="mt-6">
               <div className="w-max-[560px] flex justify-center">
-                <iframe className="aspect-video" src="https://www.youtube.com/embed/fzd8Xn18eFw?si=SNmev3E43NsgTYFl"
+                <iframe className="aspect-video" width="560" height="315" src="https://www.youtube.com/embed/fzd8Xn18eFw?si=SNmev3E43NsgTYFl"
                         title="YouTube video player" frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
