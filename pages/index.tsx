@@ -20,7 +20,7 @@ const chapterHeaders = [
 
 export default function IndexPage() {
   return (
-    <Layout hideTechLabel={true} hideTopButton={true} showDelaySetter={true}>
+    <Layout hideTechLabel={true} hideTopButton={true} hideTitle={true} showDelaySetter={true}>
       <Head>
         <title>Hotwire for Frontend devs</title>
       </Head>

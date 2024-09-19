@@ -9,7 +9,7 @@ export default function DelaySetterPage() {
     router.back()
   }
 
-  return <Layout>
+  return <Layout hideTitle={true}>
     <div className="text-center">
       <h1 className="mt-16 text-3xl font-bold tracking-tight text-gray-900">Delay Setter</h1>
       <div className="mt-16">

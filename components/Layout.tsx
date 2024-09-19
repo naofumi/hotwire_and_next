@@ -6,15 +6,14 @@ import Footer from "@/components/Footer";
 import Banner from "@/components/Banner";
 import DelaySetter from "@/components/DelaySetter";
 
-export default function Layout({children, hideTechLabel, hideTopButton, showDelaySetter, hideLoadingIndicator}: {
+export default function Layout({children, hideTechLabel, hideTopButton, hideTitle, showDelaySetter, hideLoadingIndicator}: {
   children: React.ReactNode,
   hideTechLabel?: boolean,
   hideTopButton?: boolean,
+  hideTitle?: boolean,
   showDelaySetter?: boolean,
   hideLoadingIndicator?: boolean,
 }) {
-  const hideTitle = hideTopButton ? true : false;
-
   return (
     <LoadingIndicator hideLoadingIndicator={hideLoadingIndicator}>
       <Head>
