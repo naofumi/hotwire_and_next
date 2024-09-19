@@ -1230,6 +1230,10 @@ select {
   width: fit-content;
 }
 
+.w-32 {
+  width: 8rem;
+}
+
 .\!min-w-64 {
   min-width: 16rem !important;
 }
@@ -1246,12 +1250,32 @@ select {
   max-width: 80rem;
 }
 
+.flex-none {
+  flex: none;
+}
+
 .shrink {
   flex-shrink: 1;
 }
 
+.shrink-0 {
+  flex-shrink: 0;
+}
+
 .grow {
   flex-grow: 1;
+}
+
+.basis-7 {
+  flex-basis: 1.75rem;
+}
+
+.basis-32 {
+  flex-basis: 8rem;
+}
+
+.basis-48 {
+  flex-basis: 12rem;
 }
 
 .translate-x-12 {

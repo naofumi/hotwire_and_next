@@ -26,10 +26,10 @@ export default function Layout({
       <Head>
         <title>Hotwire for Frontend devs</title>
       </Head>
-      <div className="bg-white grid grid-cols-3 p-1 items-start mx-4">
+      <div className="bg-white flex p-1 items-start mx-4">
         {hideTopButton
-          ? <span></span>
-          : <Link href="/" className="text-xl p-1 text-orange-600 flex items-center">
+          ? <span className="flex-none basis-48"></span>
+          : <Link href="/" className="flex-none basis-48 text-xl p-1 text-orange-600 flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                  stroke="currentColor" className="size-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
@@ -38,17 +38,17 @@ export default function Layout({
           </Link>}
 
         {hideTitle
-          ? <span></span>
-          : <div className="flex flex-col">
+          ? <span className="grow"></span>
+          : <div className="text-center grow flex flex-col">
             <Link href="/" className="text-xl p-1 font-bold text-gray-400 hover:text-orange-600">Hotwire for Frontend
               Developers</Link>
             <Link href="/delay_setter" className="mx-auto block btn-outline-primary text-xs !p-1">Set delay</Link>
           </div>}
 
         {hideTechLabel
-          ? <span></span>
-          : <div>
-            <div className="w-fit ml-auto text-lg p-1 rounded bg-black text-white">
+          ? <span className="flex-none basis-48"></span>
+          : <div className="flex-none basis-48 flex justify-end">
+            <div className="text-lg p-1 rounded bg-black text-white">
               Next.js Pages router
             </div>
           </div>}
