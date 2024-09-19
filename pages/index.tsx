@@ -41,12 +41,12 @@ export default function IndexPage() {
               HotwireとNext.jsをちゃんと見て比較しよう
             </H2WithHash>
             <p className="text-left mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600">
-              本サイトでは、React/Next.jsをすでに理解しているフロントエンドエンジニアを対象に、<strong>実際に動くコードと実際に動くデモ</strong>を体感しながらHotwireとReact/Next.jsを比較します。
+              本サイトでは、React/Next.jsに詳しいフロントエンドエンジニアを対象に、<strong>実際に動くコードと実際に動くデモ</strong>を体感しながら <strong>HotwireとReact/Next.jsを比較します</strong>。
             </p>
 
             <div className="text-left mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600">
               <ul className="ml-4 my-4 space-y-2 ">
-                <li>HotwireでもNext.jsと同等か、それ以上のUI/UXが実現できます。「Hotwireは簡単だけど、React/Next.jsの方が優れたUI/UXが作れる」というのは誤解です</li>
+                <li>HotwireでもNext.jsと同等か、それ以上のUI/UXが実現できます。「Hotwireは簡単だけど、React/Next.jsの方が優れたUI/UXが作れる」というのは、かなり特殊なものでない限りは誤解です</li>
                 <li>Hotwireはバックエンド非依存です。Rails, Laravel, Django, Nodeでも関係なく動きます。実際、本サイトはHotwireをNext.js API Routesで動いています</li>
               </ul>
             </div>
