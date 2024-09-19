@@ -1,0 +1,104 @@
+import CommentaryLayout from "../../components/CommentaryLayout";
+import MDXRenderer from "../../components/MDXRenderer";
+import Image from "next/image"
+
+## CSR, SSR, SPA, MPA ===csr-ssr-spa-mpa===
+
+主にNext.jsによって一般的になった用語かと思いますが、人によって使い方がまちまちだという印象を持っています。私は下記のように定義して使用しています。この使い方が最も[MECE(漏れなく・ダブりなく)](https://ja.wikipedia.org/wiki/MECE)になと思っていて、気に入っています。
+
+私は２つの軸を使って、下記の表のように分類しています。
+
+<div className="mt-8 flow-root">
+  <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <table className="min-w-full divide-y divide-gray-300">
+        <caption className="caption-top text-left font-bold">CSR, SSR, MPA, SPAの定義</caption>
+        <thead>
+        <tr>
+          <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">技術</th>
+          <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">名前</th>
+          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">どこでRenderingされるか？</th>
+          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">ページ間でメモリは維持されるか？</th>
+        </tr>
+        </thead>
+        <tbody className="bg-white whitespace-nowrap">
+        <tr className="even:bg-gray-50">
+          <td className="px-3 py-4 text-sm text-gray-500">CSR</td>
+          <td className="px-3 py-4 text-sm text-gray-500">Client-Side Rendering</td>
+          <td className="px-3 py-4 text-sm text-gray-500">ブラウザ</td>
+          <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="px-3 py-4 text-sm text-gray-500">SSR</td>
+          <td className="px-3 py-4 text-sm text-gray-500">Server-Side Rendering</td>
+          <td className="px-3 py-4 text-sm text-gray-500">サーバ</td>
+          <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="px-3 py-4 text-sm text-gray-500">SPA</td>
+          <td className="px-3 py-4 text-sm text-gray-500">Single-Page Application</td>
+          <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
+          <td className="px-3 py-4 text-sm text-gray-500">維持される</td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="px-3 py-4 text-sm text-gray-500">MPA</td>
+          <td className="px-3 py-4 text-sm text-gray-500">Multi-Page Application</td>
+          <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
+          <td className="px-3 py-4 text-sm text-gray-500">維持されない</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+この分類をすると、例えば以下のケースもCSR, SSR, SPA, MPAの用語で解説できます。
+
+* SSG (Static-Site Generation)はSSRの１例として解釈されます。サーバからブラウザに送られるのはHTMLファイルであるため、サーバでレンダリングされたと考えるためです。またNext.jsのISR (Incremental Static Generation)も同様にSSRの１例として考えます
+* Ruby on Rails, PHP, DjangoなどのHTMLテンプレートを使ったウェブページもSSRの１例として解釈されます。HTMLがサーバでレンダリングされるためです
+* なお、SSRにはHydrationが必要だと考える人を見かけます。しかしHydrationはReact等のSSRにおいて、一旦サーバから送信されたHTMLをブラウザ画面に表示されたのち、裏でブラウザがレンダリングを再実行して`ReactNode`ツリーを作成し、これをDOMに繋げていく作業です。Rails, PHP, DjangoのHTMLテンプレートではそもそも必要がない工程です。したがって、このステップの有無は考慮しません
+* ReactでSSRを行った場合、Hydrationをしないとページはインタラクティブになりません。つまりクリック等に反応しません(onclick等を使った場合)。インタラクティブではないページは本来のウェブページではないので、単なるプレビューと考えることができます。あるいは実際のページにそっくりのローディング画面と見ることもできます。HydrationはReact SSRでは必須ですが、HydrationステップはCSRとほぼ同じことをします。つまりSSRをやりつつ裏でCSRを実施するのがReactのSSRであり、純粋なSSRではないといえます。
+* React Server ComponentsはRSC payloadと呼ばれるものをサーバからブラウザに送ります。これはHTMLにかなり近いものです。したがってSSRの１例と捉えるのが良いと考えています。React Server ComponentはHydrationがなくても`a`タグや`form`タグが動作しますので、Hydrationが不要なSSRという意味ではRuby on RailsはPHPのSSRと近い位置付けになります
+* [Create React App](https://create-react-app.dev/)で作成されるような伝統的なReactアプリはCSRになります。サーバから送信されるのはJSONだけであり、HTMLの作成はブラウザが担当するからです
+* 同じようにNext.jsでSSG/SSRを行った場合の２ページ目以降の画面遷移はCSRです。２ページ目以降を表示するときはサーバからHTMLは送られず、JSONだけが送られるためです。つまり初回ロードがSSRで２ページ目以降はCSRとなります
+* 伝統的なReactアプリはCSRであり、かつSPAです。[React Router](https://reactrouter.com/en/main)等で画面遷移機能をつけることはできますが、その場合もメモリ上に展開されたJavaScriptやCSSは削除されず、遷移先のページでもそのまま利用されます。そのためSPAに分類されます
+* Reactアプリであり、CSRであっても、MPAというサイトはたくさんあります。例えば[Apple Store](https://www.apple.com/jp/shop/buy-iphone/iphone-15)はReactで作成されていて、JavaScriptをオフにすると正しく表示されません。つまりCSRが必須になっています。一方で画面遷移するときにメモリ上のJavaScriptとCSSは全て削除され、古いページが完全に消されてから新しいページに切り替わります。これはブラウザのローダーアニメーションおよびネットワークタブから確認できます。多くのJavaScriptを使ってリアクティブにしたいページだけはReactを使い、その他はReactなしで書くケースはこの使い方をします。
+* Turbo DriveはSSRであり、かつSPAです。２ページ目以降の画面遷移の際はSPA的に画面が切り替わります。つまり初回ロード時のJavaScriptもCSSもメモリ上に保持したまま、２ページ目以降もそのまま使います。一方でサーバから送られてくるのはHTMLなので、レンダリングはサーバで行われており、SSRです。
+
+このように各フレームワークはCSR, SSR, SPA, MPAを複雑に組み合わせた形をとっており、これを利用する各ウェブサイトも目的に応じて使い分けています。「フレームワークAはSSRだ」と綺麗に分けることは難しいです
+
+私がCSR, SSR, SPA, MPAをそれぞれ言葉通りに解釈し、技術の特徴を規定するのではなく、単に表現するツールとして、MECE的に使用するのはこのためです。
+
+
+## レンダリング ===rendering===
+
+[「レンダリング」は一般には画像、映像、音声が出力される処理を指す](https://e-words.jp/w/レンダリング.html)が、特にReact SPAの場合はこの意味で使われていません。Reactの場合はデータが画面に表示されるまでの工程が複雑ですので、先にこれを解説します。
+
+1. 画面に表示されるべきデータがJSON等の形式で取得される
+2. JSONのデータがコンポーネント関数により、`ReactNode`のツリーに変換される
+3. `ReactNode`のツリーとブラウザのDOM (画面に表示されているもの)が[比較され](https://legacy.reactjs.org/docs/reconciliation.html)、差分がブラウザDOMに書き込まれる
+4. DOMがブラウザに表示される
+
+一般的な用法により近いのは4.のステージだと思いますが、Reactの世界では主に2.のステージを指しているように思います。そこで**本サイトでも2.の意味で使用します**。ただし`ReactNode`だけでなく、HTMLとしての出力もレンダリングと考えますし、React Server ComponentsのRSC Payloadの出力もレンダリングと考えています。広義にはブラウザDOMに反映する直前の状態がレンダリングだと考えています。
+
+## 非同期通信
+
+ウェブの「非同期通信」もまた明確な定義がない言葉です。ウェブを検索すると色々なものが出てきます。
+
+1. サーバと通信中にユーザが別の操作ができること
+2. 画面の遷移がないこと
+
+しかしReact Routerを使ったSPAでは、`XMLHttpRequest`や`fetch`を使って画面全体を遷移させますし、また画面いっぱいにローダーをすぐに出しますので、ユーザは別の操作ができません。`XMLHttpRequest`や`fetch`の使い方が多様になっていますので、UI/UX視点で定義するのは不可能に思われます。
+
+本サイトでは「非同期通信」は旧ページのJavaScriptやCSSをメモリから全て消すかどうか、それとも新ページを表示するときもメモリ上の同じJavaScriptやCSSを引き継ぐかどうかだけを基準にして考えています。つまりSPAとMPAの区別と同じように考えています。
+
+
+
+export default function ({children}) {
+  return <CommentaryLayout
+    title="Glossary"
+    subtitle="言葉の定義"
+    section="Appendix">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}
