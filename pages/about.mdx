@@ -32,7 +32,7 @@ Hotwireおよびその前身の技術([TurboLinks](https://github.com/turbolinks
 
 Hotwireは以下の３つのパーツから構成されています。
 
-* **Turbo:** [Turbo](https://turbo.hotwired.dev)はサーバにレクエストを投げて、返ってきたHTMLをDOMに埋め込むためのライブラリです。いわゆる非同期通信(AJAX)を担当します。大きな特徴はJSONを介して通信をせず、敢えてHTMLのみを使う点です。**HTMLのみの通信により、ブラウザ側の処理を大幅に簡略化しています**。Turbo自身はさらにTurbo Drive, Turbo Frames, Turbo Streamsに分かれています。<br />
+* **Turbo:** [Turbo](https://turbo.hotwired.dev)はサーバにリクエストを投げて、返ってきたHTMLをDOMに埋め込むためのライブラリです。いわゆる非同期通信(AJAX)を担当します。大きな特徴はJSONを介して通信をせず、敢えてHTMLのみを使う点です。**HTMLのみの通信により、ブラウザ側の処理を大幅に簡略化しています**。Turbo自身はさらにTurbo Drive, Turbo Frames, Turbo Streamsに分かれています。<br />
 （Turbo以前のRailsでは[サーバからJavaScriptを返す](https://signalvnoise.com/posts/3697-server-generated-javascript-responses)ことが一般的で、Turboよりむしろ遥かに柔軟性がありました。この柔軟さを捨てて、シンプルさを優先したのがHotwireと言えます）
 * **Stimulus:** [Stimulus](https://stimulus.hotwired.dev)はHTMLを新たにレンダリングするのではなく、すでにあるHTMLにJavaScriptを結びつけることに注力しています。再利用可能なControllerというまとまりを作ることで、イベントハンドラのスパゲッティを避けています
 * **Strada:** [Strada](https://strada.hotwired.dev)はWebとiOS,
