@@ -81,17 +81,31 @@ Turboは上記のたった３つのパーツしかないのですが、実際に
 * **セキュリティが高い:** レンダリング済みのHTMLのみをブラウザに送信するので、誤ってプライベートな情報を漏洩する心配がありません。例えば秘密キーをブラウザに預ける必要がなく、またJSON APIに機密情報を流してしまうこともありません。詳しくは[ページ遷移の解説](/commentaries/page_transitions)で議論しています。
 
 
+## Hotwireのステート管理 ===hotwire-state-management===
+
+Reactの世界ではuseStateに始まり、Reduxに至るまで、ステート管理が非常に大きなトピックになっています。ここではHotwireにおけるステートの一般的な考え方について紹介します。
+
+* **Reactは単方向データフロー(one-way data flow):** Reactでは単方向データフローが非常に重要な概念です。全てはステートから始まり、親コンポーネントから子コンポーネントにステートを渡しながら画面がレンダリングされます。ステートは各コンポーネントが`useState`で保持したり、あるいはグローバルに`useContext`やReduxなどを使って保持されます。ユーザの操作等によって画面の複数箇所が同時に更新され、さらに操作をする箇所が多く、複雑なアプリにおいてはこれは非常に有効なコンセプトです
+* **Turboはサーバにステート管理を任せます:** HotwireのTurboはサーバにステートを持たせ、同じものはブラウザでは持たないという考え方です。HTMLはサーバでレンダリングされますので、ブラウザに送られてくる必要がありません。またHTML `form`によってサーバにデータを送信する場合も、`form`自身がネイティブに保有するステート管理に任せます。Reactのように`form`の状態をステートに持たせ、それをJSONに変換してサーバに送ることをしません。`form`のネイティブな動作に任せ、`application/x-www-form-urlencoded`形式でサーバに送ります。その一方で積極的にキャッシュを行い、ネットワーク通信による遅延を最小化する仕組みを各種用意しています。
+* **Stimulusはブラウザ内のステートを管理します:** HotwireのStimulusはブラウザのみが保有し、サーバと共有されないステートを管理します。例えばアコーディオンやプルダウンメニューの開閉状態がこれに相当します。簡単なステートの場合は、敢えてステートを別個に保持せずに、DOMに加えた変更そのものをステートとします。例えば開閉状態を示す`opened` CSSクラス、あるいは`aria="busy"`などを使います。より複雑なステートを扱う場合は[StimulusのValues](https://stimulus.hotwired.dev/reference/values)を使用します。これはHTML要素の`data-*`属性に書き込まれて保持されます(Object型のデータも保持可能)。また[change callback](https://stimulus.hotwired.dev/reference/values#change-callbacks)が用意されていますので、Stimulus Valuesに加えた変更が自動的にHTML要素に反映される仕組みが作れます。例えば[Chart.js](https://www.chartjs.org)のグラフをStimulus Values経由で管理すると便利です
+
+このようにHotwireのステート管理の考え方は、サーバが持つべきものはTurbo経由でサーバに持たせ、ブラウザが持つべきものはある程度複雑なものまでStimulusで処理するというものです。Stimulusの担当範囲は"sprinkles of JavaScript"(「軽く撒いたJavaScript」)と呼ばれます。それ以上のものが必要な場合は別の技術に委ねます。
+
 
 ## 本サイトの構成 ===structure-of-this-site===
 
-* 本サイトのコードはすべて[GitHub](https://github.com/naofumi/hotwire_and_next)に公開しています。また[Vercel](https://hotwire-and-next.vercel.app)でデプロイしています。コードをGitHubで確認しながら、UXをデプロイ先サイトで確認すると理解が深まるのではないかと思います。
+* 本サイトのコードはすべて[GitHub](https://github.com/naofumi/hotwire_and_next)に公開しています。また[Vercel](https://hotwire-and-next.vercel.app)でデモ用にデプロイしています。コードをGitHubで確認しながら、UXをデモで確認すると理解が深まるのではないかと思います。
 * **HotwireはEJS:** Hotwireはバックエンド技術非依存なので、HTMLが出力できればどこでも動きます。本プロジェクトでは **Next.js pages router** の[API
   routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)から **HTMLをレスポンスとして返しています** (`/api/hotwire/`配下)。
 テンプレートエンジンは[EJS](https://ejs.co)を使っています。Hotwireの構成要素である[Turbo](https://turbo.hotwired.dev/handbook/installing)と[Stimulus](https://stimulus.hotwired.dev/handbook/installing)はそれぞれbuild済みのものをダウンロードし、`public/hotwire/javascript`に配置しています。
 またCSSは[Tailwind](https://tailwindcss.com)を使用しています。
 * **ReactはNext.js pages router:** Hotwireと比較するためのReact側は、目まぐるしく変わるフロントエンド開発環境の中でも、比較的頻繁に見られる技術を選定しました。
-    * フレームワークはNext.jsを使用しています。ただしまた[app router](https://nextjs.org/docs/app)はまだ使用しているプロジェクトが少ないと考え、[pages router](https://nextjs.org/docs/pages)を中心に作成しています。ただし一部app routerと比較したいケースの時はこれも使っています。
-    * 内容が頻繁に更新されるウェブアプリ（例えば業務アプリや管理画面、注文予約アプリなど）を想定しているため、古いデータが表示されたままになってしまうタイプのキャッシュは使用していません。特にapp routerを使っている時は[Route Cache](https://nextjs.org/docs/app/building-your-application/caching#router-cache)、[Full Route Cache](https://nextjs.org/docs/app/building-your-application/caching#full-route-cache)、[Data Cache](https://nextjs.org/docs/app/building-your-application/caching#data-cache)は[オフにしています](https://nextjs.org/docs/app/building-your-application/caching#segment-config-options)。
+    * フレームワークはNext.jsを使用しています。ただし[app router](https://nextjs.org/docs/app)はまだ使用しているプロジェクトが少ないと考え、[pages router](https://nextjs.org/docs/pages)を中心に作成しています。ただし一部app routerと比較したいケースの時はこれも使っています。
+    * 内容が頻繁に更新されるウェブアプリ（例えば業務アプリや管理画面、注文予約アプリ、プロジェクト管理アプリなど）を想定しているため、古いデータが表示されたままになってしまうタイプのキャッシュは使用していません。特にapp routerを使っている時は[Route Cache](https://nextjs.org/docs/app/building-your-application/caching#router-cache)、[Full Route Cache](https://nextjs.org/docs/app/building-your-application/caching#full-route-cache)、[Data Cache](https://nextjs.org/docs/app/building-your-application/caching#data-cache)は[オフにしています](https://nextjs.org/docs/app/building-your-application/caching#segment-config-options)。
+* **Next.jsはBFFとして使われている想定:** 一貫性を持たせるために、システムは下記の構成になっていると想定しています。
+    * Hotwire側はHTMLを出力するサーバを想定しています。Ruby on RailsでERBを使ったり、LaravelでBladeを使ったりするタイプを考えています。したがってエンドポイントが直接データベースにアクセスし、データを取得する構成です。
+    * Next.js側がBFF(Backend-for-Frontend)として使われることを想定しています。Next.jsから直接データベースにアクセスするのではなく、別途バックエンドのAPIサーバがあり、そこを介してデータを取得する構成です。したがってPages router、API routerのコンポーネントは直接データベースにアクセスせず、常にfetchを使ってデータを取得します。
+* **データベースは使用しない:** デモサイトの運用を考えて、実際にはデータベースを使っていません。システムのメモリやCookie等に持たせています。
 * **遅延:** 高速なサイトだとどんなフロントエンド技術を使ってもサクサク動いてしまいます。何をやっても非常に快適になってしまい、技術の違いが見えなくなります。そこで本サイトではあえて数百msの遅延を入れています（例示しない内容に応じて増やしています）。ただし静的なファイルやNext.jsのSSGなど、一般にCDNの載せるようなものについては遅延を入れていません。
 
 
