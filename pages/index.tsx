@@ -129,7 +129,7 @@ export default function IndexPage() {
                 </StyledLink>
               </div>
               <div className="mt-10 flex items-center justify-center gap-x-6">
-                <a href="/details_panel"
+                <a href="/api/hotwire/details_panel"
                    className="btn-primary"
                    data-turbo="false">詳細パネルUI</a>
               </div>
@@ -149,11 +149,6 @@ export default function IndexPage() {
                 <StyledLink href="/commentaries/loading_animations">
                   解説はこちら...
                 </StyledLink>
-              </div>
-              <div className="mt-10 flex items-center justify-center gap-x-6">
-                <a href="/popup"
-                   className="btn-primary"
-                   data-turbo="false">ポップアップUI</a>
               </div>
             </article>
 
@@ -175,7 +170,7 @@ export default function IndexPage() {
                 </StyledLink>
               </div>
               <div className="mt-10 flex items-center justify-center gap-x-6">
-                <a href="/modal"
+                <a href="/api/hotwire/modal_w_js"
                    className="btn-primary"
                    data-turbo="false">モーダルUI</a>
               </div>
@@ -190,7 +185,7 @@ export default function IndexPage() {
                 Framesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
-                <a href="/popup"
+                <a href="/api/hotwire/popup_stimulus"
                    className="btn-primary"
                    data-turbo="false">ポップアップUI</a>
               </div>
