@@ -1,0 +1,25 @@
+import CommentaryLayout from "../../components/CommentaryLayout";
+import MDXRenderer from "../../components/MDXRenderer";
+import Image from "next/image"
+
+## 人間の頭脳の讃歌 ===eulogy-for-the-human-brain===
+
+## UI/UXは垂直統合が必要 ===eulogy-for-the-human-brain===
+
+* UI/UXデザイナーが設計をして、下に流すモデルでは無理
+* UI/UXデザイナーは上から下まで知っていないといけない
+
+## UI/UXからデータモデルまでは一人の頭に入らないといけない
+
+## 技術のところは技術だけで圧縮できる
+
+ソフトウェア開発は人間と接する部分を増やさないといけない
+
+export default function ({children}) {
+  return <CommentaryLayout
+    title="Why Did I Create This Site?"
+    subtitle="どうしてこのサイトをつくったか？"
+    section="Opinions">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}
