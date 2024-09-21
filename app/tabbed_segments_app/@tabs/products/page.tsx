@@ -1,7 +1,6 @@
 import Tabs from "@/app/tabbed_segments_app/components/Tabs";
 import React, {Suspense} from "react";
 import {Product} from "@/repositories/product";
-import Link from "next/link";
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0

@@ -1,5 +1,4 @@
 import React, {ReactNode} from "react";
-import Link from "next/link";
 import TabbedSegmentTechNav from "@/components/tabbed_segments/TabbedSegmentTechNav";
 
 export default function TabbedSegmentsLayout(

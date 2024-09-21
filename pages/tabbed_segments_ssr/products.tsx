@@ -14,8 +14,6 @@ export async function getServerSideProps() {
 }
 
 export default function TabbedSegmentsIndexPage({products}: {products: Product[]}) {
-  const [selectedTab, setSelectedTab] = useState<number>(0)
-
   return (
     <Layout>
       <div className="bg-white">

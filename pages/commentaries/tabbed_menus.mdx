@@ -8,21 +8,22 @@ import tabsNoJs from "@/public/images/tabs-no-js.webp"
 import tabsTurboFramesIMage from "@/public/images/tabs-turbo-frames.webp"
 import tabsParallelRoutesImage from "@/public/images/tabs-parallel-routes.webp"
 import interactiveUisImage from "@/public/images/interactive-uis.webp"
+import driveFramesStreamsServerPerspectiveImage from "@/public/images/drive-frames-streams-server-perspective.webp";
 
 ## タブメニューはTurbo Framesで作ることが多い ===create-tabbed-menus-with-turbo-frames===
 
-タブメニューは[Turbo Frames](https://turbo.hotwired.dev/handbook/frames)で作ることが多いです。Turbo Frames入門としては最適なUI要素です。
+タブメニューは[Turbo Frames](https://turbo.hotwired.dev/handbook/frames)で作ることが多く、Turbo Frames入門としては最適なUI要素だと私は思います。
 
-まずタブメニューの作る方に入る前に、Turbo Framesについて概略を説明します。
-
-
+まずタブメニューの作る方に入る前に、Turbo Framesの概略を説明します。
 
 ## Turboの序列を考える ===turbo-ranking===
+
+Turboが[Turbo Drive, Turbo Frames, Turbo Streamsから構成されていること](/about#turbo-components)は別のページで紹介しています。
 
 私の経験では、Turbo Drive, Turbo Frames, Turbo Streamsのうち、Turbo Driveはデフォルトで全てのページに適応されるので一番使います。ついで部分置換が必要な時は、Turbo Framesを使います。Turbo Framesでは難しい時に初めてTurbo Streamsを使います。<br />
 <span className="text-gray-400">（ただしmorphingが導入されてからはTurbo Driveだけでできるものが非常に増えましたので、Turbo Streamsを使う頻度はさらに下がりそうです）</span>
 
-理由はコードの簡単さです。一番分かりやすく単純なのはTurbo Driveで、「画面に何を表示したいか」だけを考えます。Turbo Frames, Turbo Streamsに行くにしたがって、複数のパーツの相互作用や依存関係を考えなければならず、コードが複雑になってきます。私はメンテナンス性の良いコードを書きたいので、なるべくTurbo DriveやTurbo Framesを使います。
+**理由はコードの簡単さです**。一番分かりやすく単純なのはTurbo Driveで、「画面に何を表示したいか」だけを考えます。Turbo Frames, Turbo Streamsに行くにしたがって、複数のパーツの相互作用や依存関係を考えなければならず、コードが複雑になってきます。私はメンテナンス性の良いコードを書きたいので、なるべくTurbo DriveやTurbo Framesを使います。
 
 一方でTurbo Drive, Turbo Framesの限界を知っておき、Turbo Streamsが必要なところではこれを使うことも大切です。
 
@@ -77,12 +78,10 @@ import interactiveUisImage from "@/public/images/interactive-uis.webp"
 
 Turbo Driveがページ遷移、つまり画面全体を置換するのに対して、[Turbo Frames](https://turbo.hotwired.dev/handbook/drive)はサーバから送られてきたデータを使って画面の部分置換をする時に使います。
 
-そして「モーダル」「ポップアップ」「ドロップダウンメニュー」「ドロワーメニュー（引き出し）」「ライブ検索」、住所を入力するときに使う「階層メニュー」などは、インタラクティブと言われるUI要素も、実は大部分はシンプルな部分的置換と少しのJavaScriptで実現できます。
-
-つまりTurbo Framesを習得すれば対応できます。
+そして「モーダル」「ポップアップ」「ドロップダウンメニュー」「ドロワーメニュー（引き出し）」「ライブ検索」、住所を入力するときに使う「階層メニュー」などは、インタラクティブと言われるUI要素も、実は大部分はシンプルな部分的置換と少しのJavaScriptで実現できます。つまり**Turbo Framesがあれば、大半のインタラクティブUIは作れます**。
 
 さらにTurbo Framesは部分置換だけではなく、周辺機能も提供してくれます。`a`タグや`form`タグとの[連携](https://turbo.hotwired.dev/handbook/frames)、[Lazy
-loading (遅延ロード)](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)、[prefetch](https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover)、[URL同期](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[ローダー表示用のCSS](https://turbo.hotwired.dev/reference/frames#html-attributes)など、インタラクティブなUIを作る上での便利機能もパッケージとして提供しています。
+loading (遅延ロード)](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)、[prefetch](https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover)、[URL同期](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[ローダー表示用のCSS](https://turbo.hotwired.dev/reference/frames#html-attributes)など、インタラクティブなUIを作る上での便利機能も内包しています。
 
 一方でReactなどの場合は[`useState`フック](https://ja.react.dev/reference/react/useState)や[条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)などのパターンを提供してくれますが、これを組み合わせてUI要素を作るのは開発者しだいです。その意味でReactはフルスクラッチでUI要素を作成するのに適している一方、HotwireはUIライブラリとまではいかないものの、パッケージしたものを提供していると言えます。
 
@@ -96,22 +95,30 @@ loading (遅延ロード)](https://turbo.hotwired.dev/handbook/frames#lazy-loadi
 
 本ページでは数あるインタラクティブUIの中でも、比較的シンプルなタブメニューから紹介します。そして早くTurbo Framesを使った実装を紹介したいところですが、その前にやっぱり **基本を振り返るおくことが重要だ** と思いますので、一歩下がって古典的なMPAを使った場合のタブメニューの実装方法です。
 
-**Turbo Framesの開発は、まず最初にMPAを作ることから始めることが大半です**。Controller actionを作成し、データベースからデータを取得し、HTMLテンプレートファイルでレンダリングするところまではMPAのまま開発します。ページのリロードだけで動作確認ができ、とても便利です。そして最後にTurbo Framesを使って部分置換にします。**まずMPAから始めると覚えても90%間違いありません**。
+Turbo Framesの開発は、**まず最初にMPAを作ることから始めることが多いです**。Controller actionを作成し、データベースからデータを取得し、HTMLテンプレートファイルでレンダリングするところまではMPAのまま開発します。そして最後にTurbo Framesによる部分置換を実装します。
 
-**そして実際にやってみると、古典的なMPAだけでも、十分なUIができることも少なくありません**。[実際のデモ](/api/hotwire/tabbed_segments_no_js)を体験してください。コードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_no_js)でご確認ください。単なるMPAですのでコードは簡単です。これだけで十分に優れたUI/UXが実現できています。
+**そして実際にやってみると、古典的なMPAだけ十分ということも珍しくありません**。「あれ？！これはTurbo Framesすらいらないや」ってなることになったりします。[実際のデモ](/api/hotwire/tabbed_segments_no_js)を体験してください。一切JavaScriptを使わないMPAでも、UI/UX的にほぼ十分です。またコードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_no_js)でご確認ください。単なるMPAですのでコードは非常に簡単です。
 
-タブメニュー実装のタネ明かしは、タブより上の箇所が全く同じ２つの画面( [users側](https://github.com/naofumi/hotwire_and_next/blob/main/templates/tabbed_segments_no_js/index.ejs)、[products側](https://github.com/naofumi/hotwire_and_next/blob/main/templates/tabbed_segments_no_js/products.ejs) )を用意しているところです。**タブの上の方は全く同じなので、置換されていることに気づきません**。一方でタブの下の部分は異なる内容が表示されているので、ここだけが置換されたとユーザは錯覚します。
+MPAによるタブメニュー実装では、それぞれのタブに対応する画面を用意し、タブより上を全く同じにします( [users側](https://github.com/naofumi/hotwire_and_next/blob/main/templates/tabbed_segments_no_js/index.ejs)、[products側](https://github.com/naofumi/hotwire_and_next/blob/main/templates/tabbed_segments_no_js/products.ejs) )。**タブより上の部分は全く同じなので、置換されていることに気づきません**。一方でタブを含めた下の部分は異なる内容が表示されているので、ここだけが置換されたとユーザは錯覚します。
+
+### 古典的MPA 実装方法 ===mpa-implementation===
+
+* `templates/tabbed_segments_no_js/index.ejs` `templates/tabbed_segments_no_js/products.ejs`にMPAのページを用意します。
+* タブより上の部分は２つの画面で共通していますので、適宜`_search.ejs`, `_tabs.ejs`のpartialに切り出します
 
 <figure className="my-4">
   <figcaption className="font-bold">ファイル・フォルダ構成は下記のようになります</figcaption>
   <Image src={tabsNoJs} alt="Tabs No JS" />
 </figure>
 
-例えば[食べログ](https://tabelog.com/kanagawa/A1401/A140105/R10847/rstLst/)のサイトでも、このようなMPA流のタブメニューが今でも現役です。別の問題としてページの読み込みが非常に遅いのが気になりますが、UX的には十分に優れたものになります。
+
+例えば[食べログ](https://tabelog.com/kanagawa/A1401/A140105/R10847/rstLst/)のサイトでも、このようなMPA流のタブメニューが使われています。別の問題としてページの読み込みが非常に遅いのが気になりますが、UX的には十分に優れたものになります。
 
 <figure className="my-4">
   <figcaption className="font-bold">食べログのサイトのタブメニュー</figcaption>
-  <Image src={tabelogImage} alt="tabelog tabs"></Image>
+  <video width="733" height="606" muted autoPlay controls loop className="my-8">
+    <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/tabelog-tab-menu.mov" type="video/mp4"></source>
+  </video>
 </figure>
 
 ### まとめ ===mpa-summary===
@@ -126,24 +133,36 @@ loading (遅延ロード)](https://turbo.hotwired.dev/handbook/frames#lazy-loadi
 
 Turbo Driveによるタブメニューは[ここでお試しいただけます](http://localhost:3000/api/hotwire/tabbed_segments_turbodrive)。コードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turbodrive)でご確認いただけます。
 
-[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)を使う場合は、MPAのサイトに[TurboのJavaScriptファイルをダウンロードする](https://turbo.hotwired.dev/handbook/installing)して、`<head>`の中で[読み込むだけ](/commentaries/page_transitions#installing-turbo)です。
-この場合はTurbo Driveによってヌルサクになった分だけ、タブの切り替えが自然に見えてきます。しかし実際にやっているのはMPAの場合と同様、 **画面全体の置換です**。
+[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)を使う場合は、MPAのサイトに[TurboのJavaScriptファイルをダウンロードする](https://turbo.hotwired.dev/handbook/installing)して、`<head>`の中で[読み込むだけ](/commentaries/page_transitions#installing-turbo)です。[MPAの場合](/commentaries/tabbed_menus#tabs-MPA)と同様、に画面全体の置換をしていますが、Turbo Driveによってヌルサクになった分だけ、タブの切り替えのUI/UXが大幅に向上します。
 
-一見するとタブだけが差し代わっているようには見えますが、下記の点を細かくみると、実際には画面全体の置換だとバレてしまいます。
+* Turbo Driveのprefetchが効くので、レスポンスが大幅に高速化します
+* さらにTurbo Drive Page Cacheも効くので、プレビューが瞬間的に表示されます
 
-* 少し下にスクロールした後にタブをクリックすると、タブの中身が置換されるだけではなく、トップにスクロールしてしまうことがわかります。なおこの動きは画面全体を置換するから起こるのではなく、[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)がMPAのページ遷移の動きを真似るためにわざとやっているものです。
-* **Search** のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を置換する時にこのフィールドも丸ごと置換されるためです。
-* なお、今回は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)で画面全体が置換されると説明していますが、実は[Morphing](https://turbo.hotwired.dev/handbook/page_refreshes)を使うと、置換するのではなく差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、[Reactに近い感じの更新](https://ja.react.dev/learn/preserving-and-resetting-state)を可能にするもので、かなり強力なものです。
+しかし欠点がないわけではありません。見かけ上はタブのところだけを置換していますが、実際にはページ全体を置換しているため、下記の問題があります。
+
+* 少し下にスクロールした後にタブをクリックすると、タブの中身が置換されるだけではなく、トップにスクロールしてしまうことがわかります
+* **Search** のテキスト入力フィールドに文字を入力し、その後にタブを切り替えると、テキスト入力フィールドの文字は消えてしまいます。これは画面全体を置換する時にこのフィールドも丸ごと置換されるためです
+* なお、今回は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)で画面全体が置換されると説明していますが、[Morphing](https://turbo.hotwired.dev/handbook/page_refreshes)を使うと、置換するのではなく差分だけを更新することも可能です。Morphingについては後ほどまとめて紹介したいと思いますが、[Reactに近い感じの更新](https://ja.react.dev/learn/preserving-and-resetting-state)を可能にするもので、かなり強力なものです
 
 <figure className="my-4">
   <figcaption className="font-bold">Turbo Driveによるタブメニュー</figcaption>
   <Image src={turbodriveImage} alt="turbodrive image"></Image>
 </figure>
 
+### Turbo Drive 実装方法 ===turbo-drive-implementation===
+
+* Turboをインストールします。Turboのライブラリは`/hotwire/javascript/turbo.es2017-esm.js`にありますので、これを読み込む`script`タグを`head`タグの中に入れておきます
+
+**templates/layouts/header.ejs**
+```html
+  <script src="/hotwire/javascript/turbo.es2017-esm.js" data-turbo-track="reload" type="module"></script>
+```
+
 ### まとめ ===turbo-drive-summary===
 
-* 実装が簡単 (Turboのファイルを読み込む`<script>`タグを読み込むだけ)
+* 実装が簡単 (Turboのファイルを読み込む`<script>`タグを配置するだけ)
 * Prefetchが効くので、レスポンスは速い
+* Turbo Drive Page cacheが効くので、同じタブを再訪問するときはプレビューが瞬間的に表示される
 * SSRなのでSEOに強い
 * タブを切り替えた時にスクロール位置がリセットされる
 * タブごとに専用のURLを持つので、タブを指定したブックマークやリンクを共有できる
@@ -153,14 +172,14 @@ Turbo Driveによるタブメニューは[ここでお試しいただけます](
 
 Turbo Framesによるタブメニューは[ここでお試しいただけます](/api/hotwire/tabbed_segments_turboframes)。コードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)でご確認いただけます。
 
-まず大切なことは、Turbo Driveを使った場合と比較したUIの違いです。一見するとTurbo Driveの場合とあまり差がありませんが、以下の点が異なります。
+UI/UXについては一見するとTurbo Driveの場合とあまり差がありません。しかし細かく見ると以下の点が異なります。
 
 * 少し下にスクロールした後にタブをクリックしても、トップにスクロールしません。デフォルトではスクロール位置が維持されます。より細かく制御したい場合は、**autoscroll**属性で[調整できます](https://turbo.hotwired.dev/reference/frames#html-attributes)。
 * Searchのテキスト入力フィールドに文字を入力し、その後にタブを切り替えても、テキスト入力フィールドの文字はそのまま維持されます。フォーカスも維持されます。今回設定したTurbo
 Framesでは、Searchのテキスト入力フィールドはTurbo
 Framesの外にあります（下図）。タブが切り替わっても、SearchのDOM要素はそのままなのです。だから文字およびフォーカスが維持されています。
 
-このようにTurbo Framesの特徴は画面を枠で分割し、枠内を置換しつつ、枠外をそのままに維持するところです。
+このようにTurbo Framesの特徴は画面を枠で分割し、枠内を置換しつつ、枠外をそのままに維持するところです。これらの機能が必要な場合はTurbo Framesを選択し、そうでない場合は[Turbo Driveを選択する](#tabs-turbodrive)のが良いでしょう。
 
 ### Turbo Frames実装方法 ===using-turbo-frames===
 
@@ -191,11 +210,11 @@ Turbo Framesを実現しているのは下記の部分です。
 </turbo-frame>
 ```
 
-はい、以上でおしまいです！
+**以上でおしまいです！**
 
 1. `templates/tabbed_segments_turboframes/index.ejs`に`<turbo-frame>`タグを加える
 2. `templates/tabbed_segments_turboframes/products.ejs`に同じIDの``タグを加える
-3. 必要に応じて[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)でURLと連動させたり、ロード時に自動的に追加される[`busy`](https://turbo.hotwired.dev/reference/frames#html-attributes)属性を利用してCSSでローダーを表示したり、`autoscroll`属性で[スクロールの動作を変える](https://turbo.hotwired.dev/reference/frames#html-attributes)など、機能を追加します。
+3. 必要に応じて[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)でURLと連動させたり、ロード時に自動的に追加される[`busy`](https://turbo.hotwired.dev/reference/frames#html-attributes)属性を利用してCSSでローダーを表示したり、`autoscroll`属性で[スクロールの動作を変える](https://turbo.hotwired.dev/reference/frames#html-attributes)など、機能を追加します。(`data-turbo-action`については[解説](#description)で、また`busy`については[ローダー表示](#displaying-loaders)で解説しています。
 
 この３つのステップだけで、Turbo Frames的なタブメニューができ上がりました！
 
@@ -203,7 +222,7 @@ Turbo Framesを実現しているのは下記の部分です。
 
 * `<turbo-frame></turbo-frame>`で囲むことによって、Turbo
 Frame中に含まれる`a`タグや`form`タグは通常と違う性質を持つようになります。通常であれば[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)のような **全画面** 遷移をします。しかし`<turbo-frame></turbo-frame>`に囲まれている場合は同じTurbo
-Frame内に限定された **部分画面** 遷移をするように変化します（デフォルト；都度変更可能）。あたかもブラウザウィンドウの中に、もう１つ小さなブラウザウィンドウができたような感じです。
+Frame内に限定された **部分画面** 遷移をするように変化します（デフォルト；都度変更可能）。`turbo-frame`に囲まれたところは独立性が高く、あたかもブラウザウィンドウの中に、もう１つ小さなブラウザウィンドウができたような感じに設計されています。
 * 今回はTurbo Frameの中にタブ(`a`タグ)を配置しましたので、`Users`, `Products`のタブはTurbo Frame内を部分置換するようになります。Turbo Frame内のみが変化するので、Searchのテキストフィールドもリセットされないわけです。
 * タブをクリックすると、通常の`a`タグと同じようにHTTPリクエストは飛びます。そしてHTMLがサーバから返ってきます。通常ならここで画面全体を置換するのですが、Turbo Framesの場合は**新しいページ**の中にある`<turbo-frame></turbo-frame>`を探し出し、**元のページ**の中にある`<turbo-frame></turbo-frame>`の中身と置換します。この時、`id`属性をみて`turbo-frame`のペアを認識するので、`id`の値を揃えておく必要があります。
 * Turbo Framesは通常`a`タグなので、Turbo Driveの機能である[prefetch](/commentaries/page_transitions#page-transition-ux)も働きます。このためprefetchによるUXの大幅向上、ヌルサクな体感も、何もしなくても勝手についてきます。
@@ -213,15 +232,25 @@ Frame内に限定された **部分画面** 遷移をするように変化しま
 
 Turboの大きな特徴は、**余計なHTMLをサーバから送ることを気にしない**ことです。タブを切り替えるだけならタブの中身だけをサーバから送信すれば良いのですが、今回のケースは常にページ全体を送っています。タブ以外の部分もサーバから送り直すのは[古典的なMPAによるタブメニュー](/commentaries/tabbed_menus#tabs-MPA)と完全に同じです。
 
-実際問題、余計な箇所をサーバで際レンダリングしても大きな負荷にならないことがほとんどです。データベースに負荷のかかる処理は、通常はタブの中身になりますし、また余計なデータをネットワーク越しに送信しても、その負荷は一般に微々たるものです。わずかな効果しか得られない最適化をやるよりは、コードをシンプルにすることを優先しようというのがTurboの考え方になります。
+これには大きなメリットがあります。**サーバ側コードの簡略化**です。画面フラグメントを返すエンドポイントと画面全体を返すエンドポイントを完全に共有化できます。サーバ側は１つのエンドポイントだけを用意し、常に同じレスポンスを返せば、あとはTurbo Framesがブラウザの状態に応じて適切に処理してくれます。タブが表示されている画面からのリクエストならタブ内容の置換だけしますし、別のページから飛んでくる場合は画面全体を表示します。いずれの場合もサーバは関知せず、常に全く同じ内容のHTMLを返します。
+
+一方、余計な箇所をサーバで再レンダリングしても大きな負荷にならないことがほとんどです。データベースに負荷のかかる処理は、通常はタブの内側だけですし、また余計なデータをネットワーク越しに送信しても、その負荷は一般に微々たるものです。わずかな効果しか得られない最適化をやるよりは、コードをシンプルにすることを優先しようというのがTurboの考え方になります。
 
 それでもサーバへの負担を心配するのであれば、[サーバ側でキャッシュする機能](https://guides.rubyonrails.org/caching_with_rails.html#basic-caching)などを使うこともできますので、サーバ側の最適化で問題を解決できます。
 
-Turbo Frameリクエストの場合は、HTTPヘッダー`Turbo-Frame`が送られてきますので、これを見て余計なところを送信しないという選択肢もあります（turbo-rails gemを使えば、コントローラに`#turbo_frame_request?`メソッドが[用意されている](https://github.com/hotwired/turbo-rails/blob/9b17a3be3705786d72c3ae77fde5a9b3006555d7/app/controllers/turbo/frames/frame_request.rb#L31)ので、これは容易にできます）。しかし一般には気にしないことをお勧めします。
+Turbo Frameリクエストの場合は、HTTPヘッダー`Turbo-Frame`が送られてきますので、これをサーバ側から確認し、見て余計なところを送信しないという選択肢もあります（turbo-rails gemを使えば、コントローラに`#turbo_frame_request?`メソッドが[用意されている](https://github.com/hotwired/turbo-rails/blob/9b17a3be3705786d72c3ae77fde5a9b3006555d7/app/controllers/turbo/frames/frame_request.rb#L31)ので、これは容易にできます）。しかしサーバ側コードが複雑になりますので、一般には気にしないことをお勧めします。
+
+なお今回の話とはズレますが、Turbo Streamsの場合は画面断片だけをサーバから送ります。したがってTurbo Streams専用のエンドポイントを用意するか、もしくはリクエストヘッダー(`Accept`)に応じた分岐ロジックと複数の処理をコントローラに書きます。またTurbo Framesでも画面の部分置換しか行わないエンドポイントを用意することもあります。実現したいUI/UXを考慮して、適宜選択します。
+
+<figure className="my-4">
+  <figcaption className="font-bold">Turbo Drive, Frames, Streamsとサーバレスポンス</figcaption>
+  <Image src={driveFramesStreamsServerPerspectiveImage} alt="Turbo Drive, Frames, Streams from the Server's perspective"></Image>
+</figure>
+
 
 ### ローダーの表示 ===displaying-loaders===
 
-また、タブのロードに時間がかかってしまう時のために、ローダーの表示もさせています。Turbo Framesはサーバに問い合わせするときに[`busy`属性がつく](https://turbo.hotwired.dev/reference/frames#html-attributes)のを利用します。コードはそこそこありますが、HTML/CSSだけです。
+また、タブのロードに時間がかかってしまう時のために、ローダーの表示もさせています。Turbo Framesはサーバに問い合わせするときに[`busy`属性がつく](https://turbo.hotwired.dev/reference/frames#html-attributes)のを利用します。コードはそこそこの量になりますが、HTML/CSSだけです。
 
 **input.css**
 ```css
@@ -275,6 +304,7 @@ Turbo Frameリクエストの場合は、HTTPヘッダー`Turbo-Frame`が送ら�
 
 * 実装が比較的簡単 (少数のタグ埋め込みとHTML/CSSの追加だけです)
 * Prefetchが効くので、レスポンスは速い
+* Turbo Drive Page cacheは効かないので、同じタブを再訪問するときはprefetchの分しか速くならない
 * SSRなのでSEOに強い
 * タブを切り替えた時にスクロール位置等のステートがリセットされない
 * タブごとに専用のURLを持つので、タブを指定したブックマークやリンクを共有できる (この機能をオフにもできる)
@@ -289,18 +319,61 @@ Reactでタブメニューを実装する方法を３つほど紹介します。
 
 まず最初にuseEffectを使った方法を紹介します。デモは[ここでお試しいただけます](/tabbed_segments)。コードは[GitHubで](https://github.com/naofumi/hotwire_and_next/blob/main/pages/tabbed_segments/index.tsx)ご確認ください。
 
+### useEffect実装方法 ===use-effect-implementation===
+
+
 Reactのコードの特徴は以下の通りです。一般的なReactのデータフェッチのパターンを複数回使うだけで、ロジックは追いやすいと思います。
 
 * 選択されたタブをステートとして持つ (`useState`を使用)
 * [条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)のパターンを使って、ステートのよってタブの中に表示するコンポーネントを切り替える（今回は[ここ](https://github.com/naofumi/hotwire_and_next/tree/main/components/tabbed_segments)にある`Users.tsx`と`Products.tsx`)
 * データは`Users`、`Products`コンポーネントの中の`useEffect`の中の`fetch`で行う
 
-この方法は以下の特徴があります
+**pages/tabbed_segments/index.tsx**
+```tsx
+export default function TabbedSegmentsIndexPage() {
+  const [selectedTab, setSelectedTab] = useState<number>(0)
+  ...
+    {selectedTab === 0
+      ? <Users/>
+      : selectedTab === 1
+        ? <Products/>
+        : null}
+  ...
+}
+```
 
-* コンポーネントの切り替えは瞬間的。データフェッチに時間がかかる場合はローディング画面を表示する
-* コンポーネントがDOMにロードされるまで`useEffect`は動かないので、静的ページであってもNext.jsのprefetchは効かない
-* タブの中身はブラウザでレンダリングされるので、SEOでは不利
-* URLは変化しない (特定のタブを指したブックマークやリンクが作れない)
+**components/tabbed_segments/Users.tsx**
+```tsx
+export default function Users() {
+  const [users, setUsers] = useState<User[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    fetch("/api/users").then(res => res.json())
+      .then(data => {
+        setUsers(data)
+        setLoading(false)
+      })
+  }, [])
+  ...
+```
+
+**components/tabbed_segments/Products.tsx**
+```tsx
+export default function Products() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((json) => {
+        setProducts(json)
+        setLoading(false);
+      })
+  },[])
+  ...
+```
 
 ### まとめ ===use-effect-summary===
 
@@ -312,11 +385,80 @@ Reactのコードの特徴は以下の通りです。一般的なReactのデー�
 
 ## Next.js SSRを使った方法 ===tabs-with-ssr===
 
-Next.js Pages RouterのSSRはページ全体を遷移するのには適していますが、Turbo Framesのように部分置換をする機能がありません。これは従来のSPAと同様に、ブラウザ上で`useEffect`を使ってステートを更新し、CSRで更新する必要があります。
+Next.js Pages RouterのSSRはページ全体を遷移するのには適していますが、Turbo Framesのように部分置換をする機能がありません。部分置換をするには従来のSPAと同様に、ブラウザ上で`useEffect`を使ってステートを更新し、CSRで更新する必要があります。
 
 しかし`useEffect`を使った場合はCSRになるので、SEOでは不利になってしまいます。そこで[古典的なMPA](/commentaries/tabbed_menus#tabs-MPA)や[Turbo Drive](/commentaries/tabbed_menus#tabs-turbodrive)と同様の方法を使うことができます。ページ全体をサーバでレンダリングしつつ、見かけ上はタブだけが切り替わったようになります。
 
-デモは[こちらから](/tabbed_segments_ssr)ご覧ください。またコードはGitHubでご確認ください。
+デモは[こちらから](/tabbed_segments_ssr)ご覧ください。また[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/pages/tabbed_segments_ssr)でご確認ください。
+
+### Next.js SSR 実装方法 ===nextjs-ssr-implementation===
+
+* Next.jsでMPAを作る感じになります。ごく普通に`pages/tabbed_segments_ssr/index.tsx` `pages/tabbed_segments_ssr/products.tsx`で`getServerSideProps()`を使ったSSRのページを作ります
+* タブを切り替えた時のスクロールを抑制したい場合は、下記のように`<Link ... scroll={false}>`を利用します
+
+**pages/tabbed_segments_ssr/index.tsx**
+```tsx
+export async function getServerSideProps() {
+  const response = await fetch(process.env.URL + "/api/users")
+  const data: User[] = await response.json()
+
+  return {props: {users: data}}
+}
+
+export default function TabbedSegmentsIndexPage({users}: { users: User[] }) {
+    ...
+    <nav aria-label="Tabs" className="-mb-px flex space-x-8">
+      <Link href="/tabbed_segments_ssr" key={0} scroll={false}
+            className="border-orange-500 text-orange-600 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium hover:cursor-pointer"
+      >
+        Users
+      </Link>
+      <Link href="/tabbed_segments_ssr/products" key={1} scroll={false}
+            className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium hover:cursor-pointer"
+      >
+        Products
+      </Link>
+    </nav>
+    ...
+}
+```
+
+**pages/tabbed_segments_ssr/products.tsx**
+
+```tsx
+export async function getServerSideProps() {
+  const response = await fetch(process.env.URL + "/api/products")
+  const data : Product[] = await response.json()
+
+  return {props: {products: data}}
+}
+
+export default function TabbedSegmentsIndexPage({products}: {products: Product[]}) {
+   ...
+    <nav aria-label="Tabs" className="-mb-px flex space-x-8">
+      <Link href="/tabbed_segments_ssr" key={0} scroll={false}
+            className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium hover:cursor-pointer"
+      >
+        Users
+      </Link>
+      <Link href="/tabbed_segments_ssr/products" key={1} scroll={false}
+            className="border-orange-500 text-orange-600 whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium hover:cursor-pointer"
+      >
+        Products
+      </Link>
+    </nav>
+  ...
+}
+```
+
+なおこのパターンをしようしている例として、[News Picks](https://newspicks.com)が挙げられます。Next.jsのPages RouterのSSRを使い、タブメニューを実装しています。
+
+<figure className="my-4">
+  <figcaption className="font-bold">ニューズピックスのタブメニュー</figcaption>
+  <video width="733" height="606" muted autoPlay controls loop className="my-8">
+    <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/newspicks.mov" type="video/mp4"></source>
+  </video>
+</figure>
 
 ### まとめ ===ssr-summary===
 
@@ -328,7 +470,7 @@ Next.js Pages RouterのSSRはページ全体を遷移するのには適してい
 
 ## Next.js App Router Parallel Routesを使った方法 ===tabs-with-parallel-routes===
 
-Next.js Pages RouterのSSRはページ全体を遷移するのには適していますが、Turbo Framesのように部分置換をする機能がありません。これは従来のSPAと同様に、ブラウザ上で`useEffect`を使ってステートを更新し、CSRで更新する必要があります。
+Next.js Pages Routerには[SSRを使った部分置換の仕組みがない](/commentaries/tabbed_menus#tabs-with-ssr)ことは上述しました。
 
 一方でApp Routerは部分置換の仕組みが用意されています。[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)と[Parallel Routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)がこれに相当します。特にこのページで紹介しているタブメニューについては、Parallel Routesのドキュメントに[わざわざタブメニューの言及](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#tab-groups)もあり、この方法が奨励されていると受け取れます。
 
@@ -339,25 +481,89 @@ LayoutやParallel Routesを使うと、Client Componentを使わずにServer Com
 [Parallel Routesを使った場合のUI/UX](http://localhost:3000/tabbed_segments_app/users)の特徴は以下の通りです
 
 * どのタブを開いているかによってURLが変化します。つまり特定のタブを開いた状態をブックマークできる利点があります。これはTurbo Driveを使った場合、あるいはTurbo Framesで[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)を設定した時と同じ効果です。
-* 小さくて副次的な内容のタブの場合は、URLを変化させるのは不自然です。それは画面のメインではないためです。しかしServer ComponentsではURLを変化させずにタブを切り替える方法がないようです。一方でTurbo Framesの場合は`data-turbo-action`を省略するだけで、URLを固定してタブを切り替えることが可能です。
-* `loading.js`を配置することでローディングアニメーションが出せます。配置しなければ、表示されません。
+* 小さくて副次的な内容のタブの場合は、URLを変化させるのは不自然です。それは画面のメインではないためです。しかしServer ComponentsではURLを変化させずにタブを切り替える方法がないようです
+* `loading.js`を配置することでローディングアニメーションが出せます
 * データフェッチはサーバ側で行いますが、動的なルート([Dynamic Rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering))の場合は最初の`loading.js`ファイルまでしか[prefetchをしてくれません](https://nextjs.org/docs/app/api-reference/components/link#prefetch)。そのため、コンテンツが表示されるまでにかかる時間は短くなりません。[ReactでuseEffectを使った場合](/commentaries/new_tabbed_menus#tabs-comparison-with-react)とほぼ同じUXになります。
 
-また[Parallel Routesを使った場合のコード](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)の特徴は以下の通りです。
+### Parallel Routes 実装方法 ===parallel-routes-implementation===
 
-* [厳密に役割が規定されたフォルダとファイルを適切に配置](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)する必要があるので、[Turbo Frames](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)を使った場合や[useEffectを使った場合](https://github.com/naofumi/hotwire_and_next/tree/main/pages/tabbed_segments)と比べて学習コストが高いと感じます
+[Parallel Routesのコード](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)はGitHubに用意しています。
 
-個人的には、随分と大袈裟なことをするなぁと感じます。タブは大小のものがありますし、厳密にURLと結びつく必要がありません。ルーティングと強く結びつくServer Componentとの相性の悪さを感じます。Client Componentで`useState`、`useEffect`を使った場合と比較して、UX上のメリットがありませんので、わざわざParallel Routesを使う動機は弱いと感じています。
+* `app/tabbed_segments_app/layout.tsx`に、タブより上の部分をレイアウトファイルとして用意します
+* それぞれのタブの中身を表すファイルは`@tabs`フォルダの中に含めますので、このフォルダを作成します。この`@tabs`は`Slot`と呼びます
+* `app/tabbed_segments_app/layout.tsx`が`@tabs` slotを参照するように、コンポーネントに`tabs` propsを持たせ、slotが挿入されるべき箇所に`{tabs}`を配置します
+* `app/tabbed_segments_app/@tabs/users/page.tsx` `app/tabbed_segments_app/@tabs/products/page.tsx`にタブの内容のコンポーネントを作ります
+* それぞれのコンポーネントの中でデータを取得して表示します(`getUsers()`, `getProducts()`等)
+* `loading.tsx`はローディングアニメーションを用意したいところに適宜配置します
 
 <figure className="my-4">
   <figcaption className="font-bold">ファイル・フォルダ構成は下記のようになります</figcaption>
   <Image src={tabsParallelRoutesImage} alt="Tabs Parallel Routes" />
 </figure>
 
+**app/tabbed_segments_app/layout.tsx**
+```tsx
+export default function TabbedSegmentsLayout(
+  {tabs}: { tabs: ReactNode }) {
+  return (
+    <div className="bg-white">
+      <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <h1 className="demo-h1">
+            タブメニューUI
+          </h1>
+          <TabbedSegmentTechNav selected="parallel"/>
+          <div className="mt-10">
+            <div className="mb-2">
+              <label htmlFor="search" className="text-sm mr-2">Search</label>
+              <input id="search" type="search" className="border rounded p-1" placeholder="ステート維持確認用"/>
+            </div>
+            {tabs}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+```
+
+**app/tabbed_segments_app/@tabs/users/page.tsx**
+```tsx
+async function getUsers(): Promise<User[]> {
+  const res = await fetch(process.env.URL + "/api/users")
+  const users = await res.json()
+  return users
+}
+
+export default async function TabbedSegmentsUsersPage() {
+  const users = await getUsers()
+  const time = new Date().toLocaleTimeString()
+  ...
+}
+```
+
+**app/tabbed_segments_app/@tabs/products/page.tsx**
+```tsx
+// Simulate Next.js acting as a BFF for a JSON API server
+async function getProducts(): Promise<Product[]> {
+  const res = await fetch(process.env.URL + "/api/products")
+  const products = await res.json()
+  return products
+}
+
+export default async function TabbedSegmentsProductsPage() {
+  const products = await getProducts()
+  const time = new Date().toLocaleTimeString()
+  ...
+}
+```
+
+書かなければならないコードは特に多いわけではありませんが、[厳密に役割が規定されたフォルダとファイルを適切に配置](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)する必要があるので、[Turbo Frames](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turboframes)を使った場合や[useEffectを使った場合](https://github.com/naofumi/hotwire_and_next/tree/main/pages/tabbed_segments)、[SSRの場合](#tabs-with-ssr)と比べて学習コストが高いと感じます
+
 ### まとめ ===parallel-routes-summary===
 
 * 実装方法がわかりにくい
-* SSGであればPrefetchが効くので、レスポンスは速い。動的コンテンツの場合はprefetchは効かないが、App Loaderであれば`suspense`でローディング画面をすぐに出せる
+* SSGであればPrefetchが効くので、レスポンスは速い。動的コンテンツの場合はprefetchは効かないが、App Loaderであれば`loading.tsx`でローディング画面をすぐに出せる
 * SSRなのでSEOに強い
 * タブを切り替えた時にスクロール位置等のステートがリセットされない
 * タブごとに専用のURLを持つので、タブを指定したブックマークやリンクを共有できる (この機能をオフにもできる)
@@ -366,7 +572,7 @@ LayoutやParallel Routesを使うと、Client Componentを使わずにServer Com
 
 今回はTurbo Framesによるタブメニューを実装しました。簡単なものだったため、UX的にMPAと大きな差はありませんでした。しかしTurbo Framesを使うと、**枠**の外のステートが維持できていることが確認できました。スクロール位置やフォーム要素のステート維持が必要な場合は、Turbo Framesを使う必要があります。
 
-React、Next.jsと比較すると、**Turbo Framesによるタブメニューは実装が簡単でありつつ、機能的にはむしろ豊富であることが確認できました**。
+React、Next.jsと比較すると、**Turbo Framesによるタブメニューは実装が簡単でありつつ、機能的にはむしろ豊富であることがわかりました**。一方のReactは、少なくとも現時点では自在にHTMLを分割し、繋ぎ合わせることを得意としておらず、Layoutをルーティングと組み合わせ、最初から計画的に分割・繋ぎ合わせをしている感覚があります。RSCをさらに活用することにより、より簡単に、自在に繋ぎ合わせられるようになるかもしれません。
 
 
 export default function NewTabbedMenus({children}) {

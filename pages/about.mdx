@@ -4,6 +4,7 @@ import H2WithHash from "../components/H2WithHash";
 import Image from "next/image"
 import hotwireComponentStructureImage from "@/public/images/hotwire-component-structure.webp"
 import hotwireNextImage from "@/public/images/Hotwire-Next.webp"
+import driveFramesStreamsImage from "@/public/images/drive-frames-streams.webp"
 
 「Hotwire for Frontend
 Developers（フロントエンドエンジニアのためのHotwire入門）」は、Ruby on
@@ -42,9 +43,10 @@ Androidを繋ぎ合わせる役割を担う、モバイルアプリ作成のた�
 
 大雑把に言えば、守備範囲としては<strong>Hotwire == React + Next.js + React Native</strong>の関係となります。
 
-<div className="mt-4">
+<figure className="my-4">
+  <figcaption className="font-bold">Hotwireの構成</figcaption>
   <Image src={hotwireComponentStructureImage} alt="hotwire component structure image"></Image>
-</div>
+</figure>
 
 
 
@@ -61,6 +63,10 @@ Next.js app routerの[Layout](https://nextjs.org/docs/app/building-your-applicat
 
 Turboは上記のたった３つのパーツしかないのですが、実際にやってみるとこれだけでほとんどのインタラクティブなUIが作れてしまいます。
 
+<figure className="my-4">
+  <figcaption className="font-bold">Turboの構成</figcaption>
+  <Image src={driveFramesStreamsImage} alt="turbo component structure image"></Image>
+</figure>
 
 
 ## Hotwireの特徴 ===hotwire-features===
