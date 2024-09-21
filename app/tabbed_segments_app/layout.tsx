@@ -1,5 +1,6 @@
 import React, {ReactNode} from "react";
 import Link from "next/link";
+import TabbedSegmentTechNav from "@/components/tabbed_segments/TabbedSegmentTechNav";
 
 export default function TabbedSegmentsLayout(
   {tabs}: { tabs: ReactNode }) {
@@ -10,23 +11,7 @@ export default function TabbedSegmentsLayout(
           <h1 className="demo-h1">
             タブメニューUI
           </h1>
-          <div className="mt-10 flex items-center justify-center gap-x-6">
-            <a href="/api/hotwire/tabbed_segments_no_js"
-               className="btn-outline-primary">
-              Javascriptなし</a>
-            <a href="/api/hotwire/tabbed_segments_turbodrive"
-               className="btn-outline-primary">
-              Turbo Drive</a>
-            <a href="/api/hotwire/tabbed_segments_turboframes"
-               className="btn-outline-primary">
-              Turbo Frames</a>
-            <Link href="/tabbed_segments"
-                  className="btn-outline-primary">
-              Next.js useEffect</Link>
-            <Link href="/tabbed_segments_app"
-                  className="btn-primary">
-              Next.js Parallel routes</Link>
-          </div>
+          <TabbedSegmentTechNav selected="parallel"/>
           <div className="mt-10">
             <div className="mb-2">
               <label htmlFor="search" className="text-sm mr-2">Search</label>

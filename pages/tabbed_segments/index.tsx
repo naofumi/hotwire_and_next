@@ -5,6 +5,7 @@ import {useState} from "react";
 import Users from "@/components/tabbed_segments/Users";
 import Products from "@/components/tabbed_segments/Products";
 import Layout from "@/components/Layout";
+import TabbedSegmentTechNav from "@/components/tabbed_segments/TabbedSegmentTechNav";
 
 export default function TabbedSegmentsIndexPage() {
   const [selectedTab, setSelectedTab] = useState<number>(0)
@@ -17,23 +18,7 @@ export default function TabbedSegmentsIndexPage() {
             <h1 className="demo-h1">
               タブメニューUI
             </h1>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a href="/api/hotwire/tabbed_segments_no_js"
-                 className="btn-outline-primary">
-                Javascriptなし</a>
-              <a href="/api/hotwire/tabbed_segments_turbodrive"
-                 className="btn-outline-primary">
-                Turbo Drive</a>
-              <a href="/api/hotwire/tabbed_segments_turboframes"
-                 className="btn-outline-primary">
-                Turbo Frames</a>
-              <Link href="/tabbed_segments"
-                    className="btn-primary">
-                Next.js useEffect</Link>
-              <Link href="/tabbed_segments_app"
-                    className="btn-outline-primary">
-                Next.js Parallel routes</Link>
-            </div>
+            <TabbedSegmentTechNav selected="use_effect"/>
             <div className="mt-10">
               <div className="mb-2">
                 <label htmlFor="search" className="text-sm mr-2">Search</label>

@@ -109,7 +109,7 @@ export default function IndexPage() {
                 </StyledLink>
               </div>
               <div className="mt-10 flex items-center justify-center gap-x-6">
-                <a href="/tabbed_segments"
+                <a href="/api/hotwire/tabbed_segments_turboframes"
                    className="btn-primary"
                    data-turbo="false">タブメニューUI</a>
               </div>

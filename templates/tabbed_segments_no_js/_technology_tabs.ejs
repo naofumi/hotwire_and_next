@@ -1,12 +1,14 @@
-<div class="mt-10 flex items-center justify-center gap-x-6">
+<div class="mt-10 flex flex-wrap gap-2 justify-center">
   <a href="/api/hotwire/tabbed_segments_no_js"
-     class="btn-primary">Javascriptなし</a>
+     class="<%= selected === "no_js" ? " btn-primary" : " btn-outline-primary" %>">Javascriptなし</a>
   <a href="/api/hotwire/tabbed_segments_turbodrive"
-     class="btn-outline-primary">Turbo Drive</a>
+     class="<%= selected === "turbo_drive" ? " btn-primary" : " btn-outline-primary" %>">Turbo Drive</a>
   <a href="/api/hotwire/tabbed_segments_turboframes"
-     class="btn-outline-primary">Turbo Frames</a>
-  <a class="btn-outline-primary"
+     class="<%= selected === "turbo_frames" ? " btn-primary" : " btn-outline-primary" %>">Turbo Frames</a>
+  <a class="<%= selected === "use_effect" ? " btn-primary" : " btn-outline-primary" %>"
      href="/tabbed_segments">Next.js (useEffect)</a>
-  <a class="btn-outline-primary"
+  <a class="<%= selected === "ssr" ? " btn-primary" : " btn-outline-primary" %>"
+     href="/tabbed_segments_ssr">Next.js Pages router SSR</a>
+  <a class="<%= selected === "parallel" ? " btn-primary" : " btn-outline-primary" %>"
      href="/tabbed_segments_app">Next.js Parallel routes</a>
 </div>

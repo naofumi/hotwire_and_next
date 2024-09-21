@@ -95,6 +95,8 @@ function delayToApply(url: URL, cookieDelay: number | undefined) {
     return 0 // Static
   } else if (pathName.startsWith("/tabbed_segments_app")) {
     return demoDelay // dynamic
+  } else if (pathName.startsWith("/tabbed_segments_ssr")) {
+    return demoDelay // dynamic
   } else if (pathName.startsWith("/tabbed")) {
     return 0 // Static
   } else if (pathName.startsWith("/api")) {

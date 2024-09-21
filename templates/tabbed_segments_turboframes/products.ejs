@@ -3,14 +3,9 @@
   <div class="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
     <div class="mx-auto max-w-2xl text-center"><h1
               class="demo-h1">タブメニューUI</h1>
-      <%- include("_technology_tabs.ejs") -%>
+      <%- include("../tabbed_segments_no_js/_technology_tabs.ejs", {selected: "turbo_frames"}) -%>
       <div class="mt-10">
-        <div class="mb-2">
-          <label for="search" class="text-sm mr-2">Search</label>
-          <input id="search"
-                 type="text"
-                 class="border rounded p-1">
-        </div>
+        <%- include("_search.ejs") -%>
         <turbo-frame id="tabs" class="turbo-with-loader" data-turbo-action="replace">
           <div class="border-b border-gray-200">
             <%- include("_tabs", {selected: 1}) %>
