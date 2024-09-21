@@ -1,0 +1,11 @@
+<turbo-stream action="update" target="<%= `product_${productId}` %>">
+  <template>
+    <%- include("_added_badge.ejs") %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="update" target="cart_icon">
+  <template>
+    <%- include("_cart_icon.ejs", {cart}) %>
+  </template>
+</turbo-stream>
