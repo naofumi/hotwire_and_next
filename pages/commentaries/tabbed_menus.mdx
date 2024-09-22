@@ -322,7 +322,7 @@ Reactでタブメニューを実装する方法を３つほど紹介します。
 ### useEffect実装方法 ===use-effect-implementation===
 
 
-Reactのコードの特徴は以下の通りです。一般的なReactのデータフェッチのパターンを複数回使うだけで、ロジックは追いやすいと思います。
+Reactのコードの特徴は以下の通りです。一般的なReactのデータフェッチのパターンを複数回使うだけですので、ロジックは追いやすいと思います。
 
 * 選択されたタブをステートとして持つ (`useState`を使用)
 * [条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)のパターンを使って、ステートのよってタブの中に表示するコンポーネントを切り替える（今回は[ここ](https://github.com/naofumi/hotwire_and_next/tree/main/components/tabbed_segments)にある`Users.tsx`と`Products.tsx`)
@@ -481,7 +481,6 @@ LayoutやParallel Routesを使うと、Client Componentを使わずにServer Com
 [Parallel Routesを使った場合のUI/UX](http://localhost:3000/tabbed_segments_app/users)の特徴は以下の通りです
 
 * どのタブを開いているかによってURLが変化します。つまり特定のタブを開いた状態をブックマークできる利点があります。これはTurbo Driveを使った場合、あるいはTurbo Framesで[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)を設定した時と同じ効果です。
-* 小さくて副次的な内容のタブの場合は、URLを変化させるのは不自然です。それは画面のメインではないためです。しかしServer ComponentsではURLを変化させずにタブを切り替える方法がないようです
 * `loading.js`を配置することでローディングアニメーションが出せます
 * データフェッチはサーバ側で行いますが、動的なルート([Dynamic Rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering))の場合は最初の`loading.js`ファイルまでしか[prefetchをしてくれません](https://nextjs.org/docs/app/api-reference/components/link#prefetch)。そのため、コンテンツが表示されるまでにかかる時間は短くなりません。[ReactでuseEffectを使った場合](/commentaries/new_tabbed_menus#tabs-comparison-with-react)とほぼ同じUXになります。
 
@@ -566,7 +565,7 @@ export default async function TabbedSegmentsProductsPage() {
 * SSGであればPrefetchが効くので、レスポンスは速い。動的コンテンツの場合はprefetchは効かないが、App Loaderであれば`loading.tsx`でローディング画面をすぐに出せる
 * SSRなのでSEOに強い
 * タブを切り替えた時にスクロール位置等のステートがリセットされない
-* タブごとに専用のURLを持つので、タブを指定したブックマークやリンクを共有できる (この機能をオフにもできる)
+* タブごとに専用のURLを持つので、タブを指定したブックマークやリンクを共有できる
 
 ## タブメニューのまとめ ===tabs-summary===
 

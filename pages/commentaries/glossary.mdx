@@ -86,7 +86,7 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
 
 一般的な用法により近いのは4.のステージだと思いますが、Reactの世界では主に2.のステージを指しているように思います。そこで**本サイトでも2.の意味で使用します**。ただし`ReactNode`だけでなく、HTMLとしての出力もレンダリングと考えますし、React Server ComponentsのRSC Payloadの出力もレンダリングと考えています。広義にはブラウザDOMに反映する直前の状態がレンダリングだと考えています。
 
-## 非同期通信
+## 非同期通信 ===asynchronous-communication===
 
 ウェブの「非同期通信」もまた明確な定義がない言葉です。ウェブを検索すると色々なものが出てきます。
 
@@ -97,7 +97,19 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
 
 本サイトでは「非同期通信」は旧ページのJavaScriptやCSSをメモリから全て消すかどうか、それとも新ページを表示するときもメモリ上の同じJavaScriptやCSSを引き継ぐかどうかだけを基準にして考えています。つまりSPAとMPAの区別と同じように考えています。
 
+## SEO ===seo===
 
+SEO (Search Engine Optimization:検索エンジン最適化)はGoogle等の検索サイトの上位に表示させる一連の対策を指します。また検索結果が表示された時に表示される`meta description`タグ、あるいはSNSで共有された時に表示されるOGPタグなどもSEO対策の一環として考えることが多いです。
+
+SEO用のタグはHTMLの`<head>`タグの中に書くものです。一方SPAは通常`<body>`タグの中だけを変更させますので、SEOタグに対応するのには別途対策が必要でした(例えば[react-helmet](https://www.npmjs.com/package/react-helmet))。しかしNext.jsもTurboもそのままで`<head>`タグ内部を書き換える仕組みを備えているので、ライブラリを用意しなくても十分に対応できます。
+
+一方で検索サイト上位に表示させるときは注意が必要です。**CSR/SPAでは検索サイト上位に表示されにくくなる可能性があります**。
+
+各検索サイトは"crawler"もしくは"spider"というボットを使って、自動的にインターネットのウェブサイトにアクセスし、その情報を蓄積します。ユーザが検索サイトを利用する場合は、ここで集めた情報に対して検索が行われます。しかし歴史的にはこのボットはJavaScriptを実行できませんでした。CSRを使った場合はHTMLをレンダリングするためにJavaScriptが必要なので、ボットはCSRサイトの情報を収集できませんでした。つまりCSRを使ったサイトは検索サイトの上位に表示されなかったのです。
+
+GoogleのボットはJavaScriptを実行でき、情報収集が正しくできると考えられています。しかしそれでも**JavaScriptを必須とするサイトの方が情報収集に時間を要するという話もあり、不利である可能性があります**。残念ながらGoogleを筆頭に各検索サイトはアルゴリズムを非公開にしていますので、この辺りは正確な情報が得られません。またJavaScriptを実行するには多くの処理能力を必要とするので、**Google以外の検索サイトについては依然としてCSRのサイトを検索できない**と言われています。
+
+**確実なSEO対策をするのであれば、やはりサーバ側でHTMLレンダリングが行われるSSRの方が安心でしょう。**
 
 export default function ({children}) {
   return <CommentaryLayout
