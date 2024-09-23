@@ -1,0 +1,68 @@
+import MDXRenderer from "../../components/MDXRenderer";
+import CommentaryLayout from "../../components/CommentaryLayout";
+import Image from "next/image"
+
+## Turbo Streamsは比較的特殊なケースで使う ===use-turbo-streams-for-relatively-special-cases===
+
+Turboには[Turbo Drive, Turbo Frames, Turbo Streamsがあり、適宜使い分ける](/commentaries/tabbed_menus#turbo-ranking)ことを別途紹介しました。またTurbo DriveとTurbo Framesで大半のケースがカバー可能で、Turbo Streamsは比較的特殊なケースで使用するとしました。
+
+ここでは具体的にどのようなケースでTurbo Streamsを使うかを解説したいと思います。
+
+## Turbo Streams固有の機能 ===features-exclusive-to-turbo-streams===
+
+<div className="mt-8 flow-root">
+  <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <table className="min-w-full divide-y divide-gray-300">
+        <caption className="caption-top text-left font-bold">Turbo Streams固有の機能</caption>
+        <thead>
+        <tr>
+          <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">機能</th>
+          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">用途</th>
+          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">注記</th>
+        </tr>
+        </thead>
+        <tbody className="bg-white">
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Web Socketsに応答</td>
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Pollingを使わずにリアルタイムで<br />サーバの情報を反映したい時</td>
+          <td className="px-3 py-4 text-sm text-gray-500">リアルタイムチャットなどで使用</td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">常に柔軟なレスポンスが可能</td>
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">POST/Redirect/GETパターンに<br />に縛られたくない時</td>
+          <td className="px-3 py-4 text-sm text-gray-500">Turbo Framesは`form`からの非GETのリクエストに対して、[status 200を原則として受け付けない](https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission)。[POST/Redirect/GETパターン](https://en.wikipedia.org/wiki/Post/Redirect/Get)を前提としいるためである。その結果postのリクエストに対してネットワーク通信が２回発生する。これを嫌うときに使う</td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">画面の複数箇所の更新</td>
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">画面上で離れた箇所を<br />効率的に更新したい時</td>
+          <td className="px-3 py-4 text-sm text-gray-500"></td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">サーバ側から<br />ブラウザを細かく制御</td>
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">状況に応じてレスポンスを返したり、<br />redirectしたりを細かく制御したいとき</td>
+          <td className="px-3 py-4 text-sm text-gray-500"></td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">タグを追加しなくても使える</td>
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">&lt;turbo-frame&gt;を差し込めない時</td>
+          <td className="px-3 py-4 text-sm text-gray-500"><code>table</code>の中は使用できるタグがHTMLの規約上制限されており、&lt;turbo-frame&gt;が使いにくい</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div className="mt-2 text-gray-400 text-sm">※）頻度はあくまでも著者の経験であり、条件によって変わります。モーダル等を頻繁に使う場合や、少数の画面のUXに徹底的に注力する場合は異なります。また私はコードの単純化を優先してTurbo Framesを多く使いますが、逆にTurbo Streamsによる細かい制御を好む人もにいます。</div>
+
+
+
+
+export default function NewTabbedMenus({children}) {
+  return <CommentaryLayout
+    title="Turbo Streams"
+    subtitle="Turbo Streamsが必要なケース"
+    section="Commentary">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}

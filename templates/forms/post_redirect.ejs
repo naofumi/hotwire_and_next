@@ -1,0 +1,105 @@
+<%- include("../layouts/header.ejs") -%>
+<div class="max-w-2xl mx-auto my-10 p-4">
+  <h1 class="text-center text-4xl">Understanding Forms in Turbo</h1>
+</div>
+<div class="max-w-2xl mx-auto my-4 p-4 border rounded-lg border-gray-400">
+  <% if (message) { %>
+    <div class="border rounded border-red-600 p-2 my-2"><%= message %></div>
+  <% } %>
+  <div id="turbo-stream-response"></div>
+  <form method="post" action="/api/hotwire/forms/post_redirect">
+    <div class="text-center">
+      <label for="response_type">Type of Server Response: </label>
+      <select name="response_type" id="response_type">
+        <option value="303">status 303 redirect</option>
+        <option value="200">status 200 response</option>
+        <option value="404">status 404 response</option>
+        <option value="404_with_turbo">status 404 response with Turbo error page</option>
+        <option value="422">status 422 response</option>
+        <option value="500">status 500 response</option>
+        <option value="stream">status 200 Turbo Stream response</option>
+      </select>
+    </div>
+    <div class="text-center mt-8">
+      <button type="submit" class="p-1 rounded bg-orange-600 text-white">Submit</button>
+    </div>
+  </form>
+</div>
+
+<div class="max-w-2xl mx-auto my-4 p-4">
+  <h2 class="text-lg font-bold">Status 303 redirect with GET</h2>
+  <p class="my-2">
+    For POST requests, Turbo expects the server to respond with a Status 303 on success. This is the POST/Redirect/GET
+    pattern.
+  </p>
+  <p class="my-2">
+    Although this requires 2 round trips to the server, this keeps the URL and browser content synchronized and best
+    prevents unexpected behavior.
+  </p>
+  <h2 class="text-lg font-bold">Status 200</h2>
+  <p class="my-2">
+    For POST requests, Turbo will ignore a status 200 response. The page content will not be redrawn. There will be no
+    visible change to the page.
+  </p>
+  <p class="my-2">
+    The rationale is that in Turbo (unlike native browser behavior), form requests do not change the URL in response to
+    POST requests. This is because it is unclear which URL should be used. If the browser pointed to the from action
+    URL, which is a POST endpoint, then a browser reload (which is a GET) may fail. Conversely, if the content of the
+    200 page was rendered while the browser was still pointing at the previous URL, then you will have one URL pointing
+    at 2 different pages. Neither is acceptable.
+  </p>
+  <p class="my-2">
+    This is in contrast to the POST/redirect/GET approach. In this case, the URL will point to the page that is shown.
+    There is no discrepancy between the URL and the page content.
+  </p>
+  <h2 class="text-lg font-bold">Status 404</h2>
+  <p class="my-2">
+    Status 404 pages are complicated, again due to the fact that the URL should not change in response to a POST
+    request. If a POST request returns a status 404 and error page, and we show that while keeping the URL the same as
+    the form page, then we will erroneously show an error page for an existing URL. This is generally not a good idea.
+    However, this will happen if the 404 error page loads Turbo. (In general you should not do this, in my opinion)
+  </p>
+  <p class="my-2">
+    If the 404 page does not have Turbo, then loading this page will force the browser to reload the current URL. Turbo
+    will recognize that this page does not use Turbo, and will therefore do a full reload so that it behaves like a
+    full-MPA.
+  </p>
+  <p class="my-2">
+    However, since the URL has not changed, this will cause the form page to simply reload. So instead of the 404 page
+    being shown, it will effectively refresh the current form page.
+  </p>
+  <p class="my-2">
+    Because of this unintuitive behavior, you should avoid responding to a POST request with a 404 error. Instead,
+    validate the response and return a status 422 response and re-render the form page together with error messages.
+    This is the recommended sequence anyway. In cases where a 404 is generated because the action URL contained an ID
+    for a non-existing record, then when the form page is refreshed via GET, you should receive a 404 error anyway so
+    the UI should work as expected.
+  </p>
+  <p class="my-2">
+    Takeaways:
+  <ul>
+    <li>* Avoid returning a status 404 response on a POST request, unless refreshing the current page will also generate
+      a 404 response.
+    </li>
+    <li>* Instead, validate the input and return a 422 status page with instructions on how to correct the input.</li>
+    <li>* 404 error pages should not allow Turbo Drive transitions. Either don't read Turbo or use a
+      <pre><code>meta name="turbo-visit-control" content="reload"</code></pre>
+      tag.
+    </li>
+  </ul>
+  </p>
+  <p class="my-2">
+    Note that this behavior pertains to all 4** responses. Therefore, if you want to restrict access with a 401 or 403 response in Hotwire, you should not just return an error page. Respond with a page indicating how to remedy the problem (similar to a validation error page) or redirect to the page where the user can take action (for example, a login page).
+  </p>
+  <h2 class="text-lg font-bold">Status 500</h2>
+  <p class="my-2">
+    Status 500 pages will render the HTML body as a non-Turbo page. Unlike 4** pages, they do not try to handle the HTML
+    body with Turbo and so will not reload when it discovers that Turbo is not loaded.
+  </p>
+  <p class="my-2">
+    In this case, the URL and the page content are out of sync but this is OK because Status 500 indicates that this a
+    server error that will be fixed in the future. Unlike a 404 response, it does not suggest that the URL itself is
+    invalid.
+  </p>
+</div>
+<%- include("../layouts/footer.ejs") -%>

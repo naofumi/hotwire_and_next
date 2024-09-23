@@ -5,6 +5,7 @@ import H2WithHash from "@/components/H2WithHash";
 import StyledLink from "@/components/StyledLink";
 import PrimaryButtonWithLink from "@/components/PrimaryButtonWithLink";
 import {ChapterListFromHeaders} from "@/components/ChapterList";
+import {isDev} from "@/helpers/feature_flags";
 
 const chapterHeaders = [
   {level: 2, link: "#hotwire-vs-nextjs", name: "HotwireとNext.jsをちゃんと見て比較しよう"},
@@ -16,6 +17,7 @@ const chapterHeaders = [
   {level: 2, link: "#popup", name: "ポップアップ: Turbo Frames"},
   {level: 2, link: "#live-search", name: "ライブ検索: Turbo Frames"},
   {level: 2, link: "#hierarchical-menus", name: "階層プルダウンメニュー: Turbo Frames"},
+  {level: 2, link: "#turbo-streams", name: "Turbo Streams"},
 ]
 
 export default function IndexPage() {
@@ -50,7 +52,8 @@ export default function IndexPage() {
 
             <div className="text-left mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600">
               <ul className="ml-4 my-4 space-y-2 ">
-                <li>HotwireでもNext.jsと同等か、それ以上のUI/UXが実現できます。<strong>「Hotwireは簡単だけど、React/Next.jsの方が優れたUI/UXが作れる」というのは、かなり特殊なものでない限りは誤解です</strong></li>
+                <li>HotwireでもNext.jsと同等か、それ以上のUI/UXが実現できます。<strong>「Hotwireは簡単だけど、React/Next.jsの方が優れたUI/UXが作れる」というのは、かなり特殊なものでない限りは誤解です</strong>
+                </li>
                 <li>Hotwireはバックエンド非依存です。Rails, Laravel, Django, Nodeでも関係なく動きます。実際、本サイトはHotwireをNext.js
                   API Routesで動かしています
                 </li>
@@ -236,6 +239,26 @@ export default function IndexPage() {
                    data-turbo="false">住所入力UI</a>
               </div>
             </article>
+
+            { isDev() ? <article className="mt-16 border-t border-t-gray-200">
+              <H2WithHash id="turbo-streams">
+                Turbo Streams
+              </H2WithHash>
+              <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
+                インタラクティブUIに必要な部分置換の大半はTurbo Driveで十分です。
+                しかしTurbo Streamsが必要なケースもあります。ここではそのようなケースを紹介します。
+              </p>
+              <div className={`text-center my-12 text-xl tracking-wider`}>
+                <StyledLink href="/commentaries/turbo_streams">
+                  解説はこちら...
+                </StyledLink>
+              </div>
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <a href="/api/hotwire/cart_streams"
+                   className="btn-primary"
+                   data-turbo="false">Turbo Streams</a>
+              </div>
+            </article> : null}
           </div>
         </div>
       </div>
