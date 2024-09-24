@@ -256,7 +256,7 @@ export default function IndexPage() {
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/api/hotwire/cart_streams"
                    className="btn-primary"
-                   data-turbo="false">Turbo Streams</a>
+                   data-turbo="false">複数箇所更 (ショッピングカート)</a>
               </div>
             </article>
           </div>

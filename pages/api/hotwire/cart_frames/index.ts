@@ -14,7 +14,7 @@ export default async function handler(
   const cartString = getCookie("cart", {req, res})
   const cart: Cart = cartString ? JSON.parse(cartString) : {}
 
-  const resultText = render("cart_streams/index.ejs",
+  const resultText = render("cart_frames/index.ejs",
     {products, cart}
   )
 

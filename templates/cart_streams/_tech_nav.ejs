@@ -1,0 +1,20 @@
+<div class="flex flex-wrap gap-2 justify-center mb-6">
+  <a href="/api/hotwire/cart_streams"
+     data-turbo-frame="_top"
+     class="<%= selected === "streams" ? "btn-primary" : "btn-outline-primary"%>"
+  >
+    Turbo Streams
+  </a>
+  <a href="/api/hotwire/cart_frames"
+     data-turbo-frame="_top"
+     class="<%= selected === "frames" ? "btn-primary" : "btn-outline-primary"%>"
+  >
+    Turbo Frames
+  </a>
+  <a href="/cart"
+     data-turbo-frame="_top"
+     class="<%= selected === "react" ? "btn-primary" : "btn-outline-primary"%>"
+  >
+    Next.js Pages Router
+  </a>
+</div>
