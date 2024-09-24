@@ -35,8 +35,8 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 現在でも主要なブラウザはいずれもこのようなローディングアニメーションを用意しています。以前ほどは目立ちませんが、ブラウザが動いているのかどうかは明確にわかります。
 
 <div className="flex flex-wrap gap-2">
-  <Image src={netscapeImage} className="w-24"></Image>
-  <Image src={mosaicImage} className="w-24"></Image>
+  <Image src={netscapeImage} className="w-24" alt="Netscape loader"></Image>
+  <Image src={mosaicImage} className="w-24" alt="Mosaic loader"></Image>
 </div>
 
 しかしこの**ローディングアニメーションは、Ajax/fetchを使った場合には表示されません**。MPA的な画面遷移であればアニメーションは表示しますが、Ajax/fetchによる遷移の時はこれをを表示しないのです。
@@ -298,7 +298,7 @@ Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認しま�
 * React、Next.jsで条件付きレンダーやSuspenseによるローディングアニメーションを作る際、部分置換する枠の中の旧コンテンツはすぐに消去されます。旧画面を残しつつ、その上にアニメーションを重ねるUIは困難です。一方でMPAやHotwireの場合は旧画面が残りますので、アニメーションを重ねることもできますし、CSSで非表示にすることもできます。どのようにローディング画面を表示するかについては、Hotwireの方が若干柔軟性が高くなっています。
 
 <div className="mt-4">
-  <Image src={hotwireAndNextImage}></Image>
+  <Image src={hotwireAndNextImage} alt="Hotwire and Next.js comparison"></Image>
 </div>
 
 

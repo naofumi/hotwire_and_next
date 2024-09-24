@@ -518,7 +518,7 @@ export default async function ModalAppPage({searchParams}: { searchParams: { use
 仕組みとしては下記のような簡単なものです。
 
 1. `/modal_app`でこのページにアクセスした場合はモーダルが表示されない
-3. `/modal_app?userId=1`でこのページにアクセスした場合は、userId=1のUserの情報がモーダルに表示される
+2. `/modal_app?userId=1`でこのページにアクセスした場合は、userId=1のUserの情報がモーダルに表示される
 
 これを実装するために以下のロジックになっています。
 1. `Link`タグのところをクリックすると、`/modal_app?userId=1`などに遷移します
