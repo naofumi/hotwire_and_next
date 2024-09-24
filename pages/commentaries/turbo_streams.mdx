@@ -1,46 +1,55 @@
 import MDXRenderer from "../../components/MDXRenderer";
 import CommentaryLayout from "../../components/CommentaryLayout";
 import Image from "next/image"
+import cartWithFramesReact from "@/public/images/cart-with-frames-react.webp"
+import cartWithTurboStreams from "@/public/images/cart-with-turbo-streams.webp"
 
 ## Turbo Streamsは比較的特殊なケースで使う ===use-turbo-streams-for-relatively-special-cases===
 
 Turboには[Turbo Drive, Turbo Frames, Turbo Streamsがあり、適宜使い分ける](/commentaries/tabbed_menus#turbo-ranking)ことを別途紹介しました。またTurbo DriveとTurbo Framesで大半のケースがカバー可能で、Turbo Streamsは比較的特殊なケースで使用するとしました。
 
-ここでは具体的にどのようなケースでTurbo Streamsを使うかを解説したいと思います。
+ただし、Turbo Streamsの方が良いケースは間違いなくあります。また人によってはTurbo FramesよりもTurbo Streamsを好みます。
+
+ここでは具体的にどのようなケースでTurbo Streamsを使うかを解説し、Turbo Streamsならではの特徴を紹介したいと思います。なお、私自身はあまりTurbo Streamsを使わないので、意見が偏向しているかもしれません。ご容赦ください。
 
 ## Turbo Streams固有の機能 ===features-exclusive-to-turbo-streams===
 
 <div className="mt-8 flow-root">
   <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-      <table className="min-w-full divide-y divide-gray-300">
+      <table className="divide-y divide-gray-300">
         <caption className="caption-top text-left font-bold">Turbo Streams固有の機能</caption>
         <thead>
         <tr>
           <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">機能</th>
           <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">用途</th>
-          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">注記</th>
+          <th scope="col" className="min-w-80 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">備考</th>
         </tr>
         </thead>
         <tbody className="bg-white">
         <tr className="even:bg-gray-50">
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Web Socketsに応答</td>
-          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Pollingを使わずにリアルタイムで<br />サーバの情報を反映したい時</td>
-          <td className="px-3 py-4 text-sm text-gray-500">リアルタイムチャットなどで使用</td>
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Pollingを使わずにリアルタイムで<br />サーバの情報を反映したい時<br />リアルタイムチャットなど</td>
+          <td className="px-3 py-4 text-sm text-gray-500"></td>
         </tr>
         <tr className="even:bg-gray-50">
-          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">常に柔軟なレスポンスが可能</td>
-          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">POST/Redirect/GETパターンに<br />に縛られたくない時</td>
-          <td className="px-3 py-4 text-sm text-gray-500">Turbo Framesは`form`からの非GETのリクエストに対して、[status 200を原則として受け付けない](https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission)。[POST/Redirect/GETパターン](https://en.wikipedia.org/wiki/Post/Redirect/Get)を前提としいるためである。その結果postのリクエストに対してネットワーク通信が２回発生する。これを嫌うときに使う</td>
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">部分置換以外の更新</td>
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">置換だけでなく、<br />削除や追加などをしたい時</td>
+          <td className="px-3 py-4 text-sm text-gray-500"></td>
+        </tr>
+        <tr className="even:bg-gray-50">
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">レスポンスを柔軟に<br />指定できる</td>
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">POSTに対して簡素にレスポンスしたい時<br />例えば「いいね」ボタンの実装など</td>
+          <td className="px-3 py-4 text-sm text-gray-500">Turbo Framesは`form`からの非GETのリクエストに対して、[POST/Redirect/GETパターン](https://en.wikipedia.org/wiki/Post/Redirect/Get)を前提としいて 、[POST後はstatus 303を期待し、status 200を無視する](https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission)。これを嫌うときに使う</td>
         </tr>
         <tr className="even:bg-gray-50">
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">画面の複数箇所の更新</td>
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">画面上で離れた箇所を<br />効率的に更新したい時</td>
-          <td className="px-3 py-4 text-sm text-gray-500"></td>
+          <td className="px-3 py-4 text-sm text-gray-500">Turbo Framesで画面の離れた複数箇所を同時更新する時は、全部を覆う大きいTurbo Frameを作る(Reactでいう[stateのリフトアップ](https://ja.react.dev/learn/sharing-state-between-components)と同じ)。一方でTurbo Streamsなら個別に変更できる</td>
         </tr>
         <tr className="even:bg-gray-50">
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">サーバ側から<br />ブラウザを細かく制御</td>
-          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">状況に応じてレスポンスを返したり、<br />redirectしたりを細かく制御したいとき</td>
+          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">状況に応じてレスポンスを返したり、<br />refreshしたりを細かく制御したいとき</td>
           <td className="px-3 py-4 text-sm text-gray-500"></td>
         </tr>
         <tr className="even:bg-gray-50">
@@ -53,10 +62,72 @@ Turboには[Turbo Drive, Turbo Frames, Turbo Streamsがあり、適宜使い分�
     </div>
   </div>
 </div>
-<div className="mt-2 text-gray-400 text-sm">※）頻度はあくまでも著者の経験であり、条件によって変わります。モーダル等を頻繁に使う場合や、少数の画面のUXに徹底的に注力する場合は異なります。また私はコードの単純化を優先してTurbo Framesを多く使いますが、逆にTurbo Streamsによる細かい制御を好む人もにいます。</div>
+
+以下、（すべては紹介できないかもしれないが）Turbo Streams固有の各機能の使い方を紹介します。
+
+## 画面の複数箇所の更新 ===updating-multiple-segments===
+
+[ショッピングカードの簡単なデモ](/api/hotwire/cart_streams)を用意しています。製品を選択してカートに追加すると、同時に２つのことが起こります。
+
+* "Add to Cart"ボタンが"Added to Cart"バッジに変更される
+* 画面右上のカートアイコン(Cart Icon)で追加された品目数が更新される
+
+このUIを実現する方法はいくつもあります。
+
+### Turbo FramesもしくはReactによる実装方法 ===implement-multi-segment-with-turbo-frames-or-react===
+
+Turbo FramesもReactも発想は同じなので、一緒に紹介します（実装は用意していません）。
+
+ここでは"Add to Cart"ボタンとCart Iconを同時に更新する必要がありますので、[ステートのリフトアップ](https://ja.react.dev/learn/sharing-state-between-components#lifting-state-up-by-example)を行います。つまり双方のコンポーネントを内包するより上位のコンポーネントを再描画することで、同時更新を実現します。
+
+もちろん無駄が発生します。今回のケースでいうと、他の製品の"Add to Cart"ボタンは全く変更されないのに、再レンダリングされてしまいます。しかし通常は大きな負荷ではなく、またキャッシュなどの方法で最適化も可能なので特に気にしません。
+
+Reactの場合は再レンダリングをまたいで[state の保持とリセット](https://ja.react.dev/learn/preserving-and-resetting-state)を行う仕組みがあります。通常のTurbo Framesではこれを行いませんが、[Morphingを使用することでほぼ同じことが実現できます](https://turbo.hotwired.dev/handbook/page_refreshes)。
 
 
+<figure className="my-4">
+  <figcaption className="font-bold">Turbo FramesやReactによる実装方法</figcaption>
+  <Image src={cartWithFramesReact} alt="Cart with Turbo Frames and React" />
+</figure>
 
+### Turbo Streamsによる実装方法 ===implement-multi-segment-with-turbo-streams===
+
+[Turbo Streamsを使った実装のデモ](/api/hotwire/cart_streams)を用意していますのでご覧ください。また[コードはGitHubに載せています](https://github.com/naofumi/hotwire_and_next/tree/main/templates/cart_streams)。
+
+Turbo Streamsを使った場合は、内包する上位のコンポーネントすべてが再レンダリングされるのではなく、"Add to Cart"ボタンとCart Iconのみが再描画されます。
+
+<figure className="my-4">
+  <figcaption className="font-bold">Turbo Streamsによる実装方法</figcaption>
+  <Image src={cartWithTurboStreams} alt="Cart with Turbo Streams" className="w-1/2 mx-auto" />
+</figure>
+
+"Add to Cart"ボタンとCart Iconをそれぞれ別個に再描画するため、サーバから送られてくるレスポンスは２つのパーツから構成されていて、それぞれの箇所のアップデートを担当します。どこをアップデートするかは`target=`属性を使って、更新先の要素の`id`を指定します。
+
+**templates/cart_streams/add_to_cart.ejs**
+
+```html
+<turbo-stream action="update" target="<%= `product_${productId}` %>">
+  <template>
+    <%- include("_added_badge.ejs") %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="update" target="cart_icon">
+  <template>
+    <%- include("_cart_icon.ejs", {cart}) %>
+  </template>
+</turbo-stream>
+```
+
+### Turbo Streamsのメリット ===multi-segment-turbo-streams-benefits===
+
+Turbo Streamsのように更新箇所を細かく指定できるメリットは、ブラウザのステートを維持しつつ、サーバ負担も最小化し、高速に再描画ができる点です。一方でデータの相互依存関係、つまり何を更新したら何が変更されるかを正確に把握している必要があります。更新される箇所が多くなると、管理が難しくなってきます。
+
+その点、すべてを再レンダリングするアプローチではデータの相互依存を考える必要がありません。データが単方向にしか流れないためです。Reactの[単方向データフロー](https://ja.react.dev/learn/thinking-in-react#step-2-build-a-static-version-in-react)もこの考え方です。
+
+このように、シンプルでかつ変更が局所的な時はTurbo Streamsのメリットが大きくなります。逆に変更箇所が多く、複雑な場合は、今後のメンテナンス性も含めて慎重に検討した方が良いでしょう。
+
+ただし、すべての変更箇所を囲む大きなTurbo Streamsを使うこともできます。他のメリット・デメリットも考慮して総合的に判断する必要があります。
 
 export default function NewTabbedMenus({children}) {
   return <CommentaryLayout
