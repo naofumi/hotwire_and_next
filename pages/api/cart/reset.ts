@@ -5,10 +5,11 @@ import {deleteCookie, getCookie, setCookie} from "cookies-next"
 
 import {allProducts} from "@/repositories/product";
 import {NextResponse} from "next/server";
+import {Cart} from "@/repositories/cart";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse<Cart>,
 ) {
   if (req.method !== "POST") { throw new Error("Bad request"); }
 

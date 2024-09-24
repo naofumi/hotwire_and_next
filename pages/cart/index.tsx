@@ -35,7 +35,7 @@ export default function CartPage({products}: { products: Product[] }) {
         "Content-Type": "application/json"},
       body: JSON.stringify({product_id: productId}),
     }).then(response => response.json())
-      .then(data => setCart(JSON.parse(data)));
+      .then(data => setCart(data));
   }
 
   function clearCart(event: FormEvent<HTMLFormElement>) {

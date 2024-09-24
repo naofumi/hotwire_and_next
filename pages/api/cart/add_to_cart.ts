@@ -6,7 +6,7 @@ import {Cart} from "@/repositories/cart";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<string>,
+  res: NextApiResponse<Cart>,
 ) {
   if (req.method !== "POST") { throw new Error("Bad request"); }
 
@@ -19,5 +19,5 @@ export default async function handler(
 
   res.appendHeader("Content-Type", "json/application")
     .status(200)
-    .json(JSON.stringify(cart))
+    .json(cart)
 }

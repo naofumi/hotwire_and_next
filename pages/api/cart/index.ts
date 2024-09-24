@@ -7,10 +7,10 @@ import {Cart} from "@/repositories/cart";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<string>,
+  res: NextApiResponse<Cart>,
 ) {
   const cartString = getCookie("cart", {req, res})
-  const cart = cartString ? JSON.parse(cartString) : {}
+  const cart: Cart = cartString ? JSON.parse(cartString) : {}
 
   res.status(200).json(cart)
 }
