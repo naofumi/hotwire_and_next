@@ -240,7 +240,7 @@ export default function IndexPage() {
               </div>
             </article>
 
-            { isDev() ? <article className="mt-16 border-t border-t-gray-200">
+            <article className="mt-16 border-t border-t-gray-200">
               <H2WithHash id="turbo-streams">
                 Turbo Streams
               </H2WithHash>
@@ -258,7 +258,7 @@ export default function IndexPage() {
                    className="btn-primary"
                    data-turbo="false">Turbo Streams</a>
               </div>
-            </article> : null}
+            </article>
           </div>
         </div>
       </div>
