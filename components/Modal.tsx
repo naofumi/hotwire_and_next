@@ -27,7 +27,7 @@ export default function Modal({closeModal, id}: {
     }
     window.addEventListener('keydown', close)
     return () => window.removeEventListener('keydown', close)
-  }, [])
+  }, [closeModal])
 
   return <>
     <div className="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
