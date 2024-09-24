@@ -63,7 +63,7 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
 * [Create React App](https://create-react-app.dev/)で作成されるような伝統的なReactアプリはCSRになります。サーバから送信されるのはJSONだけであり、HTMLの作成はブラウザが担当するからです
 * 同じようにNext.jsでSSG/SSRを行った場合の２ページ目以降の画面遷移はCSRです。２ページ目以降を表示するときはサーバからHTMLは送られず、JSONだけが送られるためです。つまり初回ロードがSSRで２ページ目以降はCSRとなります
 * 伝統的なReactアプリはCSRであり、かつSPAです。[React Router](https://reactrouter.com/en/main)等で画面遷移機能をつけることはできますが、その場合もメモリ上に展開されたJavaScriptやCSSは削除されず、遷移先のページでもそのまま利用されます。そのためSPAに分類されます
-* Reactアプリであり、CSRであっても、MPAというサイトはたくさんあります。例えば[Apple Store](https://www.apple.com/jp/shop/buy-iphone/iphone-15)はReactで作成されていて、JavaScriptをオフにすると正しく表示されません。つまりCSRが必須になっています。一方で画面遷移するときにメモリ上のJavaScriptとCSSは全て削除され、古いページが完全に消されてから新しいページに切り替わります。これはブラウザのローダーアニメーションおよびネットワークタブから確認できます。多くのJavaScriptを使ってリアクティブにしたいページだけはReactを使い、その他はReactなしで書くケースはこの使い方をします。
+* Reactアプリであり、CSRであっても、MPAというサイトはたくさんあります。例えば[Apple Store](https://www.apple.com/jp/shop/buy-iphone/iphone-15)はReactで作成されていて、JavaScriptをオフにすると正しく表示されません。つまりCSRが必須になっています。一方で画面遷移するときにメモリ上のJavaScriptとCSSはすべて削除され、古いページが完全に消されてから新しいページに切り替わります。これはブラウザのローダーアニメーションおよびネットワークタブから確認できます。多くのJavaScriptを使ってリアクティブにしたいページだけはReactを使い、その他はReactなしで書くケースはこの使い方をします。
 * Turbo DriveはSSRであり、かつSPAです。２ページ目以降の画面遷移の際はSPA的に画面が切り替わります。つまり初回ロード時のJavaScriptもCSSもメモリ上に保持したまま、２ページ目以降もそのまま使います。一方でサーバから送られてくるのはHTMLなので、レンダリングはサーバで行われており、SSRです。
 
 このように各フレームワークはCSR, SSR, SPA, MPAを複雑に組み合わせた形をとっており、これを利用する各ウェブサイトも目的に応じて使い分けています。「フレームワークAはSSRだ」と綺麗に分けることは難しいです
@@ -95,7 +95,7 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
 
 しかしReact Routerを使ったSPAでは、`XMLHttpRequest`や`fetch`を使って画面全体を遷移させますし、また画面いっぱいにローダーをすぐに出しますので、ユーザは別の操作ができません。`XMLHttpRequest`や`fetch`の使い方が多様になっていますので、UI/UX視点で定義するのは不可能に思われます。
 
-本サイトでは「非同期通信」は旧ページのJavaScriptやCSSをメモリから全て消すかどうか、それとも新ページを表示するときもメモリ上の同じJavaScriptやCSSを引き継ぐかどうかだけを基準にして考えています。つまりSPAとMPAの区別と同じように考えています。
+本サイトでは「非同期通信」は旧ページのJavaScriptやCSSをメモリからすべて消すかどうか、それとも新ページを表示するときもメモリ上の同じJavaScriptやCSSを引き継ぐかどうかだけを基準にして考えています。つまりSPAとMPAの区別と同じように考えています。
 
 ## SEO ===seo===
 

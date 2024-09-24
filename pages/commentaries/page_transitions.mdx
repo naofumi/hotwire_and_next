@@ -123,7 +123,7 @@ Turbo Driveを導入した時の効果は[デモページ](/api/hotwire/users)�
 
 ### SPAの効果 ===spa-effect===
 
-上記の表に挙げた技術は、ネイティブを除いて、全てSPA ([Single-page Application: シングルページアプリケーション](https://ja.wikipedia.org/wiki/シングルページアプリケーション))です。Next.jsの場合はSSRであっても、２つ目のページはSPA的に遷移します。
+上記の表に挙げた技術は、ネイティブを除いて、すべてSPA ([Single-page Application: シングルページアプリケーション](https://ja.wikipedia.org/wiki/シングルページアプリケーション))です。Next.jsの場合はSSRであっても、２つ目のページはSPA的に遷移します。
 
 ここでいうSPA的というのは、ページ切り替え時に[AJAX](https://ja.wikipedia.org/wiki/Ajax)等を使っていて、一見するとページ全体は切り替わっているものの、裏でロードされたJavaScriptやCSSはそのまま残しているという意味です。先のページをメモリに残しつつ画面遷移するため、よりスムーズなページ切り替えが可能になり、またキャッシュなどのパフォーマンス最適化がしやすくなっています。
 
@@ -148,7 +148,7 @@ Next.jsにもprefetchがあります。しかし多くのケースでは効果�
 
 本サイトの例を見ても、[Next SSGの場合](/users_ssg)はヌルサクな画面遷移をします。しかし[Next useEffect](/users)、[Next app router](/users_app)の場合はまずはローダー画面だけがすぐに表示されるものの、データのある画面が現れるまでは待たされます。そして[Next SSR](/users_ssr)の場合はクリック直後はページがローダーも現れず、しばらく経ってからデータのある画面が現れます。
 
-このように**Next.jsはprefetch機能はありますが、機能するのは静的なページのところまで**です。動的なコンテンツはprefetchされません。動的コンテンツが多いサイトの場合はNext.jsのprefetchは効果がかなり限定的になります。なお、本サイトは動的コンテンツのサイトを作成している開発者を念頭にしています。そのため、App routerのキャッシュは極力オフにしており、全てのページは[Dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)させています。
+このように**Next.jsはprefetch機能はありますが、機能するのは静的なページのところまで**です。動的なコンテンツはprefetchされません。動的コンテンツが多いサイトの場合はNext.jsのprefetchは効果がかなり限定的になります。なお、本サイトは動的コンテンツのサイトを作成している開発者を念頭にしています。そのため、App routerのキャッシュは極力オフにしており、すべてのページは[Dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)させています。
 
 <div className="mt-12">
   <div className="w-max-[560px] flex justify-center">

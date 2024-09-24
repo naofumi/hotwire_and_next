@@ -25,7 +25,7 @@ Hotwireおよびその前身の技術([TurboLinks](https://github.com/turbolinks
 
 「Hotwireは実装が楽だけど、限界がある」と考えている人がいます。React/Next.jsほどのUI/UXは作れないと思っている人がいます。「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」という声も聞こえます。**しかしこれは誤解です**。お客様がお金を払ってでも使いたくなる製品がHotwireだけで作成できることを、**37signals社が明確に実証ずみです**。さらに本サイトでは細かい仕組みの議論をしながら、HotwireのUI/UXの方がむしろ優れている面もあることを紹介します。
 
-もちろん全てにおいてHotwireがReact/Next.jsに勝るわけではありません。ただしほとんどのケースでは、少なくとも対等であると考えて間違いありません。
+もちろんすべてにおいてHotwireがReact/Next.jsに勝るわけではありません。ただしほとんどのケースでは、少なくとも対等であると考えて間違いありません。
 
 <Image src={hotwireNextImage} alt="Hotwire is capable of High fidelity UI/UX" />
 
@@ -54,7 +54,7 @@ Androidを繋ぎ合わせる役割を担う、モバイルアプリ作成のた�
 
   Turboは<code>fetch</code>を使い、ウェブページの部分置換をするライブラリです。Hotwireの中心的な技術です。置換する範囲と付随する機能に応じて、3種類の置換方法があります。
 
-* **Turbo Drive:**[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は`body`タグの中身を丸々置換する技術です。Next.jsの[router](https://nextjs.org/docs/pages/building-your-application/routing)、あるいは[React Router](https://reactrouter.com/)に相当し、ページ全体をSPA的に置換・遷移する仕組みです。`Link`タグのような特別なものは使わず、`a`タグが全て自動的にTurbo Driveを使うようになります。
+* **Turbo Drive:**[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は`body`タグの中身を丸々置換する技術です。Next.jsの[router](https://nextjs.org/docs/pages/building-your-application/routing)、あるいは[React Router](https://reactrouter.com/)に相当し、ページ全体をSPA的に置換・遷移する仕組みです。`Link`タグのような特別なものは使わず、`a`タグがすべて自動的にTurbo Driveを使うようになります。
 * **Turbo Frames:** [Turbo Frames](https://turbo.hotwired.dev/handbook/frames)は部分置換を実現するものです。画面の一部を置換するだけではなく、画面を **「枠」** に分割する性質があり、デフォルトでは枠内の **a** タグおよび **form** タグも中に閉じ込めるように動きます。[ルータとの連携](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[Lazy Load](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)なども用意され、画面の部分置換だけでなく、関連するUXもパッケージされています。柔軟性も高く、**これだけでほとんどの部分置換は可能です** (Turbo Streamsをあまり使わなくても用が足りてしまう)。<br />
 Next.js app routerの[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)に近い性質もありますが、URLとの連動が必須ではないことや、１つのページに複数のTurbo Frameが配置できることなど、より小回りが効く柔軟な仕組みです。
 * **Turbo Streams:** [Turbo Streams](https://turbo.hotwired.dev/handbook/streams)は画面を細かく、柔軟に置換する技術です。IDで指定された要素を１つずつ追加・置換したり、削除したりできます。またWebSocketを介した置換も可能になっています。柔軟性は非常に高いのですが、それだけに置換ステップ数が増大する傾向があり、必要なところで慎重に使うのがポイントではないかと思います。[jQuery](https://api.jquery.com/category/manipulation/)の`prepend()`, `append()`, `remove()`, `html()`をHTML属性から呼び出す感覚に近いとも言えます。Turbo StreamsとTurbo Framesの使い分けは明確ではなく、人よってどちらを多く使うかが異なります。私はTurbo Framesを多く使いますので、本サイトもこちらが中心になっています。
@@ -85,7 +85,7 @@ Turboは上記のたった３つのパーツしかないのですが、実際に
 
 Reactの世界ではuseStateに始まり、Reduxに至るまで、ステート管理が非常に大きなトピックになっています。ここではHotwireにおけるステートの一般的な考え方について紹介します。
 
-* **Reactは単方向データフロー(one-way data flow):** Reactでは単方向データフローが非常に重要な概念です。全てはステートから始まり、親コンポーネントから子コンポーネントにステートを渡しながら画面がレンダリングされます。ステートは各コンポーネントが`useState`で保持したり、あるいはグローバルに`useContext`やReduxなどを使って保持されます。ユーザの操作等によって画面の複数箇所が同時に更新され、さらに操作をする箇所が多く、複雑なアプリにおいてはこれは非常に有効なコンセプトです
+* **Reactは単方向データフロー(one-way data flow):** Reactでは単方向データフローが非常に重要な概念です。すべてはステートから始まり、親コンポーネントから子コンポーネントにステートを渡しながら画面がレンダリングされます。ステートは各コンポーネントが`useState`で保持したり、あるいはグローバルに`useContext`やReduxなどを使って保持されます。ユーザの操作等によって画面の複数箇所が同時に更新され、さらに操作をする箇所が多く、複雑なアプリにおいてはこれは非常に有効なコンセプトです
 * **Turboはサーバにステート管理を任せます:** HotwireのTurboはサーバにステートを持たせ、同じものはブラウザでは持たないという考え方です。HTMLはサーバでレンダリングされますので、ブラウザに送られてくる必要がありません。またHTML `form`によってサーバにデータを送信する場合も、`form`自身がネイティブに保有するステート管理に任せます。Reactのように`form`の状態をステートに持たせ、それをJSONに変換してサーバに送ることをしません。`form`のネイティブな動作に任せ、`application/x-www-form-urlencoded`形式でサーバに送ります。その一方で積極的にキャッシュを行い、ネットワーク通信による遅延を最小化する仕組みを各種用意しています。
 * **Stimulusはブラウザ内のステートを管理します:** HotwireのStimulusはブラウザのみが保有し、サーバと共有されないステートを管理します。例えばアコーディオンやプルダウンメニューの開閉状態がこれに相当します。簡単なステートの場合は、敢えてステートを別個に保持せずに、DOMに加えた変更そのものをステートとします。例えば開閉状態を示す`opened` CSSクラス、あるいは`aria="busy"`などを使います。より複雑なステートを扱う場合は[StimulusのValues](https://stimulus.hotwired.dev/reference/values)を使用します。これはHTML要素の`data-*`属性に書き込まれて保持されます(Object型のデータも保持可能)。また[change callback](https://stimulus.hotwired.dev/reference/values#change-callbacks)が用意されていますので、Stimulus Valuesに加えた変更が自動的にHTML要素に反映される仕組みが作れます。例えば[Chart.js](https://www.chartjs.org)のグラフをStimulus Values経由で管理すると便利です
 
