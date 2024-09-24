@@ -9,8 +9,7 @@ export default async function handler(
   if (req.method === "POST") {
     const responseType: string = req.body.response_type
     if (responseType === "303") {
-      res.writeHead(303, {'Location': (process.env.URL + "/api/hotwire/forms/show")})
-      res.end()
+      res.redirect(303, process.env.URL + "/api/hotwire/forms/show")
     } else if (responseType === "200") {
       const resultText = render("forms/show.ejs", {})
       res.appendHeader("Content-Type", "text/html")

@@ -14,5 +14,5 @@ export default async function handler(
 
   deleteCookie("cart", {res, req})
 
-  res.redirect(process.env.URL + "/api/hotwire/cart_streams")
+  res.redirect(303, process.env.URL + "/api/hotwire/cart_streams")
 }
