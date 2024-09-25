@@ -218,36 +218,16 @@ export default function CartPage({products}: { products: Product[] }) {
             </div>
            ...
         </div>
-        <div className="mt-8 flow-root">
-           ...
-            <tbody className="divide-y divide-gray-200 bg-white">
-            {
-              products.map((product, i) => {
-                return (<tr key={i} className="divide-x divide-gray-200">
-                  ...
-                  <td className="text-center whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0">
-                    {cart
-                      ? cart[product.id.toString()]
-                        ? <AddedBadge/>
-                        : <ProductAddButton product={product} addToCart={addToCart}/>
-                      : <span>Loading...</span>
-                    }
-                  </td>
-                </tr>)
-              })
-            }
-            </tbody>
-           ...
-        </div>
+        <ProductList products={products} cart={cart} addToCart={addToCart} />
       </div>
     </Layout>
   )
 }
 ```
 
-* `products` `cart`のステートはリフトアップされているので、すべて`CartPage`コンポーネントが持っている
-* ステートを操作するイベントハンドラの`addToCart()`, `clearCart()`もリフトアップの関係でここに記載している
-* `useEffect`、`addToCart()`、`clearCart()`もすべて`setCart(data)`だけで、カート更新後の再レンダリングを実施している。`cart`の情報だけをサーバから受け取っといる
+* `products` `cart`のステートはリフトアップされているので、ステートはすべて`CartPage`コンポーネントが持っている。これがpropsで`CartIcon`, `ProductList`コンポーネントに渡される
+* ステートを操作するイベントハンドラの`addToCart()`, `clearCart()`もリフトアップされるのでここに記載している。この関数もpropsで`CartIcon`, `ProductList`コンポーネントに渡される
+* `useEffect`、`addToCart()`、`clearCart()`はすべて`setCart(data)`だけで、カート更新後の再レンダリングを実施している。`products`を再取得する必要はなく、`cart`の情報だけをサーバから受け取っといる
 * Turbo Framesの場合は`form`タグを書くだけで、別途イベントハンドラを記載する必要がなかった。Reactの場合はイベントハンドラをカスタムで記述することに加え、それをリフトアップして下位のコンポーネントにpropsとして渡していくところが幾分か複雑になっている
 
 #### まとめ
@@ -258,6 +238,8 @@ export default function CartPage({products}: { products: Product[] }) {
 * `cart`が更新されるとブラウザ側で製品リストの再レンダリングは行うが、サーバ側では行わない。よってサーバへの負荷は少ない
 
 ### Turbo Streamsによる実装方法 ===implement-multi-segment-with-turbo-streams===
+
+Turbo Streamsの場合はTurbo Frames, Reactの場合と大きく異なり、ステートのリフトアップは行いません。その代わり、Cart Iconおよび"Add to Cart"ボタンの要素を個別に更新します。Turbo FramesおよびReactの場合は要素更新のロジックは別個に持たず、最初のレンダリングのロジックをそのまま使っていましたが、Turbo Streamsの場合は要素更新ロジックを別途用意する必要があります。
 
 [Turbo Streamsを使った実装のデモ](/api/hotwire/cart_streams)を用意していますのでご覧ください。また[コードはGitHubに載せています](https://github.com/naofumi/hotwire_and_next/tree/main/templates/cart_streams)。
 
@@ -286,7 +268,13 @@ Turbo Streamsを使った場合は、内包する上位のコンポーネント�
 </turbo-stream>
 ```
 
+#### まとめ
 
+* Turbo Framesに比べて更新箇所を細かく指定できる。サーバで余計な再レンダリングをする必要がない
+* これを実現するために、「何をどのように更新するか」を別途指定しなければならない。これは`<turbo-stream>`タグを使って宣言的に記述するため、ロジックはゴチャつきにくい。それでもTurbo FramesやReactの場合はそもそも更新ロジックが不要だったので、その分は複雑になっている
+* 更新ロジックが単純な場合はTurbo Streamsのメリットがデメリットを上回ることも多いだろう。しかし更新ロジックが複雑な場合はTurbo FramesもしくはMorphingを使って、更新ロジックそのものを不要にした方が良いかもしれない。
+
+なお複雑なUIでは更新ロジックが難しくなる傾向があり、[単方向データフロー](https://ja.react.dev/learn/thinking-in-react#step-2-build-a-static-version-in-react)による簡略化はReactの大きなメリットとされている。
 
 
 ### Turbo Streamsのメリット ===multi-segment-turbo-streams-benefits===
