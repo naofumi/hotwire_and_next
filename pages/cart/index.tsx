@@ -4,8 +4,6 @@ import CartIcon from "@/components/cart/CartIcon";
 import type {Cart} from "@/repositories/cart";
 import {useEffect, useState} from "react";
 import {Product} from "@/repositories/product";
-import AddedBadge from "@/components/cart/AddedBadge";
-import ProductAddButton from "@/components/cart/ProductAddButton";
 import ProductList from "@/components/cart/ProductList";
 
 export async function getServerSideProps() {

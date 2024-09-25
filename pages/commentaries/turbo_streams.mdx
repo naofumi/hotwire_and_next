@@ -234,7 +234,7 @@ export default function CartPage({products}: { products: Product[] }) {
 
 * MPAを少しだけ改変するTurbo Framesと比べると、特にイベントハンドラ周りが多少複雑になっている
 * POST/redirect/GETパターンを使わないので、ネットワーク通信が１回で済む。その分、レスポンスが高速になり、特にネットワークが遅い場合はUI/UXが優れている
-* `products`は最初に読み込んだきりで、あとは`cart`情報だけをサーバ通信するので、ネットワーク負荷、サーバ負荷が減らせる
+* CSRの特徴を活かして、`cart`情報を含めたレンダリングはブラウザで行なっている。おかげで"Add to Cart"ボタンをクリックしたとき、`products`は最初に読み込んだきりで、あとは`cart`情報だけをサーバ通信するので、ネットワーク負荷、サーバ負荷が減らせる
 * `cart`が更新されるとブラウザ側で製品リストの再レンダリングは行うが、サーバ側では行わない。よってサーバへの負荷は少ない
 
 ### Turbo Streamsによる実装方法 ===implement-multi-segment-with-turbo-streams===
