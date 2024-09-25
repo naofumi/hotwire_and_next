@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import CartTechNav from "@/components/cart/CartTechNav";
 import CartIcon from "@/components/cart/CartIcon";
 import type {Cart} from "@/repositories/cart";
-import {FormEvent, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Product} from "@/repositories/product";
 import AddedBadge from "@/components/cart/AddedBadge";
 import ProductAddButton from "@/components/cart/ProductAddButton";
@@ -23,24 +23,19 @@ export default function CartPage({products}: { products: Product[] }) {
       .then(data => setCart(data))
   }, [])
 
-  function addToCart(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    const productId = formData.get("product_id")
-
+  function addToCart(productId: number) {
     fetch("/api/cart/add_to_cart", {
       method: "POST",
       headers: {
         "Accept": "application/json",
-        "Content-Type": "application/json"},
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({product_id: productId}),
     }).then(response => response.json())
       .then(data => setCart(data));
   }
 
-  function clearCart(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-
+  function clearCart() {
     fetch("/api/cart/reset", {
       method: "POST"
     }).then(response => response.json())
@@ -57,11 +52,11 @@ export default function CartPage({products}: { products: Product[] }) {
             <div className="flex justify-between">
               <h2 className="demo-h2">Products</h2>
               <div className="flex">
-                <form method="post" onSubmit={clearCart}>
-                  <button type="submit" className="p-1 mr-4 border rounded border-orange-600 text-orange-600">Clear
-                    Cart
-                  </button>
-                </form>
+                <button type="button"
+                        onClick={clearCart}
+                        className="p-1 mr-4 border rounded border-orange-600 text-orange-600">Clear
+                  Cart
+                </button>
                 <div id="cart_icon">
                   {cart
                     ? <CartIcon cart={cart}/>
@@ -94,30 +89,31 @@ export default function CartPage({products}: { products: Product[] }) {
                 </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                {products.map((product, i) => {
-                  return (<tr key={i} className="divide-x divide-gray-200">
-                    <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
-                      {product.name}
-                    </td>
-                    <td className="whitespace-nowrap p-4 text-sm text-gray-500">
-                      {product.catalogNumber}
-                    </td>
-                    <td className="whitespace-nowrap p-4 text-sm text-gray-500">
-                      {product.price}
-                    </td>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0">
-                      {product.availability}
-                    </td>
-                    <td className="text-center whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0">
-                      { cart
-                        ? cart[product.id.toString()]
-                          ? <AddedBadge/>
-                          : <ProductAddButton product={product} addToCart={addToCart}/>
-                        : <span>Loading...</span>
-                      }
-                    </td>
-                  </tr>)
-                })
+                {
+                  products.map((product, i) => {
+                    return (<tr key={i} className="divide-x divide-gray-200">
+                      <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
+                        {product.name}
+                      </td>
+                      <td className="whitespace-nowrap p-4 text-sm text-gray-500">
+                        {product.catalogNumber}
+                      </td>
+                      <td className="whitespace-nowrap p-4 text-sm text-gray-500">
+                        {product.price}
+                      </td>
+                      <td className="whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0">
+                        {product.availability}
+                      </td>
+                      <td className="text-center whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0">
+                        {cart
+                          ? cart[product.id.toString()]
+                            ? <AddedBadge/>
+                            : <ProductAddButton product={product} addToCart={addToCart}/>
+                          : <span>Loading...</span>
+                        }
+                      </td>
+                    </tr>)
+                  })
                 }
                 </tbody>
               </table>

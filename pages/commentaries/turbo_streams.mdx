@@ -6,11 +6,11 @@ import cartWithTurboStreams from "@/public/images/cart-with-turbo-streams.webp"
 
 ## Turbo Streamsは比較的特殊なケースで使う ===use-turbo-streams-for-relatively-special-cases===
 
-Turboには[Turbo Drive, Turbo Frames, Turbo Streamsがあり、適宜使い分ける](/commentaries/tabbed_menus#turbo-ranking)ことを別途紹介しました。またTurbo DriveとTurbo Framesで大半のケースがカバー可能で、Turbo Streamsは比較的特殊なケースで使用するとしました。
+Turboには[Turbo Drive, Turbo Frames, Turbo Streamsがあり、適宜使い分ける](/commentaries/tabbed_menus#turbo-ranking)ことは別途紹介しました。またTurbo DriveとTurbo Framesで大半のケースがカバー可能で、Turbo Streamsは比較的特殊なケースで使用するとも述べました。
 
-ただし、Turbo Streamsの方が良いケースは間違いなくあります。また人によってはTurbo FramesよりもTurbo Streamsを好みます。
+ただし、Turbo Streamsの方が良いケースは間違いなくあります。またTurbo FramesよりもTurbo Streamsを好み人もいます。
 
-ここでは具体的にどのようなケースでTurbo Streamsを使うかを解説し、Turbo Streamsならではの特徴を紹介したいと思います。なお、私自身はあまりTurbo Streamsを使わないので、意見が偏向しているかもしれません。ご容赦ください。
+人によって好みが異なる以上、単純にこれがTurbo Streamsの使いどき、あれがTurbo Framesの使いどきを紹介することはできません。そこでここではTurbo Streamsならではの特徴を紹介したいと思います。特徴を理解した上で、適宜判断していただければと思います。
 
 ## Turbo Streams固有の機能 ===features-exclusive-to-turbo-streams===
 
@@ -74,21 +74,188 @@ Turboには[Turbo Drive, Turbo Frames, Turbo Streamsがあり、適宜使い分�
 
 このUIを実現する方法はいくつもあります。
 
-### Turbo FramesもしくはReactによる実装方法 ===implement-multi-segment-with-turbo-frames-or-react===
+### Turbo Frames/Reactの考え方（リフトアップ） ===multi-segment-with-turbo-frames-or-react-concept===
 
-Turbo FramesもReactも発想は同じなので、一緒に紹介します（実装は用意していません）。
+Turbo FramesもReactも発想は同じなので、一緒に紹介します。
 
-ここでは"Add to Cart"ボタンとCart Iconを同時に更新する必要がありますので、[ステートのリフトアップ](https://ja.react.dev/learn/sharing-state-between-components#lifting-state-up-by-example)を行います。つまり双方のコンポーネントを内包するより上位のコンポーネントを再描画することで、同時更新を実現します。
+"Add to Cart"ボタンとCart Iconは共通の`cart`ステートによって同時に更新されます。しかし"Add to Cart"ボタンとCart Iconは離れていますので、[ステートのリフトアップ](https://ja.react.dev/learn/sharing-state-between-components#lifting-state-up-by-example)を行います。つまり双方のコンポーネントを内包するより上位のコンポーネントに`cart`ステートを持たせ、更新された時は上位コンポーネント以下を再描画することで、同時更新を実現します。
 
 もちろん無駄が発生します。今回のケースでいうと、他の製品の"Add to Cart"ボタンは全く変更されないのに、再レンダリングされてしまいます。しかし通常は大きな負荷ではなく、またキャッシュなどの方法で最適化も可能なので特に気にしません。
-
-Reactの場合は再レンダリングをまたいで[state の保持とリセット](https://ja.react.dev/learn/preserving-and-resetting-state)を行う仕組みがあります。通常のTurbo Framesではこれを行いませんが、[Morphingを使用することでほぼ同じことが実現できます](https://turbo.hotwired.dev/handbook/page_refreshes)。
-
 
 <figure className="my-4">
   <figcaption className="font-bold">Turbo FramesやReactによる実装方法</figcaption>
   <Image src={cartWithFramesReact} alt="Cart with Turbo Frames and React" />
 </figure>
+
+### Turbo Framesによる実装方法 ===implement-multi-segment-with-turbo-frames===
+
+Turbo Framesの場合は上位コンポーネントとして、"Add to Cart"ボタンとCart Iconを内容する場所に`<turbo-frame id="cart">`タグを配置するだけです。それ以外は普通のMPAと変わりません。[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/cart_frames)に用意していますので、ご確認ください。
+
+#### コード
+
+**templates/cart_frames/index.ejs**
+```html
+<%- include("../layouts/header.ejs") -%>
+<div class="my-10 px-4 sm:px-6 lg:px-8">
+  <turbo-frame id="cart">
+    ...
+  </turbo-frame>
+</div>
+<%- include("../layouts/footer.ejs") -%>
+```
+
+* `<turbo-frame id="cart">`で囲むことによって、"Add to Cart"をクリックしたときの動作は`turbo-frame`の中だけに影響するようになります。今回のケースではボタンをクリックしてもスクロール位置が変わらないという効果が得られます（スクロール位置が変わっても良いのであれば、`turbo-frame`で囲む必要がありません）
+
+**templates/cart_frames/_product_add_button.ejs**
+```html
+<form method="post" action="/api/hotwire/cart_frames/add_to_cart">
+  <input type="hidden" name="product_id" value="<%= product.id %>">
+  <button type="submit"
+          data-turbo-submits-with="adding..."
+          class="btn-primary border border-orange-600">Add to Cart</button>
+</form>
+```
+
+* "Add to Cart"ボタンは通常の`form`タグで`/api/hotwire/cart_frames/add_to_cart`にPOSTリクエストを投げています（パラメータとして`product_id`も送信）。
+
+**pages/api/hotwire/cart_frames/add_to_cart.ts**
+```ts
+// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import type {NextApiRequest, NextApiResponse} from "next";
+import {getCookie, setCookie} from "cookies-next"
+import {Cart} from "@/repositories/cart";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<string>,
+) {
+  if (req.method !== "POST") { throw new Error("Bad request"); }
+
+  const productId: string = req.body.product_id
+  const cartString = getCookie("cart", {req, res})
+  const cart: Cart = cartString ? JSON.parse(cartString) : {}
+
+  cart[productId] = 1
+  setCookie("cart", JSON.stringify(cart), {res, req})
+
+  res.redirect(303, process.env.URL + "/api/hotwire/cart_frames")
+}
+```
+
+* `/api/hotwire/cart_frames/add_to_cart`では下記のように、`product_id`をcookieに保存します。そして**ここがとても重要なのですが、元のページ`/api/hotwire/cart_frames`にStatus 303のredirectをします**。
+* **Redirectすることの大きなメリットはコードが簡単になるということです**。POST後の再描画のコードは全く不要で、元のページを単純に再利用できます。
+* Turbo Drive, Turbo Framesを使用する際、`form`タグはブラウザネイティブのものと異なる動作をします。特に重要なのは[POST/redirect/GETパターン](https://en.wikipedia.org/wiki/Post/Redirect/Get)が必須となることです。[POSTが成功した場合はStatus 200のレスポンスは無視され、Status 303によるredirectだけが可能になります(Status 302も許容)](https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission)。Redirectせずに、Status 200で再レンダリングしたHTMLを送ればネットワーク通信が1回減らせますが、それはできないということです。この辺りは分かりにくいので、別途解説予定です。
+
+なおPOST/redirect/GETパターンは古くからベストプラクティスとされていたもので、特に画面リフレッシュ時に同じPOSTを誤って２回送信してしまうのを防ぐ効果がありました。ただしAJAXで非同期通信を行い、URLを変更せずに画面の一部置換を行うUIの場合はこの問題が起こりません。Turbo Drive, Turbo FramesはJavaScriptがオフの場合も動作するように設計されており、おそらくその影響もあって簡便なPOST/redirect/GETパターンを前提としていると考えられます。（なお[Next.js Server Actionもredirectを使います](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#redirecting)）
+
+#### まとめ
+
+* MPAと比べ、`turbo-frame`タグをつけるだけで実装できる
+* POST/redirect/GETパターンを使わないといけないので、"Add to Cart"を押してから２回ネットワーク通信が必要になる。ネットワークが遅い場合は遅延が大きくなる
+
+### Reactによる実装方法 ===implement-multi-segment-with-react===
+
+上述したようにReactによる実装とTurbo Framesによる実装は考え方が似ています。複数箇所を更新するために[ステートをリフトアップ](https://ja.react.dev/learn/sharing-state-between-components#lifting-state-up-by-example)します。ただしMPAをシンプルに改良するTurbo Framesと比べて、Reactは色々な工夫ができます。それを紹介します。
+
+React版は下記の構成になります。
+
+* ショッピングカートUIでは製品情報(`products`)とカート情報(`cart`)の２つが必要。Hotwireと異なり、ReactはCSR (Client Side Rendering)を行うので、ブラウザの中でこの２つを統合してHTMLをレンダリングできる
+* 製品情報(`products`)をもとにしたレンダリングはサーバ側でSSR (Server Side Rendering)によって行う。これは最初の描画の高速化とSEOに有利。
+* カート情報(`cart`)はCSRを使ってブラウザの中で行う。このため、カートを更新したときに必要なサーバとの通信を最小化できる
+
+以下、コードを見ていきます([GitHubに掲載](https://github.com/naofumi/hotwire_and_next/tree/main/pages/cart))。[デモ](/cart)はこちらでご確認いただけます。
+
+#### コード
+
+**pages/cart/index.tsx**
+```tsx
+...
+
+export async function getServerSideProps() {
+  const response = await fetch(process.env.URL + "/api/products");
+  const data = await response.json();
+
+  return {props: {products: data}}
+}
+
+export default function CartPage({products}: { products: Product[] }) {
+  const [cart, setCart] = useState<Cart | null>(null)
+
+  useEffect(() => {
+    fetch("/api/cart")
+      .then(response => response.json())
+      .then(data => setCart(data))
+  }, [])
+
+  function addToCart(productId: number) {
+    fetch("/api/cart/add_to_cart", {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({product_id: productId}),
+    }).then(response => response.json())
+      .then(data => setCart(data));
+  }
+
+  function clearCart() {
+    fetch("/api/cart/reset", {
+      method: "POST"
+    }).then(response => response.json())
+      .then(data => setCart(data))
+  }
+
+  return (
+    <Layout>
+      <div className="my-10 px-4 sm:px-6 lg:px-8">
+        <div className="sm:flex sm:items-center">
+           ...
+            <div id="cart_icon">
+              {cart
+                ? <CartIcon cart={cart}/>
+                : <span>Loading...</span>}
+            </div>
+           ...
+        </div>
+        <div className="mt-8 flow-root">
+           ...
+            <tbody className="divide-y divide-gray-200 bg-white">
+            {
+              products.map((product, i) => {
+                return (<tr key={i} className="divide-x divide-gray-200">
+                  ...
+                  <td className="text-center whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0">
+                    {cart
+                      ? cart[product.id.toString()]
+                        ? <AddedBadge/>
+                        : <ProductAddButton product={product} addToCart={addToCart}/>
+                      : <span>Loading...</span>
+                    }
+                  </td>
+                </tr>)
+              })
+            }
+            </tbody>
+           ...
+        </div>
+      </div>
+    </Layout>
+  )
+}
+```
+
+* `products` `cart`のステートはリフトアップされているので、すべて`CartPage`コンポーネントが持っている
+* ステートを操作するイベントハンドラの`addToCart()`, `clearCart()`もリフトアップの関係でここに記載している
+* `useEffect`、`addToCart()`、`clearCart()`もすべて`setCart(data)`だけで、カート更新後の再レンダリングを実施している。`cart`の情報だけをサーバから受け取っといる
+* Turbo Framesの場合は`form`タグを書くだけで、別途イベントハンドラを記載する必要がなかった。Reactの場合はイベントハンドラをカスタムで記述することに加え、それをリフトアップして下位のコンポーネントにpropsとして渡していくところが幾分か複雑になっている
+
+#### まとめ
+
+* MPAを少しだけ改変するTurbo Framesと比べると、特にイベントハンドラ周りが多少複雑になっている
+* POST/redirect/GETパターンを使わないので、ネットワーク通信が１回で済む。その分、レスポンスが高速になり、特にネットワークが遅い場合はUI/UXが優れている
+* `products`は最初に読み込んだきりで、あとは`cart`情報だけをサーバ通信するので、ネットワーク負荷、サーバ負荷が減らせる
+* `cart`が更新されるとブラウザ側で製品リストの再レンダリングは行うが、サーバ側では行わない。よってサーバへの負荷は少ない
 
 ### Turbo Streamsによる実装方法 ===implement-multi-segment-with-turbo-streams===
 
@@ -118,6 +285,9 @@ Turbo Streamsを使った場合は、内包する上位のコンポーネント�
   </template>
 </turbo-stream>
 ```
+
+
+
 
 ### Turbo Streamsのメリット ===multi-segment-turbo-streams-benefits===
 
