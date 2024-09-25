@@ -22,7 +22,7 @@ export default function CartTechNav({selected}: { selected: string }) {
       >
         Next.js Pages Router
       </a>
-      <a href="/cart"
+      <a href="/cart_app"
          className={selected === "server_actions"
            ? " btn-primary"
            : " btn-outline-primary"}

@@ -5,7 +5,9 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
 
 ## CSR, SSR, SPA, MPA ===csr-ssr-spa-mpa===
 
-主にNext.jsによって一般的になった用語かと思いますが、人によって使い方がまちまちだという印象を持っています。私は下記のように定義して使用しています。この使い方が最も[MECE(漏れなく・ダブりなく)](https://ja.wikipedia.org/wiki/MECE)になと思っていて、気に入っています。
+主にNext.jsによって一般的になった用語かと思いますが、人によって使い方がまちまちで、コミュニケーションに苦労するのが私の印象です。例えばNext.jsの`getServerSideProps()`を使ったページはCSRなのかSSRなのかSPAなのかMPAなのか？あるいは`getStaticProps()`は一般にSSGと言われているが、実質的にSSRと何が違うのか？Hydrationを行わないRuby on Rails ERBはSSRなのか？同様にHydrationを行わない純粋React Server ComponentsはSSRなのか？コミュニケーションに困るシチュエーションは無限にありそうです。
+
+私は下記のように定義して使用しています。この使い方が最も[MECE(漏れなく・ダブりなく)](https://ja.wikipedia.org/wiki/MECE)になと思っていて、気に入っています。
 
 私は２つの軸を使って、下記の表のように分類しています。
 
@@ -24,25 +26,25 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
         </thead>
         <tbody className="bg-white whitespace-nowrap">
         <tr className="even:bg-gray-50">
-          <td className="px-3 py-4 text-sm text-gray-500">CSR</td>
+          <td className="px-3 py-4 text-sm text-gray-500">**CSR**</td>
           <td className="px-3 py-4 text-sm text-gray-500">Client-Side Rendering</td>
           <td className="px-3 py-4 text-sm text-gray-500">ブラウザ</td>
           <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
         </tr>
         <tr className="even:bg-gray-50">
-          <td className="px-3 py-4 text-sm text-gray-500">SSR</td>
+          <td className="px-3 py-4 text-sm text-gray-500">**SSR**</td>
           <td className="px-3 py-4 text-sm text-gray-500">Server-Side Rendering</td>
           <td className="px-3 py-4 text-sm text-gray-500">サーバ</td>
           <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
         </tr>
         <tr className="even:bg-gray-50">
-          <td className="px-3 py-4 text-sm text-gray-500">SPA</td>
+          <td className="px-3 py-4 text-sm text-gray-500">**SPA**</td>
           <td className="px-3 py-4 text-sm text-gray-500">Single-Page Application</td>
           <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
           <td className="px-3 py-4 text-sm text-gray-500">維持される</td>
         </tr>
         <tr className="even:bg-gray-50">
-          <td className="px-3 py-4 text-sm text-gray-500">MPA</td>
+          <td className="px-3 py-4 text-sm text-gray-500">**MPA**</td>
           <td className="px-3 py-4 text-sm text-gray-500">Multi-Page Application</td>
           <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
           <td className="px-3 py-4 text-sm text-gray-500">維持されない</td>
@@ -53,22 +55,43 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
   </div>
 </div>
 
+### CSR: Client-Side-Rendering ===CSR===
+
+* ブラウザの中でJavaScriptが動いて、HTMLをレンダリングするやり方
+
+### SSR: Server-Side-Rendering ===SSR===
+
+* サーバでHTMLがレンダリングされ、HTMLとしてブラウザに送信するやり方
+
+### SPA: Single-Page Application ===SPA===
+
+* 全画面を書き換える画面遷移を行わないアプリケーション
+* 全画面を書き換える画面遷移をするものの、その際、`<head>`タグは保持し、主に`<body>`タグの内容だけを更新するもの。`<head>`の中で読み込まれたJavaScriptやCSSは次のページに引き継ぐ
+
+### MPA: Multi-Page Application ===MPA===
+
+* 全画面を書き換える画面遷移を行い、その際は`<head>`タグの中身を含めたページ全体をブラウザメモリから消し、まっさらな状態から次のページを描画するもの
+
+### 判断に迷いやすいケースの解釈 ===confusing-cases===
+
 この分類をすると、例えば以下のケースもCSR, SSR, SPA, MPAの用語で解説できます。
 
 * SSG (Static-Site Generation)はSSRの１例として解釈されます。サーバからブラウザに送られるのはHTMLファイルであるため、サーバでレンダリングされたと考えるためです。またNext.jsのISR (Incremental Static Generation)も同様にSSRの１例として考えます
-* Ruby on Rails, PHP, DjangoなどのHTMLテンプレートを使ったウェブページもSSRの１例として解釈されます。HTMLがサーバでレンダリングされるためです
-* なお、SSRにはHydrationが必要だと考える人を見かけます。しかしHydrationはReact等のSSRにおいて、一旦サーバから送信されたHTMLをブラウザ画面に表示されたのち、裏でブラウザがレンダリングを再実行して`ReactNode`ツリーを作成し、これをDOMに繋げていく作業です。Rails, PHP, DjangoのHTMLテンプレートではそもそも必要がない工程です。したがって、このステップの有無は考慮しません
-* ReactでSSRを行った場合、Hydrationをしないとページはインタラクティブになりません。つまりクリック等に反応しません(onclick等を使った場合)。インタラクティブではないページは本来のウェブページではないので、単なるプレビューと考えることができます。あるいは実際のページにそっくりのローディング画面と見ることもできます。HydrationはReact SSRでは必須ですが、HydrationステップはCSRとほぼ同じことをします。つまりSSRをやりつつ裏でCSRを実施するのがReactのSSRであり、純粋なSSRではないといえます。
-* React Server ComponentsはRSC payloadと呼ばれるものをサーバからブラウザに送ります。これはHTMLにかなり近いものです。したがってSSRの１例と捉えるのが良いと考えています。React Server ComponentはHydrationがなくても`a`タグや`form`タグが動作しますので、Hydrationが不要なSSRという意味ではRuby on RailsはPHPのSSRと近い位置付けになります
-* [Create React App](https://create-react-app.dev/)で作成されるような伝統的なReactアプリはCSRになります。サーバから送信されるのはJSONだけであり、HTMLの作成はブラウザが担当するからです
-* 同じようにNext.jsでSSG/SSRを行った場合の２ページ目以降の画面遷移はCSRです。２ページ目以降を表示するときはサーバからHTMLは送られず、JSONだけが送られるためです。つまり初回ロードがSSRで２ページ目以降はCSRとなります
-* 伝統的なReactアプリはCSRであり、かつSPAです。[React Router](https://reactrouter.com/en/main)等で画面遷移機能をつけることはできますが、その場合もメモリ上に展開されたJavaScriptやCSSは削除されず、遷移先のページでもそのまま利用されます。そのためSPAに分類されます
-* Reactアプリであり、CSRであっても、MPAというサイトはたくさんあります。例えば[Apple Store](https://www.apple.com/jp/shop/buy-iphone/iphone-15)はReactで作成されていて、JavaScriptをオフにすると正しく表示されません。つまりCSRが必須になっています。一方で画面遷移するときにメモリ上のJavaScriptとCSSはすべて削除され、古いページが完全に消されてから新しいページに切り替わります。これはブラウザのローダーアニメーションおよびネットワークタブから確認できます。多くのJavaScriptを使ってリアクティブにしたいページだけはReactを使い、その他はReactなしで書くケースはこの使い方をします。
-* Turbo DriveはSSRであり、かつSPAです。２ページ目以降の画面遷移の際はSPA的に画面が切り替わります。つまり初回ロード時のJavaScriptもCSSもメモリ上に保持したまま、２ページ目以降もそのまま使います。一方でサーバから送られてくるのはHTMLなので、レンダリングはサーバで行われており、SSRです。
+* Ruby on Rails, PHP, DjangoなどのHTMLテンプレートを使ったウェブページもSSRの１例として解釈されます。HTMLがサーバでレンダリングされるためです。Hydrationの有無はSSRの必要条件とは考えません
+* Next.jsで`getServerSideProps()`を使ったページは、CSRであり、SSRであり、SPAであり、MPAでもあります
+    * 初回ロード時はサーバでHTMLがレンダリングされ、ブラウザはこれをそのまま表示します。つまりSSRです
+    * `Link`タグを使って画面遷移するときは、サーバからJSONが送られてきます。このJSONを使って、JavaScriptがHTMLをレンダリングして、リンク先のページを画面に表示します。つまりCSRです
+    * `Link`タグを使って画面遷移をするときは`<head>`タグを残して、`<body>`タグの中だけが(主に)変化します。つまりSPAです
+    * `Link`タグではなく、ただの`a`タグを使って画面遷移をすれば`<head>`タグを含めて、ページ全体がメモリから消去され、次のページはゼロから描画されます。つまりMPAです
+* React Server ComponentsはRSC payloadをサーバからブラウザに送ります。これはHTMLにかなり近いもので、HTMLの構造がそのまま記載されています。したがってSSRの１例と捉えます
 
-このように各フレームワークはCSR, SSR, SPA, MPAを複雑に組み合わせた形をとっており、これを利用する各ウェブサイトも目的に応じて使い分けています。「フレームワークAはSSRだ」と綺麗に分けることは難しいです
+### 組み合わせ ===combinations===
 
-私がCSR, SSR, SPA, MPAをそれぞれ言葉通りに解釈し、技術の特徴を規定するのではなく、単に表現するツールとして、MECE的に使用するのはこのためです。
+* **SSR + MPA:** Amazonや楽天は古典的なSSR + MPAです。普通に作っています
+* **SSR + SPA:** Turbo Driveで作ったページはすべてSSRですが、２ページ目以降の画面遷移はSPAになります。サーバからはHTMLが送られてきて、そこから`<body>`のところを切り取って、置換しているためです
+* **CSR + SPA:** Create-React-Appで作ったReactのウェブアプリがこれになります。描画されるHTMLはすべてブラウザ名の中でJavaScriptがレンダリングします。React RouterでURLを変更する機能を入れても、変わりません
+* **CSR + MPA:** [Apple Store](https://www.apple.com/jp/shop/buy-iphone/iphone-15)はReactを使ってJavaScriptがHTMLをレンダリングしています。製品のオプションを選択しているときはページが遷移せず、インタラクティブに次のオプションが現れたり、価格が変更されたりします。ここはCSRです。一方で異なるページへのリンクはすべてページのリロードを伴います。よってMPAです。
+
 
 <figure className="mt-12">
   <figcaption className="font-bold">CSR, SSR, SPA, MPA</figcaption>

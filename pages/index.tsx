@@ -17,7 +17,7 @@ const chapterHeaders = [
   {level: 2, link: "#popup", name: "ポップアップ: Turbo Frames"},
   {level: 2, link: "#live-search", name: "ライブ検索: Turbo Frames"},
   {level: 2, link: "#hierarchical-menus", name: "階層プルダウンメニュー: Turbo Frames"},
-  {level: 2, link: "#turbo-streams", name: "Turbo Streams"},
+  {level: 2, link: "#turbo-streams", name: "複数箇所の更新（カート）：Turbo Streams"},
 ]
 
 export default function IndexPage() {
@@ -242,11 +242,11 @@ export default function IndexPage() {
 
             <article className="mt-16 border-t border-t-gray-200">
               <H2WithHash id="turbo-streams">
-                Turbo Streams
+                複数箇所の更新（カート）：Turbo Streams
               </H2WithHash>
               <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                インタラクティブUIに必要な部分置換の大半はTurbo Driveで十分です。
-                しかしTurbo Streamsが必要なケースもあります。ここではそのようなケースを紹介します。
+                インタラクティブUIに必要な部分置換の大半はTurbo DriveやTurbo Framesで十分です。
+                しかしTurbo Streamsが必要なケースもあります。そのようなケースの１つとして、画面の複数箇所を更新するショッピングカートの例を紹介します。
               </p>
               <div className={`text-center my-12 text-xl tracking-wider`}>
                 <StyledLink href="/commentaries/turbo_streams">
@@ -256,7 +256,7 @@ export default function IndexPage() {
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <a href="/api/hotwire/cart_streams"
                    className="btn-primary"
-                   data-turbo="false">複数箇所更 (ショッピングカート)</a>
+                   data-turbo="false">複数箇所の更新（カート）：Turbo Streams</a>
               </div>
             </article>
           </div>
