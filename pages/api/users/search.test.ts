@@ -22,4 +22,29 @@ describe('api/users/search', () => {
     expect(names).toContain("Fugata Fugao")
     expect(names).not.toContain("Hogeta Hogeo")
   })
+
+  test('returns all if query is blank', async () => {
+    const {req, res} = createMocks<NextApiRequest, NextApiResponse>({
+      method: 'GET',
+      query: {query: ''}
+    })
+
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(200)
+    const data = res._getJSONData()
+    expect(data.length).toBe(10)
+  })
+
+  test('returns all if query is undefined', async () => {
+    const {req, res} = createMocks<NextApiRequest, NextApiResponse>({
+      method: 'GET',
+    })
+
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(200)
+    const data = res._getJSONData()
+    expect(data.length).toBe(10)
+  })
 })
