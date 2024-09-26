@@ -1,33 +1,39 @@
-<turbo-frame id="modal">
-  <div class="turbo-hide-on-loading ">
-    <div class="mb-2"><%= new Date().toLocaleTimeString() %></div>
-    <table>
-      <tbody>
-      <tr>
-        <td class="font-bold pr-3 text-right">Name:</td>
-        <td class="text-right"><%= userDetail.name %></td>
-      </tr>
-      <tr>
-        <td class="font-bold pr-3 text-right">Title:</td>
-        <td class="text-right"><%= userDetail.title %></td>
-      </tr>
-      <tr>
-        <td class="font-bold pr-3 text-right">Email:</td>
-        <td class="text-right"><%= userDetail.email %></td>
-      </tr>
-      <tr>
-        <td class="font-bold pr-3 text-right">Hobby:</td>
-        <td class="text-right"><%= userDetail.hobby %></td>
-      </tr>
-      <tr>
-        <td class="font-bold pr-3 text-right">Joined At:</td>
-        <td class="text-right"><%= userDetail.joinedAt %></td>
-      </tr>
-      <tr>
-        <td class="font-bold pr-3 text-right">Job Grade:</td>
-        <td class="text-right"><%= userDetail.jobGrade %></td>
-      </tr>
-      </tbody>
-    </table>
+<%- include("../layouts/header.ejs") -%>
+<div class="my-10 p-8 max-w-lg mx-auto border border-gray-400 rounded">
+  <div class="mb-4">
+    <a href="/api/hotwire/modal_w_js" class="btn-outline-primary">&lt;User一覧に戻る</a>
   </div>
-</turbo-frame>
+  <turbo-frame id="modal">
+    <div class="turbo-hide-on-loading ">
+      <div class="mb-2"><%= new Date().toLocaleTimeString() %></div>
+      <table>
+        <tbody>
+        <tr>
+          <td class="font-bold pr-3 text-right">Name:</td>
+          <td class="text-right"><%= userDetail.name %></td>
+        </tr>
+        <tr>
+          <td class="font-bold pr-3 text-right">Title:</td>
+          <td class="text-right"><%= userDetail.title %></td>
+        </tr>
+        <tr>
+          <td class="font-bold pr-3 text-right">Email:</td>
+          <td class="text-right"><%= userDetail.email %></td>
+        </tr>
+        <tr>
+          <td class="font-bold pr-3 text-right">Hobby:</td>
+          <td class="text-right"><%= userDetail.hobby %></td>
+        </tr>
+        <tr>
+          <td class="font-bold pr-3 text-right">Joined At:</td>
+          <td class="text-right"><%= userDetail.joinedAt %></td>
+        </tr>
+        <tr>
+          <td class="font-bold pr-3 text-right">Job Grade:</td>
+          <td class="text-right"><%= userDetail.jobGrade %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </turbo-frame>
+</div>

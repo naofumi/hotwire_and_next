@@ -1,6 +1,5 @@
 import React from "react";
-import Modal from "@/app/modal_app_layout/components/Modal";
-
+import Modal from "@/app/modal_app_parallel/components/Modal";
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0

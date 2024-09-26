@@ -1,6 +1,6 @@
 import Image from "next/image";
 import rocketImage from "@/public/images/rocket.gif";
-import Modal from "@/app/modal_app_layout/components/Modal";
+import Modal from "@/app/modal_app_parallel/components/Modal";
 
 export default function Loading() {
   // You can add any UI inside Loading, including a Skeleton.

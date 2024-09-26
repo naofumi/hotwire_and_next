@@ -20,14 +20,14 @@ export default function ModalTechNav({selected}: {selected: string}) {
            ? " btn-primary"
            : " btn-outline-primary"}
       >
-        React Server Component
+        React Server Component Simple
       </a>
-      <a href="/modal_app_layout"
-         className={selected === "server_component_layout"
+      <a href="/modal_app_parallel"
+         className={selected === "server_component_parallel"
            ? " btn-primary"
            : " btn-outline-primary"}
       >
-        React Server Component w/ Layout
+        React Server Component w/ Parallel Routes
       </a>
       <a href="/api/hotwire/modal_no_js"
          className={selected === "hotwire_no_js"

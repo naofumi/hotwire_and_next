@@ -26,7 +26,7 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 
 必要なコードは以下のものになります。ただしコントローラアクションは一般的なものなので、解説を省略します(`pages/api/hotwire/modal_no_js`)。
 
-#### 1. モーダルの「枠」とコンテンツのHTMLページ
+#### モーダルの「枠」とコンテンツのHTMLページ
 
 **templates/modal_no_js/modal.ejs**
 ```html
@@ -38,7 +38,7 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 * ブラウザからのTurbo Framesリクエストを受けて、サーバからブラウザに送信されます
 * `<turbo-frame id="modal">`がありますので、ブラウザはこれを受信すると、ブラウザですでに表示されている`<turbo-frame id="modal">`の箇所を置換します
 
-#### 2. モーダル表示のトリガー
+#### モーダル表示のトリガー
 
 **templates/modal_no_js/index.ejs**
 ```html
@@ -50,7 +50,7 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 * `a`タグをクリックすると、`/api/hotwire/modal_no_js/modal?id=1`からモーダルの中身(HTML)がダウンロードされます
 * ダウンロードされたHTMLは`<turbo-frame id="modal">`がありますので(上述)、ブラウザですでに表示されている`<turbo-frame id="modal">`の箇所を置換します）
 
-#### 3. モーダルHTML断片の差し込み先
+#### モーダルHTML断片の差し込み先
 
 **templates/modal_no_js/index.ejs**
 ```html
@@ -59,7 +59,7 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 
 * サーバからダウンロードされたHTMLをここに挿入しなさいという指示になります
 
-#### 4. モーダルを閉じるボタン
+#### モーダルを閉じるボタン
 
 **templates/modal_no_js/modal.ejs**
 ```html
@@ -78,7 +78,11 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 * サーバのレスポンスが十分に速い場合(300msの場合)は快適です。
 * しかし遅延を2000msに設定するとUI/UXの弱点が見えてきます。リンクを押してもフィードバックがなく、ユーザはシステムが正しく動作している自信が持てません。またモーダルを閉じる時も遅延が発生します。「閉じるだけなら瞬間的に行くのでは？」というユーザの期待と反して、サーバからレスポンスが返ってくるまでモーダルは閉じません。<br />(リンク等をクリックした時にCSS `:active`を使っていますが、十分なフィードバックとは言えません)
 
-カスタムJavaScriptなしの場合はコードが非常に簡素で、直感的にもわかりやすいものになります。しかし、**特にネットワークが遅い場合は、ユーザの操作に対するフィードバックが弱く、良いUI/UXとは言えません**。
+### まとめ  ===summary-wo-custom-javascript===
+
+* カスタムJavaScriptなしの場合はコードが非常に簡素で、直感的にもわかりやすいものになります
+* しかし、**特にネットワークが遅い場合は、ユーザの操作に対するフィードバックが弱く、良いUI/UXとは言えません**
+* モーダルが開いた状態でブラウザをリロードすると、モーダルの中身だけを表示した「詳細ページ」見たいなものを表示できます。モーダルの中身をリンクで共有したり、SEOでモーダルの内容を検索エンジンにインデックスさせたい場合に有利です。[Next.js App RouterのIntercepting Routes](https://nextjs.org/docs/app/building-your-application/routing/intercepting-routes)と同じことが実現されています
 
 
 ## Turbo Frames: Inline JavaScript ===turbo-with-custom-javascript===
@@ -478,6 +482,7 @@ export default function Modal({closeModal, id}: {
 
 * [useEffectのデモ](/modal)でもご覧いただけるように、すぐにフィードバックがある良好なUI/UXが実現できています。コードも少なく、流れが直感的にわかります。Escapeでモーダルを閉じることも比較的簡単で、Stimulusを使用した場合と同様です
 * Reactではイベントハンドラから直接DOMを操作しません。イベントハンドラは先に先にステートを変更し、ステートの変更がDOMに自然に伝搬するという原則があります。この考え方をStimulusに適応することもありますが(例えば[Change Callback](https://stimulus.hotwired.dev/reference/values#change-callbacks)を使用します)、Stimulusは通常はイベントハンドラから直接DOMを操作します（CSSクラスの変更が主）。この考え方に慣れる必要があるかもしれません
+* モーダルが開いた状態でブラウザをリロードすると、モーダルが閉じます。モーダルの内容をリンクすることができず、モーダルの内容を検索エンジンにインデックスさせることができません。
 
 ## React: Client Componentsでモーダルを出す方法 ===react-client-components===
 
@@ -581,40 +586,43 @@ export default async function Modal({userId}: { userId: string }) {
 * コードは非常にシンプルです。これ以上シンプルにはできないぐらいにシンプルです
 * サーバのレスポンスタイムが早ければ、この簡易法でも十分快適なUIを提供してくれます
 * しかしサーバのレスポンスが遅い可能性がある場合は、Server Componentにこだわらず、Client Componentを使ってカスタムのイベントハンドラを書いた方が良いでしょう。これは[Turbo FramesでもカスタムJavaScriptを書くべきだ](/commentaries/modal_dialogs#summary-inline-javascript)という話と全く同じです。
-* Client Componentのみを使った場合はSEOの問題があります。モーダルの中身も含めて検索エンジンにヒットさせたい場合は(少なくとも部分的に)Server Componentを使う方が良いでしょう
+* モーダルが開いた状態でブラウザをリロードしても、モーダルが開いた状態のままになります。モーダルの内容をリンクで共有でき、SEOも有利です。
 
-## React: Server Components + Layout ===react-server-components-with-layouts===
+## React: Server Components /w Parallel Routes ===react-server-components-with-parallel-routes===
 
-Server Componentを使ったもう１つの方法を紹介します。[Layout](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates#layouts)を使用します。
+Server Componentを使ったもう１つの方法を紹介します。[Parallel Routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)を使用します。
 
-私が理解している限りでは、RSCはページ全体をレンダリングする状況を主に想定しています。そしてRSCでインタラクティブにウェブページの部分置換をする方法は`Layout`だけです。[`Parallel routes`](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)もありますが、これは`Layout`を拡張したもので、実質的には同じものではないかなと思っています。つまりNext.jsにおいて、Turbo Framesに一番近い機能が`Layout`ではないかと思います。
+私が理解している限りでは、元々のReactはページ全体をレンダリングすることを想定していました。ただのテキストであるHTMLと異なり、Turbo FramesやTurbo Streamsのように単純に分割したり貼り付けたりすることが得意ではありません。そこでNext.jsがApp Router導入したのが[Layout](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates)や[Parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)です。
 
-### コード ===code-react-server-components-with-layouts===
+そして[Parallel Routesを使ったモーダルの作り方が公式ドキュメントで紹介されています](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#modals)。ここではそのやり方を紹介します。
 
-[コードはGitHubに掲載](https://github.com/naofumi/hotwire_and_next/tree/main/app/modal_app_layout)しています。また[デモはこちら](/modal_app_layout)でご確認いただけます。
+### コード ===code-react-server-components-with-parallel-routes===
+
+[コードはGitHubに掲載](https://github.com/naofumi/hotwire_and_next/tree/main/app/modal_app_parallel)しています。また[デモはこちら](/modal_app_parallel)でご確認いただけます。
 
 パーツが多いので、概要だけ示します
 
-1. [`layout.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/layout.tsx): 少しわかりにくいのですが、Next.jsのLayoutの仕組みでは、部分置換をしても変わらない部分は`layout.tsx`に配置します。今回のケースではUserのリストは`layout.tsx`に表示します。また`layout.tsx`にはモーダルを表示するための「窓」を`{children}`として用意しています。
-2. [`page.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/page.tsx): ブラウザが`/modal_app_layout`にアクセスした時、上記の`layout.tsx`の`{children}`に差し込まれるのが`page.tsx`です。モーダルを出さないため、何も表示しませんので、`null`を返します
-3. [`modal/[userId]/page.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/modal/%5BuserId%5D/page.tsx): ブラウザが`/modal_app_layout/modal/1`にアクセスした時、上記の`layout.tsx`の`{children}`に差し込まれる内容です。`[userId]`の内容を読みとり、モーダルの枠およびUserのデータを返します
-4. [`modal/loading.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/modal/loading.tsx): ブラウザが`/modal_app_layout/modal/1`にリクエストを投げ、レスポンスを待っている間に`layout.tsx`の`{children}`に差し込まれる内容です。ローディングアニメーションを含んでいます。
+1. [`layout.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_parallel/layout.tsx): 部分置換をしても変わらない部分は`layout.tsx`に配置します。今回のケースではUserのリスト(`UserList`コンポーネントとして分割)は`layout.tsx`に配置します。また`layout.tsx`にはモーダルを表示するための「窓」を`{modal}`として用意しています。これは`@modal`フォルダの中を参照するようにNext.jsで自動的に関連づけられています
+2. [`@modal/page.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_parallel/@modal/page.tsx): ブラウザが`/modal_app_parallel`にアクセスした時、上記の`layout.tsx`の`{modal}`に差し込まれるのが`@modal/page.tsx`です。モーダルは表示しませんので、何も表示しません。そこで`null`を返します
+3. [`@modal/users/[userId]/page.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/@modal/users/%5BuserId%5D/page.tsx): ブラウザが`/modal_app_parallel/users/1`にアクセスした時、上記の`layout.tsx`の`{modal}`に差し込まれる内容です。`[userId]`の内容を読みとり、モーダルの枠およびUserのデータを返します
+4. [`@modal/loading.tsx`](https://github.com/naofumi/hotwire_and_next/blob/main/app/modal_app_layout/@modal/loading.tsx): ブラウザが`/modal_app_layout/users/1`にリクエストを投げ、レスポンスを待っている間に`layout.tsx`の`{map}`に差し込まれる内容です。モーダルの枠およびローディングアニメーションを含んでいます。
 
-コードの詳細の解説は今回は省略させていたきます。モーダルを表示するトリガー、モーダルを閉じるボタンなども併せてご確認いただけると理解が深まるかなと思います。
+コードの詳細の解説は今回は省略させていたきますが、難しいのは各ファイル・フォルダの役割と配置です。他の実装方法と比較するとかなり複雑で、かなり慣れが必要です。
 
-### UI/UX ===ui-react-server-components-with-layouts===
+### UI/UX ===ui-react-server-components-with-parallel-routes===
 
 * サーバのレスポンスが速い場合は、簡易法と同様の快適なUI/UXが実現できています
 * サーバのレスポンスが遅くても、モーダルを表示させる際はすぐにローディングアニメーションが表示され、フィードバックが得られます。十分なUI/UXが提供できています
-* モーダルを閉じる場合は、サーバのレスポンスが遅いともたつきます。フィードバックがなく、しばらく経ってからモーダルが消えるだけです。良くないUI/UXです。これについては何か工夫をすると改善できるかもしれませんが、私にはわかりませんでした
+* モーダルを閉じる場合はモーダルを表示したまま、すぐに中でローディングアニメーションが表示されます。UI/UX的にはそれほど悪くはありませんが、理想的にはモーダルもすぐに閉じてほしいところです
+* モーダルが開いた状態でブラウザをリロードしても、モーダルが開いた状態のままになります。モーダルの内容をリンクで共有でき、SEOも有利です。
 
-### まとめ ===summary-react-server-components-with-layouts===
+### まとめ ===summary-react-server-components-with-parallel-routes===
 
-* 必要なファイル数が多く、それぞれの役割を理解するのが大変です。複雑で直感的ではないと言えます。特にUserのリストを`layout.tsx`に記述しなければならないのはわかりにくいです
+* 必要なファイル・フォルダの役割を理解するのが大変です。少なくとも私は複雑で直感的ではないと感じました。他の方法と比べると複雑だと言えます
 * 簡易法と比べて、モーダルを表示する時のUI/UXが改善されています
-* サーバのレスポンスが遅いケースでモーダルを閉じる際は、簡易方と同じUI/UXの問題が出てきます
+* サーバのレスポンスが遅いケースでモーダルを閉じる際のUI/UXは最適ではありません
 
-コードが複雑なのがこのアプローチの欠点だと思います。[Parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)や[Intercepting routes](https://nextjs.org/docs/app/building-your-application/routing/intercepting-routes)を使ってもベースの仕組みは同じなので特に改善するとは予想していません。したがって私としては現時点でおすすめはできません。
+コードが複雑なのがこのアプローチの欠点だと思います。
 
 ## 各技術のまとめ ===summary===
 
