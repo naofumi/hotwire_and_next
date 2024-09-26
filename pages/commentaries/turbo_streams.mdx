@@ -316,7 +316,169 @@ export default async function handler(
 
 ## React Server Actionsによる実装 ===implement-server-actions===
 
-TurboはSSRですが、上記に紹介したReactはSSRとCSRの組み合わせでした。ここではReactでSSRだけを使った場合にどうなるかを見るために、React Server Actionsによる実装を確認します。
+Reactは今までは`form`等によるデータ更新のための特に用意されていませんでした。しかしReact Server Componentsでは`form`関連の機能が新しく導入されています。Server Actionもそのうちの１つです。ここではServer Actionによるデータ更新と画面更新の方法を確認します。
+
+[デモはこちら](/cart_app)に用意しています。また[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/cart_app)にあります。
+
+大雑把な特徴は下記のようになります
+
+* `products`(製品情報)および`cart`(カート情報)は、そのデータを必要とするコンポーネントでそれぞれ取得します。従来のReactと異なり、[ステートのリフトアップ](/commentaries/turbo_streams#multi-segment-with-turbo-frames-or-react-concept)は行いません
+* 同様に`cart`(カート情報)を更新する関数もリフトアップする必要がありません。その更新イベントが発生するコンポーネントに記述しています
+* カード情報を更新するボタンは`form`と結びつけて、`form`から[Server Action](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations)を呼びます
+
+それでは実際にコードを見てみます
+
+### コード ===server-actions-code===
+
+**app/cart_app/page.tsx**
+```tsx
+async function clearCart() {
+  "use server"
+
+  deleteCookie("cart", {cookies})
+
+  revalidatePath("/cart_app")
+}
+
+export default async function CartPage() {
+  return (
+    <div className="my-10 px-4 sm:px-6 lg:px-8">
+      <div className="sm:flex sm:items-center">
+        <div className="sm:flex-auto">
+          <h1 className="demo-h1">複数箇所更新 (ショッピングカート)</h1>
+          <CartTechNav selected="server_actions"/>
+          <div className="flex justify-between">
+            <h2 className="demo-h2">Products</h2>
+            <div className="flex">
+              <form action={clearCart}>
+                <button type="submit"
+                        className="p-1 mr-4 border rounded border-orange-600 text-orange-600">Clear
+                  Cart
+                </button>
+              </form>
+              <div id="cart_icon">
+                <CartIcon />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ProductList />
+    </div>
+  )
+}
+```
+
+* Next.js Pages Routerによる実装ではリフトアップのため、`products`、`cart`のデータ取得、さらにイベントハンドラがPageコンポーネントに集中していました。しかしRSCではこれを分散できるので、Pageコンポーネントには`clearCart()`しか残っていません
+* `clearCart()`は"use server"宣言があり、Server Componentです。"Clear Cart"ボタンの`form`のactionとして呼び出されています
+* `clearCart()`ではcookieをクリアしたのち、キャッシュを入れ替えるための`revalidatePath()`を呼びます。この指示により`/cart_app`のデータはクリアされますが、`/cart_app`のページにいますので、ページが再描画され、データも再度読み込まれます
+
+**app/cart_app/components/CartIcon.tsx**
+```tsx
+export async function getCart(): Promise<Cart> {
+  const cartString = getCookie("cart", {cookies})
+  const cart = cartString ? JSON.parse(cartString) : {}
+
+  return cart
+}
+
+export default async function CartIcon() {
+  const cart = await getCart()
+
+  return (
+    <div className="flex items-center">
+      ...
+      <div className="w-8 text-right text-2xl font-bold">
+        {Object.keys(cart).length}
+      </div>
+    </div>
+  )
+}
+```
+
+* CartIconコンポーネントで`cart`が必要なため、`getCart()`を呼び出しています
+
+**app/cart_app/components/ProductList.tsx**
+```tsx
+async function getProducts(): Promise<Product[]> {
+  const response = await fetch(process.env.URL + "/api/products");
+  const products = await response.json();
+
+  return products
+}
+
+export default async function ProductList() {
+  const products = await getProducts()
+  const cart = await getCart()
+
+  return (
+    <div className="mt-8 flow-root">
+      <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+          <table className="min-w-full divide-y divide-gray-300">
+            ...
+            <tbody className="divide-y divide-gray-200 bg-white">
+            {
+              products.map((product, i) => {
+                return (<tr key={i} className="divide-x divide-gray-200">
+                  ...
+                  <td className="text-center whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0">
+                    {cart[product.id.toString()]
+                        ? <AddedBadge/>
+                        : <ProductAddButton product={product}/>}
+                  </td>
+                </tr>)
+              })
+            }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  )
+}
+```
+
+* ProductListコンポーネントでは`products`も`cart`も必要なため、`getProducts()`、`getCart()`を呼び出しています。`getCart()`はCartIconコンポーネントでも呼び出されていましたので、二重に呼び出していますが、影響は小さいので気にしません（colocationを優先させています）
+
+**app/cart_app/components/ProductAddButton.tsx**
+```tsx
+async function addToCart(formData: FormData) {
+  "use server"
+
+  const productId = formData.get("product_id") as string
+
+  const cartString = getCookie("cart", {cookies})
+  const cart = cartString ? JSON.parse(cartString) : {}
+  cart[productId] = 1
+
+  setCookie("cart", JSON.stringify(cart), {cookies, httpOnly: true})
+
+  revalidatePath("/cart_app")
+}
+
+
+export default function ProductAddButton({product}: { product: Product }) {
+  return (<form action={addToCart}>
+    <input type="hidden" name="product_id" value={product.id} />
+    <button type="submit"
+            className="btn-primary border border-orange-600">Add to Cart
+    </button>
+  </form>)
+}
+```
+
+* "Add to Cart"ボタンは`form`で囲み、`form`にServer Actionの`addToCart()`を結びつけています。なお`product_id`引数を`addToCart()`に渡す方法として、`<input type="hidden" name="product_id" ../>`を使用しています
+* `addToCart()`関数は"use server"があるので、Server Actionになります。`product_id`の情報を引数の`FormData`から取得し、cookieをセットしています
+* 最後に`revalidatePath("/cart_app")`を呼び出し、古いデータをブラウザから追い出します。現在のページが`/cart_app`なので、サーバに最新の`/cart_app`ページをリクエストし、レスポンスを画面に表示します
+* [`revalidatePath()`](https://nextjs.org/docs/app/building-your-application/caching#revalidatepath)はキャッシュをクリアし、指定されたパス以下のルートを再レンダリングするもので、Server Actionでデータを変更したのちに呼び出します。POST/redirect/GETパターンと異なり、POSTリクエストに対してStatus 200のレスポンスで応答し、ネットワーク通信１往復で済ませることができます
+
+### まとめ ===server-action-summary===
+
+* 常に画面全体をサーバでレンダリングしている点がTurbo Frameに近いと言えます。Turbo Streamsのように変更がある箇所だけを指定して更新したり、Reactのように`cart`だけ更新してCSRしたりなどの最適化はされていませんが、シンプルなコードになっています
+* データ更新の時にPOST/redirect/GETではなく、POSTに対してStatus 200で応答し、ネットワーク通信１往復で済ませている点はTurbo Streamsに似ています。処理が少ない通信で完了し、ネットワーク環境が遅くても優れたUI/UXが保てます
+*
 
 export default function NewTabbedMenus({children}) {
   return <CommentaryLayout
