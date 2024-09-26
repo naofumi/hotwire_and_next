@@ -14,7 +14,7 @@ export default async function handler(
   const cart: Cart = cartString ? JSON.parse(cartString) : {}
 
   cart[productId] = 1
-  setCookie("cart", JSON.stringify(cart), {res, req})
+  setCookie("cart", JSON.stringify(cart), {res, req, httpOnly: true})
 
   res.appendHeader("Content-Type", "json/application")
     .status(200)
