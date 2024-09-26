@@ -7,11 +7,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string>,
 ) {
-  const id = req.query.id
+  const id = req.query.userId
   if (!(typeof id === 'string')) throw "Bad request"
+
   const userDetail = await findUserWithDetails(parseInt(id))
 
-  const resultText = render("modal_w_js/modal.ejs",
+  const resultText = render("modal_no_js/modal.ejs",
     {id: userDetail.id, userDetail}
   )
 
@@ -19,3 +20,4 @@ export default async function handler(
     .status(200)
     .send(resultText)
 }
+

@@ -9,7 +9,7 @@ export default function UserDetailPanel({id}: {id: number}) {
 
   useEffect(() => {
     setuserDetail(null)
-    fetch(`/api/user?id=${id}`).then(res => res.json())
+    fetch(`/api/user/${id}`).then(res => res.json())
       .then(data => {
         setuserDetail(data)
       })

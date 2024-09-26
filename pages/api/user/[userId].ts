@@ -5,11 +5,11 @@ import {User} from "@/repositories/user";
 import {findUserWithDetails, UserDetail} from "@/repositories/user_detail";
 
 export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse<User & UserDetail>,
+  req: NextApiRequest,
+  res: NextApiResponse<User & UserDetail>,
 ) {
-    const id = req.query.id as string;
+  const id = req.query.userId as string;
 
-    const userWithDetails = await findUserWithDetails(parseInt(id));
-    res.status(200).json(userWithDetails);
+  const userWithDetails = await findUserWithDetails(parseInt(id));
+  res.status(200).json(userWithDetails);
 }

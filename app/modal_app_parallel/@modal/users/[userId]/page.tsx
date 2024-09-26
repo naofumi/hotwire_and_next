@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 async function getUserDetails(userId: string) {
-  const response = await fetch(process.env.URL + `/api/user?id=${userId}`)
+  const response = await fetch(process.env.URL + `/api/user/${userId}`)
   const data = await response.json();
   return data;
 }

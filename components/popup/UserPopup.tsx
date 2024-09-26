@@ -8,7 +8,7 @@ export default function UserPopup({id}: { id: number }) {
   const [user, setUser] = useState<User & UserDetail | null>(null)
 
   useEffect(() => {
-    fetch(`/api/user?id=${id}`).then(res => res.json())
+    fetch(`/api/user/${id}`).then(res => res.json())
       .then(data => {
         setUser(data)
       })

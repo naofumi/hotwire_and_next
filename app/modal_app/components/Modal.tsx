@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 async function getUserDetails(userId: string) {
-  const response = await fetch(process.env.URL + `/api/user?id=${userId}`)
+  const response = await fetch(process.env.URL + `/api/user/${userId}`)
   const data = await response.json();
   return data;
 }
