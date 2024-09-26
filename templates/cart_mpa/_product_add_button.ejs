@@ -1,0 +1,6 @@
+<form method="post" action="/api/hotwire/cart_mpa/add_to_cart">
+  <input type="hidden" name="product_id" value="<%= product.id %>">
+  <button type="submit"
+          data-turbo-submits-with="adding..."
+          class="btn-primary border border-orange-600">Add to Cart</button>
+</form>
