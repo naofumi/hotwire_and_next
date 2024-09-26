@@ -1,21 +1,13 @@
 import CartTechNav from "@/components/cart/CartTechNav";
 import CartIcon from "./components/CartIcon";
 import ProductList from "./components/ProductList";
-import {Cart} from "@/repositories/cart";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
-import {deleteCookie, getCookie} from "cookies-next"
+import {deleteCookie} from "cookies-next"
 import {cookies} from "next/headers"
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
-
-async function getCart(): Promise<Cart> {
-  const cartString = getCookie("cart", {cookies})
-  const cart = cartString ? JSON.parse(cartString) : {}
-
-  return cart
-}
 
 async function clearCart() {
   "use server"
@@ -23,12 +15,9 @@ async function clearCart() {
   deleteCookie("cart", {cookies})
 
   revalidatePath("/cart_app")
-  redirect("/cart_app")
 }
 
 export default async function CartPage() {
-  const cart = await getCart()
-
   return (
     <div className="my-10 px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
@@ -45,9 +34,7 @@ export default async function CartPage() {
                 </button>
               </form>
               <div id="cart_icon">
-                {cart
-                  ? <CartIcon cart={cart}/>
-                  : <span>Loading...</span>}
+                <CartIcon />
               </div>
             </div>
           </div>

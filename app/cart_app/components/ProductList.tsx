@@ -1,9 +1,7 @@
 import AddedBadge from "@/components/cart/AddedBadge";
 import ProductAddButton from "./ProductAddButton";
-import {Cart} from "@/repositories/cart";
 import {Product} from "@/repositories/product";
-import {getCookie} from "cookies-next"
-import {cookies} from "next/headers"
+import {getCart} from "@/app/cart_app/components/CartIcon"
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -13,13 +11,6 @@ async function getProducts(): Promise<Product[]> {
   const products = await response.json();
 
   return products
-}
-
-async function getCart(): Promise<Cart> {
-  const cartString = getCookie("cart", {cookies})
-  const cart = cartString ? JSON.parse(cartString) : {}
-
-  return cart
 }
 
 export default async function ProductList() {

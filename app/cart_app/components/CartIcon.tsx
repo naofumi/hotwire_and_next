@@ -1,6 +1,17 @@
 import {Cart} from "@/repositories/cart";
+import {getCookie} from "cookies-next"
+import {cookies} from "next/headers"
 
-export default function CartIcon({cart}: {cart: Cart}) {
+export async function getCart(): Promise<Cart> {
+  const cartString = getCookie("cart", {cookies})
+  const cart = cartString ? JSON.parse(cartString) : {}
+
+  return cart
+}
+
+export default async function CartIcon() {
+  const cart = await getCart()
+
   return (
     <div className="flex items-center">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
