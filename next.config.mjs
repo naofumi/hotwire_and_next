@@ -11,6 +11,7 @@ const nextConfig = {
       static: 300, // default: 300
     },
   },
+  output: "standalone",
 };
 
 // https://blog.logrocket.com/mdx-integration-strategies-next-js/
