@@ -368,6 +368,19 @@ export default function CartPage({products}: { products: Product[] }) {
 * `useEffect`、`addToCart()`、`clearCart()`はすべてカート情報だけをサーバから取得します。`products`を再取得する必要がないためです
 * MPA/Turbo Drive/Turbo Frames/Turbo Streamsの場合は`form`タグを書くだけで、別途イベントハンドラを記載する必要がありませんでした。Reactの場合はイベントハンドラをカスタムで記述する必要があります
 
+**components/cart/ProductAddButton.tsx**
+```tsx
+export default function ProductAddButton ({product, addToCart}: {product: Product, addToCart: (numberId: number) => void}) {
+  return (<button type="button"
+                  onClick={() => addToCart(product.id)}
+                  className="btn-primary border border-orange-600">Add to Cart
+  </button>)
+}
+```
+
+* 上の"Add to Cart"ボタンの`onClick`イベントは`addToCart()`ハンドラに繋げています
+* `addToCart()`ハンドラは、`pages/cart/index.tsx`, `components/cart/ProductList.tsx`のprops経由で渡されてきています
+
 ### まとめ ===react-summary===
 
 * MPAを少しだけ改変したTurbo Framesの場合と比べると、特にイベントハンドラ周りが複雑になっています
@@ -377,7 +390,9 @@ export default function CartPage({products}: { products: Product[] }) {
 
 ## React Server Actionsによる実装 ===implement-server-actions===
 
-最新のReactは`form`周りの機能が追加されていて、Server Actionと一緒に使います。これは上述した従来のReactの`form`ハンドリングと大きく異なります。ここではServer Actionによるデータ更新と画面更新の方法を確認します。
+最新のReactは`form`周りの機能が追加されていて、Server Actionと一緒に使います。これは上述した従来のReactのハンドリングと大きく異なります。
+
+ここではServer Actionによるデータ更新と画面更新の方法を確認します。
 
 [Server Actionsのデモはこちら](/cart_app)に用意しています。また[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/cart_app)にあります。
 
@@ -507,10 +522,8 @@ export default async function ProductList() {
 
 **app/cart_app/components/ProductAddButton.tsx**
 ```tsx
-async function addToCart(formData: FormData) {
+async function addToCart(productId: number, formData: FormData) {
   "use server"
-
-  const productId = formData.get("product_id") as string
 
   const cartString = getCookie("cart", {cookies})
   const cart = cartString ? JSON.parse(cartString) : {}
@@ -523,8 +536,7 @@ async function addToCart(formData: FormData) {
 
 
 export default function ProductAddButton({product}: { product: Product }) {
-  return (<form action={addToCart}>
-    <input type="hidden" name="product_id" value={product.id} />
+  return (<form action={addToCart.bind(null, product.id)}>
     <button type="submit"
             className="btn-primary border border-orange-600">Add to Cart
     </button>
@@ -532,7 +544,7 @@ export default function ProductAddButton({product}: { product: Product }) {
 }
 ```
 
-* "Add to Cart"ボタンは`form`で囲み、`form`にServer Actionの`addToCart()`を結びつけています。なお`product_id`引数を`addToCart()`に渡す方法として、`<input type="hidden" name="product_id" ../>`を使用しています
+* "Add to Cart"ボタンは`form`で囲み、`form`にServer Actionの`addToCart()`を結びつけています。なお`product_id`引数を`addToCart()`に渡す方法として、公式ドキュメントに記載の[`bind`メソッドを使う方法を使用しています](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions-and-mutations#passing-additional-arguments)。`bind`を使った方法はServer Componentでも使用でき、JavaScriptをロードしていない場合も正常に動作します。
 * `addToCart()`関数は"use server"があるので、Server Actionになります。`product_id`の情報を引数の`FormData`から取得し、cookieをセットしています
 * 最後に`revalidatePath("/cart_app")`を呼び出し、古いデータを無効化します。現在のページが`/cart_app`なので、サーバに最新の`/cart_app`ページをリクエストし、レスポンスを画面に表示します
 * [`revalidatePath()`](https://nextjs.org/docs/app/building-your-application/caching#revalidatepath)はキャッシュをクリアし、指定されたパス以下のルートを再レンダリングするもので、Server Actionでデータを変更したのちに呼び出します。POST/redirect/GETパターンと異なり、POSTリクエストに対してStatus 200のレスポンスで応答し、ネットワーク通信１往復で済ませることができます
