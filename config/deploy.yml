@@ -42,6 +42,12 @@ builder:
 #   secret:
 #     - RAILS_MASTER_KEY
 
+env:
+  clear:
+    URL: https://hotwire-n-next.castle104.com
+    DATABASE_DELAY: 0
+
+
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
 #
