@@ -54,7 +54,7 @@ export default function IndexPage() {
                 <ul className="ml-4 my-4 space-y-2 ">
                   <li>HotwireでもNext.jsと同等か、それ以上のUI/UXが実現できます。<strong>「Hotwireは簡単だけど、React/Next.jsの方が優れたUI/UXが作れる」というのは、かなり特殊なものでない限りは誤解です</strong>
                   </li>
-                  <li>Hotwireはバックエンド非依存です。Rails, Laravel, Django, Nodeでも関係なく動きます。実際、本サイトはHotwireをNext.js
+                  <li>Hotwireはバックエンド非依存です。Rails, Laravel, Django, Go, Nodeでも関係なく動きます。実際、本サイトのHotwireコードはNext.js
                     API Routesで動かしています
                   </li>
                 </ul>
@@ -63,11 +63,12 @@ export default function IndexPage() {
               <p
                 className="text-left mx-auto mt-2 max-w-2xl text-lg leading-8 text-gray-600">本サイトのコードは<StyledLink
                 href="https://github.com/naofumi/hotwire_and_next">GitHub</StyledLink>に公開しています。また<StyledLink
-                href="https://vercel.com">Vercel</StyledLink>でデプロイしています。実際に触って、さらにコードを見て、上記が誇張かどうかを確認していただければと思います。
+                href="https://zenn.dev/naofumik/articles/8849c2e8feecc0">Kamalを使ってさくらのVPSサーバ</StyledLink>で
+                <StyledLink href="https://hotwire-n-next.castle104.com">デプロイ・公開</StyledLink>しています。実際に触って、さらにコードを見て、上記が誇張かどうかを確認していただければと思います。
               </p>
               <div className="text-center my-12 text-xl tracking-wider">
                 <StyledLink href="/about">
-                  もっと詳しく...
+                  Hotwireについてもっと詳しく...
                 </StyledLink>
               </div>
 

@@ -5,17 +5,16 @@ import {GetServerSidePropsContext} from "next";
 import TransitionTechNav from "@/pages/users/TransitionTechNav";
 
 // Simulate Next.js acting as a BFF for a JSON API server
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps() {
   console.log("Fetch start for Products SSR")
   const res = await fetch(process.env.URL + "/api/products")
   const products = await res.json()
-  const hideLoadingIndicator = !!(context.query.hide_loading_indicator);
-  return {props: {products, hideLoadingIndicator}}
+  return {props: {products}}
 }
 
-export default function ProductsSsrIndex({products, hideLoadingIndicator}: {products: Product[], hideLoadingIndicator: boolean}) {
+export default function ProductsSsrIndex({products}: {products: Product[]}) {
   return (
-    <Layout hideLoadingIndicator={hideLoadingIndicator}>
+    <Layout hideLoadingIndicator={true}>
       <>
         <TransitionTechNav selected="ssr" />
         <hr className="mt-8"/>
@@ -73,9 +72,6 @@ export default function ProductsSsrIndex({products, hideLoadingIndicator}: {prod
                   <Link href="/users_ssr"
                         className="btn-primary">
                     Usersへ SSR</Link>
-                  <Link href="/users_ssr?hide_loading_indicator=1"
-                        className="ml-2 btn-primary">
-                    Usersへ SSR(アニメーションを隠す)</Link>
                 </div>
               </div>
             </div>

@@ -7,13 +7,13 @@ import spaMpaImage from "@/public/images/spa-mpa.webp"
 import nextSecurityImage from "@/public/images/next-security.webp"
 import prefetchImage from "@/public/images/prefetch.webp"
 
-Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)です。Turbo Driveはリンクのクリックによるページ遷移（全画面置換）の技術で、Next.jsでいうと[Linkタグ](https://nextjs.org/docs/pages/api-reference/components/link)に相当します。
+## はじめに ===intro===
 
-画面遷移なので、一見すると従来のMPAと変わらない動きですが、Turbo DriveもNext.jsのLinkタグも内部ではSPA的な技術を採用しており、スピード等のUI/UXが改善されています。画面数が多いウェブサイト・ウェブアプリでは、**全体のUI/UXに大きなインパクトがあります**。
+ウェブで一番多いのはリンクをクリックして、別のページに遷移する操作です。一番基本のUI/UXであり、ユーザの体感に非常に大きな影響を与える大事なものです。
 
-<p className="my-2 text-sm text-gray-600">※
-  Turbo DriveもLinkタグも最初にサイトを訪問した時のUI/UXではなく、サイト内のリンクをクリックしたときの動作を担います</p>
+また開発者としては、一番よく作るインタラクションです。開発効率を高める上でもコードが簡単に書けることが非常に重要です。加えてセキュリティもしっかり確保する必要があります。
 
+ここでは各種の技術を紹介しながら、そのUI/UXの比較およびコードの書き味の比較をします。
 
 <div className="mt-8 flow-root">
   <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -32,7 +32,7 @@ Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwir
         </thead>
         <tbody className="bg-white">
         <tr key={1} className="even:bg-gray-50">
-          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">[ネイティブ(MPA)](/api/hotwire/users)</td>
+          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">[ブラウザネイティブ(MPA)](/api/hotwire/users)</td>
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">先にロード</td>
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">する</td>
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">しない</td>
@@ -40,7 +40,7 @@ Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwir
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">JavaScript, CSSは要再読み込み</td>
         </tr>
         <tr key={2} className="even:bg-gray-50">
-          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">[Hotwire (Turbo Drive)](/api/hotwire/users)</td>
+          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">[Hotwire (Turbo Drive)](/api/hotwire/page_drive/users)</td>
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">先にロード</td>
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><StyledLink
               href="https://turbo.hotwired.dev/handbook/drive#displaying-progress">する</StyledLink></td>
@@ -95,37 +95,229 @@ Hotwireで一番最初に紹介する技術は[Turbo Drive](https://turbo.hotwir
   <Image src={spaMpaImage} alt="MPA SPA description" />
 </figure>
 
-## Turboの実装 ===installing-turbo===
+## ブラウザネイティブ(MPA)によるページ遷移 ===mpa===
 
-Hotwireは[Turbo](https://turbo.hotwired.dev)/[Stimulus](https://stimulus.hotwired.dev)/[Strada](https://strada.hotwired.dev)の３つのパーツからなっています。ウェブで使用するのはTurboとStimulusですが、双方ともJavaScriptのファイルを読み込むだけで使用でき、インストールは簡単です。ここでは[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)を使用しますので、TurboのJavaScriptファイルを読み込みます。
+まずは一番基本的なブラウザネイティブなMPAによるページ遷移を確認します。[MPAによる画面遷移のデモ](/api/hotwire/users)をご確認ください。またコードは[`/users`](https://github.com/naofumi/hotwire_and_next/blob/main/templates/users.ejs)のページと[`/products`](https://github.com/naofumi/hotwire_and_next/blob/main/templates/products.ejs)をご覧ください。
 
-**MPAのページにTurboのJavaScriptファイルを読み込むだけで、Turbo Driveによる画面遷移が手に入ります。** インストール方法はファイルを読み込むだけです。[公式ドキュメント](https://turbo.hotwired.dev/handbook/installing)を確認してください。
+一番下のボタン(Products/Usersへ遷移)で`/users`と`/products`の間を画面遷移しますが、これがブラウザネイティブなMPAの画面推移です。
 
-本サイトではnpm等を使用せずに、コンパイル済みのJavaScriptファイルをダウンロードしてインストールしました。TurboのJavaScriptファイルは`public/hotwire/javascript/turbo.es2017-esm.js`にダウンロードされており、`templates/layouts/header.ejs`から参照されています。
+### コード ===mpa-code===
 
+ごく普通のHTMLページです。通常通りに`a`タグを使ったリンクを使用していて、非常に簡単です。
+
+```html
+<a href="/api/hotwire/products"
+   class="btn-primary">Productsへ推移 (Turbo Off)</a>
+```
+
+### UI/UX ===mpa-ux===
+
+* 遅延(Delay)が少ない場合は特にストレスのないUI/UXです
+* 遅延(Delay)を1000msや2000msに設定すると、画面が切り替えるのを待たされます。しかしその間は画面の上部でプログレスバーが表示されますので、ブラウザが反応し、リクエストが正しく送信されているというフィードバックはあります
+
+### まとめ ===mpa-summary===
+
+* 全体として特に不満のないUI/UXです
+
+いまだにMPA的なページ推移がウェブで大多数です。例えば[Amazon](https://www.amazon.co.jp)や[楽天](https://www.rakuten.co.jp)はMPA的な画面遷移をします。[Apple](https://www.apple.com/jp/)もそうですし、[ソフトバンク](https://www.softbank.jp)もMPAです。
+
+## Hotwire Turbo Driveによるページ遷移 ===turbo-drive===
+
+次にHotwire Turbo Driveによるページ遷移を確認します。[Turbo Driveのデモはここから確認できます](/api/hotwire/page_drive/users)。また[Turbo Driveのコード](https://github.com/naofumi/hotwire_and_next/blob/main/templates/page_drive/users.ejs)は先のMPAの場合とほとんど変わりませんがGitHubで確認できます。
+
+### コード ===drive-code===
+
+* 上のMPAの例との唯一の違いはTurbo DriveのJavaScriptファイルの読み込みです。[Turbo Driveのコード](https://github.com/naofumi/hotwire_and_next/blob/main/templates/page_drive/users.ejs)の最上部では`layouts/header.ejs`ファイルを読み込んでいますが、ここの中の`<script src="/hotwire/javascript/turbo.es2017-esm.js" ...>`でTurbo Driveを読み込んでいます。`turbo.es2017-esm.js`のファイルは[公式ドキュメント](https://turbo.hotwired.dev/handbook/installing)の通りにコンパイル済みのJavaScriptファイルをダウンロードしたののです。
+* それ以外はMPAの場合と全く変わりませんので、引き続き非常に簡単なものになっています。リンクも引き続き普通の`a`タグです。
+
+**templates/page_drive/users.ejs**
+```html
+<%- include("../layouts/header.ejs") -%>
+```
 
 **templates/layouts/header.ejs**
 ```html
+<!doctype html>
+<html lang="ja">
 <head>
   ...
   <script src="/hotwire/javascript/turbo.es2017-esm.js" data-turbo-track="reload" type="module"></script>
   ...
 </head>
+...
 ```
 
-Turbo Driveを導入した時の効果は[デモページ](/api/hotwire/users)でご確認ください。
+### UI/UX ===drive-ui===
 
+* MPAの場合と比べて、画面の遷移が圧倒的に速くなります。遅延(Delay)が300msの場合はほぼ瞬間的に画面が遷移します。1000msや2000msの場合でも大幅に速くなっています。
+* 遅延が1000msや2000msの場合は画面の最上部に青いプログレスバーが表示されることがあります。表示に時間がかかる場合はフィードバックが表示され、ブラウザが正しく動作していること、ネットワーク通信中であることをユーザに伝えています。
 
+### まとめ ===drive-summary===
 
-## ページ遷移のUX ===page-transition-ux===
+* コードはほとんどそのままであるにもかかわらず、UI/UXが大幅に改善されています。これは[SPAの効果](#spa-effect)も多少ありますが、圧倒的に[Prefetchが効いています](#prefetch-effect)
+* Turboをインストールするだけでこれだけ効果がありますので、ほとんどのケースではTurbo Driveを使えば良いと思います。たまに悪影響が出ることもありますが、その場合は[Turbo Driveをオフにする](https://turbo.hotwired.dev/handbook/drive#disabling-turbo-drive-on-specific-links-or-forms)ことも可能です。
 
-本サイトでは、各技術を使った際のUXを確認していただくために、デモを用意しています。上の表の各技術名をクリックして、実際にUXをご体験ください。
+## Next.js SSGによるページ遷移 ===ssg===
+
+Next.js側はまず最初にSSGの例を紹介します。[Next.jsのSSG](https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation)はページをビルド時に作成するものです。[本サイトは主に頻繁にデータが更新されるウェブアプリを想定していて](/about#structure-of-this-site)、本来であればSSGはこれにマッチしないのですが、Next.js SSRとの比較のために紹介しています。
+
+### コード ===ssg-code===
+
+コードは[`/users`](https://github.com/naofumi/hotwire_and_next/tree/main/pages/users_ssg)、および[`/products`](https://github.com/naofumi/hotwire_and_next/tree/main/pages/products_ssg)で紹介しています。
+
+`getStaticProps()`の中で直接`allUsers()`でUser情報を取得するものになっています。
+
+```tsx
+export async function getStaticProps() {
+  const users = await allUsers()
+  return {props: {users}}
+}
+```
+
+### UI/UX ===ssg-ui===
+
+* 体感としてはTurbo Driveを使用した場合とほとんど同じになっています。つまり画面の遷移は非常に速く、ほぼ瞬間的に画面が遷移することもあります
+* 一般的にはSSGはCDNなどを使ってキャッシュされるため、ネットワーク遅延やサーバ遅延はわずかになります。今回は遅延を0msに固定していますので、なおさら速くなっています
+
+### まとめ ===ssg-summary===
+
+* UI/UXはHotwire Turbo Drive並みであり、MPAと比べて大幅に改善されています
+* しかしSSGはあくまでもビルド時に`getStaticProps()`によってページを作成しますので、データが頻繁に更新されるタイプのウェブサイトでは使用できません。今回は比較のために例示しましたが、本サイトの他のページと同じ条件ではありません
+* Hotwire Turbo Driveの場合と同様に、高速化は[SPAの効果](#spa-effect)も多少ありますが、圧倒的に[Prefetchが効いています](#prefetch-effect)。Next.jsはSSGの場合はprefetchが効きます。
+
+## Next.js useEffectによるページ遷移 ===use-effect===
+
+Next.jsのSSRを使わない場合は、`useEffect()`などを使ってページに表示するデータを読み込みます。純粋なSPAを作るときによく採用されている手法です。ただしNext.jsを採用していてSSRが使える環境であっても、ページ遷移で`useEffect()`によるデータ読み込みをしているプロジェクトはよく見かけます。
+
+[`useEffect()`を使ったデモはここ](http://localhost:3000/users)からご確認いただけます。またコードは[Users側](https://github.com/naofumi/hotwire_and_next/tree/main/pages/users)および[
+Products側](https://github.com/naofumi/hotwire_and_next/tree/main/pages/products)をGitHubに公開しています。
+
+### コード ===use-effect-code===
+
+下記のように`useEffect()`の中で`fetch()`を使い、データを取得しています。そのデータは`setUsers()`でステートに詰め込み、画面を表示させています。また途中のローディング画面を表示するために`setLoading()`でロード中表示のステートもセットしています。
+
+なお下記のコードはエラー処理が含まれていません。エラーを正しく処理し、ソフト404ページを表示したり、ユーザにフィードバックするのであればコードはさらに複雑になります。
+
+```tsx
+useEffect(() => {
+  console.log("Fetch start for Users useEffect")
+  fetch("/api/users").then(res => res.json())
+    .then(data => {
+      setUsers(data)
+      setLoading(false)
+    })
+},[])
+```
+
+### UI/UX ===use-effect-ui===
+
+* 画面遷移のリンク（ボタン）を押すとすぐに画面が切り替わり、ローディング中のアニメーションが表示されます。フィードバックは速く、適切です
+* ローディングアニメーションの表示は速いものの、実際にコンテンツのある新しいページが表示されるまでの時間はMPAの場合と変わりません
+
+### まとめ ===use-effect-summary===
+
+* MPAやTurbo Driveの場合と比べてコードは複雑になります
+* ローディングアニメーションはMPAの場合よりは目立ちますが、フィードバックの有無という意味ではMPAの場合と変わりません
+* 実際に新しいページが表示されるまでにかかる時間はMPAと変わらず、Turbo Driveのような明確なメリットはありません
+
+## Next.js Page router SSRによるページ遷移 ===ssr===
+
+Page routerのSSRは初回アクセス時のページローディングが速いとか、SEOに強いなどのメリットがあります。これはいずれも初回ロード時の話のみです。一旦ユーザがウェブサイトを訪問した後は、２回目以降のページ遷移がUI/UX上重要になります。[Page router SSRのデモサイトはこちら](/users)にあります。
+
+### コード ===ssr-code===
+
+Page router SSRのコードは[Users側](https://github.com/naofumi/hotwire_and_next/tree/main/pages/users_ssr)と[Products側](https://github.com/naofumi/hotwire_and_next/tree/main/pages/products_ssr)をご覧ください。
+
+下記のコードの`hideLoadingIndicator`のところは、ローディングアニメーションに関わるところで、デモでのみ使用するものです。通常の実装では不要です。
+
+それ以外のところは比較的シンプルで、単にpageコンポーネントに渡す`users`を用意しています。エラー処理を含めるともう少し複雑になります。
+
+**pages/users_ssr/index.tsx**
+```tsx
+// Simulate Next.js acting as a BFF for a JSON API server
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  console.log("Fetch start for Users SSR")
+  const res = await fetch(process.env.URL + "/api/users")
+  const users = await res.json()
+  const hideLoadingIndicator = !!(context.query.hide_loading_indicator);
+  return {props: {users, hideLoadingIndicator}}
+}
+```
+
+### UI/UX ===ssr-ui===
+
+* 画面遷移のリンク（ボタン）を押しても、フィードバックがありません。遅延が300ms程度であれば問題ありませんが、遅延が2000msの場合はブラウザが正常に動いているかどうか、サーバに正しくリクエストが送られたかどうかが心配になります
+* 新しいページが表示されるまでの時間はMPAの場合と変わりません
+* **プログレスバーやローディングアニメーションがない分、ユーザは操作に対するフィードバックが得られず、MPAよりもUI/UXは劣っています**
+
+### まとめ ===ssr-summary===
+
+* Next.js/Reactを使っているにもかかわらず、**プログレスバーやローディングアニメーションがない分、MPAよりもUI/UXは劣っている**のは重大な問題だと思います
+* これについては[Loading Animiations](/commentaries/loading_animations)で詳しく解説しています
+* コードはシンプルです
+
+## Next.js App router Server Componentによるページ遷移 ===ssr===
+
+Server ComponentはSSRとよく似ていますが、Suspenseを使ってローディングアニメーションを簡単に表示できるという特徴があります。このおかげで**フィードバックがないという上記のSSRの問題点を解決できます**。[デモはこちら](/users_app)に用意しています。
+
+### コード ===rsc-code===
+
+[Users側](https://github.com/naofumi/hotwire_and_next/tree/main/app/users_app)と[Product側](https://github.com/naofumi/hotwire_and_next/tree/main/app/products_app)のコードをご覧ください。
+
+コードは比較的簡単で、`getUsers()`関数で`users`を取得し、コンポーネントの中で表示しています。なお、`time`を取得しているのはNext.js v14のキャッシュの挙動を確認するためで、デモだけのために用意しています。
+
+また`loading.tsx`のファイルはローディングアニメーションを表示するものです。
+
+**app/users_app/page.tsx**
+```tsx
+// Simulate Next.js acting as a BFF for a JSON API server
+async function getUsers(): Promise<User[]> {
+  const res = await fetch(process.env.URL + "/api/users")
+  const users = await res.json()
+  return users
+}
+
+export default async function UsersAppIndex() {
+  const users = await getUsers()
+  const time = new Date().toLocaleTimeString()
+  ...
+```
+
+**app/users_app/loading.tsx**
+```tsx
+export default function Loading() {
+  // You can add any UI inside Loading, including a Skeleton.
+  return <>
+    <div className="w-full mt-24">
+      <Image src={rocketImage} alt="loader" className="w-16 h-16 mx-auto"/>
+    </div>
+  </>
+}
+```
+
+### UI/UX ===rsc-ui===
+
+* 画面遷移のリンク（ボタン）を押すと、すぐにローディングアニメーションが表示されます。`useEffect()`の場合とUI/UXは非常に似ています
+* 新しいページが表示されるまでの時間はMPAの場合と変わりません
+
+### まとめ ===rsc-summary===
+
+* 画面遷移のリンク（ボタン）を押すと、すぐにローディングアニメーションが表示されますので、SSRの問題点を解決できています。しかしUI/UX的には`useEffect()`と同じになっただけです
+* 新しいページが表示されるまでの時間はMPAの場合と変わらないので、特にメリットはありません
+* SSGの場合はprefetchが効いたため、Turbo Driveのようにページ遷移が高速化されました。しかしNext.jsは動的なページの場合(`dynamic rendering`)はprefetchが効きません。新しいページが表示されるまでの時間が短縮されないのはこのためです。
+
+## 各ページ遷移方法の比較
+
+* 動的なページでもprefetchが有効になっているため、Hotwire Turbo DriveのUI/UXがもっとも優れたものになりました(SSGは動的ページではないので除外)
+* Next.jsを使った場合は様々な方法でページ遷移ができるものの、MPAより明確に優れたものはありませんでした
+* Next.jsはカスタムでフィードバックを提供しない限り、MPAよりもUI/UXが劣ったものになってしまいます
+
 
 ### SPAの効果 ===spa-effect===
 
-上記の表に挙げた技術は、ネイティブを除いて、すべてSPA ([Single-page Application: シングルページアプリケーション](https://ja.wikipedia.org/wiki/シングルページアプリケーション))です。Next.jsの場合はSSRであっても、２つ目のページはSPA的に遷移します。
+上記の表に挙げた技術は、ネイティブ(MPA)を除いて、すべてSPA ([Single-page Application: シングルページアプリケーション](https://ja.wikipedia.org/wiki/シングルページアプリケーション))です。なお[本サイトのSPAの定義](/commentaries/glossary#SPA)については用語集をご確認ください。
 
-ここでいうSPA的というのは、ページ切り替え時に[AJAX](https://ja.wikipedia.org/wiki/Ajax)等を使っていて、一見するとページ全体は切り替わっているものの、裏でロードされたJavaScriptやCSSはそのまま残しているという意味です。先のページをメモリに残しつつ画面遷移するため、よりスムーズなページ切り替えが可能になり、またキャッシュなどのパフォーマンス最適化がしやすくなっています。
+ここでいうSPAというのは、ページ切り替え時に[AJAX](https://ja.wikipedia.org/wiki/Ajax)等を使っていて、一見するとページ全体は切り替わっているものの、裏でロードされたJavaScriptやCSSはそのまま残しているという意味です。先のページをメモリに残しつつ画面遷移するため、よりスムーズなページ切り替えが可能になり、またキャッシュなどのパフォーマンス最適化がしやすくなっています。
 
 ただし最近の高性能マシンではJavaScriptやCSSの読み込みが高速であり、上記のメリットをほとんど感じることができません。実際[Astro](https://astro.build)などのフレームワークはSSRをするものの、２ページ目のSPA的遷移は省略しています。
 

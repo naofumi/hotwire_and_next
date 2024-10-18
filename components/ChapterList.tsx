@@ -54,7 +54,7 @@ export default function ChapterList({htmlString}: {htmlString: string}) {
 }
 
 export function ChapterListFromHeaders({headers}: {headers: ChapterPage[]}) {
-  return <div className="my-8 border border-gray-200 rounded p-4 pb-8">
+  return <div className="my-8 border border-gray-200 rounded p-4 pb-8 lg:max-h-[calc(100vh-102px)] overflow-y-scroll">
     <Link href="" className="block font-bold text-lg mb-2 hover:text-orange-600">目次</Link>
     {headersToOrderedList(headers)}
   </div>;

@@ -5,24 +5,19 @@ import hotwireComponentStructureImage from "@/public/images/hotwire-component-st
 import hotwireNextImage from "@/public/images/Hotwire-Next.webp"
 import driveFramesStreamsImage from "@/public/images/drive-frames-streams.webp"
 
-「Hotwire for Frontend
-Developers（フロントエンドエンジニアのためのHotwire入門）」は、Ruby on
-Railエンジニアに限らず、**すべてのウェブ開発者にHotwireの良さを体感していただくために**作成したサイトです。
-
-本サイトは**Hotwireで書かれたページとReact (Next.js)で書かれた実際のウェブページを横に並べ**、それぞれの**UXを体験していただき**、さらに[GitHubに上げたコード](https://github.com/naofumi/hotwire_and_next)を確認していただきながら、実装の理解を深けめていただく構成になっています。
-
-
 ## Hotwireは優れたUXを小さいチームで作るための技術===great-UX-with-small-teams===
 
-Hotwireおよびその前身の技術([TurboLinks](https://github.com/turbolinks/turbolinks), [UJS](https://github.com/rails/rails-ujs))は、ウェブデザイン会社として創業した37signals社が、[Basecamp](https://basecamp.com/)、[Hey](https://www.hey.com/)などのSaaS製品を開発するために作成されたものです。ユーザ向けのすべての画面で使われているのはもちろんのこと、iOS、Android用のモバイルアプリでもHotwireは使われています。このように、Hotwireが**人気の有料SaaSアプリでも十分なUI/UXを提供できる**ことが証明されています。
+Hotwireおよびその前身の技術([TurboLinks](https://github.com/turbolinks/turbolinks), [UJS](https://github.com/rails/rails-ujs))は、ウェブデザイン会社として創業した[37signals社](https://37signals.com)が、[Basecamp](https://basecamp.com/)、[Hey](https://www.hey.com/)などのSaaS製品を開発するために作成されたものです。ユーザ向けのすべての画面で使われているだけではなく、iOS、Android用のモバイルアプリもHotwireで作られています。
 
-一方で[37signals社の各チームのサイズはデザイナーを含めてたったの３人です](https://3.basecamp-help.com/article/35-the-six-week-cycle#who-does-the-work?)。開発効率が非常に高く、小さいチームでの開発ができることも実証されています。
+一方で[37signals社の各チームのサイズはデザイナーを含めてたったの３人です](https://3.basecamp-help.com/article/35-the-six-week-cycle#who-does-the-work?)。
 
-
+このように、Hotwireは開発効率が非常に高く、小さいチームで優れたUI/UXを実現する技術です。
 
 ## Next.jsに勝るとも劣らないUI/UX ===UX-comparable-or-exceeding-next-js===
 
 「Hotwireは実装が楽だけど、限界がある」と考えている人がいます。React/Next.jsほどのUI/UXは作れないと思っている人がいます。「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」という声も聞こえます。**しかしこれは誤解です**。お客様がお金を払ってでも使いたくなる製品がHotwireだけで作成できることを、**37signals社が明確に実証ずみです**。さらに本サイトでは細かい仕組みの議論をしながら、HotwireのUI/UXの方がむしろ優れている面もあることを紹介します。
+
+実際、エンドユーザのUXが決定的に重要な[CookpadでもHotwireを使用しています](https://cookpad.com)。
 
 もちろんすべてにおいてHotwireがReact/Next.jsに勝るわけではありません。ただしほとんどのケースでは、少なくとも対等であると考えて間違いありません。
 
@@ -35,8 +30,8 @@ Hotwireは以下の３つのパーツから構成されています。
 * **Turbo:** [Turbo](https://turbo.hotwired.dev)はサーバにレクエストを投げて、返ってきたHTMLをDOMに埋め込むためのライブラリです。いわゆる非同期通信(AJAX)を担当します。大きな特徴はJSONを介して通信をせず、敢えてHTMLのみを使う点です。**HTMLのみの通信により、ブラウザ側の処理を大幅に簡略化しています**。Turbo自身はさらにTurbo Drive, Turbo Frames, Turbo Streamsに分かれています。<br />
 （Turbo以前のRailsでは[サーバからJavaScriptを返す](https://signalvnoise.com/posts/3697-server-generated-javascript-responses)ことが一般的で、Turboよりむしろ遥かに柔軟性がありました。この柔軟さを捨てて、シンプルさを優先したのがHotwireと言えます）
 * **Stimulus:** [Stimulus](https://stimulus.hotwired.dev)はHTMLを新たにレンダリングするのではなく、すでにあるHTMLにJavaScriptを結びつけることに注力しています。再利用可能なControllerというまとまりを作ることで、イベントハンドラのスパゲッティを避けています
-* **Strada:** [Strada](https://strada.hotwired.dev)はWebとiOS,
-Androidを繋ぎ合わせる役割を担う、モバイルアプリ作成のためのライブラリです
+* **Native:** [Hotwire Native](https://native.hotwired.dev)はWebとiOS,
+Androidを繋ぎ合わせる役割を担う、モバイルアプリ作成のためのライブラリです。以前はStradaと呼ばれていましたが、大幅にパワーアップされ、名前も変更になりました。React Nativeなどと異なり、基本的にはウェブ版のHTML, CSSをそのまま使いますが、必要に応じてネイティブなUI要素を利用できます
 
 上記の３つを組み合わせることにより、シンプルさを維持しつつ、モダンフロントエンドの要件を十分に満たすウェブサイト、さらにはネイティブアプリの作成が可能になります。
 
@@ -51,12 +46,12 @@ Androidを繋ぎ合わせる役割を担う、モバイルアプリ作成のた�
 
 ## Turboの構成 ===turbo-components===
 
-  Turboは<code>fetch</code>を使い、ウェブページの部分置換をするライブラリです。Hotwireの中心的な技術です。置換する範囲と付随する機能に応じて、3種類の置換方法があります。
+Turboは<code>fetch</code>を使い、ウェブページの部分置換をするライブラリです。Hotwireの中心的な技術です。置換する範囲と付随する機能に応じて、3種類の置換方法があります。
 
 * **Turbo Drive:**[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は`body`タグの中身を丸々置換する技術です。Next.jsの[router](https://nextjs.org/docs/pages/building-your-application/routing)、あるいは[React Router](https://reactrouter.com/)に相当し、ページ全体をSPA的に置換・遷移する仕組みです。`Link`タグのような特別なものは使わず、`a`タグがすべて自動的にTurbo Driveを使うようになります。
 * **Turbo Frames:** [Turbo Frames](https://turbo.hotwired.dev/handbook/frames)は部分置換を実現するものです。画面の一部を置換するだけではなく、画面を **「枠」** に分割する性質があり、デフォルトでは枠内の **a** タグおよび **form** タグも中に閉じ込めるように動きます。[ルータとの連携](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[Lazy Load](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)なども用意され、画面の部分置換だけでなく、関連するUXもパッケージされています。柔軟性も高く、**これだけでほとんどの部分置換は可能です** (Turbo Streamsをあまり使わなくても用が足りてしまう)。<br />
 Next.js app routerの[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)に近い性質もありますが、URLとの連動が必須ではないことや、１つのページに複数のTurbo Frameが配置できることなど、より小回りが効く柔軟な仕組みです。
-* **Turbo Streams:** [Turbo Streams](https://turbo.hotwired.dev/handbook/streams)は画面を細かく、柔軟に置換する技術です。IDで指定された要素を１つずつ追加・置換したり、削除したりできます。またWebSocketを介した置換も可能になっています。柔軟性は非常に高いのですが、それだけに置換ステップ数が増大する傾向があり、必要なところで慎重に使うのがポイントではないかと思います。[jQuery](https://api.jquery.com/category/manipulation/)の`prepend()`, `append()`, `remove()`, `html()`をHTML属性から呼び出す感覚に近いとも言えます。Turbo StreamsとTurbo Framesの使い分けは明確ではなく、人よってどちらを多く使うかが異なります。私はTurbo Framesを多く使いますので、本サイトもこちらが中心になっています。
+* **Turbo Streams:** [Turbo Streams](https://turbo.hotwired.dev/handbook/streams)は画面を細かく、柔軟に置換する技術です。IDで指定された要素を１つずつ追加・置換したり、削除したりできます。またWebSocketを介した置換も可能になっています。柔軟性は非常に高いのですが、それだけに置換ステップ数が増大する傾向があり、必要なところで慎重に使うのがポイントではないかと思います。[jQuery](https://api.jquery.com/category/manipulation/)の`prepend()`, `append()`, `remove()`, `html()`をHTML属性から呼び出す感覚に近いとも言えます。Turbo StreamsとTurbo Framesの使い分けは明確ではなく、人よってどちらを多く使うかが異なります。私はTurbo Framesを多く使いますので、本サイトもこちらが中心になっています。Next.jsで言えば、Turbo StreamsはTurbo Framesとともに、Client ComponentやSSRしたページから`useEffect()`を呼び、画面を部分更新するのに相当します。
 
 この他、Turboには[Morphing](https://turbo.hotwired.dev/handbook/page_refreshes)があります。これは[Reactの差分検出処理](https://ja.legacy.reactjs.org/docs/reconciliation.html)と似たものであり、ブラウザのDOMとサーバから送られてきたHTMLの差分を検出し、なるべくブラウザのステートを保持しつつ更新処理をかけるものです。
 
@@ -75,30 +70,30 @@ Turboは上記のたった３つのパーツしかないのですが、実際に
 * **大幅なUXを向上:** ウェブサイトのUXを大幅に向上させます。体感レスポンスタイムの大幅短縮、画面の部分置換など、モダンフロントエンドのUX要件をカバーできます。
     具体的には[本サイトの各例](/)をお確かめください。
 * **学習時間と工数の削減:** 昔ながらのサーバでのHTML生成をするアプローチです。JSON APIも使いません。ReactやNext.jsのような複雑さがありませんので、学習時間と作業工数を大幅に削減できます。
-* **コンポーネント化:** Hotwireのコンポーネント化は各バックエンド技術のテンプレートエンジンによります。Ruby on Railsであれば[partial](https://guides.rubyonrails.org/layouts_and_rendering.html#using-partials)や[view helper](https://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html)、もしくは最近話題の[ViewComponent](https://viewcomponent.org)や[Phlex](https://www.phlex.fun)などのコンポーネント化技術があります。Laravel, Djangoなどもそれぞれのコンポーネント化技術があります。
-* **注目されている技術です:** [Elixir Phoenix](https://www.phoenixframework.org)のLiveview、PHP Laravelの[Livewire](https://laravel-livewire.com)、さらにHotwire同様にバックエンド非依存の[HTMX](https://htmx.org)など、Hotwireと同様のアプローチでモダンフロントエンドを作る技術が近年、注目を集めています。HTMXはDjangoで話題になっており、さらにSSG/SSR JavaScriptフレームワークのAstroではHTMXを意識した[page partials](https://docs.astro.build/en/basics/astro-pages/#page-partials)という機能も導入されています。
+* **コンポーネント化:** Hotwireのコンポーネント化は各バックエンド技術のテンプレートエンジンに委ねられています。Ruby on Railsであれば[partial](https://guides.rubyonrails.org/layouts_and_rendering.html#using-partials)や[view helper](https://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html)、もしくは最近話題の[ViewComponent](https://viewcomponent.org)や[Phlex](https://www.phlex.fun)などのコンポーネント化技術があります。Laravel, Djangoなどもそれぞれのコンポーネント化技術があります。
+* **注目されている技術です:** [Elixir Phoenix](https://www.phoenixframework.org)のLiveview、PHP Laravelの[Livewire](https://laravel-livewire.com)、さらにHotwire同様にバックエンド非依存の[HTMX](https://htmx.org)など、Hotwireと同様のアプローチでモダンフロントエンドを作る技術が近年、注目を集めています。HTMXはDjangoやGo、Spring MVCで話題になっており、さらにSSG/SSR JavaScriptフレームワークのAstroではHTMXを意識した[page partials](https://docs.astro.build/en/basics/astro-pages/#page-partials)という機能も導入されています。
 * **セキュリティが高い:** レンダリング済みのHTMLのみをブラウザに送信するので、誤ってプライベートな情報を漏洩する心配がありません。例えば秘密キーをブラウザに預ける必要がなく、またJSON APIに機密情報を流してしまうこともありません。詳しくは[ページ遷移の解説](/commentaries/page_transitions)で議論しています。
 
 
 ## Hotwireのステート管理 ===hotwire-state-management===
 
-Reactの世界ではuseStateに始まり、Reduxに至るまで、ステート管理が非常に大きなトピックになっています。ここではHotwireにおけるステートの一般的な考え方について紹介します。
+Reactの世界ではステート管理が非常に大きなトピックになっています（useStateからReduxまで、多数の仕組みが使われています）。ここではHotwireにおけるステートの一般的な考え方について紹介します。
 
 * **Reactは単方向データフロー(one-way data flow):** Reactでは単方向データフローが非常に重要な概念です。すべてはステートから始まり、親コンポーネントから子コンポーネントにステートを渡しながら画面がレンダリングされます。ステートは各コンポーネントが`useState`で保持したり、あるいはグローバルに`useContext`やReduxなどを使って保持されます。ユーザの操作等によって画面の複数箇所が同時に更新され、さらに操作をする箇所が多く、複雑なアプリにおいてはこれは非常に有効なコンセプトです
-* **Turboはサーバにステート管理を任せます:** HotwireのTurboはサーバにステートを持たせ、同じものはブラウザでは持たないという考え方です。HTMLはサーバでレンダリングされますので、ブラウザに送られてくる必要がありません。またHTML `form`によってサーバにデータを送信する場合も、`form`自身がネイティブに保有するステート管理に任せます。Reactのように`form`の状態をステートに持たせ、それをJSONに変換してサーバに送ることをしません。`form`のネイティブな動作に任せ、`application/x-www-form-urlencoded`形式でサーバに送ります。その一方で積極的にキャッシュを行い、ネットワーク通信による遅延を最小化する仕組みを各種用意しています。
+* **Turboはサーバにステート管理を任せます:** HotwireのTurboはサーバにステートを持たせ、同じものはブラウザでは持たないという考え方です。HTMLはサーバでレンダリングされますので、初期描画に関するステートはブラウザに送られません。またHTML `form`によってサーバにデータを送信する場合も、`form`自身がネイティブに保有するステート管理に任せます。Reactのように`form`の状態をステート変数に持たせ、それをJSONに変換してサーバに送ることをしません。`form`のネイティブな動作に任せ、`application/x-www-form-urlencoded`形式でサーバに送ります。このような仕組みにより、ブラウザが管理するステートは激減します。その一方で積極的にキャッシュを行い、ネットワーク通信による遅延を最小化する仕組みを各種用意しています。
 * **Stimulusはブラウザ内のステートを管理します:** HotwireのStimulusはブラウザのみが保有し、サーバと共有されないステートを管理します。例えばアコーディオンやプルダウンメニューの開閉状態がこれに相当します。簡単なステートの場合は、敢えてステートを別個に保持せずに、DOMに加えた変更そのものをステートとします。例えば開閉状態を示す`opened` CSSクラス、あるいは`aria="busy"`などを使います。より複雑なステートを扱う場合は[StimulusのValues](https://stimulus.hotwired.dev/reference/values)を使用します。これはHTML要素の`data-*`属性に書き込まれて保持されます(Object型のデータも保持可能)。また[change callback](https://stimulus.hotwired.dev/reference/values#change-callbacks)が用意されていますので、Stimulus Valuesに加えた変更が自動的にHTML要素に反映される仕組みが作れます。例えば[Chart.js](https://www.chartjs.org)のグラフをStimulus Values経由で管理すると便利です
 
-このようにHotwireのステート管理の考え方は、サーバが持つべきものはTurbo経由でサーバに持たせ、ブラウザが持つべきものはある程度複雑なものまでStimulusで処理するというものです。Stimulusの担当範囲は"sprinkles of JavaScript"(「軽く撒いたJavaScript」)と呼ばれます。それ以上のものが必要な場合は別の技術に委ねます。
+このようにHotwireのステート管理の考え方は、サーバが持つべきものはTurbo経由でサーバに持たせ、ブラウザが持つべきものはStimulusで処理するというものです。Stimulusの担当範囲は"sprinkles of JavaScript"(「軽く撒いたJavaScript」)までです。リッチテキストエディタのような複雑なものは、通常はStimulusで作りません。
 
 
 ## 本サイトの構成 ===structure-of-this-site===
 
-* 本サイトのコードはすべて[GitHub](https://github.com/naofumi/hotwire_and_next)に公開しています。また[Vercel](https://hotwire-and-next.vercel.app)でデモ用にデプロイしています。コードをGitHubで確認しながら、UXをデモで確認すると理解が深まるのではないかと思います。
+* 本サイトは、**Hotwireの部分も含めてすべてNext.jsで書かれており**、コードは[GitHub](https://github.com/naofumi/hotwire_and_next)に公開しています。[さくらのVPS](/)にでデモをデプロイしています。一方でコードをGitHubで確認し、他方でUI/UXをデモで確認できるため、HotwireとNext.jsの強み・弱みが確認しやすいと思います。
 * **HotwireはEJS:** Hotwireはバックエンド技術非依存なので、HTMLが出力できればどこでも動きます。本プロジェクトでは **Next.js pages router** の[API
   routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)から **HTMLをレスポンスとして返しています** (`/api/hotwire/`配下)。
 テンプレートエンジンは[EJS](https://ejs.co)を使っています。Hotwireの構成要素である[Turbo](https://turbo.hotwired.dev/handbook/installing)と[Stimulus](https://stimulus.hotwired.dev/handbook/installing)はそれぞれbuild済みのものをダウンロードし、`public/hotwire/javascript`に配置しています。
 またCSSは[Tailwind](https://tailwindcss.com)を使用しています。
-* **ReactはNext.js pages router:** Hotwireと比較するためのReact側は、目まぐるしく変わるフロントエンド開発環境の中でも、比較的頻繁に見られる技術を選定しました。
+* **ReactはNext.js pages routerが中心:** Hotwireと比較するためのReact側は、目まぐるしく変わるフロントエンド開発環境の中でも、比較的頻繁に見られる技術を選定しました。
     * フレームワークはNext.jsを使用しています。ただし[app router](https://nextjs.org/docs/app)はまだ使用しているプロジェクトが少ないと考え、[pages router](https://nextjs.org/docs/pages)を中心に作成しています。ただし一部app routerと比較したいケースの時はこれも使っています。
     * 内容が頻繁に更新されるウェブアプリ（例えば業務アプリや管理画面、注文予約アプリ、プロジェクト管理アプリなど）を想定しているため、古いデータが表示されたままになってしまうタイプのキャッシュは使用していません。特にapp routerを使っている時は[Route Cache](https://nextjs.org/docs/app/building-your-application/caching#router-cache)、[Full Route Cache](https://nextjs.org/docs/app/building-your-application/caching#full-route-cache)、[Data Cache](https://nextjs.org/docs/app/building-your-application/caching#data-cache)は[オフにしています](https://nextjs.org/docs/app/building-your-application/caching#segment-config-options)。
 * **Next.jsはBFFとして使われている想定:** 一貫性を持たせるために、システムは下記の構成になっていると想定しています。
@@ -108,12 +103,14 @@ Reactの世界ではuseStateに始まり、Reduxに至るまで、ステート�
 * **遅延:** 高速なサイトだとどんなフロントエンド技術を使ってもサクサク動いてしまいます。何をやっても非常に快適になってしまい、技術の違いが見えなくなります。そこで本サイトではあえて数百msの遅延を入れています（例示しない内容に応じて増やしています）。ただし静的なファイルやNext.jsのSSGなど、一般にCDNの載せるようなものについては遅延を入れていません。
 
 
-
 ## Hotwireのリソース ===hotwire-resources===
+
+Hotwireの学習は運用の助けになるサイトを集めています。下記のリンクをご覧ください。
+
 * **公式サイト:**<br/>
     * [Turbo公式サイト](https://turbo.hotwired.dev)
     * [Stimulus公式サイト](https://stimulus.hotwired.dev)
-    * [Strada公式サイト](https://strada.hotwired.dev)
+    * [Hotwire Native公式サイト](https://native.hotwired.dev)
 * **コミュニティサイト:**
     * [Hotwire.io](https://hotwire.io)
 * **その他**

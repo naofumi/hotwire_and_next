@@ -1,10 +1,10 @@
-<div class="mt-8 flex flex-wrap gap-2 justify-center">
-  <a href="/api/hotwire/users?native=true"
+<div class="mt-8 flex flex-wrap gap-2 justify-center" data-turbo="false">
+  <a href="/api/hotwire/users"
      class="<%= selected === "mpa" ? " btn-primary" : " btn-outline-primary" %>"
   >
   MPA(ブラウザネイティブ)
   </a>
-  <a href="/api/hotwire/users"
+  <a href="/api/hotwire/page_drive/users"
      class="<%= selected === "turbo_drive" ? " btn-primary" : " btn-outline-primary" %>"
   >
   Turbo Drive

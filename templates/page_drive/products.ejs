@@ -1,11 +1,11 @@
-<%- include("layouts/header_no_js.ejs") -%>
+<%- include("../layouts/header.ejs") -%>
 <div class="my-10 px-4 sm:px-6 lg:px-8">
-  <%- include("_transition_tech_nav", {selected: "mpa"}) %>
+  <%- include("../_transition_tech_nav", {selected: "turbo_drive"}) %>
   <hr class="my-8">
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-      <h1 class="demo-h1">ブラウザネイティブ(MPA)画面遷移</h1>
-      <h2 class="demo-h2">Users</h2>
+      <h1 class="demo-h1">Turbo Drive画面遷移</h1>
+      <h2 class="demo-h2">Products</h2>
     </div>
   </div>
   <div class="mt-8 flow-root">
@@ -17,38 +17,38 @@
             <th scope="col" class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pl-0">
               Name
             </th>
-            <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Title</th>
-            <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
+            <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Catalog Number</th>
+            <th scope="col" class="px-4 py-3.5 text-left text-sm font-semibold text-gray-900">Price</th>
             <th scope="col" class="py-3.5 pl-4 pr-4 text-left text-sm font-semibold text-gray-900 sm:pr-0">
-              Role
+              Availability
             </th>
           </tr>
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white">
-          <% users.forEach((user) => { %>
+          <% products.forEach((product) => { %>
             <tr class="divide-x divide-gray-200">
               <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm font-medium text-gray-900 sm:pl-0">
-                <%= user.name %>
+                <%= product.name %>
               </td>
               <td class="whitespace-nowrap p-4 text-sm text-gray-500">
-                <%= user.title %>
+                <%= product.catalogNumber %>
               </td>
               <td class="whitespace-nowrap p-4 text-sm text-gray-500">
-                <%= user.email %>
+                <%= product.price %>
               </td>
               <td class="whitespace-nowrap py-4 pl-4 pr-4 text-sm text-gray-500 sm:pr-0">
-                <%= user.role %>
+                <%= product.availability %>
               </td>
             </tr>
           <% }) %>
           </tbody>
         </table>
         <div class="my-10 flex items-center justify-center gap-x-6">
-          <a href="/api/hotwire/products"
-             class="btn-primary">Productsへ推移 (Turbo Off)</a>
+          <a href="/api/hotwire/page_drive/users"
+             class="btn-primary">Usersへ推移 (Turbo On)</a>
         </div>
       </div>
     </div>
   </div>
 </div>
-<%- include("layouts/footer.ejs") -%>
+<%- include("../layouts/footer.ejs") -%>

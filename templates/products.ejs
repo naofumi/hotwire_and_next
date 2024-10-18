@@ -1,14 +1,10 @@
-<%- include("layouts/header.ejs") -%>
+<%- include("layouts/header_no_js.ejs") -%>
 <div class="my-10 px-4 sm:px-6 lg:px-8">
-  <%- include("_transition_tech_nav", {selected: (native ? "mpa" : "turbo_drive")}) %>
+  <%- include("_transition_tech_nav", {selected: "mpa"}) %>
   <hr class="my-8">
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-      <% if (native) { %>
-        <h1 class="demo-h1">ブラウザネイティブ(MPA)画面遷移</h1>
-      <% } else { %>
-        <h1 class="demo-h1">Turbo Drive画面遷移</h1>
-      <% } %>
+      <h1 class="demo-h1">ブラウザネイティブ(MPA)画面遷移</h1>
       <h2 class="demo-h2">Products</h2>
     </div>
   </div>
@@ -48,15 +44,8 @@
           </tbody>
         </table>
         <div class="my-10 flex items-center justify-center gap-x-6">
-          <% if (native) { %>
-            <a href="/api/hotwire/users?native=true"
-               class="btn-primary"
-               data-turbo="false">Usersへ推移 (Turbo Off)</a>
-          <% } else { %>
-            <a href="/api/hotwire/users"
-               class="btn-primary"
-               data-turbo="true">Usersへ推移 (Turbo On)</a>
-          <% } %>
+          <a href="/api/hotwire/users"
+             class="btn-primary">Usersへ推移 (Turbo Off)</a>
         </div>
       </div>
     </div>

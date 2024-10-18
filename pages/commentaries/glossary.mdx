@@ -5,11 +5,9 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
 
 ## CSR, SSR, SPA, MPA ===csr-ssr-spa-mpa===
 
-主にNext.jsによって一般的になった用語かと思いますが、人によって使い方がまちまちで、コミュニケーションに苦労するのが私の印象です。例えばNext.jsの`getServerSideProps()`を使ったページはCSRなのかSSRなのかSPAなのかMPAなのか？あるいは`getStaticProps()`は一般にSSGと言われているが、実質的にSSRと何が違うのか？Hydrationを行わないRuby on Rails ERBはSSRなのか？同様にHydrationを行わない純粋React Server ComponentsはSSRなのか？コミュニケーションに困るシチュエーションは無限にありそうです。
+主にNext.jsによって一般的になった用語かと思いますが、人によって使い方がまちまちで、コミュニケーションに苦労します。
 
-私は下記のように定義して使用しています。この使い方が最も[MECE(漏れなく・ダブりなく)](https://ja.wikipedia.org/wiki/MECE)になと思っていて、気に入っています。
-
-私は２つの軸を使って、下記の表のように分類しています。
+本サイトでは下記のように定義して使用しています。この定義が最も[MECE(漏れなく・ダブりなく)](https://ja.wikipedia.org/wiki/MECE)になりますので、各技術の違いを論じるのに適していると私は考えています。
 
 <div className="mt-8 flow-root">
   <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -18,6 +16,7 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
         <caption className="caption-top text-left font-bold">CSR, SSR, MPA, SPAの定義</caption>
         <thead>
         <tr>
+          <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">視点</th>
           <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">技術</th>
           <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">名前</th>
           <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">どこでRenderingされるか？</th>
@@ -26,6 +25,7 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
         </thead>
         <tbody className="bg-white whitespace-nowrap">
         <tr className="even:bg-gray-50">
+          <td rowSpan={2} className="px-3 py-4 text-sm text-gray-500">**レンダリング**</td>
           <td className="px-3 py-4 text-sm text-gray-500">**CSR**</td>
           <td className="px-3 py-4 text-sm text-gray-500">Client-Side Rendering</td>
           <td className="px-3 py-4 text-sm text-gray-500">ブラウザ</td>
@@ -38,6 +38,7 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
           <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
         </tr>
         <tr className="even:bg-gray-50">
+          <td rowSpan={2} className="px-3 py-4 text-sm text-gray-500">**メモリ維持**</td>
           <td className="px-3 py-4 text-sm text-gray-500">**SPA**</td>
           <td className="px-3 py-4 text-sm text-gray-500">Single-Page Application</td>
           <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
@@ -57,20 +58,21 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
 
 ### CSR: Client-Side-Rendering ===CSR===
 
-* ブラウザの中でJavaScriptが動いて、HTMLをレンダリングするやり方
+* ブラウザの中でJavaScriptコードが実行されて、その結果としてHTMLを生成（レンダリング）するやり方
 
 ### SSR: Server-Side-Rendering ===SSR===
 
-* サーバでHTMLがレンダリングされ、HTMLとしてブラウザに送信するやり方
+* サーバでHTMLが生成（レンダリング）され、ブラウザにHTMLが送信されるやり方
 
 ### SPA: Single-Page Application ===SPA===
 
-* 全画面を書き換える画面遷移を行わないアプリケーション
-* 全画面を書き換える画面遷移をするものの、その際、`<head>`タグは保持し、主に`<body>`タグの内容だけを更新するもの。`<head>`の中で読み込まれたJavaScriptやCSSは次のページに引き継ぐ
+* 全画面を書き換える画面遷移は行わないウェブページ。つまり画面の部分的な置換でUI/UXを構成したもの
+* Hotwire TurboDrive, React Router, Next.jsのLinkタグを使った画面遷移では`<head>`タグは保持し、`<body>`タグの内容だけを更新します。そのため、SPAと分類
 
 ### MPA: Multi-Page Application ===MPA===
 
 * 全画面を書き換える画面遷移を行い、その際は`<head>`タグの中身を含めたページ全体をブラウザメモリから消し、まっさらな状態から次のページを描画するもの
+* ブラウザのネイティブな画面遷移はMPAに相当
 
 ### 判断に迷いやすいケースの解釈 ===confusing-cases===
 
@@ -78,7 +80,7 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
 
 * SSG (Static-Site Generation)はSSRの１例として解釈されます。サーバからブラウザに送られるのはHTMLファイルであるため、サーバでレンダリングされたと考えるためです。またNext.jsのISR (Incremental Static Generation)も同様にSSRの１例として考えます
 * Ruby on Rails, PHP, DjangoなどのHTMLテンプレートを使ったウェブページもSSRの１例として解釈されます。HTMLがサーバでレンダリングされるためです。Hydrationの有無はSSRの必要条件とは考えません
-* Next.jsで`getServerSideProps()`を使ったページは、CSRであり、SSRであり、SPAであり、MPAでもあります
+* Next.jsで`getServerSideProps()`を使ったページは、状況によってCSRであり、SSRであり、SPAであり、MPAでもあります
     * 初回ロード時はサーバでHTMLがレンダリングされ、ブラウザはこれをそのまま表示します。つまりSSRです
     * `Link`タグを使って画面遷移するときは、サーバからJSONが送られてきます。このJSONを使って、JavaScriptがHTMLをレンダリングして、リンク先のページを画面に表示します。つまりCSRです
     * `Link`タグを使って画面遷移をするときは`<head>`タグを残して、`<body>`タグの中だけが(主に)変化します。つまりSPAです
@@ -87,7 +89,7 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
 
 ### 組み合わせ ===combinations===
 
-* **SSR + MPA:** Amazonや楽天は古典的なSSR + MPAです。普通に作っています
+* **SSR + MPA:** Amazonや楽天はブラウザのネイティブな画面遷移をしておりSSR + MPAです
 * **SSR + SPA:** Turbo Driveで作ったページはすべてSSRですが、２ページ目以降の画面遷移はSPAになります。サーバからはHTMLが送られてきて、そこから`<body>`のところを切り取って、置換しているためです
 * **CSR + SPA:** Create-React-Appで作ったReactのウェブアプリがこれになります。描画されるHTMLはすべてブラウザ名の中でJavaScriptがレンダリングします。React RouterでURLを変更する機能を入れても、変わりません
 * **CSR + MPA:** [Apple Store](https://www.apple.com/jp/shop/buy-iphone/iphone-15)はReactを使ってJavaScriptがHTMLをレンダリングしています。製品のオプションを選択しているときはページが遷移せず、インタラクティブに次のオプションが現れたり、価格が変更されたりします。ここはCSRです。一方で異なるページへのリンクはすべてページのリロードを伴います。よってMPAです。
@@ -119,6 +121,23 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
 しかしReact Routerを使ったSPAでは、`XMLHttpRequest`や`fetch`を使って画面全体を遷移させますし、また画面いっぱいにローダーをすぐに出しますので、ユーザは別の操作ができません。`XMLHttpRequest`や`fetch`の使い方が多様になっていますので、UI/UX視点で定義するのは不可能に思われます。
 
 本サイトでは「非同期通信」は旧ページのJavaScriptやCSSをメモリからすべて消すかどうか、それとも新ページを表示するときもメモリ上の同じJavaScriptやCSSを引き継ぐかどうかだけを基準にして考えています。つまりSPAとMPAの区別と同じように考えています。
+
+## Hydration ===hydration===
+
+ReactでSSRを行い、サーバからブラウザにHTMLを送信した場合、このままではページはインタラクティブになりません。つまりクリックなどに反応しません。インタラクティブにするにはHydrationが必要です。
+
+### なぜReact SSRはインタラクティブにならないのか？
+
+ボタンをクリックに応答させるには、ボタンのHTMLにイベントハンドラを接続する必要があります。イベントハンドラとはクリックしたイベントを受け取り、実行されるJavaScriptのことです。
+
+イベントハンドラを接続するために、JavaScriptをダウンロードし、CSRと同じように完全なウェブページをブラウザの中で作り上げます。ただし画面には表示せずに、裏でやります。裏で作られたウェブページにはイベントハンドラがありますので、画面に表示されているボタン等にこのイベントハンドラを繋げます。
+
+### ネイティブなMPAやHotwire Turbo DriveではHydrationが不要なのか？
+
+ネイティブなMPAやHotwire Turbo DriveではHydrationは不要です。HydrationをせずにイベントハンドラをHTMLに接続できます。
+
+JavaScriptはもともとHTMLと分割管理されるようにできており、HTMLに簡単にイベントハンドラがつけられます。ネイティブなMPAやHotwire Turbo Driveではこの仕組みを使っているため、裏でウェブページを再構成するような処理は不要です。
+
 
 ## SEO ===seo===
 

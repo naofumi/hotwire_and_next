@@ -1,10 +1,10 @@
-<%- include("layouts/header_no_js.ejs") -%>
+<%- include("../layouts/header.ejs") -%>
 <div class="my-10 px-4 sm:px-6 lg:px-8">
-  <%- include("_transition_tech_nav", {selected: "mpa"}) %>
+  <%- include("../_transition_tech_nav", {selected: "turbo_drive"}) %>
   <hr class="my-8">
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-      <h1 class="demo-h1">ブラウザネイティブ(MPA)画面遷移</h1>
+      <h1 class="demo-h1">Turbo Drive画面遷移</h1>
       <h2 class="demo-h2">Users</h2>
     </div>
   </div>
@@ -44,11 +44,11 @@
           </tbody>
         </table>
         <div class="my-10 flex items-center justify-center gap-x-6">
-          <a href="/api/hotwire/products"
-             class="btn-primary">Productsへ推移 (Turbo Off)</a>
+          <a href="/api/hotwire/page_drive/products"
+             class="btn-primary">Productsへ推移 (Turbo On)</a>
         </div>
       </div>
     </div>
   </div>
 </div>
-<%- include("layouts/footer.ejs") -%>
+<%- include("../layouts/footer.ejs") -%>
