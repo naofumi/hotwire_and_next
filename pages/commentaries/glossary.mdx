@@ -2,12 +2,11 @@ import CommentaryLayout from "../../components/CommentaryLayout";
 import MDXRenderer from "../../components/MDXRenderer";
 import Image from "next/image"
 import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
+import spaMpaImage from "@/public/images/spa-mpa.webp"
 
 ## CSR, SSR, SPA, MPA ===csr-ssr-spa-mpa===
 
-主にNext.jsによって一般的になった用語かと思いますが、人によって使い方がまちまちで、コミュニケーションに苦労します。
-
-本サイトでは下記のように定義して使用しています。この定義が最も[MECE(漏れなく・ダブりなく)](https://ja.wikipedia.org/wiki/MECE)になりますので、各技術の違いを論じるのに適していると私は考えています。
+CSR, SSR, SPA, MPAといった用語はモダンフロントエンドのメリット・デメリットを理解する上で必須の用語です。一方で人によって意味がまちまちであり、議論の土台とするのに苦労します。ここではこれらの用語に明確な定義を与え、技術比較の助けにしたいと思います。
 
 <div className="mt-8 flow-root">
   <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -29,25 +28,25 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
           <td className="px-3 py-4 text-sm text-gray-500">**CSR**</td>
           <td className="px-3 py-4 text-sm text-gray-500">Client-Side Rendering</td>
           <td className="px-3 py-4 text-sm text-gray-500">ブラウザ</td>
-          <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
+          <td className="px-3 py-4 text-sm text-gray-500">不問</td>
         </tr>
         <tr className="even:bg-gray-50">
           <td className="px-3 py-4 text-sm text-gray-500">**SSR**</td>
           <td className="px-3 py-4 text-sm text-gray-500">Server-Side Rendering</td>
           <td className="px-3 py-4 text-sm text-gray-500">サーバ</td>
-          <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
+          <td className="px-3 py-4 text-sm text-gray-500">不問</td>
         </tr>
         <tr className="even:bg-gray-50">
           <td rowSpan={2} className="px-3 py-4 text-sm text-gray-500">**メモリ維持**</td>
           <td className="px-3 py-4 text-sm text-gray-500">**SPA**</td>
           <td className="px-3 py-4 text-sm text-gray-500">Single-Page Application</td>
-          <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
+          <td className="px-3 py-4 text-sm text-gray-500">不問</td>
           <td className="px-3 py-4 text-sm text-gray-500">維持される</td>
         </tr>
         <tr className="even:bg-gray-50">
           <td className="px-3 py-4 text-sm text-gray-500">**MPA**</td>
           <td className="px-3 py-4 text-sm text-gray-500">Multi-Page Application</td>
-          <td className="px-3 py-4 text-sm text-gray-500">どちらでも良い</td>
+          <td className="px-3 py-4 text-sm text-gray-500">不問</td>
           <td className="px-3 py-4 text-sm text-gray-500">維持されない</td>
         </tr>
         </tbody>
@@ -58,69 +57,97 @@ import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
 
 ### CSR: Client-Side-Rendering ===CSR===
 
+#### 定義
+
 * ブラウザの中でJavaScriptコードが実行されて、その結果としてHTMLを生成（レンダリング）するやり方
+
+#### メリット
+
+* サーバに問い合わせることなく、ユーザイベントに対して表示されるHTMLを大きく変更できる
+
+#### デメリット
+
+* JavaScriptをロードし、実行するまではHTMLが生成されないので、何も表示されない
 
 ### SSR: Server-Side-Rendering ===SSR===
 
+#### 定義
+
 * サーバでHTMLが生成（レンダリング）され、ブラウザにHTMLが送信されるやり方
+
+#### メリット
+
+* JavaScriptをロードする前からHTMLが存在するので、すぐに画面を表示できる
+
+#### デメリット
+
+* ユーザイベントに対して大きくHTMLを変更する場合はサーバにHTML生成を依頼するので、サーバへの問い合わせが必要
 
 ### SPA: Single-Page Application ===SPA===
 
-* 全画面を書き換える画面遷移は行わないウェブページ。つまり画面の部分的な置換でUI/UXを構成したもの
-* Hotwire TurboDrive, React Router, Next.jsのLinkタグを使った画面遷移では`<head>`タグは保持し、`<body>`タグの内容だけを更新します。そのため、SPAと分類
+* 全画面を書き換える画面遷移は行わないウェブページ。画面の部分的な置換だけでUI/UXを構成したもの
+* 一見すると画面全体が遷移しているように見えても、実際には`<head>`タグは保持し、`<body>`タグの内容だけを更新しているもの（React Router, Next.jsの`Link`タグ、およびHotwire Turbo Driveはこれに当たる）
+
+#### メリット
+
+* `<head>`タグで読み込まれるJavaScript, CSSを再読み込みしないので、レスポンスタイムを短縮できる
+* イベントの前後でステートを維持できる – これを活用した最適化等が可能
+
+#### デメリット
+
+* ブラウザのネイティブな画面遷移をハイジャックする形になるので、互換性の問題が生じやすい
+* ブラウザのネイティブな機能を使わないので、キーボードショートカットやアクセシビリティの配慮が抜けやすい
+* JavaScriptに依存するので、SEOに不利
 
 ### MPA: Multi-Page Application ===MPA===
 
-* 全画面を書き換える画面遷移を行い、その際は`<head>`タグの中身を含めたページ全体をブラウザメモリから消し、まっさらな状態から次のページを描画するもの
-* ブラウザのネイティブな画面遷移はMPAに相当
+* `<a>`や`<form>`でナビゲーションをする際、`<head>`タグの中身を含めたページ全体をブラウザメモリから消し、まっさらな状態から次のページを描画するもの
+* ブラウザのネイティブな画面遷移
+
+#### メリット
+
+* ブラウザネイティブの動作なので、互換性の問題が生じにくい
+* ブラウザネイティブなので、ブラウザ開発者が用意したショートカットやアクセシビリティを活用でき、ウェブページ開発者が配慮することが少ない
+* JavaScriptがなくても動作するので、SEOに強い
+
+#### デメリット
+
+* `<head>`タグで読み込まれるJavaScript, CSSを再読み込みするので、JavaScriptの量が多い場合やブラウザのパワーが貧弱な場合はレスポンスタイムが遅い
+* ナビゲーションイベント前後のステートがクリアされ、維持できない。
 
 ### 判断に迷いやすいケースの解釈 ===confusing-cases===
 
-この分類をすると、例えば以下のケースもCSR, SSR, SPA, MPAの用語で解説できます。
+上記の定義に従うと、以下のケースの解釈が容易になります。またそれぞれの技術のメリット・デメリットを上述に従って理解できます。
 
-* SSG (Static-Site Generation)はSSRの１例として解釈されます。サーバからブラウザに送られるのはHTMLファイルであるため、サーバでレンダリングされたと考えるためです。またNext.jsのISR (Incremental Static Generation)も同様にSSRの１例として考えます
-* Ruby on Rails, PHP, DjangoなどのHTMLテンプレートを使ったウェブページもSSRの１例として解釈されます。HTMLがサーバでレンダリングされるためです。Hydrationの有無はSSRの必要条件とは考えません
-* Next.jsで`getServerSideProps()`を使ったページは、状況によってCSRであり、SSRであり、SPAであり、MPAでもあります
-    * 初回ロード時はサーバでHTMLがレンダリングされ、ブラウザはこれをそのまま表示します。つまりSSRです
-    * `Link`タグを使って画面遷移するときは、サーバからJSONが送られてきます。このJSONを使って、JavaScriptがHTMLをレンダリングして、リンク先のページを画面に表示します。つまりCSRです
-    * `Link`タグを使って画面遷移をするときは`<head>`タグを残して、`<body>`タグの中だけが(主に)変化します。つまりSPAです
-    * `Link`タグではなく、ただの`a`タグを使って画面遷移をすれば`<head>`タグを含めて、ページ全体がメモリから消去され、次のページはゼロから描画されます。つまりMPAです
-* React Server ComponentsはRSC payloadをサーバからブラウザに送ります。これはHTMLにかなり近いもので、HTMLの構造がそのまま記載されています。したがってSSRの１例と捉えます
-
-### 組み合わせ ===combinations===
-
-* **SSR + MPA:** Amazonや楽天はブラウザのネイティブな画面遷移をしておりSSR + MPAです
-* **SSR + SPA:** Turbo Driveで作ったページはすべてSSRですが、２ページ目以降の画面遷移はSPAになります。サーバからはHTMLが送られてきて、そこから`<body>`のところを切り取って、置換しているためです
-* **CSR + SPA:** Create-React-Appで作ったReactのウェブアプリがこれになります。描画されるHTMLはすべてブラウザ名の中でJavaScriptがレンダリングします。React RouterでURLを変更する機能を入れても、変わりません
-* **CSR + MPA:** [Apple Store](https://www.apple.com/jp/shop/buy-iphone/iphone-15)はReactを使ってJavaScriptがHTMLをレンダリングしています。製品のオプションを選択しているときはページが遷移せず、インタラクティブに次のオプションが現れたり、価格が変更されたりします。ここはCSRです。一方で異なるページへのリンクはすべてページのリロードを伴います。よってMPAです。
-
+* SSG (Static-Site Generation)はSSRとして解釈されます。サーバからブラウザに送られるのはHTMLファイルであるため、サーバでレンダリングされたと考えるためです。またNext.jsのISR (Incremental Static Generation)も同様にSSRの１例として考えます
+* Ruby on Rails, PHP, DjangoなどのHTMLテンプレートを使ったウェブページはSSRとして解釈されます。HTMLがサーバでレンダリングされるためです。なおHydrationの有無は上記のSSRの定義には無関係です
+* Next.jsで`getServerSideProps()`を使ったページは、状況によってCSRであり、SSRであり、SPAであり、MPAです。
+    * 初回ロード時はサーバでHTMLがレンダリングされますのでSSRです
+    * `Link`タグを使って画面遷移するときは、サーバからJSONが送られてきます。このJSONを使って、JavaScriptがHTMLをレンダリングして、リンク先のページを画面に表示します。よってCSRです
+    * `Link`タグを使って画面遷移をするときは`<head>`タグを残して、`<body>`タグの中だけが(主に)変化します。よってSPAです
+    * Next.jsを使用していても、`Link`タグではなく、ただの`a`タグで画面遷移をすることもあります。この場合は`<head>`タグを含めて、ページ全体がメモリから消去され、次のページはゼロから描画されます。よってMPAです
+* React Server ComponentsはRSC payloadをサーバからブラウザに送ります。これはHTMLにかなり近いもので、HTMLの構造がそのまま記載されています。したがってSSRとして捉えます
 
 <figure className="mt-12">
   <figcaption className="font-bold">CSR, SSR, SPA, MPA</figcaption>
-  <Image src={csrSsrSpaMpaImage} alt="CSR, SSR, SPA, MPA description" />
+  <Image src={csrSsrSpaMpaImage} alt="CSR, SSR, SPA, MPA description" class="max-w-[36rem] mx-auto"/>
+</figure>
+
+<figure className="mt-12">
+  <figcaption className="font-bold">MPAとSPAのページ遷移</figcaption>
+  <Image src={spaMpaImage} alt="MPA SPA description" />
 </figure>
 
 ## レンダリング ===rendering===
 
-[「レンダリング」は一般には画像、映像、音声が出力される処理を指す](https://e-words.jp/w/レンダリング.html)が、特にReact SPAの場合はこの意味で使われていません。Reactの場合はデータが画面に表示されるまでの工程が複雑ですので、先にこれを解説します。
+[「レンダリング」は一般には画像、映像、音声が出力される処理を指します](https://e-words.jp/w/レンダリング.html)が、特にReact SPAの場合はこの意味で使われていません。Reactの場合はデータが画面に表示されるまでの工程が複雑ですので、先にこれを解説します。
 
 1. 画面に表示されるべきデータがJSON等の形式で取得される
 2. JSONのデータがコンポーネント関数により、`ReactNode`のツリーに変換される
 3. `ReactNode`のツリーとブラウザのDOM (画面に表示されているもの)が[比較され](https://legacy.reactjs.org/docs/reconciliation.html)、差分がブラウザDOMに書き込まれる
 4. DOMがブラウザに表示される
 
-一般的な用法により近いのは4.のステージだと思いますが、Reactの世界では主に2.のステージを指しているように思います。そこで**本サイトでも2.の意味で使用します**。ただし`ReactNode`だけでなく、HTMLとしての出力もレンダリングと考えますし、React Server ComponentsのRSC Payloadの出力もレンダリングと考えています。広義にはブラウザDOMに反映する直前の状態がレンダリングだと考えています。
-
-## 非同期通信 ===asynchronous-communication===
-
-ウェブの「非同期通信」もまた明確な定義がない言葉です。ウェブを検索すると色々なものが出てきます。
-
-1. サーバと通信中にユーザが別の操作ができること
-2. 画面の遷移がないこと
-
-しかしReact Routerを使ったSPAでは、`XMLHttpRequest`や`fetch`を使って画面全体を遷移させますし、また画面いっぱいにローダーをすぐに出しますので、ユーザは別の操作ができません。`XMLHttpRequest`や`fetch`の使い方が多様になっていますので、UI/UX視点で定義するのは不可能に思われます。
-
-本サイトでは「非同期通信」は旧ページのJavaScriptやCSSをメモリからすべて消すかどうか、それとも新ページを表示するときもメモリ上の同じJavaScriptやCSSを引き継ぐかどうかだけを基準にして考えています。つまりSPAとMPAの区別と同じように考えています。
+一般的な用法により近いのは4.のステージだと思いますが、Reactの世界では主に2.のステージを指しているように思います。そこで**本サイトでも「レンダリング」は2.の意味で使用します**。広義にはブラウザDOMに反映する直前の状態がレンダリングだと考えており、React Server ComponentsのRSC Payloadの出力もレンダリングと考えています。
 
 ## Hydration ===hydration===
 
@@ -128,16 +155,19 @@ ReactでSSRを行い、サーバからブラウザにHTMLを送信した場合�
 
 ### なぜReact SSRはインタラクティブにならないのか？
 
-ボタンをクリックに応答させるには、ボタンのHTMLにイベントハンドラを接続する必要があります。イベントハンドラとはクリックしたイベントを受け取り、実行されるJavaScriptのことです。
+ボタンをクリックに応答させるには、ボタンのHTMLにイベントハンドラを接続する必要があります。イベントハンドラとはクリックしたイベントを受け取り、実行されるJavaScriptのことです。しかしサーバがSSRで生成したHTMLにはイベントハンドラがありません。そのため、インタラクティブにはなりません。
 
-イベントハンドラを接続するために、JavaScriptをダウンロードし、CSRと同じように完全なウェブページをブラウザの中で作り上げます。ただし画面には表示せずに、裏でやります。裏で作られたウェブページにはイベントハンドラがありますので、画面に表示されているボタン等にこのイベントハンドラを繋げます。
+Reactではイベントハンドラを接続するために、JavaScriptをダウンロードし、CSRと同じように完全なウェブページをブラウザの中で作り上げます。これは画面には表示せずに、裏でやります。裏で作られたウェブページにはイベントハンドラがありますので、画面に表示されているボタン等にこのイベントハンドラを繋げます。
+
+これを経て、React SSRのページはようやくインタラクティブになります。
 
 ### ネイティブなMPAやHotwire Turbo DriveではHydrationが不要なのか？
 
-ネイティブなMPAやHotwire Turbo DriveではHydrationは不要です。HydrationをせずにイベントハンドラをHTMLに接続できます。
+ネイティブなMPAではHydrationは不要です。HydrationをしなくてもHTMLにイベントハンドラがつながり、インタラクティブになります。
 
-JavaScriptはもともとHTMLと分割管理されるようにできており、HTMLに簡単にイベントハンドラがつけられます。ネイティブなMPAやHotwire Turbo Driveではこの仕組みを使っているため、裏でウェブページを再構成するような処理は不要です。
+JavaScriptはもともとHTMLと分割管理されるように設計されています。そして分割されたものを簡単につなげる仕組みも用意されています。JavaScriptの`addEventListener()`関数により、HTMLに簡単にイベントハンドラがつけられます。ReactのHydrationのように裏でウェブページを再構成するような処理は不要です。
 
+HotwireもネイティブなMPAと同様の方法を採用しており、Hydrationなしでイベントハンドラをつなげます。
 
 ## SEO ===seo===
 

@@ -16,7 +16,7 @@ export default function CommentaryLayout(
         <ChapterList htmlString={htmlString}/>
       </div>
       <div className="bg-white px-6 py-16 lg:px-8 lg:pl-80">
-        <div className="mx-auto max-w-3xl text-base leading-7 text-gray-700">
+        <div className="mx-auto max-w-2xl text-base leading-7 text-gray-700">
           <p className="text-base font-semibold leading-7 text-orange-600">
             {section}
           </p>

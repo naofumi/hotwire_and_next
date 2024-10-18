@@ -3,8 +3,6 @@ import CommentaryLayout from "../../components/CommentaryLayout";
 import StyledLink from "../../components/StyledLink";
 import Image from "next/image"
 import transitionImage from "@/public/images/transition-after-first-load.webp"
-import spaMpaImage from "@/public/images/spa-mpa.webp"
-import nextSecurityImage from "@/public/images/next-security.webp"
 import prefetchImage from "@/public/images/prefetch.webp"
 
 ## はじめに ===intro===
@@ -89,11 +87,6 @@ import prefetchImage from "@/public/images/prefetch.webp"
     </div>
   </div>
 </div>
-
-<figure className="mt-12">
-  <figcaption className="font-bold">MPAとSPAのページ遷移</figcaption>
-  <Image src={spaMpaImage} alt="MPA SPA description" />
-</figure>
 
 ## ブラウザネイティブ(MPA)によるページ遷移 ===mpa===
 
@@ -306,22 +299,23 @@ export default function Loading() {
 * 新しいページが表示されるまでの時間はMPAの場合と変わらないので、特にメリットはありません
 * SSGの場合はprefetchが効いたため、Turbo Driveのようにページ遷移が高速化されました。しかしNext.jsは動的なページの場合(`dynamic rendering`)はprefetchが効きません。新しいページが表示されるまでの時間が短縮されないのはこのためです。
 
-## 各ページ遷移方法の比較
+## 各種テクニック(SPA, prefetch, キャッシュ)の効果 ===comparison-of-techniques===
 
-* 動的なページでもprefetchが有効になっているため、Hotwire Turbo DriveのUI/UXがもっとも優れたものになりました(SSGは動的ページではないので除外)
-* Next.jsを使った場合は様々な方法でページ遷移ができるものの、MPAより明確に優れたものはありませんでした
-* Next.jsはカスタムでフィードバックを提供しない限り、MPAよりもUI/UXが劣ったものになってしまいます
+### 「たかがページ遷移、されどページ遷移」 ===just-page-transitions===
 
+上述のように、Hotwire Turbo DriveからNext.js Server Componentsに至るまで、ページ遷移のUI/UXを改善するための技術は多数使われています。SPA, prefetch, キャッシュ, suspenseなどがこれに該当します。
 
-### SPAの効果 ===spa-effect===
+しかしすべてが高い効果を発揮するわけではなく、ケースバイケースでもあります。
 
-上記の表に挙げた技術は、ネイティブ(MPA)を除いて、すべてSPA ([Single-page Application: シングルページアプリケーション](https://ja.wikipedia.org/wiki/シングルページアプリケーション))です。なお[本サイトのSPAの定義](/commentaries/glossary#SPA)については用語集をご確認ください。
+### SPAは基盤技術としての効果 ===spa-effect===
 
-ここでいうSPAというのは、ページ切り替え時に[AJAX](https://ja.wikipedia.org/wiki/Ajax)等を使っていて、一見するとページ全体は切り替わっているものの、裏でロードされたJavaScriptやCSSはそのまま残しているという意味です。先のページをメモリに残しつつ画面遷移するため、よりスムーズなページ切り替えが可能になり、またキャッシュなどのパフォーマンス最適化がしやすくなっています。
+上記の表に挙げた各ページ遷移法は、ネイティブ(MPA)を除いて、すべてSPA ([Single-page Application: シングルページアプリケーション](https://ja.wikipedia.org/wiki/シングルページアプリケーション))です。なお[本サイトのSPAの定義](/commentaries/glossary#SPA)については用語集をご確認ください。
 
-ただし最近の高性能マシンではJavaScriptやCSSの読み込みが高速であり、上記のメリットをほとんど感じることができません。実際[Astro](https://astro.build)などのフレームワークはSSRをするものの、２ページ目のSPA的遷移は省略しています。
+ここでいうSPAは、ページ切り替え時に[AJAX](https://ja.wikipedia.org/wiki/Ajax)等を使っていて、一見するとページ全体は切り替わっているものの、裏でロードされたJavaScriptやCSSはそのまま残しているという意味です。前のページをメモリに残しつつ画面遷移するため、よりスムーズなページ切り替えが可能になります。
 
-そのため、Turbo DriveやLinkタグによるUI/UXを感じるためには、次に紹介するprefetchと組み合わせる必要があります。
+ただし最近のデバイスではJavaScriptやCSSの読み込みが高速であり、上記のメリットをほとんど感じることができません。実際[Astro](https://astro.build)などのフレームワークはSSRをするものの、２ページ目のSPA的遷移は省略していて、単純なMPAとして動作します。
+
+このように、**SPAというだけではページ遷移のUI/UXの改善は期待できなくなっています**。ただしSPAはメモリを維持してくれるため、Prefetchやキャッシュを可能にする基盤技術として重要です。
 
 ### Prefetchの効果 ===prefetch-effect===
 
@@ -329,31 +323,18 @@ export default function Loading() {
 
 この効果のほとんどは[prefetch](https://turbo.hotwired.dev/handbook/drive#prefetching-links-on-hover)によるものです。マウスカーソルがリンクの上をホバーした時に、**フライング**をしてサーバにリクエストを飛ばします。そして実際にユーザがリンクをクリックしたとき、すでにリンク先ページは読み込まれていますので、瞬間的に画面遷移ができます。
 
-<figure className="mt-12">
+<figure className="my-12">
   <figcaption className="font-bold">Prefetchの効果</figcaption>
   <Image src={prefetchImage} alt="Prefetch effect" />
 </figure>
 
-### Next.jsのprefetchは条件によっては動かない ===next-prefetch-only-works-sometimes===
+#### Next.jsのprefetchは多くの条件では動かない
 
 Next.jsにもprefetchがあります。しかし多くのケースでは効果がありません。Pages routerの場合、SSRのページではprefetchが効きません。またApp routerで[Dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)の場合も最初の`loading.js`ファイルまでしかprefetchしませんので、[prefetchはローディング画面の表示を早めてくれるだけ](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching)の効果しかありません。逆に言うと、**Next.jsの場合、Pages routerのSSGやApp routerのStatic renderingの場合に限ってならprefetchが有効になります**。
 
 本サイトの例を見ても、[Next SSGの場合](/users_ssg)はヌルサクな画面遷移をします。しかし[Next useEffect](/users)、[Next app router](/users_app)の場合はまずはローダー画面だけがすぐに表示されるものの、データのある画面が現れるまでは待たされます。そして[Next SSR](/users_ssr)の場合はクリック直後はページがローダーも現れず、しばらく経ってからデータのある画面が現れます。
 
 このように**Next.jsはprefetch機能はありますが、機能するのは静的なページのところまで**です。動的なコンテンツはprefetchされません。動的コンテンツが多いサイトの場合はNext.jsのprefetchは効果がかなり限定的になります。なお、本サイトは動的コンテンツのサイトを作成している開発者を念頭にしています。そのため、App routerのキャッシュは極力オフにしており、すべてのページは[Dynamic rendering](https://nextjs.org/docs/app/building-your-application/rendering/server-components#dynamic-rendering)させています。
-
-<div className="mt-12">
-  <div className="w-max-[560px] flex justify-center">
-    <iframe className="aspect-video" width="560" height="315" src="https://www.youtube.com/embed/UWluEz8YPbo?si=ZPz6s2MWPQShzH6q"
-            title="YouTube video player" frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-  </div>
-</div>
-<figure className="mt-12">
-  <figcaption className="font-bold">各種の技術を使用した時の画面遷移の違い</figcaption>
-  <Image src={transitionImage} alt="Page Transition image"></Image>
-</figure>
 
 ### キャッシュの効果 ===cache-effect===
 
@@ -365,121 +346,24 @@ Next.jsもキャッシュがありますが、キャッシュの更新処理が�
 
 Turbo Driveのキャッシュの場合は古い情報は一時的に表示されますが、すぐに最新情報に更新されます。サーバ負荷、ネットワーク負荷低減効果はありませんが、優れたUI/UXに加え、開発者として扱いやすい利点があります。
 
-## セキュリティ: データ漏洩 ===security===
-
-機密性の高い情報が意図に反してブラウザに流れてしまうリスクを取り上げます。実際のデモを見ながら、具体的に紹介していきます。
-
-<figure className="mt-12">
-  <figcaption className="font-bold">HotwireとNext.jsの情報漏洩リスク</figcaption>
-  <Image src={nextSecurityImage} alt="Next.js Security Concern" />
-</figure>
-
-### HTMLだけを送る場合はリスクが少ない ===sending-html-is-secure===
-
-HotwireはHTMLのみをブラウザに送ります。送信されるのは画面に表示される内容だけです（上図で言うと、"password_digest"はブラウザに送られません）。万が一、意図しないデータをブラウザに送ったとしても、開発者もしくはQAはすぐに気づきますので、データ漏洩のリスクは少ないと言えます。
-
-Next.jsの場合も、Server Componentに限り同様のことが言えます。Server ComponentはHTMLの他に"RSC payload"というものがブラウザに送信されますが、画面に表示される内容しか含まれておらず、ほぼHTMLと同じように考えることができるためです。
-
-この場合はHTMLテンプレート自体がセキュリティレイヤーとなり、安全な情報のみが選別され、チェックも行われると考えて良いでしょう。
-
-### Hydrationをする場合やJSONを送る場合は注意が必要 ===sending-json-requires-care===
-
-Next.jsでは、Client Componentが含まれる場合、あるいはPages RouterでSSR/SSGをしている場合（つまり純粋にServer Componentだけを使っている以外の場合）はデータ漏洩の注意が必要です。注意がおろそかだと機密情報("password_digest")をブラウザに送ってしまい、それに気づかないケースが起こり得ます。
-
-下記はPages RouterでSSGを行った場合のコードです。`allUser()`関数の返り値をそのままpropsとしてコンポーネントに渡してしまっています。そしてこの中には機密情報の"password_digest"が漏洩してしまっています。
-
-**pages/users_ssg/index.tsx**
-```tsx
-export async function getStaticProps() {
-  const users = await allUsers()
-  return {props: {users}}
-}
-```
-
-次にブラウザで[SSGのページ](/users_ssg)に訪問し、開発者用のネットワークタブから`/users_ssg`へのリクエスト結果を確認します。そしてHTMLの一番最後にある`script`タグの中を確認すると、"password_digest"の中身が見えます（見やすく整形してあります）。もちろん画面には"password_digest"が表示されていませんので、開発者もQAも漏洩に気づかない恐れがあります。
-
-これを防ぐには、コードレビュー等をしっかり行い、データベースから取得されたUser情報がそのままコンポーネントに渡されないように注意する必要があります。
-
-```html
-<script id="__NEXT_DATA__" type="application/json">
-{
-    "buildId": "tfKzayy7vVgrY4oirxrPI",
-    "gsp": true,
-    "isFallback": false,
-    "page": "/users_ssg",
-    "props":
-    {
-        "__N_SSG": true,
-        "pageProps":
-        {
-            "users":
-            [
-                {
-                    "email": "hogeta@example.com",
-                    "id": 1,
-                    "name": "Hogeta Hogeo",
-                    "password_digest": "dbfcfd0d87220f629339bd3adcf452d083fde3246625fb3a93e314f833e20d37",
-                    "role": "Member",
-                    "title": "Front-end developer"
-                },
-                {
-                    "email": "hogeko@example.com",
-                    "id": 2,
-                    "name": "Hogehara Hogeko",
-                    "password_digest": "4bdd0bbfe3f4c52cc2c8ff02f1fef29663dd9938f230304915805af1fa71e968",
-                    "role": "Member",
-                    "title": "Designer"
-                },
-                ...
-            ]
-        }
-    },
-    "query":
-    {},
-    "scriptLoader":
-    []
-}
-</script>
-```
-
-### セキュリティのデモ ===security-demo===
-
-上記でも触れましたが、本デモでは、敢えてセキュリティ上問題のあるコードをバックエンドで書いています。セキュリティの問題を浮き彫りにするためです。
-
-具体的には`User repository`がそのまま`password_digest`(秘密の情報)を返してしまうようにしています。また各エンドポイントでも`password_digest`をブロックする処理を行っていません。
-
-* [ネイティブ画面遷移(MPA)](/api/hotwire/users)および[Turbo Drive](/api/hotwire/users)を使っている場合は`password_digest`は漏洩しません。レスポンスにはHTMLしか含まれないので、画面に表示しない内容はブラウザに送信されないためです。ブラウザの検証画面のネットワークタブを確認し、送信されてくる各ファイルの中身を見ても、`password_digest`の情報はありません。
-* [Next.js useEffect](/users)の時は`/api/users`からのJSONレスポンスに`password_digest`が出てしまうように作ってありますので、ここから漏洩します。しかしこのようなAPIはOpen APIでドキュメントをやり取りしながら、注意深く設計されることがほとんどだと思いますので、問題にはなりにくいと考えられます。
-* Next.js Pages
-routerの[SSG](/users_ssg)および[SSR](/users_ssr)の時は、最初にダウンロードされるHTMLファイル最下部の`script`タグ中に`password_digest`が漏洩します。これはhydration用のデータであり、HTMLに`password_digest`がレンダリングされるかどうかに関わらず含まれます。またページ遷移をするたびにダウンロードされるJSONファイルにも漏洩します。
-* [Next.js App routerのServer componentだけ](/users_app)を使っている場合は`password_digest`は漏洩しません。RSC
-payloadはHTMLにレンダリングされる内容しか含まないためです。しかしServer componentの中にClient
-componentを埋め込んでいる場合はそこがHydrationされますので、[データが漏洩する可能性があります](https://zenn.dev/moozaru/articles/d270bbc476758e)。要注意です。
-
-### セキュリティ対策 ===security-measures===
-
-Next.jsの場合は、コンポーネントに機密性のあるデータを渡さないことが対策になります。純粋なSPAのReactではサーバとブラウザが完全に別れており、セキュリティに注意しながらOpen API等でAPIを設計していました。APIで十分に気を使うことで、情報漏洩を防ぐことができました。
-
-しかしNext.jsのSSG/SSR、さらにRSCのおかげでサーバとブラウザの境界はより自由に行き来できるようになりました。**うっかりするとセキュリティに注意を払う場面がなくなりますので、あえてレイヤーを挟む対策などが有効です**。
-
-例えば`User repository`のデータをそのままコンポーネントに渡さず、[Data Access
-Layer](https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer)を作り、この中で権限に応じて必要なデータのみを含むDTO(Data
-Transfer Object)を作成することがNext.jsの公式ページで奨励されています。
-Reactの方でも[React
-Taint API](https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#preventing-sensitive-data-from-being-exposed-to-the-client)で対策されていく見込みですが、ただしこれはどちらかというと注意喚起のメカニズムだけであり、対応は別途必要になりそうです。
-
-一方でHotwireの場合は、HTMLを出力するテンプレートファイル自身がこのようなData Access Layerの役割を果たしているとも言えます。不要な情報が漏れ出ている場合は画面でもすぐに確認できますので、安全性が高いと言えます。
-
-結論として**MPAやTurbo Driveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです**。
+## ビデオ ===video===
 
 <div className="mt-12">
   <div className="w-max-[560px] flex justify-center">
-    <iframe className="aspect-video" width="560" height="315" src="https://www.youtube.com/embed/LxLhCviX8iQ?si=wjTL03S_bw7k25OF"
+    <iframe className="aspect-video" width="560" height="315" src="https://www.youtube.com/embed/UWluEz8YPbo?si=ZPz6s2MWPQShzH6q"
             title="YouTube video player" frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
   </div>
 </div>
+
+## まとめの図 ===summary-figure===
+
+<figure className="mt-12">
+  <figcaption className="font-bold">各種の技術を使用した時の画面遷移の違い</figcaption>
+  <Image src={transitionImage} alt="Page Transition image"></Image>
+</figure>
+
 
 
 

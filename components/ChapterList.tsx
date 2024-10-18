@@ -29,9 +29,9 @@ function cssClassForLevel(level: number) {
   return [
     "",
     "",
-    "before:content-['•'] before:mr-2 before:font-black before:text-orange-600 -indent-3.5 pl-4 text-sm font-bold mb-2",
-    "ml-10 border-l border-dashed pl-4 border-orange-600 text-sm text-gray-500",
-    "ml-12 border-l pl-4 text-xs text-gray-500",
+    "before:content-['•'] before:mr-2 before:font-black before:text-orange-600 -indent-3.5 pl-4 text-sm font-bold mt-2",
+    "ml-4 pl-4 mt-1 border-orange-600 text-sm text-gray-500",
+    "ml-8 pl-4 mt-1 text-xs text-gray-500",
   ][level]
 }
 

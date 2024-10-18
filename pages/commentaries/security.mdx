@@ -1,0 +1,135 @@
+import CommentaryLayout from "../../components/CommentaryLayout";
+import MDXRenderer from "../../components/MDXRenderer";
+import Image from "next/image"
+import nextSecurityImage from "@/public/images/next-security.webp"
+
+## データ漏洩 ===security===
+
+機密性の高い情報が意図に反してブラウザに流れてしまうリスクを取り上げます。これは[Next.jsの公式ブログの記事、"How to Think About Security in Next.js"](https://nextjs.org/blog/security-nextjs-server-components-actions)と同じ関心領域です。[ムーザルちゃんねるでも取り上げられており](https://zenn.dev/moozaru/articles/d270bbc476758e#client-components-の-props-から露出する)、Client ComponentsのPropsからデータが露出する問題が紹介されています。
+
+実際のデモを見ながら、具体的に紹介していきます。
+
+<figure className="mt-12">
+  <figcaption className="font-bold">HotwireとNext.jsの情報漏洩リスク</figcaption>
+  <Image src={nextSecurityImage} alt="Next.js Security Concern" />
+</figure>
+
+### Hydrationをする場合やJSONを送る場合は注意が必要 ===sending-json-requires-care===
+
+Next.jsでは、Client Componentが含まれる場合、あるいはPages RouterでSSR/SSGをしている場合（つまり純粋にServer Componentだけを使っている以外の場合）はデータ漏洩の注意が必要です。注意がおろそかだと機密情報("password_digest")をブラウザに送ってしまい、それに気づかないケースが起こり得ます。
+
+下記はPages RouterでSSGを行った場合のコードです。`allUser()`関数の返り値をそのままpropsとしてコンポーネントに渡してしまっています。そしてこの中には機密情報の"password_digest"が漏洩してしまっています。
+
+**pages/users_ssg/index.tsx**
+```tsx
+export async function getStaticProps() {
+  const users = await allUsers()
+  return {props: {users}}
+}
+```
+
+次にブラウザで[SSGのページ](/users_ssg)に訪問し、開発者用のネットワークタブから`/users_ssg`へのリクエスト結果を確認します。そしてHTMLの一番最後にある`script`タグの中を確認すると、"password_digest"の中身が見えます（見やすく整形してあります）。もちろん画面には"password_digest"が表示されていませんので、開発者もQAも漏洩に気づかない恐れがあります。
+
+これを防ぐには、コードレビュー等をしっかり行い、データベースから取得されたUser情報がそのままコンポーネントに渡されないように注意する必要があります。
+
+**開発者用のネットワークタブから`/users_ssg`を確認した例**
+```html
+<script id="__NEXT_DATA__" type="application/json">
+{
+    "buildId": "tfKzayy7vVgrY4oirxrPI",
+    "gsp": true,
+    "isFallback": false,
+    "page": "/users_ssg",
+    "props":
+    {
+        "__N_SSG": true,
+        "pageProps":
+        {
+            "users":
+            [
+                {
+                    "email": "hogeta@example.com",
+                    "id": 1,
+                    "name": "Hogeta Hogeo",
+                    "password_digest": "dbfcfd0d87220f629339bd3adcf452d083fde3246625fb3a93e314f833e20d37",
+                    "role": "Member",
+                    "title": "Front-end developer"
+                },
+                {
+                    "email": "hogeko@example.com",
+                    "id": 2,
+                    "name": "Hogehara Hogeko",
+                    "password_digest": "4bdd0bbfe3f4c52cc2c8ff02f1fef29663dd9938f230304915805af1fa71e968",
+                    "role": "Member",
+                    "title": "Designer"
+                },
+                ...
+            ]
+        }
+    },
+    "query":
+    {},
+    "scriptLoader":
+    []
+}
+</script>
+```
+
+### HTMLを送る場合はリスクが少ない ===sending-html-is-secure===
+
+Hotwire等のhydration不要なSSR技術では、HTMLのみをブラウザに送ります。送信されるのは画面に表示される内容だけです（上図で言うと、"password_digest"はブラウザに送られません）。万が一、意図しないデータをブラウザに送ったとしても、開発者もしくはQAはすぐに気づきますので、データ漏洩のリスクは少ないと言えます。
+
+Next.jsの場合も、Server Componentに限り同様のことが言えます。Server ComponentはHTMLの他に"RSC payload"というものがブラウザに送信されますが、画面に表示される内容しか含まれておらず、ほぼHTMLと同じように考えることができるためです。ただしServer Componentの下流にClient Componentがある場合、これはHydrationを要しますので、データ漏洩のリスクが復活してしまいますので、これに頼るのは危険そうです。
+
+この場合はHTMLテンプレート自体がセキュリティレイヤーとなり、安全な情報のみが選別され、チェックも行われると考えて良いでしょう。
+
+## データ漏洩のデモ ===security-demo===
+
+上記でも触れましたが、本デモでは、敢えてセキュリティ上問題のあるコードをバックエンドで書いています。セキュリティの問題を浮き彫りにするためです。
+
+具体的には`User repository`がそのまま`password_digest`(秘密の情報)を返してしまうようにしています。また各エンドポイントでも`password_digest`をブロックする処理を行っていません。
+
+* [ネイティブ画面遷移(MPA)](/api/hotwire/users)および[Turbo Drive](/api/hotwire/users)を使っている場合は`password_digest`は漏洩しません。レスポンスにはHTMLしか含まれないので、画面に表示しない内容はブラウザに送信されないためです。ブラウザの検証画面のネットワークタブを確認し、送信されてくる各ファイルの中身を見ても、`password_digest`の情報はありません。
+* [Next.js useEffect](/users)の時は`/api/users`からのJSONレスポンスに`password_digest`が出てしまうように作ってありますので、ここから漏洩します。しかしこのようなAPIはOpen APIでドキュメントをやり取りしながら、注意深く設計されることがほとんどだと思いますので、問題にはなりにくいと考えられます。
+* Next.js Pages
+routerの[SSG](/users_ssg)および[SSR](/users_ssr)の時は、最初にダウンロードされるHTMLファイル最下部の`script`タグ中に`password_digest`が漏洩します。これはhydration用のデータであり、HTMLに`password_digest`がレンダリングされるかどうかに関わらず含まれます。またページ遷移をするたびにダウンロードされるJSONファイルにも漏洩します。
+* [Next.js App routerのServer componentだけ](/users_app)を使っている場合は`password_digest`は漏洩しません。RSC
+payloadはHTMLにレンダリングされる内容しか含まないためです。しかしServer componentの中にClient
+componentを埋め込んでいる場合はそこがHydrationされますので、[データが漏洩する可能性があります](https://zenn.dev/moozaru/articles/d270bbc476758e)。要注意です。
+
+## セキュリティ対策 ===security-measures===
+
+Next.jsの場合は、コンポーネントに機密性のあるデータを渡さないことが対策になります。純粋なSPAのReactではサーバとブラウザが完全に別れており、セキュリティに注意しながらOpen API等でAPIを設計していました。APIで十分に気を使うことで、情報漏洩を防ぐことができていました。
+
+しかしNext.jsのSSG/SSR、さらにRSCのおかげでサーバとブラウザの境界はより自由に行き来できるようになりました。**セキュリティに注意を払う場面が減りました。あえてレイヤーを挟む対策がより重要になりました**。
+
+例えば`User repository`のデータをそのままコンポーネントに渡さず、[Data Access
+Layer](https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer)を作り、この中で権限に応じて必要なデータのみを含むDTO(Data
+Transfer Object)を作成することがNext.jsの公式ページで奨励されています。
+
+また[私からはLodashの`pick()`を使い、より簡便に情報漏洩を防ぐ方法](https://zenn.dev/naofumik/articles/c699deb688ac04#私がやってみた対策)を提案しています。
+
+Reactの方でも[React
+Taint API](https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#preventing-sensitive-data-from-being-exposed-to-the-client)で対策されていく見込みですが、ただしこれはどちらかというと注意喚起のメカニズムだけであり、対応は別途必要になりそうです。
+
+一方でHotwireの場合は、HTMLを出力するテンプレートファイル自身がこのようなData Access Layerの役割を果たしているとも言えます。不要な情報が漏れ出ている場合は画面でもすぐに確認できますので、安全性が高いと言えます。
+
+結論として**MPAやTurbo Driveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです**。
+
+<div className="mt-12">
+  <div className="w-max-[560px] flex justify-center">
+    <iframe className="aspect-video" width="560" height="315" src="https://www.youtube.com/embed/LxLhCviX8iQ?si=wjTL03S_bw7k25OF"
+            title="YouTube video player" frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+  </div>
+</div>
+
+export default function ({children}) {
+  return <CommentaryLayout
+    title="Security"
+    subtitle="セキュリティ"
+    section="Discussion">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}

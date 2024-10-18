@@ -17,6 +17,7 @@ const chapterHeaders = [
   {level: 2, link: "#live-search", name: "ライブ検索: Turbo Frames"},
   {level: 2, link: "#hierarchical-menus", name: "階層プルダウンメニュー: Turbo Frames"},
   {level: 2, link: "#turbo-streams", name: "複数箇所の更新（カート）：Turbo Streams"},
+  {level: 2, link: "#glossary", name: "用語集"},
 ]
 
 export default function IndexPage() {
@@ -54,7 +55,8 @@ export default function IndexPage() {
                 <ul className="ml-4 my-4 space-y-2 ">
                   <li>HotwireでもNext.jsと同等か、それ以上のUI/UXが実現できます。<strong>「Hotwireは簡単だけど、React/Next.jsの方が優れたUI/UXが作れる」というのは、かなり特殊なものでない限りは誤解です</strong>
                   </li>
-                  <li>Hotwireはバックエンド非依存です。Rails, Laravel, Django, Go, Nodeでも関係なく動きます。実際、本サイトのHotwireコードはNext.js
+                  <li>Hotwireはバックエンド非依存です。Rails, Laravel, Django, Go,
+                    Nodeでも関係なく動きます。実際、本サイトのHotwireコードはNext.js
                     API Routesで動かしています
                   </li>
                 </ul>
@@ -90,11 +92,10 @@ export default function IndexPage() {
                   ページ遷移: Turbo Drive
                 </H2WithHash>
                 <p className="mt-8 leading-6 text-gray-600">
-                  HotwireのTurbo Driveは、Next.jsの<code>Link</code>タグとほぼ同じ位置付けの機能です。
-                  主に画面遷移のヌルサク感を大幅に向上させます。
+                  ウェブサイトのUI/UXにはページ遷移の体感が大きく影響します。
                 </p>
                 <p className="mt-2 leading-6 text-gray-600">
-                  ダイナミックなコンテンツを中心としたサイトでは、prefetch等の違いにより、<strong>Hotwireの方が高速なUI/UXになります</strong>。
+                  ダイナミックなコンテンツのサイトでは、一般に<strong>Hotwireの方が高速なUI/UXになります</strong>。
                 </p>
                 <div className="text-center my-12 text-xl tracking-wider">
                   <StyledLink href="/commentaries/page_transitions">
@@ -112,10 +113,10 @@ export default function IndexPage() {
                   タブメニュー: Turbo Frames
                 </H2WithHash>
                 <p className="mt-8 leading-6 text-gray-600">
-                  インタラクティブなウェブUIは、突き詰めると画面の部分的な書き換えに集約されます。表示内容をサーバから取得する場合は、AJAX/fetch等で非同期処理を行います。
+                  タブメニューを例に、データをサーバから取得し、画面を部分的に書き換える方法を比較します。
                 </p>
                 <p className="mt-2 leading-6 text-gray-600">
-                  <strong>Turbo Framesは非同期データ通信と画面部分置換を大幅に簡略化します</strong>。 タブメニューを例に紹介します。
+                  <strong>Turbo Framesは非常に簡便な解決策を提供します。</strong>
                 </p>
                 <div className={`text-center my-12 text-xl tracking-wider`}>
                   <StyledLink href="/commentaries/tabbed_menus">
@@ -180,7 +181,8 @@ export default function IndexPage() {
                   モーダルダイアログはUI要素として非常によく使われています。そして作り方もたくさんあります。
                 </p>
                 <p className="mt-2 leading-6 text-gray-600">
-                  HotwireでカスタムJavaScriptを使わない方法からReact Server ComponentのLayoutを使う方法まで多数紹介し、HotwireであってもReactであっても、ちょっとしたJavaScriptでUI/UXを改善することの重要性を解説します。
+                  HotwireでカスタムJavaScriptを使わない方法からReact Server
+                  ComponentのLayoutを使う方法まで多数紹介し、HotwireであってもReactであっても、ちょっとしたJavaScriptでUI/UXを改善することの重要性を解説します。
                 </p>
                 <div className={`text-center my-12 text-xl tracking-wider`}>
                   <StyledLink href="/commentaries/modal_dialogs">
@@ -266,11 +268,24 @@ export default function IndexPage() {
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a href="/api/hotwire/cart_streams"
                      className="btn-primary"
-                     data-turbo="false">複数箇所の更新（カート）：Turbo Streams</a>
+                     data-turbo="false">複数箇所の更新（カート）</a>
                 </div>
               </article>
-              <article className="flex-1 px-6 py-8 rounded-lg "></article>
+              <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
+                <H2WithHash id="glossary">
+                  用語集
+                </H2WithHash>
+                <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
+                  フロントエンドの技術評価で登場する用語を解説し、定義します。
+                </p>
+                <div className="mt-10 flex items-center justify-center gap-x-6">
+                  <StyledLink href="/commentaries/glossary">
+                    用語集はこちら...
+                  </StyledLink>
+                </div>
+              </article>
             </div>
+
           </div>
         </div>
       </div>
