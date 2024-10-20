@@ -5,16 +5,18 @@ import netscapeImage from "../../public/images/netscape.gif"
 import mosaicImage from "../../public/images/mosaic.gif"
 import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animation.webp"
 
+## フィードバックがないページの例 ===example-of-page-without-feedback===
+
 下記のビデオは2024年8月に記録したNewsPicks社のウェブサイトです。Next.jsのSSRとGraphQLを使って[作成されている](https://t.co/azISIUbbga)ようです。しかしUX上の大きな問題があります。
 
 下記ビデオをご覧になっていただくとわかりますが、**ボタンをクリックしても全くフィードバックがなく**、1秒後ぐらいにやっと画面が切り替わります。ユーザは自分がちゃんとクリックしたかどうかに自信が持てず、不安になります。またサイト全体がモッサリしている感覚があります。
 
-これは決してNewsPicks社が悪いわけではなく、**AJAX/fetchによる非同期通信を使ってウェブページを更新するすべてのサイトに共通する課題**です。強いていうと、Next.jsが解決策を提供していなかったのが原因と言えると思います。
+これは決してNewsPicks社だけが悪いわけではなく、**AJAX/fetchによる非同期通信を使ってウェブページを更新するすべてのサイトに共通する課題**です。強いていうと、Next.jsが解決策を提供していなかったのが原因と言えると思います。
 
 同じことはTurbo FramesやTurbo Streamsを使っている場合も起こり得ます。ここでは問題の原因を解説し、解決策を紹介します。
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
-  <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/newspicks.mov" type="video/mp4"></source>
+  <source src="/videos/newspicks.mov" type="video/mp4"></source>
 </video>
 
 ## フィードバックの重要性 ===importance-of-feedback===
@@ -26,9 +28,9 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 なるべく早くユーザにフィードバックを提供することの重要性が謳われています。
 
-ボタンをクリックした時のCSS擬似セレクターの`:active`を使用するなど、ユーザにフィードバックする方法はローディングアニメーションだけではありませんが、`:active`はボタンは離すとすぐに消えてしまう問題があります。サーバからのレスポンスが１秒以上かかるのであれば、やはりローディングアニメーションのようなものが必要と言えるでしょう。
+ボタンをクリックした直後のフィードバックはCSS擬似セレクターの`:active`で実現できます。しかし`:active`はボタンは離すとすぐに消えてしまいます。サーバからのレスポンスが１秒以上かかるのであれば、ローディングアニメーションやプログレスバーのような形でのフィードバックが必要と言えるでしょう。
 
-## Fetchではローディングアニメーションが出ない ===no-animation-on-fetch===
+## Fetchではブラウザのローディングアニメーションが出ない ===no-animation-on-fetch===
 
 ウェブブラウザは30年前からローディングアニメーションを表示していました。これはページのデータが読み込まれている間、「ちゃんと働いているよ」の合図となり、特にネットワークが非常に遅かった時代には必須なUI要素でした。
 
@@ -41,8 +43,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 しかしこの**ローディングアニメーションは、Ajax/fetchを使った場合には表示されません**。MPA的な画面遷移であればアニメーションは表示しますが、Ajax/fetchによる遷移の時はこれをを表示しないのです。
 
-上記のNewspicksのウェブサイトはNext.jsのSSRで動いています。そのため`Link`タグを使っている場合、2ページ目以降はAjax/fetchを使って遷移します。だからローディングアニメーションが表示されません。
-**本来は開発者がアニメーションを自分で実装する必要があるのですが、それを怠ったために、ブラウザネイティブなMPAよりもむしろUXが低下してしまいました。**
+上記のNewspicksのウェブサイトはNext.jsのSSRで動いています。そのため`Link`タグを使っている場合、2ページ目以降はAjax/fetchを使って遷移します。だからローディングアニメーションが表示されません。本来は開発者がアニメーションを自分で実装する必要があるのですが、それを怠ってしまったのです。その結果、**Next.js/Reactを使っているにも関わらず、古典的なMPAよりもむしろUXが低下してしまいました。**
 
 
 
@@ -53,7 +54,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 デモを使って解説します。まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[ブラウザネイティブ(MPA)画面遷移のデモ画面](/api/hotwire/users)に移動してください。画面下部の「...へ遷移(Turbo Off)」のボタンをクリックすると、ブラウザネイティブの画面遷移をご確認いただけます。その時にブラウザネイティブのローディングアニメーションが表示されることをご確認ください。(Safariだったらロケーションバーの下部を青い線が横ぎります。Chromeの場合はタブのfaviconのところが回転アニメーションになります)。
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
-  <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/mpa-loading-animation.mov" type="video/mp4"></source>
+  <source src="/videos/mpa-loading-animation.mov" type="video/mp4"></source>
 </video>
 
 2000msの遅延が入っているのでリンク先のページが表示されるまでに時間はかかりますが、ローディングアニメーションのおかげでブラウザが正しく動作していることが確認でき、安心感があります。
@@ -67,19 +68,17 @@ Turbo Driveの場合は、ネイティブのMPAと非常によく似たローデ
 これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[Turbo Drive画面遷移遷移のデモ画面](/api/hotwire/users)に移動してください。画面下部の「...へ遷移(Turbo On)」のボタンをクリックすると、Turbo Driveの画面遷移をご確認いただけます。ローディングアニメーションはページコンテンツの最上部を横切る青い線になります。これはTurboが用意してくれているもので、[スタイルのカスタマイズ](https://turbo.hotwired.dev/handbook/drive#displaying-progress)が可能です。
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
-  <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/turbo-drive-loading-animation.mov" type="video/mp4"></source>
+  <source src="/videos/turbo-drive-loading-animation.mov" type="video/mp4"></source>
 </video>
 
-なおTurbo Driveの場合はキャッシュが動作するので、同じページを再訪問するときは瞬間的にページ遷移します。
+なおTurbo Driveの場合はキャッシュが動作するので、同じページを再訪問するときは瞬間的にページ遷移します。本題とはずれますが、ここで解説します。
 
 1. 一番最初の画面遷移の時は **ボタンを押す => ローディングアニメーション => 画面遷移** の順番で動作します。画面遷移までは待たされます
-2. 以前に訪問したページを再訪問する時は、**ボタンを押す => 瞬間的に画面遷移 => ローディングアニメーション** の順番で動作します。画面遷移は瞬間的でまで待たされません。
+2. 以前に訪問したページを再訪問する時は、**ボタンを押す => 瞬間的に画面遷移 => ローディングアニメーション** の順番で動作します。画面遷移は瞬間的でまで待たされませんが、なぜかその後にローディングアニメーションが表示されます
 
-２番目の時は[Turbo Driveのキャッシュ](https://turbo.hotwired.dev/handbook/building#understanding-caching)が動作しています。ボタンを押した瞬間に表示されるものは"preview"を呼ばれ、同時に裏でサーバから最新のページが取得されます。ローディングアニメーションが表示されているのは、裏で最新のページを取得しているためです。最新ページが受信されると"preview"と差し替えます。こうやって**瞬間的にページを表示することと、最新ページを表示すること**を両立させています。
+２番目の時は[Turbo Driveのキャッシュ](https://turbo.hotwired.dev/handbook/building#understanding-caching)が動作しています。ボタンを押した直後に表示されるものは"preview"を呼ばれ、瞬間的に表示されます。同時に裏で最新のページのリクエストがサーバに送信されます。ローディングアニメーションが表示されるのはこのためです。最新ページが受信されると"preview"と差し替えます。こうやって**瞬間的にページを表示することと、最新ページを表示すること**を両立させています。
 
-サーバのレスポンスが遅い場合には非常に効果的なUXです。
-
-
+サーバのレスポンスが遅い場合には、これは非常に効果的なUXです。
 
 ## Next.js Pages Router SSRの場合 ===loading-animations-with-ssr===
 
@@ -88,7 +87,7 @@ Turbo Driveの場合は、ネイティブのMPAと非常によく似たローデ
 これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[Next.js Pages Router SSR画面遷移](/users_ssr)に移動してください。画面下部の「...へSSR(アニメーションを隠す)」ボタンをクリックすると、Next.js Pages Router SSRの画面遷移をご確認いただけます。
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
-  <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/ssr-no-loading-animation.mov" type="video/mp4"></source>
+  <source src="/videos/ssr-no-loading-animation.mov" type="video/mp4"></source>
 </video>
 
 
@@ -101,7 +100,7 @@ Turbo Driveの場合は、ネイティブのMPAと非常によく似たローデ
 同じ[Next.js Pages Router SSR画面遷移の画面](/users_ssr)で隣の「...へSSR」ボタン((アニメーションを隠すの表示がない方)を押すと、今度は画面右上にローディングアニメーションが表示されます。
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
-  <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/ssr-loading-animation.mov" type="video/mp4"></source>
+  <source src="/videos/ssr-loading-animation.mov" type="video/mp4"></source>
 </video>
 
 古典的なMPA、もしくはTurbo Driveと同じようなUXになります。リンク先のページが表示されるまでは時間がかかりますが、フィードバックがあるのでユーザは安心できます。モッサリ感も改善されます。
@@ -142,7 +141,7 @@ Turbo Framesがロード中の時は`turbo-frame`タグに[`busy`の属性がつ
 本サイトでは500msの遅延もつけているので少し複雑になっていますが、下記のCSSでTurbo Frameのローディングアニメーションを実装しています([GitHub](https://github.com/naofumi/hotwire_and_next/blob/a63ddd7828a40a6e2be5fe2fa4124767b4fe4474/public/hotwire/styles/input.css#L6))。デモは[こちら](/api/hotwire/tabbed_segments_turboframes)でご確認いただけます。
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
-  <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/turbo-frames-loading-animation.mov" type="video/mp4"></source>
+  <source src="/videos/turbo-frames-loading-animation.mov" type="video/mp4"></source>
 </video>
 
 
@@ -215,7 +214,7 @@ Reactの古典的なSPAの場合は、useEffectを使ってデータを`fetch`�
 
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
-  <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/use-effect-loading-animation.mov" type="video/mp4"></source>
+  <source src="/videos/use-effect-loading-animation.mov" type="video/mp4"></source>
 </video>
 
 
@@ -271,7 +270,7 @@ Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認しま�
 
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
-  <source src="https://naofumi-public.s3.ap-northeast-1.amazonaws.com/server-components-loading-animation.mov" type="video/mp4"></source>
+  <source src="/videos/server-components-loading-animation.mov" type="video/mp4"></source>
 </video>
 
 

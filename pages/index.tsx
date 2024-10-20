@@ -162,7 +162,7 @@ export default function IndexPage() {
                 </p>
                 <p className="mt-2 leading-6 text-gray-600">
                   AJAX/fetchで非同期通信をするサイトでは、これを見落としがちです。
-                  HotwireおよびNext.jsでこの問題を解決する方法を解説します。
+                  Hotwireでこの問題を解決する方法を解説します。
                 </p>
                 <div className={`text-center my-12 text-xl tracking-wider`}>
                   <StyledLink href="/commentaries/loading_animations">

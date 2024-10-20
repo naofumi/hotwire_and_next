@@ -1,0 +1,33 @@
+<turbo-frame id="user-detail-frame">
+  <div class="turbo-hide-on-loading">
+    <div class="mb-2"><%= new Date().toLocaleTimeString() %></div>
+    <table>
+      <tbody>
+      <tr>
+        <td class="font-bold pr-3 text-right">Name:</td>
+        <td class="text-right"><%= userWithDetails.name %></td>
+      </tr>
+      <tr>
+        <td class="font-bold pr-3 text-right">Title:</td>
+        <td class="text-right"><%= userWithDetails.title %></td>
+      </tr>
+      <tr>
+        <td class="font-bold pr-3 text-right">Email:</td>
+        <td class="text-right"><%= userWithDetails.email %></td>
+      </tr>
+      <tr>
+        <td class="font-bold pr-3 text-right">Hobby:</td>
+        <td class="text-right"><%= userWithDetails.hobby %></td>
+      </tr>
+      <tr>
+        <td class="font-bold pr-3 text-right">Joined At:</td>
+        <td class="text-right"><%= userWithDetails.joinedAt %></td>
+      </tr>
+      <tr>
+        <td class="font-bold pr-3 text-right">Job Grade:</td>
+        <td class="text-right"><%= userWithDetails.jobGrade %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</turbo-frame>

@@ -1,11 +1,11 @@
-<%- include("../layouts/header.ejs") -%>
+<%- include("../layouts/header_no_js.ejs") -%>
 <div class="mt-10 px-4 sm:flex sm:items-center">
   <div class="sm:flex-auto">
     <h1 class="demo-h1">詳細パネル: Turbo Frames</h1>
     <h2 class="demo-h2">Users</h2>
   </div>
 </div>
-<%- include("_details_nav", {selected: "turbo_frames"}) %>
+<%- include("../details_panel/_details_nav", {selected: "mpa"}) %>
 <div class="grid grid-cols-2 gap-2">
   <div class="px-4 sm:px-6 lg:px-8">
     <div class="mt-8 flow-root">
@@ -22,9 +22,9 @@
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
             <% users.forEach((user) => { %>
-              <tr class="user-row divide-x divide-gray-200" id="user-<%= user.id %>">
+              <tr class="user-row divide-x divide-gray-200 <%= userWithDetails?.id === user.id ? "bg-yellow-100" : "" %>" id="user-<%= user.id %>">
                 <td class="whitespace-nowrap text-sm font-medium text-gray-900">
-                  <a href="<%= `/api/hotwire/details_panel/user?id=${user.id}` %>" data-turbo-frame="user-detail-frame"
+                  <a href="<%= `/api/hotwire/details_panel_mpa?id=${user.id}` %>" data-turbo-frame="user-detail-frame"
                      class="block w-full h-full py-4 pl-4 pr-4 sm:pl-0"
                      onclick="highlight({active: '#user-<%= user.id %>', inactive: '.user-row'})"
                   >
@@ -32,7 +32,7 @@
                   </a>
                 </td>
                 <td class="whitespace-nowrap text-sm text-gray-500">
-                  <a href="<%= `/api/hotwire/details_panel/user?id=${user.id}` %>" data-turbo-frame="user-detail-frame"
+                  <a href="<%= `/api/hotwire/details_panel_mpa?id=${user.id}` %>" data-turbo-frame="user-detail-frame"
                      class="block w-full h-full p-4"
                      onclick="highlight({active: '#user-<%= user.id %>', inactive: '.user-row'})"
                   >
@@ -55,10 +55,7 @@
     </div>
   </div>
   <div class="mt-8 border p-4 rounded min-h-44">
-    <turbo-frame id="user-detail-frame"
-                 class="turbo-with-loader">
-      <div class="turbo-hide-on-loading"></div>
-    </turbo-frame>
+    <%- userWithDetails ? include("_user.ejs", {userWithDetails}) : "" %>
   </div>
 </div>
 

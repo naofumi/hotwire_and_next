@@ -3,6 +3,7 @@ import {useState} from "react";
 import {User} from "@/repositories/user";
 import Layout from "@/components/Layout";
 import UserDetailPanel from "@/components/details_panel/UserDetailPanel";
+import DetailsTechNav from "@/components/details_panel/TechNav"
 
 export async function getServerSideProps() {
   console.log("Fetch start for Users SSR")
@@ -27,6 +28,7 @@ export default function DetailsPanelIndex({users}: { users: User[] }) {
             <h2 className="demo-h2">Users</h2>
           </div>
         </div>
+        <DetailsTechNav selected="use_effect" />
         <div className="grid grid-cols-2 gap-2">
           <div className="px-4 sm:px-6 lg:px-8">
             <div className="mt-8 flow-root">
@@ -67,11 +69,6 @@ export default function DetailsPanelIndex({users}: { users: User[] }) {
           <div className="mt-8 border p-4 rounded min-h-44">
             { selectedUser && <UserDetailPanel id={selectedUser.id} /> }
           </div>
-        </div>
-        <div className="my-10 flex items-center justify-center gap-x-6">
-          <Link href="/api/hotwire/details_panel"
-                className="btn-primary">
-            Hotwire/Turbo Frames版へ</Link>
         </div>
       </>
     </Layout>

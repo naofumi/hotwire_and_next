@@ -3,10 +3,91 @@ import MDXRenderer from "../../components/MDXRenderer";
 import Image from "next/image"
 import detailsTurboframeImage from "@/public/images/details_panel_turboframes.webp"
 
-[タブメニュー](/commentaries/tabbed_menus)のページでTurbo Framesを使ってタブメニューを実装しました。ここではTurbo Framesの**別の使い方**を紹介します。違いは**ページのどこを**部分置換するかです。
+## どのような詳細パネルを作成するか ===what-to-build===
 
+[タブメニュー](/commentaries/tabbed_menus)の作り方の紹介ではTurbo Framesを使いました。ここではTurbo Framesの**別の使い方**を紹介するために、詳細パネルの出し方を紹介します。違いは**ページのどこを**部分置換するかだけです。
 
-## 別のTurbo Frameを更新するパターン ===turbo-frame-targeting-outside===
+[詳細パネルのデモも用意しています](/api/hotwire/details_panel)。そしてTurbo Framesを使った実装だけではなく、ただのMPAおよびNext.js/React useEffectを使った実装も用意し、比較したいと思います。
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/details-pane.mov" type="video/mp4"></source>
+</video>
+
+## MPAによる詳細パネル ===mpa===
+
+タブメニューもMPAで作成できましたが、詳細パネルもMPAで作成できます。[MPAの場合のデモはこちら](/api/hotwire/details_panel_mpa)で用意しています。
+
+### コード ===mpa-code===
+
+コードはGitHubに用意しています（[HTMLテンプレート](https://github.com/naofumi/hotwire_and_next/tree/main/templates/details_panel_mpa/index.ejs)、[コントローラ](https://github.com/naofumi/hotwire_and_next/tree/main/api/hotwire/details_panel_mpa/index.ts)）。
+
+**api/hotwire/details_panel_mpa/index.ts**
+```ts
+  export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse<string>,
+  ) {
+    const users: User[] = await allUsers()
+
+    const id = req.query.id
+    let userWithDetails: (User & UserDetail) | null = null
+    if (id) {
+      if (!(typeof id === 'string')) throw "Bad request"
+      userWithDetails = await findUserWithDetails(parseInt(id))
+    }
+
+    const resultText = render("details_panel_mpa/index.ejs",
+      {users, userWithDetails}
+    )
+
+    res.appendHeader("Content-Type", "text/html")
+      .status(200)
+      .send(resultText)
+  }
+```
+
+**templates/details_panel_mpa/index.ejs**
+```html
+  ...
+  <a href="<%= `/api/hotwire/details_panel_mpa?id=${user.id}` %>" data-turbo-frame="user-detail-frame"
+     class="block w-full h-full py-4 pl-4 pr-4 sm:pl-0"
+     onclick="highlight({active: '#user-<%= user.id %>', inactive: '.user-row'})"
+  >
+    <%= user.name %>
+  </a>
+  ...
+  <div class="mt-8 border p-4 rounded min-h-44">
+    <%- userWithDetails ? include("_user.ejs", {userWithDetails}) : "" %>
+  </div>
+  ...
+```
+
+* コントローラでHTTPのクエリパラメータ`id`を`req.query.id`から取得して、該当する`UserDetail`を`findUserWithDetails()`で取得しています
+* `UserDetail`をHTMLテンプレートの`details_panel_mpa/index.ejs`に渡します
+* HTMLテンプレートの`details_panel_mpa/index.ejs`ではパーシャルの`details_panel_mpa/_user.ejs`の内容を挿入しています。これが詳細パネルの内容に相当します
+* 一覧のリストの各行は`/api/hotwire/details_panel_mpa?id=${user.id}`へのリンクになっており、HTTPのクエリパラメータ`id`に該当Userのidを含めています。このリンクをクリックするとコントローラでそのユーザの詳細が取得され、HTMLテンプレートの詳細パネルでそのユーザの詳細が表示されるわけです
+
+なおポイントとしては、詳細パネルの中身だけが変更されるように見えますが、実際にはサーバかはページ全体がその都度送信され、ブラウザでも毎回ページ全体をロードしなおしています。
+
+### UI/UX ===mpa-ui===
+
+[MPAの場合のデモはこちら](/api/hotwire/details_panel_mpa)で用意しています。
+
+* 遅延(Delay)が小さい場合はすぐに詳細パネルの内容が表示され、ストレスがありません
+* MPAなのでクリックの都度画面全体がロードしなおされていますが、コンテンツシフトがないので気付きません。詳細パネルの中身だけが更新されているように感じます
+* 遅延(Delay)を大きくした場合は詳細パネルの内容が表示されるまで時間がかかりますが、ブラウザのプログレスバーを通したフィードバックがあるので、ブラウザが正常に動作していること、ネットワークのリクエストが飛んでいることが確認できます
+* スクロールして下の方のエントリをクリックしたときに分かる通り、再描画の都度画面の一番上までもスクロールします
+
+### まとめ ===mpa-summary===
+
+* 全体として不満のないUI/UXが実現されています
+* コードも非常にシンプルでわかりやすくなっています
+
+## Turbo Framesによる詳細パネル表示 ===turbo-frame===
+
+詳細パネルでTurbo Framesを使うには、少しだけタブメニューの場合より考え方を膨らまします。クリックするHTML要素が所属するTurbo Frameを変えるのではなく、離れたところのTurbo Frameを更新するという考え方になります。
+
+### コード: 別のTurbo Frameを更新するパターン ===turbo-frame-targeting-outside===
 
 Turboは`fetch`でサーバに非同期的にリクエストを飛ばし、レスポンスを使ってページの部分置換をするライブラリです。[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)、[Turbo Frames](https://turbo.hotwired.dev/handbook/frames)、[Turbo Streams](https://turbo.hotwired.dev/handbook/streams)の3種類がありますが、置換場所をどのように指定するかが異なります。
 
@@ -54,7 +135,7 @@ Turboは`fetch`でサーバに非同期的にリクエストを飛ばし、レ�
 
 
 
-## 右側の詳細パネルの部分置換をする ===details-panel-targetting===
+### コード: 右側の詳細パネルの部分置換をする ===details-panel-targeting===
 
 下図のように、[タブメニュー](/commentaries/tabbed_menus)の場合は、`turbo-frame`がクリックする`a`タグ(タブ)を囲んでいました。`a`タグをクリックした時、それを包む最も近い`turbo-frame`を探し出し、その`turbo-frame`を部分置換すると判断したのです。
 
@@ -89,32 +170,104 @@ Turboは`fetch`でサーバに非同期的にリクエストを飛ばし、レ�
   <Image src={detailsTurboframeImage} alt="Details with Turbo Frames"/>
 </div>
 
+### UI/UX ===ui-turbo-frame===
+
+[Turbo Frames版のデモはこちら](/api/hotwire/details_panel)で用意しています。
+
+* 遅延(Delay)が小さい場合はすぐに詳細パネルの内容が表示され、ストレスがありません
+* 遅延(Delay)を大きくした場合は詳細パネルの内容が表示されるまで時間がかかりますが、クリックした瞬間にローディングアニメーションが表示されますので、効果的なフィードバックがあります。ブラウザが正常に動いていること、ネットワークリクエストが飛んでいることがわかって、ユーザは安心します
+* Turboのprefetchが有効になっていますので、MPAの場合と比べてページが速くロードします
+* スクロールして下の方のエントリをクリックしても、スクロール位置は維持されます
+
+### まとめ ===turbo-frame-summary===
+
+* 全体として不満のないUI/UXが実現されています
+* Prefetchが効いてページのロードが速くなっていますので、MPAよりも快適なUI/UXになっています
+* スクロール位置も維持されますので、詳細パネルだけが更新されてことが明確であり、MPAよりも優れたUI/UXになっています
+* コンセプトの理解に少し苦労しますが、コードは少なくわかりやすいものです
 
 
-## Reactとの比較 ===comparison-with-react===
+## React useEffectによる詳細パネル ===react===
 
-### コードの簡潔さ
+[タブメニューの場合](/commentaries/tabbed_menus#tabs-with-parallel-routes)と同様に、詳細パネルをNext.jsで実装するには`useEffect()`等を使う方法と、App RouterのParallel Routesを使う方法があります。ただし現時点では一般的であること、かつシンプルであることを考慮して`useEffect()`による実装を確認します。
 
-詳細パネルをReact/Next.jsで実装したコードは`pages/details_panel/index.tsx`をご覧ください。
+[`useEffect()`を使ったタブメニューのデモ](/details_panel)はこちらにあります。
 
-1. ユーザの行をクリックした結果、`selectedUser`ステートが更新されます
-2. このステートが`UserDetailPanel`コンポーネントにpropsとして渡されます
-3. `UserDetailPanel`コンポーネントでは受け取ったpropsを使い、`useEffect`の中で詳細パネルのデータをサーバから`fetch`して、ユーザ詳細を描画します。
+### コード ===code-react===
 
-Hotwire版もReact版もコードは比較的シンプルで、難しいところはありません。どちらかというとHotwireの方が簡単だと思いますが、Reactを使い慣れている人にとってはReact版も十分に簡単でしょう。
+[詳細パネルをReact/Next.jsで実装したコード](https://github.com/naofumi/hotwire_and_next/blob/main/pages/details_panel/index.tsx)はGitHubで公開しています。
 
-今回、`table`の中で選択した行をハイライトしています。React版の場合は同じ`selectedUser`ステートを使いまわせますが、Turboだけだとこれを保持しませんので、改めて`onclick`でJavaScriptを稼働させてCSSクラスを更新する必要があります。なお通常はHotwireと相性の良い[Stimulus](https://stimulus.hotwired.dev/)を使うと思いますが、今回は簡便性を優先してインラインでJavaScriptを書きました。Stimulusは後で紹介していきます。
+**pages/details_panel/index.tsx**
+```tsx
+...
+export async function getServerSideProps() {
+  console.log("Fetch start for Users SSR")
+  const res = await fetch(process.env.URL + "/api/users")
+  const users = await res.json()
+  return {props: {users}}
+}
 
-Turboだけだったら追加のJavaScriptを一切書かなくても良かったのが、UXを改善しようと思うとやはり書く必要があるわけです。Turboだと変に甘えてしまって、このちょっとした改善を怠ることがありがちです。「Turboで楽をさせてもらった分はUXを頑張ろう！」ぐらいの気持ちでいた方が良いと思います。
+export default function DetailsPanelIndex({users}: { users: User[] }) {
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
-### ヌルサク感
+  function showDetails(user: User) {
+    setSelectedUser(user)
+  }
+...
+  <tr key={i}
+      className={`hover:cursor-pointer divide-x divide-gray-200 ${user.id === selectedUser?.id ? 'bg-yellow-100' : ''}`}
+      onClick={() => showDetails(user)}
+  >
+...
+  <div className="mt-8 border p-4 rounded min-h-44">
+    { selectedUser && <UserDetailPanel id={selectedUser.id} /> }
+  </div>
+...
+```
 
-Hotwire版は`a`タグを使ってTurbo Framesを稼働させているため、prefetchが動きます。マウスホバー時にフライングし、クリックする前に詳細パネルのデータを読み込むので、体感速度は大幅に向上します。これについては[ページ遷移のUX](http://localhost:3000/commentaries/page_transitions#page-transition-ux)で解説しています。なおレスポンスに1秒以上かかるページの場合、Turbo Frameでもローダーを表示するべきです。詳細については別途解説しますが、今回はCSSだけで実装しています。
+**components/details_panel/UserDetailPanel.tsx**
+```tsx
+export default function UserDetailPanel({id}: {id: number}) {
+  const [userDetail, setuserDetail] = useState<User & UserDetail|null>(null);
 
-一方でReact版は`useEffect`を使いますので、Next.jsのprefetchが効きません。クリックしてから詳細パネルのデータを読み込みますので、ネットワーク遅延、サーバ処理時間の分だけユーザは待たされます。ローダーは出していますので無反応というわけではないのですが、必要なデータが表示されるまでは待つことになります。
+  useEffect(() => {
+    setuserDetail(null)
+    fetch(`/api/user/${id}`).then(res => res.json())
+      .then(data => {
+        setuserDetail(data)
+      })
+  }, [id])
+```
 
-この分だけ、Hotwire版の方がヌルサクなUXになります。
+* `selectedUser`ステートを作成し、現在選択されているUserをステートとして管理ます
+* `selectedUser`ステートは`showDetails(User)`によって更新されます
+* `UserDetailPanel`コンポーネントは`selectedUser`の`id`をpropsとして受け取り、これが変更されると`useEffect()`の中でサーバからUserの詳細情報をサーバから受け取り、`userDetail`ステートを更新します
+* `userDetail`ステートに基づいて`UserDetailPanel`（詳細パネル）が再描画されます
 
+### UI/UX ===ui-react===
+
+[React useEffect版のデモはこちら](/details_panel)で用意しています。
+
+* 遅延(Delay)が小さい場合はすぐに詳細パネルの内容が表示され、ストレスがありません
+* 遅延(Delay)を大きくした場合は詳細パネルの内容が表示されるまで時間がかかりますが、クリックした瞬間にローディングアニメーションが表示されますので、効果的なフィードバックがあります。ブラウザが正常に動いていること、ネットワークリクエストが飛んでいることがわかって、ユーザは安心します
+* Next.jsのprefetchはReactの`useEffect()`には無効ですので、新しい内容が詳細パネルに表示されるまでの時間はMPAと変わりません。
+* スクロールして下の方のエントリをクリックしても、スクロール位置は維持されます
+
+### まとめ ===react-summary===
+
+* 全体として不満のないUI/UXが実現されています
+* Prefetchが効きませんので、新しい内容が表示されるまでの時間はMPAと変わりません
+* スクロール位置も維持されますので、詳細パネルだけが更新されてことが明確であり、MPAよりも優れたUI/UXになっています
+* Reactに慣れている人にとっては、コードは少なくわかりやすいものです
+
+## 感想 ===thoughts===
+
+React useEffectを使った方法がMPAより優れているのは、スクロール位置の維持など、ステートの維持になります。Turbo Framesを使うと、これに加えてprefetchによる高速なレスポンスが得られます。**UI/UX的にもっとも優れているのはTurbo Framesといえます**。
+
+一方で、ただのMPAでもかなり十分なUI/UXが実現できていました。コードも一番シンプルなので、敢えてTurbo FramesやReactを使うのではなく、ただのMPAで十分なケースも多いでしょう。またただのMPAにTurbo Driveを追加すればprefetchが使えます。これについては今回例示していませんが、[タブメニューの方でも議論しました
+](/commentaries/tabbed_menus#tabs-turbodrive)。
+
+このようにHotwireではTurbo Drive, Turbo Frameを使った複数の実装方法があります。UI/UXの要求とコードをどれだけシンプルに保ちたいかをバランスしながら、最適な方法を選択すれば良いと思います。
 
 export default function ({children}) {
   return <CommentaryLayout
