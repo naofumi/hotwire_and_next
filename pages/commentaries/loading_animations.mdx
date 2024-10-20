@@ -51,7 +51,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 ブラウザネイティブなMPAの場合、30年前からローディングアニメーションが用意されています。
 
-デモを使って解説します。まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[ブラウザネイティブ(MPA)画面遷移のデモ画面](/api/hotwire/users)に移動してください。画面下部の「...へ遷移(Turbo Off)」のボタンをクリックすると、ブラウザネイティブの画面遷移をご確認いただけます。その時にブラウザネイティブのローディングアニメーションが表示されることをご確認ください。(Safariだったらロケーションバーの下部を青い線が横ぎります。Chromeの場合はタブのfaviconのところが回転アニメーションになります)。
+デモを使って解説します。まず[トップ画面最上部で遅延(delay)を2000msに設定](/commentaries/instructions#delay)し、[ブラウザネイティブ(MPA)画面遷移のデモ画面](/api/hotwire/users)に移動してください。画面下部の「...へ遷移(Turbo Off)」のボタンをクリックすると、ブラウザネイティブの画面遷移をご確認いただけます。その時にブラウザネイティブのローディングアニメーションが表示されることをご確認ください。(Safariだったらロケーションバーの下部を青い線が横ぎります。Chromeの場合はタブのfaviconのところが回転アニメーションになります)。
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
   <source src="/videos/mpa-loading-animation.mov" type="video/mp4"></source>
@@ -65,7 +65,7 @@ import hotwireAndNextImage from "../../public/images/hotwire-next-loading-animat
 
 Turbo Driveの場合は、ネイティブのMPAと非常によく似たローディングアニメーションを、ライブラリがデフォルトで用意してくれています。
 
-これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[Turbo Drive画面遷移遷移のデモ画面](/api/hotwire/users)に移動してください。画面下部の「...へ遷移(Turbo On)」のボタンをクリックすると、Turbo Driveの画面遷移をご確認いただけます。ローディングアニメーションはページコンテンツの最上部を横切る青い線になります。これはTurboが用意してくれているもので、[スタイルのカスタマイズ](https://turbo.hotwired.dev/handbook/drive#displaying-progress)が可能です。
+これを確認するには、まず[トップ画面最上部で遅延(delay)を2000msに設定]し、[Turbo Drive画面遷移遷移のデモ画面](/api/hotwire/users)に移動してください。画面下部の「...へ遷移(Turbo On)」のボタンをクリックすると、Turbo Driveの画面遷移をご確認いただけます。ローディングアニメーションはページコンテンツの最上部を横切る青い線になります。これはTurboが用意してくれているもので、[スタイルのカスタマイズ](https://turbo.hotwired.dev/handbook/drive#displaying-progress)が可能です。
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
   <source src="/videos/turbo-drive-loading-animation.mov" type="video/mp4"></source>
@@ -84,7 +84,7 @@ Turbo Driveの場合は、ネイティブのMPAと非常によく似たローデ
 
 いよいよ一番最初で紹介したNewsPicksの問題の話です。
 
-これを確認するには、まず[トップ画面最上部](/)で遅延(delay)を2000msに設定し、[Next.js Pages Router SSR画面遷移](/users_ssr)に移動してください。画面下部の「...へSSR(アニメーションを隠す)」ボタンをクリックすると、Next.js Pages Router SSRの画面遷移をご確認いただけます。
+これを確認するには、まず[トップ画面最上部で遅延(delay)を2000msに設定]し、[Next.js Pages Router SSR画面遷移](/users_ssr)に移動してください。画面下部の「...へSSR(アニメーションを隠す)」ボタンをクリックすると、Next.js Pages Router SSRの画面遷移をご確認いただけます。
 
 <video width="733" height="606" muted autoPlay controls loop className="my-8">
   <source src="/videos/ssr-no-loading-animation.mov" type="video/mp4"></source>
@@ -264,7 +264,7 @@ Next.jsの[Pages Router](/commentaries/loading_animations#loading-animations-wit
 
 Next.jsの新しいApp Router Server ComponentsおよびSuspenseも確認します。
 
-まず[トップ画面](/)最上部で遅延(delay)を2000msに設定し、[Next.js App Router Server Component画面遷移](/users_app)に移動してください。画面下部の「...へApp router」ボタンをクリックすると、Next.js App Router Server Componentsの画面遷移をご確認いただけます。
+まず[遅延(delay)を2000msに設定し](/commentaries/instructions#delay)、[Next.js App Router Server Component画面遷移](/users_app)に移動してください。画面下部の「...へApp router」ボタンをクリックすると、Next.js App Router Server Componentsの画面遷移をご確認いただけます。
 
 コードはGitHubに公開しています([users](https://github.com/naofumi/hotwire_and_next/tree/main/app/users_app), [products](https://github.com/naofumi/hotwire_and_next/tree/main/app/products_app))。
 

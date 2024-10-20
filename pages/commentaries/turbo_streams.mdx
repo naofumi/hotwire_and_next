@@ -180,7 +180,7 @@ export default async function handler(
 
 * [MPAを試していただく](/api/hotwire/cart_mpa)とわかるように、"Add to Cart"ボタンを押すたびに画面最上部にスクロールしてしまいます。MPAだとスクロール位置を含めた画面のステートがすべて消去され、再レンダリングのたびにゼロから画面を描き直しているためです。[Turbo Drive Morphing](/api/hotwire/cart_morph)の場合はSPAとなっていますので、スクロール位置を保持できます。そして`<meta name="turbo-refresh-scroll" content="preserve">`によって、以前のスクロール位置を保つように指示していますので、変化しません
 * コードは非常に簡単です。Morphingを使ってスクロール位置を維持する場合も、`meta`タグを追加するだけです
-* POST/redirect/GETパターンはネットワーク通信を２回行う必要があります。そのため、ネットワーク遅延が大きい場合はUI/UXが低下します
+* POST/redirect/GETパターンはネットワーク通信を２回行う必要があります。そのため、[ネットワーク遅延](/commentaries/instructions#delay)が大きい場合はUI/UXが低下します
 
 ## Turbo Framesによる実装 ===implement-with-turbo-frames===
 

@@ -18,6 +18,7 @@ const chapterHeaders = [
   {level: 2, link: "#hierarchical-menus", name: "階層プルダウンメニュー: Turbo Frames"},
   {level: 2, link: "#turbo-streams", name: "複数箇所の更新（カート）：Turbo Streams"},
   {level: 2, link: "#glossary", name: "用語集"},
+  {level: 2, link: "#instructions", name: "サイトの使い方"},
 ]
 
 export default function IndexPage() {
@@ -272,6 +273,12 @@ export default function IndexPage() {
                 </div>
               </article>
               <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
+              </article>
+            </div>
+
+
+            <div className="mt-8 flex gap-8">
+              <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
                 <H2WithHash id="glossary">
                   用語集
                 </H2WithHash>
@@ -281,6 +288,19 @@ export default function IndexPage() {
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <StyledLink href="/commentaries/glossary">
                     用語集はこちら...
+                  </StyledLink>
+                </div>
+              </article>
+              <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
+                <H2WithHash id="instructions">
+                  サイトの使い方
+                </H2WithHash>
+                <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
+                  このサイトの機能と使い方を紹介します。
+                </p>
+                <div className="mt-10 flex items-center justify-center gap-x-6">
+                  <StyledLink href="/commentaries/instructions">
+                    サイトの機能と使い方はこちら...
                   </StyledLink>
                 </div>
               </article>

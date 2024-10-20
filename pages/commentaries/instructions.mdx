@@ -1,0 +1,32 @@
+import CommentaryLayout from "../../components/CommentaryLayout";
+import MDXRenderer from "../../components/MDXRenderer";
+import Image from "next/image"
+import csrSsrSpaMpaImage from "@/public/images/csr-ssr-spa-mpa.webp"
+import spaMpaImage from "@/public/images/spa-mpa.webp"
+
+## 遅延(Delay) ===delay===
+
+「色の白いは七難隠す」という言葉がありますが、ウェブサイトもサーバのレスポンスさえ速ければ、欠点が気にならなくなったり、そもそも気づかなかったりします。そして遅延が少ない環境で開発しますので、一番欠点に敏感であるべきな開発者当人が、ウェブサイトの難点に全く気づかないことが多発します。
+
+一方で実際にウェブサイトにアクセスするユーザは、一般に少なくとも100msの遅延を経験し、速いと感じるサイトでも平均で200msの遅延が発生します。一般のサイトでは1000ms(1秒)以上の遅延は普通にあります。
+
+本サイトでは実際のユーザ視点でNext.jsとHotwireの比較をするために、遅延をシミュレーションしています。下記の方法で遅延を設定し、実際のユーザの視点でNext.jsとHotwireの比較をしてください。
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/delay.mov" type="video/mp4"></source>
+</video>
+
+1. 画面の一番上にある"Set delay"ボタンをクリックします
+2. [適切な遅延を設定](/commentaries/instructions#delay)します。300ms, 1000ms, 2000msを選択できます
+3. 「前のページに戻る」で元のページに戻り、遅延がUI/UXにどのような影響を与えるかを確認します。
+
+
+
+export default function ({children}) {
+  return <CommentaryLayout
+    title="Glossary"
+    subtitle="言葉の定義"
+    section="Appendix">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}
