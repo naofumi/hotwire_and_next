@@ -3,17 +3,7 @@
   <div class="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
     <div class="mx-auto max-w-2xl text-center"><h1 class="demo-h1">
         ポップアップのUI</h1>
-      <div class="mt-10 flex items-center justify-center gap-x-6">
-        <a href="/api/hotwire/popup"
-           class="btn-outline-primary">
-          Turbo Frames & JS ポップアップ
-        </a>
-        <a href="/api/hotwire/popup_stimulus"
-           class="btn-primary">
-          Turbo Frames & Stimulus ポップアップ
-        </a>
-        <a class="btn-outline-primary"
-           href="/popup">Next.js ポップアップ</a></div>
+      <%- include("../popup/_tech_nav.ejs", {selected: "stimulus"}) %>
       <div class="my-10 px-4 sm:px-6 lg:px-8">
         <div class="sm:flex sm:items-center">
           <div class="sm:flex-auto"><h1 class="text-base font-semibold leading-6 text-gray-900">Users</h1></div>
@@ -21,9 +11,7 @@
         <div class="mt-8 flow-root">
           <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-              <turbo-frame id="users" src="/api/hotwire/popup_stimulus/users">
-                <img src="/images/rocket.gif" alt="loader" class="m-auto w-16 h-16"/>
-              </turbo-frame>
+              <%- include("_users", {users}) %>
             </div>
           </div>
         </div>

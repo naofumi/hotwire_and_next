@@ -204,6 +204,11 @@ export default function IndexPage() {
                   Turbo
                   Framesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
                 </p>
+                <div className={`text-center my-12 text-xl tracking-wider`}>
+                  <StyledLink href="/commentaries/popups">
+                    解説はこちら...
+                  </StyledLink>
+                </div>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a href="/api/hotwire/popup_stimulus"
                      className="btn-primary"
@@ -229,6 +234,11 @@ export default function IndexPage() {
                   またReact側ではただの<code>fetch</code>を使っていることもあり、競合状態 (race
                   condition)対策はされていません。一方でHotwire側は、Turboが提供する<code>Turbo.visit()</code>を使うだけで競合状態対策がされています。ネットワークタブを見ながらご確認ください。
                 </p>
+                <div className={`text-center my-12 text-xl tracking-wider`}>
+                  <StyledLink href="/commentaries/live_search">
+                    解説はこちら...
+                  </StyledLink>
+                </div>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a href="/api/hotwire/live_search"
                      className="btn-primary"

@@ -2,8 +2,16 @@
 import Link from "next/link";
 import UsersList from "@/components/popup/UsersList";
 import Layout from "@/components/Layout";
+import PopupTechNav from "@/components/popup/TechNav";
+import { User } from "@/repositories/user";
 
-export default function PopupIndexPage() {
+export async function getServerSideProps() {
+  const response = await fetch(process.env.URL + "/api/users")
+  const users = await response.json()
+  return {props: {users}}
+}
+
+export default function PopupIndexPage({users}: {users: User[]}) {
   return (
     <Layout>
       <div className="bg-white">
@@ -12,18 +20,8 @@ export default function PopupIndexPage() {
             <h1 className="demo-h1">
               ポップアップのUI
             </h1>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a href="/api/hotwire/popup"
-                 className="btn-outline-primary">
-                Turbo Frames & JS ポップアップ</a>
-              <a href="/api/hotwire/popup_stimulus"
-                 className="btn-outline-primary">
-                Turbo Frames & Stimulus ポップアップ</a>
-              <Link href="/popup"
-                    className="btn-primary">
-                Next.js ポップアップ</Link>
-            </div>
-            <UsersList/>
+            <PopupTechNav selected="useeffect" />
+            <UsersList users={users}/>
           </div>
         </div>
       </div>

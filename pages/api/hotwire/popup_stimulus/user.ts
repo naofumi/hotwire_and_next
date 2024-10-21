@@ -13,7 +13,7 @@ export default async function handler(
 
   const userWithDetails = await findUserWithDetails(parseInt(id))
   const resultText = render("popup_stimulus/user.ejs",
-    {id: userWithDetails.id, userWithDetails}
+    {userWithDetails}
   )
 
   res.appendHeader("Content-Type", "text/html")

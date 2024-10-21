@@ -1,0 +1,21 @@
+import MDXRenderer from "../../components/MDXRenderer";
+import CommentaryLayout from "../../components/CommentaryLayout";
+import hotwireJavascriptImage from "@/public/images/hotwire-javascript.webp"
+import Image from "next/image"
+
+## はじめに ===introduction===
+
+ポップアップはモーダルダイアログと非常によく似ていますが、画面の他の部分を隠さずないものです。モーダルは他の操作をブロックしませんが、ポップアップはブロックしません。
+
+[HTMLの`<dialog>`要素](https://developer.mozilla.org/ja/docs/Web/HTML/Element/dialog)はモーダルもポップアップも対応する頃からわかる通り、実装もほとんど同じです。
+
+
+
+export default function Popups({children}) {
+  return <CommentaryLayout
+    title="Popups"
+    subtitle="ポップアップ"
+    section="Commentary">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}

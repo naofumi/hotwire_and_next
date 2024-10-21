@@ -92,7 +92,7 @@ function delayToApply(url: URL, cookieDelay: number | undefined) {
   } else if (pathName.startsWith("/modal")) {
     return 0 // Static
   } else if (pathName.startsWith("/popup")) {
-    return 0 // Static
+    return demoDelay // dynamic
   } else if (pathName.startsWith("/tabbed_segments_app")) {
     return demoDelay // dynamic
   } else if (pathName.startsWith("/tabbed_segments_ssr")) {
