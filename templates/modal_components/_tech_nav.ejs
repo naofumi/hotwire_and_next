@@ -1,4 +1,19 @@
 <div class="flex flex-wrap gap-2 justify-center">
+  <a href="/api/hotwire/modal_mpa"
+     class="<%= selected === "mpa" ? "btn-primary" : "btn-outline-primary"%>"
+    >
+    MPA
+  </a>
+  <a href="/api/hotwire/modal_no_js"
+     class="<%= selected === "hotwire_no_js" ? "btn-primary" : "btn-outline-primary"%>"
+    >
+    Hotwire Custom JavaScriptなし
+  </a>
+  <a href="/api/hotwire/modal_w_js"
+     class="<%= selected === "hotwire_w_js" ? "btn-primary" : "btn-outline-primary" %>"
+  >
+    Hotwire Custom JavaScriptあり
+  </a>
   <a href="/modal"
      class="<%= selected === "use_effect" ? "btn-primary" : "btn-outline-primary"%>"
   >
@@ -18,15 +33,5 @@
      class="<%= selected === "server_component_parallel" ? "btn-primary" : "btn-outline-primary"%>"
   >
     React Server Component w/ Parallel Routes
-  </a>
-  <a href="/api/hotwire/modal_no_js"
-     class="<%= selected === "hotwire_no_js" ? "btn-primary" : "btn-outline-primary"%>"
-    >
-    Hotwire Custom JavaScriptなし
-  </a>
-  <a href="/api/hotwire/modal_w_js"
-     class="<%= selected === "hotwire_w_js" ? "btn-primary" : "btn-outline-primary" %>"
-  >
-    Hotwire Custom JavaScriptあり
   </a>
 </div>

@@ -179,11 +179,11 @@ export default function IndexPage() {
                   モーダルダイアログ: Turbo Frames
                 </H2WithHash>
                 <p className="mt-8 leading-6 text-gray-600">
-                  モーダルダイアログはUI要素として非常によく使われています。そして作り方もたくさんあります。
+                  モーダルダイアログはUI要素として非常によく使われています。作り方もたくさんあります。
                 </p>
                 <p className="mt-2 leading-6 text-gray-600">
                   HotwireでカスタムJavaScriptを使わない方法からReact Server
-                  ComponentのLayoutを使う方法まで多数紹介し、HotwireであってもReactであっても、ちょっとしたJavaScriptでUI/UXを改善することの重要性を解説します。
+                  ComponentのLayoutを使う方法まで各種紹介・比較します。
                 </p>
                 <div className={`text-center my-12 text-xl tracking-wider`}>
                   <StyledLink href="/commentaries/modal_dialogs">

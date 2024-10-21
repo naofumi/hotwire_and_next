@@ -3,15 +3,107 @@ import CommentaryLayout from "../../components/CommentaryLayout";
 import hotwireJavascriptImage from "@/public/images/hotwire-javascript.webp"
 import Image from "next/image"
 
+## はじめに ===introduction===
+
 モーダルダイアログはUI要素としてウェブデザインで非常によく使われます。よって**簡単にモーダルダイアログが作れることが開発者としては重要**です。
 
 HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog)も用意されていますので、表示自体は難しくありません。ただし内容をサーバからロードする場合は**ネットワーク遅延への対応**などが発生します。これにうまく対応するか否かでUI/UXに差が出てきます。
 
-下記ではUXおよび実装の簡単さを重視しつつ、モーダルダイアログの作り方を複数検討します。Hotwireに加え、**Next.jsのApp RouterとPages Routerについてもモーダルの出し方を検討し**、比較します。また`dialog`タグを使わずに、従来のHTML/CSSの組み合わせでモーダルダイアログを作ります。
+下記ではUXおよび実装の簡単さを重視しつつ、モーダルダイアログの作り方を複数検討します。Hotwireに加え、**Next.jsのApp RouterとPages Routerについてもモーダルの出し方を検討し**、比較します。また`dialog`タグはまだ新しいので、従来のHTML/CSSの組み合わせでモーダルダイアログを作ります。
+
+**モーダルダイアログ (Hotwire Stimulusバージョン)**
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/modal-example.mov" type="video/mp4"></source>
+</video>
+
+
+## MPAを使った方法 ===mpa===
+
+モーダルはAJAXを使ったインタラクティブUIの代表例ですが、実はMPAでも実装できます。AJAXもfetchも使うことなく（完璧ではないものの）、実用的なUI/UXが非常に簡単に実現できます。
+
+ポイントは[ページ遷移](/commentaries/page_transitions#mpa)、[タブメニュー](/commentaries/tabbed_menus#tabs-MPA)、[詳細パネル](/commentaries/details_panel#mpa)と同じで、画面全体は更新しつつ、一部しか変更されていないように見せます。
+
+### コード ===code-mpa===
+
+#### エンドポイント
+
+**pages/api/hotwire/modal_mpa/index.ts**
+```ts
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<string>,
+) {
+  const users: User[] = await allUsers()
+
+  const id = req.query.userId
+  let userDetail: User & UserDetail | null = null
+
+  if (id) {
+    if (!(typeof id === 'string')) throw "Bad request"
+    userDetail = await findUserWithDetails(parseInt(id))
+  }
+
+  const resultText = render("modal_mpa/index.ejs",
+    {users, userDetail}
+  )
+
+  res.appendHeader("Content-Type", "text/html")
+    .status(200)
+    .send(resultText)
+}
+```
+
+* このエンドポイントは`/api/hotwire/modal_mpa`もしくは`/api/hotwire/modal_mpa?userId=1`のようなURLでアクセスされることを想定しています。最後の`?userId=1`はモーダルを表示するときの、モーダルの中に表示するUserのIDになります
+* `allUsers()`を使って、`users`変数にすべてのUserの情報を入れます
+* `req.query.userId`でURLの`?userId=1`の部分からuserIdを取得し、`findUserWithDetails()`を使って詳細情報(`userDetail`)を取得します。これはモーダルの中に表示する情報です
+* User一覧に表示する情報`users`とモーダルに表示する情報`userDetail`の双方を、ejsテンプレートの`modal_mpa/index.ejs`に送ります
+
+#### モーダルの表示
+
+**templates/modal_mpa/index.ejs**
+```html
+  ...
+  <% if (userDetail) { %>
+    <%- include("_modal.ejs", {userDetail}) %>
+  <% } %>
+  ...
+```
+
+* `pages/api/hotwire/modal_mpa/index.ts`エンドポイントから送られる`userDetail`が指定されていれば、`_modal.ejs`パーシャルを表示します
+* `pages/api/hotwire/modal_mpa/index.ts`エンドポイントから送られてくる`userDetail`が`null`の場合は、`_modal.ejs`パーシャルを表示しません（モーダルを表示しないということ）
+
+#### モーダルを閉じるボタン
+
+**templates/modal_mpa/_modal.ejs**
+```html
+<a class="p-1 text-sm w-auto hover:cursor-pointer translate-x-2 active:scale-125"
+    href="/api/hotwire/modal_mpa">
+```
+
+* `a`タグを使用して、`?userId=*`が無いページをリクエストしています。つまりモーダルがないページです
+* モーダルがないページを表示することにより、モーダルが閉じたかのように見せかけます
+
+### UI/UX ===ui-mpa===
+
+[MPAで作ったデモ](/api/hotwire/modal_mpa)を用意していますので、ご覧ください。[遅延(Delay)](/commentaries/instructions#delay)を設定できますので、300msの場合と2000msの場合を比較してください。
+
+* サーバのレスポンスが十分に速い場合(300msの場合)は快適です。
+* [遅延を2000msに設定した場合](/commentaries/instructions#delay)、すぐにはモーダルを表示したり、モーダルを閉じたりするのに時間がかかってしまいます。しかしブラウザのプログレスバーが表示されますので、ユーザはフィードバックが得られますので安心できます
+* モーダルを表示したとき、背景の画面は常に一番上までスクロールします。スクロール位置が維持されません。短いページであれば問題ありませんが、長いページの場合は不便です
+
+**モーダルダイアログ (MPA バージョン)**
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/modal-mpa.mov" type="video/mp4"></source>
+</video>
+
+### まとめ ===mpa-summary===
+
+* MPAなのでコードは非常にシンプルです
+* UI/UX的には、フィードバックが多少わかりにくい点およびスクロール位置がリセットされてしまうのが課題です。ただしサーバレスポンスが300ms程度でかつ短いページであれば問題がないレベルです
 
 ## Turbo Frames: カスタムJavaScriptなし===turbo-without-custom-javascript===
 
-まずはHotwire/Turbo Framesを使って、カスタムのJavaScriptを書かずにモーダルを出す方法を紹介します。**「Hotwireを使うとJavaScriptなしでモーダルダイアログが作れる」という話はよく聞きますが、その時に使われている手法です**。
+次はHotwire/Turbo Framesを使って、カスタムのJavaScriptを書かずにモーダルを出す方法です。**「Hotwireを使うとJavaScriptなしでモーダルダイアログが作れる」という話はよく聞きますが、その時の手法です**。
 
 [カスタムJavaScriptなしのデモはこちら](/api/hotwire/modal_no_js)に用意しています。また[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/pages/api/hotwire/modal_no_js)にあります。
 
@@ -20,11 +112,53 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 1. モーダルを表示する (カスタムJavaScriptで行う: HotwireならStimulus)
 2. モーダルのコンテンツをサーバにリクエストし、結果をモーダル内に表示する (AJAX/fetchで行う: HotwireならTurbo Framesがすべての処理をしてくれます)
 
-しかし、サーバからの**レスポンスと一緒にモーダルの「枠」も同時に送り返せば、モーダルを開くJavaScriptが必要なステップ1.は省略可能**になります。これがこの方法の特徴です。
+しかし、サーバからの**レスポンスと一緒にモーダルの「枠」も同時に送り返せば、モーダルを開くJavaScriptが必要なステップ1.は省略可能**になります。先の[MPAの場合](#mpa)と同じですが、この仕組みを引き継いでいるのがこの方法の特徴です。
 
 ### コード ===code-wo-custom-javascript===
 
-必要なコードは以下のものになります。ただしコントローラアクションは一般的なものなので、解説を省略します(`pages/api/hotwire/modal_no_js`)。
+#### エンドポイント
+
+**pages/api/hotwire/modal_no_js/index.js**
+```ts
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<string>,
+) {
+  const users: User[] = await allUsers()
+
+  const resultText = render("modal_no_js/index.ejs",
+    {users}
+  )
+
+  res.appendHeader("Content-Type", "text/html")
+    .status(200)
+    .send(resultText)
+}
+```
+
+**pages/api/hotwire/modal_no_js/modal/[userId].ts**
+
+```ts
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<string>,
+) {
+  const id = req.query.userId
+  if (!(typeof id === 'string')) throw "Bad request"
+
+  const userDetail = await findUserWithDetails(parseInt(id))
+
+  const resultText = render("modal_no_js/modal.ejs",
+    {id: userDetail.id, userDetail}
+  )
+
+  res.appendHeader("Content-Type", "text/html")
+    .status(200)
+    .send(resultText)
+}
+```
+
+* MPAの場合と異なり、User一覧とUser詳細(モーダルの中身)のエンドポイントを分けています
 
 #### モーダルの「枠」とコンテンツのHTMLページ
 
@@ -69,7 +203,7 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 * 今回はカスタムJavaScriptを敢えて避けますので、`onclick`等のイベントハンドラが使えません。ブラウザのインタラクションは`a`タグや`form`タグに限定されます
 * そこで`a`タグを使用して、モーダル表示前のページをリクエストしています。その結果、モーダルが閉じたように見えます
 
-ブラウザが受け取るHTMLレスポンスには空の`turbo-frame`が含まれています。Turbo Framesはブラウザに表示されている既存の`turbo-frame`をこの空の`turbo-frame`に入れ替えます。その結果、ブラウザに表示されている`turbo-frame`の中身は空になり、枠も無くなるのでモーダルが閉じます。ブラウザが受け取るHTMLは`turbo-frame`だけではなく、`templates/modal_no_js/index.ejs`のすべてですが、画面に反映される（差し込まれる）のは`turbo-frames`の中身(空)だけであることに注意してください。
+ブラウザが受け取るHTMLレスポンスには空の`turbo-frame`が含まれています。Turbo Framesはブラウザに表示されている既存の`turbo-frame`をこの空の`turbo-frame`に入れ替えます。その結果、ブラウザに表示されている`turbo-frame`の中身は空になり、枠も無くなるのでモーダルが閉じます。ブラウザが受け取るHTMLは`turbo-frame`だけではなく、`templates/modal_no_js/index.ejs`のすべてですが、画面に反映される（差し込まれる）のは`turbo-frames`の中身(空)だけであることに注意してください。画面全体が書き換えられずにモーダルの中だけが置換されますので、モーダルを閉じるときもスクロール位置が維持されます。
 
 ### UI/UX  ===UI-wo-custom-javascript===
 
@@ -77,13 +211,19 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 
 * サーバのレスポンスが十分に速い場合(300msの場合)は快適です。
 * しかし[遅延を2000msに設定する](/commentaries/instructions#delay)とUI/UXの弱点が見えてきます。リンクを押してもフィードバックがなく、ユーザはシステムが正しく動作している自信が持てません。またモーダルを閉じる時も遅延が発生します。「閉じるだけなら瞬間的に行くのでは？」というユーザの期待と反して、サーバからレスポンスが返ってくるまでモーダルは閉じません。<br />(リンク等をクリックした時にCSS `:active`を使っていますが、十分なフィードバックとは言えません)
+* [MPAで作った場合](#mpa)と比較して、スクロール位置を維持される点が改善しています
+
+**モーダルダイアログ (HotwireカスタムJavaScriptなし バージョン)**
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/modal-hotwire-wo-custom-javascript.mov" type="video/mp4"></source>
+</video>
 
 ### まとめ  ===summary-wo-custom-javascript===
 
 * カスタムJavaScriptなしの場合はコードが非常に簡素で、直感的にもわかりやすいものになります
 * しかし、**特にネットワークが遅い場合は、ユーザの操作に対するフィードバックが弱く、良いUI/UXとは言えません**
-* モーダルが開いた状態でブラウザをリロードすると、モーダルの中身だけを表示した「詳細ページ」見たいなものを表示できます。モーダルの中身をリンクで共有したり、SEOでモーダルの内容を検索エンジンにインデックスさせたい場合に有利です。[Next.js App RouterのIntercepting Routes](https://nextjs.org/docs/app/building-your-application/routing/intercepting-routes)と同じことが実現されています
-
+* スクロール位置を維持してくれる点で[MPAで作成したもの](#mpa)より改善しています
+* MPAバージョンと比較して、エンドポイントを分けること、`data-turbo-frame`属性を追加すること、`<turbo-frame>`タグを追加することが必要になりますが、引き続き非常にシンプルなコードになっています
 
 ## Turbo Frames: Inline JavaScript ===turbo-with-custom-javascript===
 
@@ -95,11 +235,12 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 
 ### コード ===code-inline-javascript===
 
-カスタムJavaScriptなしの場合と比較して、以下のコードが追加されます。
+[カスタムJavaScriptなし](#turbo-without-custom-javascript)の場合と比較して、以下のコードが追加されます。
 
-* サーバからのレスポンスを待たずにモーダルを表示するため、モーダル「枠」HTMLをあらかじめ元のページに挿入しておきます。ただしCSSで隠して見えなくします。この中にサーバから受け取るHTML断片を差し込む目印の`turbo-frame`を入れておきます
-* モーダルの表示をトリガーするカスタムJavaScriptの設置。Turboがサーバにリクエストを投げるのは前回と変わらないのですが、これとは独立にモーダルを即時表示するJavaScriptを用意します。
-* モーダルを閉じるボタンがJavaScriptを呼び、モーダルだけが閉じるようにします。
+* カスタムJavaScriptなしの場合は、モーダルを表示するときに「枠」のHTMLをサーバから送っていました
+* しかし今回はサーバからのレスポンスを待たずにモーダルを表示するため、「枠」のHTMLをあらかじめ元のページに挿入しておき、CSSで隠して見えなくします。その中にサーバから受け取るHTML断片を差し込む目印の`turbo-frame`を入れておきます
+* モーダルの表示をトリガーするカスタムJavaScriptを用意します
+* モーダルを閉じるボタンのカスタムJavaScriptも用意します
 
 #### モーダルの「枠」だけ
 
@@ -197,7 +338,7 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 
 「カスタムJavaScriptなし」のケースと大きく異なるのは、`a`タグにこの２つの属性をつけることで、モーダルを表示させるコードとTurbo Frameにデータを読み込むコードを分割したことです。そのため、サーバからのレスポンスが遅延しても、それとは無関係に先にモーダルを表示しています
 
-**「モーダルの開閉」と「サーバからのデータの読み込み」を独立させたことにより、UXを大幅に改善しているわけです**。
+**「モーダルの開閉」と「サーバからのデータの読み込み」を独立させたことにより、UXを改善しているわけです**。
 
 #### モーダルを閉じるボタン
 
@@ -213,15 +354,23 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 ```
 
 * `button`タグでモーダルを閉じます。`onclick="closeModal()"`がありますので、これが先ほど用意した`closeModal()`を呼び出して、モーダルを閉じています。
-* [カスタムJavaScriptを使わない例](/commentaries/modal_dialogs#turbo-without-custom-javascript)と異なり、モーダルの開閉とサーバからのデータの読み込みが分かれていますので、モーダルだけ瞬時に閉じられます
+* [カスタムJavaScriptを使わない例](/commentaries/modal_dialogs#turbo-without-custom-javascript)と異なり、モーダルだけが瞬時に閉じられます
 
 ### UI/UX ===ui-inline-javascript===
 
 [JavaScriptを使った例のデモを用意しています](/api/hotwire/modal_w_js)ので、お試しください。他の例も同じデモ画面に含めていますので、"Inline Javascript"のUI/UXを確認する場合は、**"Inline JS"と書いてあるボタンを押してください。**
 
 * モーダルダイアログは瞬時に表示されます
-* サーバのレスポンスが遅い場合は"Loading..."と表示されますので、リクエストが送信され、サーバのレスポンス待ちであることがわかります。ユーザへのフィードバックが適切にされていますので、UI/UXは良くなっています。
+* サーバのレスポンスが遅い場合は"Loading..."と表示されますので、リクエストが送信され、サーバのレスポンス待ちであることがわかります。ユーザへのフィードバックが適切にされていますので、UI/UXは良くなっています
+* Hotwireのprefetchが機能しています。リンクの上をホバーすると、フライングして裏でリクエストが飛びます。その分、体感でレスポンスが速いと感じます
 * クローズボタンを押したときにモーダルダイアログは瞬時に閉じます。これはユーザの期待に沿いますので、UI/UXは良くなっています。
+
+**モーダルダイアログ(Inline JavaScriptバージョン)**
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/modal-hotwire-w-custom-javascript.mov" type="video/mp4"></source>
+</video>
+
 
 ### まとめ ===summary-inline-javascript===
 
@@ -237,9 +386,9 @@ Turbo Framesを使うと[カスタムJavaScriptなし](commentaries/modal_dialog
 
 ## Turbo Frames: CSSローディングアニメーション ===turbo-css-loader===
 
-[Inline JavaScript](#turbo-with-custom-javascript)の項では、カスタムJavaScriptを使ったおかげでモーダルが瞬時に表示されるようになりました。つまりサーバからのレスポンスよりも前にモーダルが表示されます。空白のモーダルを表示するのは不親切ですので、何らかのローディングアニメーションが欲しいところです。
+[Inline JavaScript](#turbo-with-custom-javascript)の項では、カスタムJavaScriptを使ったおかげでモーダルが瞬時に表示されるようになりました。そしてサーバからデータが送られるのを待つ間は"Loading..."と表示されるようにしました。
 
-前の項では単純に"Loading..."の文字列をJavaScriptで差し込みました。これでも良いのですが、Turboはロード中に`busy`のHTML属性を自動的に付けてくれますので、CSSだけでもローディングアニメーションを表示できます。ここではこの方法を紹介します。
+これでも良いのですが、Turboはロード中に`busy`のHTML属性を自動的に付けてくれますので、CSSだけでローディングアニメーションを表示させることもできます。ここではこの方法を紹介します。
 
 ### コード ===code-turbo-css-loader===
 
@@ -288,11 +437,18 @@ Turbo Framesを使うと[カスタムJavaScriptなし](commentaries/modal_dialog
 
 * モーダルが表示されると中にアニメーションが表示され、システムが正しく動作している安心感をユーザに与えます。良いUI/UXです
 
+**モーダルダイアログ(CSSローディングアニメーションバージョン)**
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/modal-hotwire-css-loading.mov" type="video/mp4"></source>
+</video>
+
+
 ### まとめ
 
 * Turbo Framesは動作中に`turbo-frame`要素に[`busy`属性を付けてくれます](https://turbo.hotwired.dev/reference/frames#html-attributes)([`busy-aria`属性も付けてくれます](https://turbo.hotwired.dev/reference/attributes#automatically-added-attributes))
 * これを使うと、ローディングアニメーションをCSSだけで実装できます
-* [Inline Javascript](/commentaries/modal_dialogs#turbo-with-custom-javascript)で紹介したように、`openModal()`の中でHTMLを直接いじり、"Loading..."を表示させることもできます。適宜使い分けていただくのが良いと思います。
+* [Inline Javascript](/commentaries/modal_dialogs#turbo-with-custom-javascript)で紹介したように、`openModal()`の中でHTMLを直接変更し、"Loading..."を表示させることもできます。適宜使い分けていただくのが良いと思います
 
 
 ## Stimulusでイベント処理を改善 ===turbo-with-stimulus===
@@ -303,14 +459,14 @@ Turbo Framesを使うと[カスタムJavaScriptなし](commentaries/modal_dialog
 
 Stimulusは下記の特徴があります。
 
-* AJAX/fetchをするページでのイベントハンドラー処理を完全自動化。[`addEventListener()`](https://developer.mozilla.org/en-US/docs/Web/Events/Event_handlers#eventtarget.addeventlistener)より使い勝手が良い
-* HTMLとJavaScriptの関連が分かりやすくなる
-* JavaScriptコードの再利用性が高まるような設計の工夫がされている
-* キーボードイベントなどの処理も簡略化
+* AJAX/fetchをするページでのイベントハンドラー処理を完全自動化。[`addEventListener()`](https://developer.mozilla.org/en-US/docs/Web/Events/Event_handlers#eventtarget.addeventlistener)より使い勝手が良いです
+* HTMLとJavaScriptの関連が分かりやすくなります
+* JavaScriptコードの再利用性が高まるような設計の工夫がされています
+* キーボードイベントなどの処理も簡略化されています
 
-<p className="text-gray-400 text-sm">Stimulusは[DOM MutationObserver APIを使用してDOMの変更を監視](https://stimulus.hotwired.dev/reference/lifecycle-callbacks#order-and-timing)し、そのタイミングでイベントハンドラーを接続します。従来は`load`イベントを受け取り`element.addEventListener()`を使うことが多かったが、SPAでは`load`イベントが発火しないために問題があります。動的に読み込まれる要素が多いウェブページであっても、Stimulusは確実にかつ簡単にイベントハンドラーを接続してくれます。なおReactの場合は`useEffect`を使ってコンポーネントがロードを検知できるので、SPAの`load`問題を回避できています</p>
+<p className="text-gray-400 text-sm">Stimulusは[DOM MutationObserver APIを使用してDOMの変更を監視](https://stimulus.hotwired.dev/reference/lifecycle-callbacks#order-and-timing)し、そのタイミングでイベントハンドラーを接続します。従来は`load`イベントを受け取り`element.addEventListener()`を使うことが多かっのですが、SPAでは`load`イベントが発火しないために問題があります。動的に読み込まれる要素が多いウェブページであっても、Stimulusは確実にかつ簡単にイベントハンドラーを接続してくれます。なおReactの場合は`useEffect`を使ってコンポーネントがロードを検知できるので、SPAの`load`問題を回避できています</p>
 
-<p className="text-gray-400 text-sm mt-2">Stimulusを使うと、コードを小さいコントローラに分割することが強要されますので、コードの整理整頓につながります。また`data-controller="..."`属性をHTML側につけますので、どのHTML要素がどのStimulus Controllerを呼び出すのが明快です。jQueryや素JavaScriptの`addEventListener()`を多用した場合はこれがわかりにくくなることあり、それと比較すると大きな改善です</p>
+<p className="text-gray-400 text-sm mt-2">Stimulusを使うと、コードを小さいコントローラに分割することになりますので、コードの整理整頓につながります。また`data-controller="..."`属性をHTML側につけますので、どのHTML要素がどのStimulus Controllerを呼び出すのが明快です。jQueryや素JavaScriptの`addEventListener()`を多用した場合と比べると大きな改善です</p>
 
 今回は各ポイントに軽く触れながら、Stimulusで書いたコードを紹介します。[CSSローディングアニメーションをつけたデモ](#turbo-css-loader)をベースに話します。
 
@@ -337,7 +493,7 @@ Stimulusは下記の特徴があります。
 ```
 
 * モーダル表示のトリガーです。`a`タグをクリックしたときにモーダルが表示されます
-* モーダル表示の処理をするJavaScriptはStimulus Controller(`public/hotwire/javascript/labeler_controller.js` 下で解説)のに記述されています。`data-controller`, `data-labeler-selector-value`, `data-labeler-label-class`, `data-action`のHTML属性の組み合わせにより、**2.** のコードが呼び出されています
+* モーダル表示の処理をするJavaScriptはStimulus Controller(`public/hotwire/javascript/labeler_controller.js` 下で解説)のに記述されています。`data-controller`, `data-labeler-selector-value`, `data-labeler-label-class`, `data-action`のHTML属性の組み合わせにより、下記のStimulus Controllerのコードが呼び出されています
     * `data-controller="labeler"`は、この`div`タグに囲まれている部分を`javascript/labeler_controller.js`に繋げます
     * `data-labeler-selector-value=".modal-dialog"`、`data-labeler-label-class="modal-open"`は`javascript/labeler_controller.js`の動きをカスタマイズするための引数です。どのモーダル「枠」を制御するか、および開閉指示に使用するCSSクラスを指定しています。一見すると冗長ですが、これによって他の場面でも同じStimulus Controllerが使用でき、再利用性が高まります
     * `a`タグをクリックすると、`data-action="click->labeler#add"`属性の指示により、Stimulus Controllerの`add()`メソッドが呼び出されます
@@ -380,7 +536,7 @@ export default class extends Controller {
 * `button`タグの`data-action="click->labeler#remove"`により、クリックされると上述のStimulus Controllerの`remove()`メソッドが実行され、モーダルを閉じます
 * さらに`button`タグの`data-action="keydown.esc@window->labeler#remove"`により、`window`に`keydown`イベントハンドラーが接続されていますので、Escキーが押されたときにStimulus Controllerの`remove()`が呼び出され、モーダルを閉じてくれます
 
-このようにStimulusを使うと[キーボードショートカットを非常に簡単に実装できます](https://stimulus.hotwired.dev/reference/actions#keyboardevent-filter)。
+このようにStimulusを使うと[キーボードショートカットも非常に簡単に実装できます](https://stimulus.hotwired.dev/reference/actions#keyboardevent-filter)。
 
 ### まとめ  ===summary-turbo-with-stimulus===
 
@@ -418,7 +574,7 @@ export default function ModalIndex({users}: {users: User[]}) {
 }
 ```
 
-* Reactはすべてのレンダリングはステートから出発するという原則があります。そのため`selectedUserId`を`useState()`で作っています。Hotwireの場合は明示的にステートを用意せず「画面に表示されているものがステートだ！」という立場を取っているので、対照的です。
+* Reactはすべてのレンダリングはステートから出発するという原則があります。そのため`selectedUserId`を`useState()`で作っています。Hotwireの場合は明示的にステートを用意せず「画面に表示されているものがステートだ！」という立場を取っているのと対照的です。
 * `button`タグの`onClick={() => setSelectedUserId(i + 1)}`属性により、クリックすると`selectedUserId`ステートにIntegerがセットされます
 * `{ selectedUserId && <Modal id={selectedUserId} ... />}`の箇所で、[条件付きレンダー](https://ja.react.dev/learn/conditional-rendering)を使っています。`selectedUserId`がセットされていると`Modal`コンポーネントをレンダリングします
 * `button`タグの`closeModal={() => setSelectedUserId(null)}`はモーダルを閉じる時の関数です。`selectedUserId`ステートを`null`にすればモーダルは閉じられます
@@ -478,17 +634,29 @@ export default function Modal({closeModal, id}: {
     * もう１つの`useEffect`はEscapeキーでモーダルが閉じられるように、`keydown`イベントハンドラーを`window`に接続するものです
 * `userDetail`がまだロードされていない時は、条件付きレンダーでローディング画面を表示します
 
+### UI/UX ===ui-react-useeffect===
+
+* Hotwire Turbo FramesでカスタムJavaScriptを使った場合とほぼ同じUI/UXです。瞬間的にモーダルが表示され、十分なフィードバックがあります
+* ただしprefetchは機能しませんので、レスポンス時間は速くなりません
+
+**モーダルダイアログ(React useEffectバージョン)**
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/modal-react-useeffect.mov" type="video/mp4"></source>
+</video>
+
+
 ### まとめ ===summary-react-useeffect===
 
-* [useEffectのデモ](/modal)でもご覧いただけるように、すぐにフィードバックがある良好なUI/UXが実現できています。コードも少なく、流れが直感的にわかります。Escapeでモーダルを閉じることも比較的簡単で、Stimulusを使用した場合と同様です
-* Reactではイベントハンドラから直接DOMを操作しません。イベントハンドラは先に先にステートを変更し、ステートの変更がDOMに自然に伝搬するという原則があります。この考え方をStimulusに適応することもありますが(例えば[Change Callback](https://stimulus.hotwired.dev/reference/values#change-callbacks)を使用します)、Stimulusは通常はイベントハンドラから直接DOMを操作します（CSSクラスの変更が主）。この考え方に慣れる必要があるかもしれません
-* モーダルが開いた状態でブラウザをリロードすると、モーダルが閉じます。モーダルの内容をリンクすることができず、モーダルの内容を検索エンジンにインデックスさせることができません。
+* [useEffectのデモ](/modal)でもご覧いただけるように、すぐにフィードバックがある良好なUI/UXが実現できています。コードも少なく、流れが直感的にわかります
+* Escapeでモーダルを閉じるコードではイベントハンドラの付け・外しを書かなければならないので、Stimulusよりは若干手間ですが、小さな差です
+* UI/UXはHotwireと同程度で問題ありませんが、prefetchが効かないので実質的なレスポンス時間はMPAの場合と同じです
+* Reactではイベントハンドラから直接DOMを操作しません。イベントハンドラで先にステートを変更し、ステートの変更をDOMに伝搬させるという原則があります。この考え方をStimulusに適応することもありますが(例えば[Change Callback](https://stimulus.hotwired.dev/reference/values#change-callbacks)を使用します)、Stimulusは通常はイベントハンドラから直接DOMを操作します。この考え方に慣れる必要があるかもしれません
 
 ## React: Client Componentsでモーダルを出す方法 ===react-client-components===
 
 ReactではRSC(React Server Components)が話題になっていますので、Client Componentを使ってモーダルを作りました。[こちらにClient Componentのデモ](/modal_app_client)を用意しています。[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/modal_app_client)にあります。
 
-結論から言うと、[useEffectでモーダルを出す場合](/commentaries/modal_dialogs#react-useeffect)と書き方もUI/UXもほとんど差がありません。何か固有の書き方を見逃しているかもしれませんが、確認した限りではClient Componentの書き方はPages routerで`useEffect`を使った場合と同じになります。
+結論から言うと、[useEffectでモーダルを出す場合](/commentaries/modal_dialogs#react-useeffect)と書き方もUI/UXも差がありません。確認した限りではClient Componentの書き方はPages routerで`useEffect`を使った場合と同じになります。
 
 （`useEffect`の場合とほぼ同じため、ここでは解説を省きました）
 
@@ -500,9 +668,13 @@ ReactではRSC(React Server Components)が話題になっていますので、Cl
 
 一方で[Parallel RoutesとIntercepting Routesを使って、Server Componentでモーダルを実現](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#modals)する例が公式ドキュメントで紹介されています。
 
-そこで、ここでは**実際にServer Componentでモーダルを作って見ながら、そのUI/UXやコードの書き味を確認したいと思います**。ただしIntercepting routesとParallel routesを一度にやるのは流石に複雑なので、最初に[簡易法](#react-server-components)を紹介し、次に[Layoutを使った方法](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates#layouts)を紹介します。Intercepting routesとParallel routesはさらにこの２つの先にある手法だと思っていて、いきなりは紹介できないと思ったからです。なお最初に示す[簡易法は私のここのブログ記事で知りました](https://medium.com/@dtulpa16/next-js-modals-made-easy-7bdce15b2a5e)。
+そこで、ここでは**実際にServer Componentでモーダルを作って見ながら、そのUI/UXやコードの書き味を確認したいと思います**。ただしIntercepting routesとParallel routesは複雑なので、まず最初に簡易法を紹介し、その次にParallel routesによるを紹介します。なお[簡易法はここのブログ記事で知りました](https://medium.com/@dtulpa16/next-js-modals-made-easy-7bdce15b2a5e)。
+
+
 
 ### コード ===code-simple-react-server-components===
+
+コードは簡単なものです。考え方は[MPAを使った方法](#mpa)とほぼ同じです。
 
 #### モーダルの表示
 
@@ -533,8 +705,6 @@ export default async function ModalAppPage({searchParams}: { searchParams: { use
   )
 }
 ```
-
-仕組みとしては下記のような簡単なものです。
 
 * `/modal_app`でこのページにアクセスした場合はモーダルが表示されない
 * `/modal_app?userId=1`でこのページにアクセスした場合は、userId=1のUserの情報がモーダルに表示される
@@ -570,29 +740,36 @@ export default async function Modal({userId}: { userId: string }) {
 
 * せっかくモーダルを表示するところまではServer Componentだけで来ましたので、モーダルを閉じるところもServer Componentで実装しています
 * Server Componentでは、インタラクティブ要素は`a`タグと`form`タグしか使えません。ここでは`a`タグを`/modal_app`に向けました。`/modal_app`は**1.** で示した通り、モーダルを表示しませんので、**実際には画面全体が再表示されているのですが、見かけ上はモーダルだけが消えたように映ります**
-* 仕組みとしては、一番最初に紹介した[カスタムJavaScriptなしの例](#turbo-without-custom-javascript)と非常によく似ています
-
-なおNext.jsで紹介しているモーダルの例では[`router.back()`によってモーダルを閉じています](https://github.com/vercel/nextgram/blob/06a115d2cad2991b9f8163044e58f34309fea29c/app/%40modal/(.)photos/%5Bid%5D/modal.tsx#L17)ので、実質的には同じことを行なっています。ただし`router.back()`を使用するには`"use client"`を使ってModalをClient Componentにする必要があります。それもあって、ブラウザのJavaScriptをオフにして[Next.jsのデモを実行](https://nextgram.vercel.app/)するとモーダルになりません。
 
 ### UI/UX ===ui-simple-react-server-components===
 
 [Server Componentsでモーダルを出す簡易法のデモはこちら](http://localhost:3000/modal_app)で、[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/modal_app)にあります。
 
-* サーバのレスポンスタイムが300ms程度であれば、快適なUI/UXになります。これは[Turbo Frames: カスタムJavaScriptなしの例](#turbo-without-custom-javascript)の例と同じです
-* ただしレスポンスタイムを2000msに設定するともたつきを感じます。モーダルを表示する時も、そしてモーダルを閉じる時もフィードバックがなく、ユーザは不安を感じてしまいます。これもTurbo Frames: カスタムJavaScriptなしの例と同じです。
+* サーバのレスポンスタイムが300ms程度であれば、快適なUI/UXになります。これは[MPAの例](#mpa)の例と同じです
+* ただしレスポンスタイムを2000msに設定するともたつきを感じます。モーダルを表示する時も、そしてモーダルを閉じる時もフィードバックがなく、ユーザは不安を感じてしまいます。これも[MPAの例](#mpa)と同じです
+* [MPAの例](#mpa)と異なるのは、スクロール位置が維持される点です。この点では[カスタムJavaScriptなし](#turbo-without-custom-javascript)の例と同じになります
+* Hotwireと異なり、ダイナミックなコンテンツではprefetchは効きませんので、実質的なレスポンスは速くなりません
+
+**モーダルダイアログ(Server Components簡易法)**
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/modal-server-components-simple.mov" type="video/mp4"></source>
+</video>
+
 
 ### まとめ ===summary-simple-react-server-components===
 
-* コードは非常にシンプルです。これ以上シンプルにはできないぐらいにシンプルです
+* コードは非常にシンプルです。[MPAの例](#mpa)と同じです
 * サーバのレスポンスタイムが早ければ、この簡易法でも十分快適なUIを提供してくれます
-* しかしサーバのレスポンスが遅い可能性がある場合は、Server Componentにこだわらず、Client Componentを使ってカスタムのイベントハンドラを書いた方が良いでしょう。これは[Turbo FramesでもカスタムJavaScriptを書くべきだ](/commentaries/modal_dialogs#summary-inline-javascript)という話と全く同じです。
-* モーダルが開いた状態でブラウザをリロードしても、モーダルが開いた状態のままになります。モーダルの内容をリンクで共有でき、SEOも有利です。
+* しかしサーバのレスポンスが遅い可能性がある場合は、Server Componentにこだわらず、Client Componentを使ってカスタムのイベントハンドラを書いた方が良いでしょう。これは[Turbo FramesでもカスタムJavaScriptを書くべきだ](/commentaries/modal_dialogs#summary-inline-javascript)という話と全く同じです
+* スクロール位置が維持できる点では[MPAの例](#mpa)よりも優れています
+* prefetchが効かないので実質的なレスポンスは速くなりません
 
 ## React: Server Components /w Parallel Routes ===react-server-components-with-parallel-routes===
 
 Server Componentを使ったもう１つの方法を紹介します。[Parallel Routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)を使用します。
 
-私が理解している限りでは、元々のReactはページ全体をレンダリングすることを想定していました。ただのテキストであるHTMLと異なり、Turbo FramesやTurbo Streamsのように単純に分割したり貼り付けたりすることが得意ではありません。そこでNext.jsがApp Router導入したのが[Layout](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates)や[Parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)です。
+私が理解している限りでは、Reactは元々コンポーネント全体をレンダリングすることを想定していました。ただのテキストであるHTMLと異なり、Turbo FramesやTurbo Streamsのように単純に分割したり貼り付けたりすることが得意ではありません。そこでNext.jsがApp Router導入したのが[Layout](https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates)や[Parallel routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)です。
 
 そして[Parallel Routesを使ったモーダルの作り方が公式ドキュメントで紹介されています](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#modals)。ここではそのやり方を紹介します。
 
@@ -611,10 +788,17 @@ Server Componentを使ったもう１つの方法を紹介します。[Parallel 
 
 ### UI/UX ===ui-react-server-components-with-parallel-routes===
 
-* サーバのレスポンスが速い場合は、簡易法と同様の快適なUI/UXが実現できています
+* サーバのレスポンスが速い場合は、快適なUI/UXが実現できています
 * サーバのレスポンスが遅くても、モーダルを表示させる際はすぐにローディングアニメーションが表示され、フィードバックが得られます。十分なUI/UXが提供できています
-* モーダルを閉じる場合はモーダルを表示したまま、すぐに中でローディングアニメーションが表示されます。UI/UX的にはそれほど悪くはありませんが、理想的にはモーダルもすぐに閉じてほしいところです
-* モーダルが開いた状態でブラウザをリロードしても、モーダルが開いた状態のままになります。モーダルの内容をリンクで共有でき、SEOも有利です。
+* モーダルを閉じる場合はモーダルを表示したまま、すぐに中でローディングアニメーションが表示されます。UI/UX的にはそれほど悪くはありませんが、理想的にはモーダルもすぐに閉じてほしいところです（現時点でこれを改善するためにはClient Componentが必要になります）
+* Next.jsはダイナミックなページ内容ではprefetchが効きませんので、実質的なレスポンスは速くなりません
+
+**モーダルダイアログ(Server Components Parallel Routes法)**
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/modal-server-components-parallel.mov" type="video/mp4"></source>
+</video>
+
 
 ### まとめ ===summary-react-server-components-with-parallel-routes===
 
@@ -626,12 +810,14 @@ Server Componentを使ったもう１つの方法を紹介します。[Parallel 
 
 ## 各技術のまとめ ===summary===
 
-今回は大きく分けて６通り、細かく分けると８通りのモーダルダイアログの出し方を検討しました。これでも全然網羅的ではなく、他の方法もきっとあるはずです。その中で以下のことが言えるのではないかと思います。
+今回は大きく分けて７通り、細かく分けると９通りのモーダルダイアログの出し方を検討しました。これでも全然網羅的ではなく、他の方法もきっとあるはずです。その中で以下のことが言えるのではないかと思います。
 
-* Turbo Framesを使用する場合、JavaScriptなしで非常に簡単に実装することができます。しかし、もう少しだけ頑張ってカスタムJavaScriptおよびCSSを書けば、使い回し可能でUI/UXが優れたモーダルダイアログが作れます。なるべくならば少し手間をかけてここまでやっていただければと思います
+* Turbo Framesを使用する場合、JavaScriptなしで非常に簡単に実装することができます。しかし、**もう少しだけ頑張ってカスタムJavaScriptおよびCSSを書けば、使い回し可能でUI/UXが優れたモーダルダイアログが作れます**。なるべくならば少し手間をかけてここまでやっていただければと思います
 * Turbo FramesでStimulusを使用すると、少ないコードで優れたUI/UXが実現でき、メンテナンス性も良好です
 * Reactを使う場合は、`useEffect`などを使い、ブラウザでデータをフェッチし、かつJavaScriptでDOMを操作するのが良さそうです。これはPages RouterでもApp Router (Client Component)でも変わりません。コードも簡単でわかりやすく、UI/UXも優れています
-* React Server Componentsを使ったモーダルの作り方がNext.jsの公式サイトに紹介されています。しかしコードのわかりやすさとUI/UXを総合的に加味すると、私としては現時点でお勧めできません。SEOでモーダルの中身も検索エンジンにインデックスしてもらいたい場合は必要性がありますが、一般的なケースではメリットを感じませんでした。
+* React Server Componentsを使ったモーダルの作り方がNext.jsの公式サイトに紹介されています。しかしコードのわかりやすさとUI/UXを総合的に加味すると、私としては現時点でお勧めできません
+
+最後に、現時点のReact Server ComponentsはUI/UX的にも、コードを書くときの考え方にしても、MPAと酷似していると感じます。RSC payloadを自在に組み立てられるようになると、Hotwire的な使い方ができるようになるのではないかと思います。実際、[Server ActionからJSX (というかRSC payload)が返せる](https://dev.to/vitalets/returning-jsx-from-react-server-actions-1de3)という話もあるので、近い将来にこの方向に行く可能性も感じます。
 
 
 export default function ModalDialogs({children}) {
