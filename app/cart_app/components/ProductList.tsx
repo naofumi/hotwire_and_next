@@ -14,8 +14,7 @@ async function getProducts(): Promise<Product[]> {
 }
 
 export default async function ProductList() {
-  const products = await getProducts()
-  const cart = await getCart()
+  const [products, cart] = await Promise.all([getProducts(), getCart()])
 
   return (
     <div className="mt-8 flow-root">

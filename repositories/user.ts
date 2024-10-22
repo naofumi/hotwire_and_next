@@ -101,11 +101,10 @@ export async function findUser(id: number): Promise<User> {
 }
 
 export async function searchUsers(query: string): Promise<User[]> {
+  const lowerCaseQuery = query.toLowerCase();
   await databaseSleep()
   return users.filter((user) => {
-    return user.name.includes(query)
-      || user.title.includes(query)
-      || user.email.includes(query)
+    return user.name.toLowerCase().includes(lowerCaseQuery)
   })
 }
 

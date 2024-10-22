@@ -9,27 +9,19 @@
   <div class="mt-4 flex justify-center">
     <div>
       <div class="mb-2">
-        <label for="input-state" class="text-sm mr-2">Test input state</label>
-        <input id="input-state" type="search"
-               class="border rounded p-1"
-        />
-      </div>
-      <div class="mb-2">
-        <label for="search" class="text-sm mr-2">Search</label>
-        <input id="search" type="search"
-               oninput="search(this.value)"
-               value="<%= queryString %>"
-               class="border rounded p-1"/>
+        <form method="get" data-turbo-frame="search-results">
+          <label for="search" class="text-sm mr-2">Search</label>
+          <input id="search" type="search"
+                 oninput="this.form.requestSubmit()"
+                 name="query"
+                 value="<%= queryString %>"
+                 class="border rounded p-1"
+          />
+        </form>
       </div>
     </div>
-    <script>
-      function search(query) {
-        const escapedQuery = encodeURIComponent(query)
-        Turbo.visit(`?query=${escapedQuery}`, {frame: 'search-results'})
-      }
-    </script>
   </div>
-  <turbo-frame id="search-results" data-turbo-action="replace">
+  <turbo-frame id="search-results">
     <div class="mt-8 flow-root">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">

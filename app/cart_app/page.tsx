@@ -2,7 +2,6 @@ import CartTechNav from "@/components/cart/CartTechNav";
 import CartIcon from "./components/CartIcon";
 import ProductList from "./components/ProductList";
 import {revalidatePath} from "next/cache";
-import {redirect} from "next/navigation";
 import {deleteCookie} from "cookies-next"
 import {cookies} from "next/headers"
 
@@ -29,8 +28,8 @@ export default async function CartPage() {
             <div className="flex">
               <form action={clearCart}>
                 <button type="submit"
-                        className="p-1 mr-4 border rounded border-orange-600 text-orange-600">Clear
-                  Cart
+                        className="p-1 mr-4 border rounded border-orange-600 text-orange-600">
+                  Clear Cart
                 </button>
               </form>
               <div id="cart_icon">

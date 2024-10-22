@@ -12,11 +12,13 @@ Turboには[Turbo Drive, Turbo Frames, Turbo Streamsがあり、適宜使い分�
 
 人によって好みが異なる以上、単純にこれがTurbo Streamsの使いどき、あれがTurbo Framesの使いどきを紹介することはできません。そこでここではTurbo Streamsならではの特徴を紹介したいと思います。特徴を理解した上で、適宜選択していただければと思います。
 
-そのためにも、ここではMPAからNext.js Server Actionsまでの様々なアプローチを紹介し、少し深く掘り下げたいと思います。
+ここではMPAからTurbo Streams、さらにReact側ではuseEffectからServer Actionsまでの様々なアプローチを紹介し、深く掘り下げたいと思います。
 
 ## Turbo Streams固有の機能 ===features-exclusive-to-turbo-streams===
 
-まずはTurbo Streams固有の機能をまとめておきます。これがどのような意味を持つかは実際にTurbo Drive, Turbo Framesの動きを細かく見ていかないとわかりにくいと思いますが、その時に見直していただければと思います。ここで各機能の意義を理解する必要はありません。
+まずはTurbo Streams固有の機能をまとめておきます。これがどのような意味を持つかは実際にTurbo Drive, Turbo Framesの動きを細かく見ていかないとわかりにくいと思いますので、その時に見直していただければと思います。ここで各機能の意義や使用場面を理解する必要はありません。
+
+大雑把には、画面の部分置換が必要なケースの大半はTurbo Framesでカバーできますが、少し特殊な状況ではTurbo Streamsの柔軟性が必要になると考えるのが良いと思います。
 
 <div className="mt-8 flow-root">
   <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -44,12 +46,12 @@ Turboには[Turbo Drive, Turbo Frames, Turbo Streamsがあり、適宜使い分�
         <tr className="even:bg-gray-50">
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">レスポンスを柔軟に<br />指定できる</td>
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">POSTに対して簡素にレスポンスしたい時<br />例えば「いいね」ボタンの実装など</td>
-          <td className="px-3 py-4 text-sm text-gray-500">Turbo Framesは`form`からの非GETのリクエストに対して、[POST/Redirect/GETパターン](https://en.wikipedia.org/wiki/Post/Redirect/Get)を前提としいて 、[POST後はstatus 303を期待し、status 200を無視する](https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission)。レスポンス遅延などが理由でこれを避けたいときに使う</td>
+          <td className="px-3 py-4 text-sm text-gray-500">Turbo Framesは`form`からの非GETのリクエストに対して、[POST/Redirect/GETパターン](https://en.wikipedia.org/wiki/Post/Redirect/Get)を前提とする。そのため通信が２往復必要になる。Turbo Streamsはこれに縛られないので、レスポンス遅延などが理由でこれを避けたいときに使う</td>
         </tr>
         <tr className="even:bg-gray-50">
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">画面の複数箇所の更新</td>
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">画面上で離れた箇所を<br />効率的に更新したい時</td>
-          <td className="px-3 py-4 text-sm text-gray-500">Turbo Framesで画面の離れた複数箇所を同時更新する時は、全部を覆う大きいTurbo Frameを作る(Reactでいう[stateのリフトアップ](https://ja.react.dev/learn/sharing-state-between-components)と同じ)。一方でTurbo Streamsなら個別に変更でき、効率的</td>
+          <td className="px-3 py-4 text-sm text-gray-500">Turbo Framesで画面の離れた複数箇所を同時更新する時は、全部を覆う大きいTurbo Frameを作る(Reactでいう[stateのリフトアップ](https://ja.react.dev/learn/sharing-state-between-components)に近い)。一方でTurbo Streamsなら個別に変更でき、効率的</td>
         </tr>
         <tr className="even:bg-gray-50">
           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">サーバ側から<br />ブラウザを細かく制御</td>
@@ -76,18 +78,23 @@ Turboには[Turbo Drive, Turbo Frames, Turbo Streamsがあり、適宜使い分�
 
 これをどう処理するかがTurbo Streamsとその他の技術の大きな違いになります。
 
+**作成する画面**
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/cart-turbo-streams.mov" type="video/mp4"></source>
+</video>
+
 ## Turbo Frames/Reactの考え方（ステートのリフトアップ） ===multi-segment-with-turbo-frames-or-react-concept===
 
-Turbo FramesもReactもステートのリフトアップの発想は同じなので、一緒に紹介します。
+Reactには[ステートのリフトアップ](https://ja.react.dev/learn/sharing-state-between-components#lifting-state-up-by-example)というコンセプトがありますが、これはHotwireでも使います。
 
-"Add to Cart"ボタンとCart Iconは共通の`cart`ステートによって同時に更新されます。製品を新規にカートに追加すれば"Add to Cart"ボタンは"Added to Cart!"バッジになり、Cart Iconでは製品数が1つ増加します。しかし"Add to Cart"ボタンとCart Iconは離れていますので、[ステートのリフトアップ](https://ja.react.dev/learn/sharing-state-between-components#lifting-state-up-by-example)を行います。つまり双方のコンポーネントを内包するより上位のコンポーネントに`cart`ステートを持たせ、更新された時は上位コンポーネント以下を再レンダリングすることで、同時更新を実現します。
+[ReactのuseEffectバージョン](#implement-multi-segment-with-react)では"Add to Cart"ボタンとCart Iconは共通の`cart`ステートによって同時に更新されます。製品を新規にカートに追加すれば"Add to Cart"ボタンは"Added to Cart!"バッジになり、Cart Iconでは製品数が1つ増加します。しかし"Add to Cart"ボタンとCart Iconは離れていますので、[ステートのリフトアップ](https://ja.react.dev/learn/sharing-state-between-components#lifting-state-up-by-example)を行います。つまり双方のコンポーネントを内包するより上位のコンポーネントに`cart`ステートを持たせ、更新された時は上位コンポーネント以下を再レンダリングすることで、同時更新を実現します。
 
-もちろん無駄が発生します。今回のケースでいうと、他の製品の"Add to Cart"ボタンは全く変更されないのに、再レンダリングされてしまいます。しかし通常は大きな負荷ではなく、またキャッシュなどの方法で最適化も可能なので特に気にしません。Turbo Framesの実装もReactの実装もこの考え方に沿っています。
+もちろん無駄が発生します。今回のケースでいうと、他の製品の"Add to Cart"ボタンは全く変更されないのに、再レンダリングされます。しかし通常は大きな負荷ではなく、またキャッシュなどの方法で最適化も可能なので特に気にしません。[Turbo Framesの実装](#implement-with-turbo-frames)も[React useEffectの実装](#implement-multi-segment-with-react)もこの考え方に沿っています。
 
-なお、MPAやTurbo Drive, React Server Componentsはいずれも画面の部分更新はしません。`<body>`タグ以下はすべて再レンダリングされます。明示的にステートをリフトアップまでもなく、実質的にはリフトアップされているかのような仕組みで動作します。
+なお、MPAやTurbo Drive, React Server Componentsはいずれも画面の部分更新はしません。`<body>`タグ以下はすべて再レンダリングされます。明示的にはリフトアップしていませんが、実質的にはステートがリフトアップする仕組みで動作します。
 
 <figure className="my-4">
-  <figcaption className="font-bold">Turbo FramesやReactによる実装方法</figcaption>
+  <figcaption className="font-bold">Turbo FramesやReact useEffectによる実装方法</figcaption>
   <Image src={cartWithFramesReact} alt="Cart with Turbo Frames and React" />
 </figure>
 
@@ -119,7 +126,7 @@ Turbo FramesもReactもステートのリフトアップの発想は同じなの
 <%- include("../layouts/footer.ejs") -%>
 ```
 
-* メインのテンプレートですが、**MPAの場合とTurbo Drive Morphingの場合の違いは唯一`header`のところです**。MPAで読み込んでいる`layouts/header_no_js.ejs`はTurboを読み込みません。一方でTurbo Drive Morpingの場合はTurboを読み込んだ上、Morphingを支持する`meta`タグがあります。
+* メインのテンプレートですが、**MPAの場合とTurbo Drive Morphingの場合の違いは`header`のところだけです**。MPAで読み込んでいる`layouts/header_no_js.ejs`はTurboを読み込みません。一方でTurbo Drive Morpingの場合はTurboを読み込んだ上、Morphingを支持する`meta`タグがあります。
 
 **templates/layouts/header_morph.ejs**
 ```html
@@ -290,9 +297,9 @@ export default async function handler(
 
 またHotwire以前のRuby on Railsで採用されていた[SJR (Server-generated JavaScript Responses)](https://signalvnoise.com/posts/3697-server-generated-javascript-responses)はTurbo Streamsと発想が似ています。ただし`<turbo-stream>`タグを使った宣言的な記述ではなく、JavaScriptそのものをサーバからブラウザに送っていました。Turbo StreamsはSJRを簡略化して使いやすくしたものと言えます。
 
-## Reactによる実装 ===implement-multi-segment-with-react===
+## React useEffectによる実装 ===implement-multi-segment-with-react===
 
-上述したようにReactによる実装とTurbo Framesによる実装は考え方が似ています。複数箇所を更新するために[ステートをリフトアップ](https://ja.react.dev/learn/sharing-state-between-components#lifting-state-up-by-example)する作戦です。ただしMPAをベースとしてシンプルな改変だけを行うTurbo Framesと比べて、ReactはCSRも使えますので色々な工夫ができます。それを紹介します。
+上述したようにReact useEffectによる実装とTurbo Framesによる実装は考え方が似ています。複数箇所を更新するために[ステートをリフトアップ](https://ja.react.dev/learn/sharing-state-between-components#lifting-state-up-by-example)する作戦です。ただしMPAをベースとしてシンプルな改変だけを行うTurbo Framesと比べて、ReactはCSRも使えますので色々な工夫ができます。それを紹介します。
 
 React版は下記の構成を採用しました。
 

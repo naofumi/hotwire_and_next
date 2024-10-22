@@ -1,0 +1,257 @@
+import MDXRenderer from "../../components/MDXRenderer";
+import CommentaryLayout from "../../components/CommentaryLayout";
+import hotwireJavascriptImage from "@/public/images/hotwire-javascript.webp"
+import Image from "next/image"
+
+## はじめに ===introduction===
+
+ライブ検索はリアルタイムで検索するUIです。「検索」ボタンを押さなくても、入力が途中でも検索が実行されるものです。「検索」ボタンを押すイベントではなく、`input`要素の`onInput`イベントに反応してサーバに問い合わせを行うだけなので、MPAであっても一見実装は簡単です。
+
+しかしMPAだと大きな問題が一つあります。検索フィールドのステートがリセットされることです。このためMPAだけではまともなUIを作るのは困難です。
+
+ここではMPAのときの問題を紹介するところかは初めて、次にHotwireで検索フィールドのステートをどのように保持するかを紹介します。最後にReactを使った方法を紹介し、UI/UXを比較します。
+
+またリアルタイム検索の場合はサーバの遅延が大きいと、どうやっても辛いUI/UXになってしまうので、遅延が300msの場合しか想定しません。
+
+**ここで作るUI (Hotwire Turbo Framesの例)**
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/livesearch-turbo-frames.mov" type="video/mp4"></source>
+</video>
+
+## MPAによるライブサーチの試み ===mpa===
+
+[MPAライブサーチのデモ](/api/hotwire/live_search_mpa)を用意していますので、ご確認ください。UI/UXのところで詳しく解説しますが、70%ぐらいはできるのですが、残りの30%で大きな課題があります。
+
+### コード ===code-mpa===
+
+**pages/api/hotwire/live_search_mpa/index.ts**
+```ts
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<string>,
+) {
+  const queryString = req.query["query"]
+
+  let users = (typeof queryString === "string" && queryString.length > 0)
+    ? await searchUsers(queryString)
+    : await allUsers()
+
+  const resultText = render("live_search_mpa/index.ejs",
+    {users, queryString}
+  )
+
+  res.appendHeader("Content-Type", "text/html")
+    .status(200)
+    .send(resultText)
+}
+```
+
+* こちらは検索のエンドポイントです
+* `req.query["query"]`で検索文字列を受け取り、空白の場合は`allUsers()`で全ユーザを返し、何か文字が含まれていたら`searchUsers(queryString)`を返します
+
+**templates/live_search_mpa/index.ejs**
+```html
+<form method="get">
+  <label for="search" class="text-sm mr-2">Search</label>
+  <input id="search" type="search"
+         oninput="this.form.requestSubmit()"
+         name="query"
+         value="<%= queryString %>"
+         class="border rounded p-1"
+  />
+</form>
+```
+
+* 通常の検索とほとんど同じです。`form`を使って`input`の値を現在のエンドポイントに送信します
+* 通常の検索と異なる点は`oninput="this.form.requestSubmit()"`のところだけです。通常はSubmitボタンを押したり、`input`タグの中でEnterを押すことによって`form`が送信されますが、リアルタイム検索を実現するために`oninput`イベントハンドラから`this.form.requestSubmit()`で`form`を自動的に送信します
+
+### UI/UX ===ui-mpa===
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/livesearch-mpa.mov" type="video/mp4"></source>
+</video>
+
+* 検索文字列を入力すると、サーバにリクエストを投げ、絞り込まれた内容に正しく更新されます
+* しかし`input`タグからfocusが外れてしまうので、次の文字を入力するのが困難です
+
+### まとめ ===summary-mpa===
+
+* MPAの実装に`oninput="this.form.requestSubmit()"`を追加するだけでライブ検索が実現します
+* しかし`input`タグからfocusが外れてしまいますので、実用的ではありません
+* focusが外れてしまうのは、MPAだと内容更新のたびにページ全体を完全に入れ替えてしまうために起こります。ページを完全にリセットしてしまうために、focusのステートが消えてしまうのが問題です
+* `autofocus`を使って、ページリロード後にfocusを再び`input`に持ってくることも可能ですが、少し無理があります
+
+
+## Hotwire Turbo Morphによるライブサーチ ===morph===
+
+Hotwireの[Turbo Driveには、Morphingという機能があります](https://turbo.hotwired.dev/handbook/page_refreshes)。これは既存ページのステートの維持を実現するものです。
+
+スクロール位置の他、画面の特定領域のステートを保持できます。
+
+### コード ===code-morph===
+
+**templates/live_search_morph/index.ejs**
+```html
+<%- include("../layouts/header_morph.ejs") -%>
+...
+<form method="get" data-turbo-action="replace">
+  <label for="search" class="text-sm mr-2">Search</label>
+  <input id="search" type="search"
+         oninput="this.form.requestSubmit()"
+         name="query"
+         value="<%= queryString %>"
+         class="border rounded p-1"
+  />
+</form>
+```
+
+* [Turbo Drive Morphingを使用するため](https://turbo.hotwired.dev/handbook/page_refreshes#morphing)には`<head>`タグの中身を書き換える必要があります。そこで`layouts/header_morph.ejs`を読み込みます
+* Turbo DriveのMorphingはページをリフレッシュ(refresh)するときに限ってオンになります。同じページを再読み込みしたり、URLのクエリを変えただけの場合、かつ[replace型のナビゲーション](https://turbo.hotwired.dev/handbook/drive#application-visits)になっているときにTurboはリフレッシュと判断します。ここでは`form`に`data-turbo-action="replace"`をつけて、Turboにリフレッシュをさせます
+
+これ以外はMPAと全く同じです。
+
+### UI/UX ===ui-morph===
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/livesearch-morph.mov" type="video/mp4"></source>
+</video>
+
+* 検索文字列を入力すると、サーバにリクエストを投げ、絞り込まれた内容に正しく更新されます
+* `input`タグはfocusも維持しますので、問題のないUI/UXになっています
+
+### まとめ ===summary-morph===
+
+* MPAのときの`input`タグからfocusが外れてしまう問題については、Turbo Drive Morphingを導入するだけで解消しました
+
+
+## Hotwire Turbo Framesによるライブサーチ ===turbo-frames===
+
+上記の[Turbo Drive Morphing](#morph)では、ページ全体を書き換えつつもステートを維持するやり方を採用していました。一方でTurbo Framesを使うと画面の一部分のみを書き換えることができます。
+
+### コード ===code-turbo-frames===
+
+```html
+  ...
+  <form method="get" data-turbo-frame="search-results">
+    <label for="search" class="text-sm mr-2">Search</label>
+    <input id="search" type="search"
+           oninput="this.form.requestSubmit()"
+           name="query"
+           value="<%= queryString %>"
+           class="border rounded p-1"
+    />
+  </form>
+  ...
+  <turbo-frame id="search-results">
+    ...
+    [検索結果はここに表示される]
+    ...
+  </turbo-frame>
+```
+
+* MPAのコードとほとんど同じです
+* `form`に`data-turbo-frame="search-results"`が追加されています。これによって、`form`送信後にサーバから返ってきたレスポンスは、`search-results`という名の`turbo-frame`に挿入されます
+* 検索結果の表を`<turbo-frame id="search-results">`で囲みます
+
+### UI/UX ===ui-turbo-frames===
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/livesearch-turbo-frames.mov" type="video/mp4"></source>
+</video>
+
+* 検索文字列を入力すると、サーバにリクエストを投げ、絞り込まれた内容に正しく更新されます
+* `input`タグはfocusも維持しますので、問題のないUI/UXになっています
+
+### まとめ ===summary-turbo-frames===
+
+* MPAのときの`input`タグからfocusが外れてしまう問題については、`turbo-frame`を導入するだけで解決できました
+
+## Next.js useEffectによるライブサーチ ===use-effect===
+
+Reactを使い、useEffectで全Userのデータ(`users`)を取得している例を紹介します。
+
+### コード ===code-use-effect===
+
+```tsx
+export default function LiveSearchIndex() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log("Fetch start for Users useEffect")
+    handleSearch("")
+  }, [])
+
+  function handleSearch(query: string) {
+    const escapedQuery = encodeURIComponent(query)
+    fetch(`/api/users/search?query=${escapedQuery}`).then(res => res.json())
+      .then(data => {
+        setUsers(data)
+        setLoading(false)
+      })
+  }
+  return (
+    ...
+    <div className="mb-2">
+      <label htmlFor="search" className="text-sm mr-2">Search</label>
+      <input id="search" type="search"
+             onChange={(e) => handleSearch(e.target.value)}
+             className="border rounded p-1"/>
+    </div>
+    ...
+  )
+```
+
+* `useEffect()`を使った一般的な書き方になっています
+* サーバにリクエストを投げて、全ユーザの情報を`users`ステートに入れています
+* 検索フィールドの`input`タグでは、`onChange={(e) => handleSearch(e.target.value)}`によって`handleSearch()`を呼び出し、サーバに検索結果をリクエストしています
+
+### UI/UX ===ui-use-effect===
+
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/livesearch-use-effect.mov" type="video/mp4"></source>
+</video>
+
+### まとめ ===summary-use-effect===
+
+* React `useEffect()`を使う場合は、MPAとは書き方が少し異なりますが、慣れている人にとってはシンプルな内容です
+* MPAのときのに起こる、`input`タグからfocusが外れてしまう問題は`useEffect()`を使った場合は起こりません。`useEffect()`は`users`ステートしか更新せず、`input`タグのステートには影響しないためです
+
+## MorphingとTurbo Framesの違い ===morphing-and-frames===
+
+Turbo Drive MorphingとTurbo Framesの双方を紹介しました。UI/UXにおいては認識できる差はないのですが、やっていることの違いを細かく確認したいと思います。
+
+**Turbo Drive Morphingの場合**
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/livesearch-morph-inspect.mov" type="video/mp4"></source>
+</video>
+
+* 検索フィールドの文字列を変更すると、少し間をおいて`input`タグの`value`属性が更新されることが確認できると思います。`value`属性の変更はサーバ側のHTMLテンプレートで行われていますので、検索結果を受け取るのと同時に`value`の値が変更されています
+* このようにHotwireのMorphingでは基本的にサーバから送られてきたHTMLに置換されます。しかし`input`タグの場合はこれとは別に a) focusの有無、b) 現時点で入力されている値、c) カーソル位置(選択範囲) のステートを持ちます。これはブラウザ固有のものであり、Morphingはこれをリセットしまわないようにしています
+
+**Turbo Framesの場合**
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/livesearch-turbo-frames-inspect.mov" type="video/mp4"></source>
+</video>
+
+* Turbo Framesの場合は`input`タグの`value`属性が更新されません
+* Turbo Framesでは`turbo-frames`タグの中身だけが更新されます。今回は`input`タグは`turbo-frames`の外側ですので、一切影響を受けません
+
+蛇足になりますが、双方のケースで、サーバにリクエストが飛んでいる間は`form`タグに`aria-busy="true"`の属性が自動的についていることが確認できるかと思います。これを使ってローディングアニメーションをCSSで実装することもできます
+
+## 最後に ===closing===
+
+* MPAでライブ検索を実装するときにfocusが外れる問題について、HotwireのMorphingやTurbo Framesを使うと簡単に解決できます
+* React useEffectを使っても簡単に実装できます
+* [Next.js v15では`Form`タグた追加され](https://nextjs.org/blog/next-15#form-component)、React Server Componentを使った新しい検索フォームのパターンが導入されています。これを使ったライブ検索については、また別途紹介したいと思います
+
+Reactではステートが全面に出ますが、Hotwireもステートを意識することがあります。今回は`input`タグのfocusがそうでした。他にもスクロール位置やより複雑なものも意識したりします。HotwireのMorphingはブラウザのステートを維持したり、コントロールしたりするのに有効です（例えばブラウザのステートだけでなく、ブラウザのHTMLも維持したいときは`data-turbo-permanent`属性が使えます）。
+
+export default function Popups({children}) {
+  return <CommentaryLayout
+    title="Live Search"
+    subtitle="ライブ検索"
+    section="Commentary">
+    <MDXRenderer>{children}</MDXRenderer>
+  </CommentaryLayout>
+}

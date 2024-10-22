@@ -223,16 +223,10 @@ export default function IndexPage() {
                   ライブ検索: Turbo Frames
                 </H2WithHash>
                 <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                  リアルタイムで検索をするUIです。Turbo Framesを使って作りますが、aタグやformタグを契機に作動するのではなく、<code>onInput</code>イベントで動くので、JavaScriptを使う必要があります。Turbo
-                  Framesを使う理由は、検索条件フィールドのステートを保ち、リセットされるのを防ぐためです。
+                  リアルタイムで検索をするUIです。AJAX/fetchによる非同期通信を使ったUIの代表例にも見えますが、実はほとんどMPAで実現できます。ここではわずかに足りない部分をHotwireで補う方法を紹介します。ブラウザステートがHotwireでも重要であることが確認できると思います。
                 </p>
                 <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                  Turbo
-                  Framesを使っていますので、URLとの連携もできています。今回は<code>data-turbo-action=&quot;replace&quot;</code>属性とを使って、検索結果がブックマークできるようにしています。
-                </p>
-                <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                  またReact側ではただの<code>fetch</code>を使っていることもあり、競合状態 (race
-                  condition)対策はされていません。一方でHotwire側は、Turboが提供する<code>Turbo.visit()</code>を使うだけで競合状態対策がされています。ネットワークタブを見ながらご確認ください。
+                  またReact useEffectによるリアルタイム検索のコードとUI/UXとも比較します。
                 </p>
                 <div className={`text-center my-12 text-xl tracking-wider`}>
                   <StyledLink href="/commentaries/live_search">

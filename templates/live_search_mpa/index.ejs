@@ -1,15 +1,15 @@
-<%- include("../layouts/header_morph.ejs") -%>
+<%- include("../layouts/header_no_js.ejs") -%>
 <div class="my-10 px-4 sm:px-6 lg:px-8">
-  <%- include("../live_search/_tech_nav.ejs", {selected: "morph"}) %>
+  <%- include("../live_search/_tech_nav.ejs", {selected: "mpa"}) %>
   <div class="sm:flex sm:items-center">
     <div class="sm:flex-auto">
-      <h1 class="demo-h1">ライブ検索: Turbo Drive Morph</h1>
+      <h1 class="demo-h1">ライブ検索: MPA</h1>
   </div>
   </div>
   <div class="mt-4 flex justify-center">
     <div>
       <div class="mb-2">
-        <form method="get" data-turbo-action="replace">
+        <form method="get">
           <label for="search" class="text-sm mr-2">Search</label>
           <input id="search" type="search"
                  oninput="this.form.requestSubmit()"

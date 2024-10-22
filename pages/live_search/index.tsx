@@ -4,7 +4,7 @@ import {User} from "@/repositories/user";
 import Layout from "@/components/Layout";
 import Image from "next/image"
 import rocketImage from "@/public/images/rocket.gif"
-import ModalTechNav from "@/components/live_search/TechNav";
+import LiveSearchTechNav from "@/components/live_search/TechNav";
 
 export default function LiveSearchIndex() {
   const [users, setUsers] = useState<User[]>([]);
@@ -12,11 +12,7 @@ export default function LiveSearchIndex() {
 
   useEffect(() => {
     console.log("Fetch start for Users useEffect")
-    fetch("/api/users").then(res => res.json())
-      .then(data => {
-        setUsers(data)
-        setLoading(false)
-      })
+    handleSearch("")
   }, [])
 
   function handleSearch(query: string) {
@@ -36,7 +32,7 @@ export default function LiveSearchIndex() {
         </div>
         : <>
           <div className="my-10 px-4 sm:px-6 lg:px-8">
-            <ModalTechNav selected={`use_effect`}/>
+            <LiveSearchTechNav selected={`use_effect`}/>
             <div className="sm:flex sm:items-center">
               <div className="sm:flex-auto">
                 <h1 className="demo-h1">ライブ検索: Next.js useEffect</h1>
@@ -44,12 +40,6 @@ export default function LiveSearchIndex() {
             </div>
             <div className="mt-4 flex justify-center">
               <div>
-                <div className="mb-2">
-                  <label htmlFor="search" className="text-sm mr-2">Test input state</label>
-                  <input id="input-state" type="search"
-                         className="border rounded p-1"
-                  />
-                </div>
                 <div className="mb-2">
                   <label htmlFor="search" className="text-sm mr-2">Search</label>
                   <input id="search" type="search"

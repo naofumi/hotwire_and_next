@@ -6,8 +6,6 @@ import {getCookie, setCookie} from "cookies-next"
 async function addToCart(productId: number, formData: FormData) {
   "use server"
 
-  // const productId = formData.get("product_id") as string
-
   const cartString = getCookie("cart", {cookies})
   const cart = cartString ? JSON.parse(cartString) : {}
   cart[productId] = 1
