@@ -11,11 +11,11 @@ Hotwireおよびその前身の技術([TurboLinks](https://github.com/turbolinks
 
 一方で[37signals社の各チームのサイズはデザイナーを含めてたったの３人です](https://3.basecamp-help.com/article/35-the-six-week-cycle#who-does-the-work?)。
 
-このように、Hotwireは開発効率が非常に高く、小さいチームで優れたUI/UXを実現する技術です。
+このように、Hotwireは開発効率が非常に高く、優れたUI/UXを小さいチームで実現する技術です。
 
 ## Next.jsに勝るとも劣らないUI/UX ===UX-comparable-or-exceeding-next-js===
 
-「Hotwireは実装が楽だけど、限界がある」と考えている人がいます。React/Next.jsほどのUI/UXは作れないと思っている人がいます。「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」という声も聞こえます。**しかしこれは誤解です**。お客様がお金を払ってでも使いたくなる製品がHotwireだけで作成できることを、**37signals社が明確に実証ずみです**。さらに本サイトでは細かい仕組みの議論をしながら、HotwireのUI/UXの方がむしろ優れている面もあることを紹介します。
+**「Hotwireは実装が楽だけど、限界がある」** と考えている人がいます。React/Next.jsほどのUI/UXは作れないと思っている人がいます。「管理画面はHotwireでも良いけど、お客様向け画面はReactにしよう」という声も聞こえます。**しかしこれは誤解です**。お客様がお金を払ってでも使いたくなる製品がHotwireだけで作成できることを、**37signals社が明確に実証ずみです**。さらに本サイトでは細かい仕組みの議論をしながら、HotwireのUI/UXの方がむしろ優れている面もあることを紹介します。
 
 実際、エンドユーザのUXが決定的に重要な[CookpadでもHotwireを使用しています](https://cookpad.com)。
 
@@ -48,7 +48,7 @@ Androidを繋ぎ合わせる役割を担う、モバイルアプリ作成のた�
 
 Turboは<code>fetch</code>を使い、ウェブページの部分置換をするライブラリです。Hotwireの中心的な技術です。置換する範囲と付随する機能に応じて、3種類の置換方法があります。
 
-* **Turbo Drive:**[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は`body`タグの中身を丸々置換する技術です。Next.jsの[router](https://nextjs.org/docs/pages/building-your-application/routing)、あるいは[React Router](https://reactrouter.com/)に相当し、ページ全体をSPA的に置換・遷移する仕組みです。`Link`タグのような特別なものは使わず、`a`タグがすべて自動的にTurbo Driveを使うようになります。
+* **Turbo Drive:**[Turbo Drive](https://turbo.hotwired.dev/handbook/drive)は`body`タグの中身を丸々置換する技術です。Next.jsの[router](https://nextjs.org/docs/pages/building-your-application/routing)、あるいは[React Router](https://reactrouter.com/)に相当し、ページ全体をSPA的に置換・遷移する仕組みです。`Link`タグのような特別なタグは使わず、`a`タグがすべて自動的にTurbo Driveを使うようになります。
 * **Turbo Frames:** [Turbo Frames](https://turbo.hotwired.dev/handbook/frames)は部分置換を実現するものです。画面の一部を置換するだけではなく、画面を **「枠」** に分割する性質があり、デフォルトでは枠内の **a** タグおよび **form** タグも中に閉じ込めるように動きます。[ルータとの連携](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)、[Lazy Load](https://turbo.hotwired.dev/handbook/frames#lazy-loading-frames)なども用意され、画面の部分置換だけでなく、関連するUXもパッケージされています。柔軟性も高く、**これだけでほとんどの部分置換は可能です** (Turbo Streamsをあまり使わなくても用が足りてしまう)。<br />
 Next.js app routerの[Layout](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)に近い性質もありますが、URLとの連動が必須ではないことや、１つのページに複数のTurbo Frameが配置できることなど、より小回りが効く柔軟な仕組みです。
 * **Turbo Streams:** [Turbo Streams](https://turbo.hotwired.dev/handbook/streams)は画面を細かく、柔軟に置換する技術です。IDで指定された要素を１つずつ追加・置換したり、削除したりできます。またWebSocketを介した置換も可能になっています。柔軟性は非常に高いのですが、それだけに置換ステップ数が増大する傾向があり、必要なところで慎重に使うのがポイントではないかと思います。[jQuery](https://api.jquery.com/category/manipulation/)の`prepend()`, `append()`, `remove()`, `html()`をHTML属性から呼び出す感覚に近いとも言えます。Turbo StreamsとTurbo Framesの使い分けは明確ではなく、人よってどちらを多く使うかが異なります。私はTurbo Framesを多く使いますので、本サイトもこちらが中心になっています。Next.jsで言えば、Turbo StreamsはTurbo Framesとともに、Client ComponentやSSRしたページから`useEffect()`を呼び、画面を部分更新するのに相当します。
@@ -69,18 +69,18 @@ Turboは上記のたった３つのパーツしかないのですが、実際に
 の[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes)で動いています。
 * **大幅なUXを向上:** ウェブサイトのUXを大幅に向上させます。体感レスポンスタイムの大幅短縮、画面の部分置換など、モダンフロントエンドのUX要件をカバーできます。
     具体的には[本サイトの各例](/)をお確かめください。
-* **学習時間と工数の削減:** 昔ながらのサーバでのHTML生成をするアプローチです。JSON APIも使いません。ReactやNext.jsのような複雑さがありませんので、学習時間と作業工数を大幅に削減できます。
+* **学習時間と工数の削減:** Hotwireは昔ながらのサーバでのHTML生成をするアプローチです。JSON APIも使いません。ReactやNext.jsのように新しいコンセプトを学習し、JSON APIを作る複雑さがありませんので、学習時間と作業工数を大幅に削減できます。
 * **コンポーネント化:** Hotwireのコンポーネント化は各バックエンド技術のテンプレートエンジンに委ねられています。Ruby on Railsであれば[partial](https://guides.rubyonrails.org/layouts_and_rendering.html#using-partials)や[view helper](https://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html)、もしくは最近話題の[ViewComponent](https://viewcomponent.org)や[Phlex](https://www.phlex.fun)などのコンポーネント化技術があります。Laravel, Djangoなどもそれぞれのコンポーネント化技術があります。
-* **注目されている技術です:** [Elixir Phoenix](https://www.phoenixframework.org)のLiveview、PHP Laravelの[Livewire](https://laravel-livewire.com)、さらにHotwire同様にバックエンド非依存の[HTMX](https://htmx.org)など、Hotwireと同様のアプローチでモダンフロントエンドを作る技術が近年、注目を集めています。HTMXはDjangoやGo、Spring MVCで話題になっており、さらにSSG/SSR JavaScriptフレームワークのAstroではHTMXを意識した[page partials](https://docs.astro.build/en/basics/astro-pages/#page-partials)という機能も導入されています。
-* **セキュリティが高い:** レンダリング済みのHTMLのみをブラウザに送信するので、誤ってプライベートな情報を漏洩する心配がありません。例えば秘密キーをブラウザに預ける必要がなく、またJSON APIに機密情報を流してしまうこともありません。詳しくは[ページ遷移の解説](/commentaries/page_transitions)で議論しています。
+* **注目されている技術です:** [Elixir Phoenix](https://www.phoenixframework.org)のLiveview、PHP Laravelの[Livewire](https://laravel-livewire.com)、さらにHotwire同様にバックエンド非依存の[HTMX](https://htmx.org)など、Hotwireと同様のアプローチが最近注目を集めています。HTMXはDjangoやGo、Spring MVCで話題になっており、さらにJavaScriptフレームワークの世界でもAstroはHTMXを意識した[page partials](https://docs.astro.build/en/basics/astro-pages/#page-partials)という機能を導入しています。
+* **セキュリティが高い:** レンダリング済みのHTMLのみをブラウザに送信するので、誤ってプライベートな情報を漏洩する心配がありません。例えば秘密キーをブラウザに預ける必要がなく、またJSON APIに機密情報を流してしまうこともありません。詳しくは[セキュリティの解説](/commentaries/security)で議論しています。
 
 
 ## Hotwireのステート管理 ===hotwire-state-management===
 
 Reactの世界ではステート管理が非常に大きなトピックになっています（useStateからReduxまで、多数の仕組みが使われています）。ここではHotwireにおけるステートの一般的な考え方について紹介します。
 
-* **Reactは単方向データフロー(one-way data flow):** Reactでは単方向データフローが非常に重要な概念です。すべてはステートから始まり、親コンポーネントから子コンポーネントにステートを渡しながら画面がレンダリングされます。ステートは各コンポーネントが`useState`で保持したり、あるいはグローバルに`useContext`やReduxなどを使って保持されます。ユーザの操作等によって画面の複数箇所が同時に更新され、さらに操作をする箇所が多く、複雑なアプリにおいてはこれは非常に有効なコンセプトです
-* **Turboはサーバにステート管理を任せます:** HotwireのTurboはサーバにステートを持たせ、同じものはブラウザでは持たないという考え方です。HTMLはサーバでレンダリングされますので、初期描画に関するステートはブラウザに送られません。またHTML `form`によってサーバにデータを送信する場合も、`form`自身がネイティブに保有するステート管理に任せます。Reactのように`form`の状態をステート変数に持たせ、それをJSONに変換してサーバに送ることをしません。`form`のネイティブな動作に任せ、`application/x-www-form-urlencoded`形式でサーバに送ります。このような仕組みにより、ブラウザが管理するステートは激減します。その一方で積極的にキャッシュを行い、ネットワーク通信による遅延を最小化する仕組みを各種用意しています。
+* **Reactは単方向データフロー(one-way data flow):** Reactでは単方向データフローが非常に重要な概念です。すべてはステートから始まり、親コンポーネントから子コンポーネントにステートを渡しながら画面がレンダリングされます。ステートは各コンポーネントが`useState`で保持したり、あるいはグローバルに`useContext`やReduxなどを使って保持されます。ユーザの操作等によって画面の複数箇所が同時に更新され、操作をする箇所も多いような複雑なアプリにおいては、これは非常に有効なコンセプトです
+* **Turboはサーバにステート管理を任せます:** HotwireのTurboはサーバにステートを持たせ、同じものはブラウザでは持たないという考え方です。HTMLはサーバでレンダリングされますので、ブラウザステートは原則として考慮されません。またHTML `form`によってサーバにデータを送信する場合も、`form`自身がネイティブに保有するステート管理に任せます。このような仕組みにより、ブラウザが管理するステートは激減します。その一方で積極的にキャッシュを行い、ネットワーク通信による遅延を最小化する仕組みを各種用意しています。Reactも最近は同じような形でステート管理をサーバに任せることが多くなっています。
 * **Stimulusはブラウザ内のステートを管理します:** HotwireのStimulusはブラウザのみが保有し、サーバと共有されないステートを管理します。例えばアコーディオンやプルダウンメニューの開閉状態がこれに相当します。簡単なステートの場合は、敢えてステートを別個に保持せずに、DOMに加えた変更そのものをステートとします。例えば開閉状態を示す`opened` CSSクラス、あるいは`aria="busy"`などを使います。より複雑なステートを扱う場合は[StimulusのValues](https://stimulus.hotwired.dev/reference/values)を使用します。これはHTML要素の`data-*`属性に書き込まれて保持されます(Object型のデータも保持可能)。また[change callback](https://stimulus.hotwired.dev/reference/values#change-callbacks)が用意されていますので、Stimulus Valuesに加えた変更が自動的にHTML要素に反映される仕組みが作れます。例えば[Chart.js](https://www.chartjs.org)のグラフをStimulus Values経由で管理すると便利です
 
 このようにHotwireのステート管理の考え方は、サーバが持つべきものはTurbo経由でサーバに持たせ、ブラウザが持つべきものはStimulusで処理するというものです。Stimulusの担当範囲は"sprinkles of JavaScript"(「軽く撒いたJavaScript」)までです。リッチテキストエディタのような複雑なものは、通常はStimulusで作りません。
@@ -99,7 +99,7 @@ Reactの世界ではステート管理が非常に大きなトピックになっ
 * **Next.jsはBFFとして使われている想定:** 一貫性を持たせるために、システムは下記の構成になっていると想定しています。
     * Hotwire側はHTMLを出力するサーバを想定しています。Ruby on RailsでERBを使ったり、LaravelでBladeを使ったりするタイプを考えています。したがってエンドポイントが直接データベースにアクセスし、データを取得する構成です。
     * Next.js側がBFF(Backend-for-Frontend)として使われることを想定しています。Next.jsから直接データベースにアクセスするのではなく、別途バックエンドのAPIサーバがあり、そこを介してデータを取得する構成です。したがってPages router、API routerのコンポーネントは直接データベースにアクセスせず、常にfetchを使ってデータを取得します。
-* **データベースは使用しない:** デモサイトの運用を考えて、実際にはデータベースを使っていません。システムのメモリやCookie等に持たせています。
+* **データベースは使用しない:** デモサイトの運用を考えて、データベースを使いません。システムのメモリやCookie等に持たせています。ただし内部的にはデータベースアクセスしているかのような`getUsers()`などの関数を用意しています。
 * **遅延:** 高速なサイトだとどんなフロントエンド技術を使ってもサクサク動いてしまいます。何をやっても非常に快適になってしまい、技術の違いが見えなくなります。そこで本サイトでは[あえて数百msの遅延を入れています](/commentaries/instructions#delay)。ただし静的なファイルやNext.jsのSSGなど、一般にCDNの載せそうようなものについては遅延を入れていません。
 
 

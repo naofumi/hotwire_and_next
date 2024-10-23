@@ -16,7 +16,7 @@ import nextSecurityImage from "@/public/images/next-security.webp"
 
 ### Hydrationをする場合やJSONを送る場合は注意が必要 ===sending-json-requires-care===
 
-Next.jsでは、Client Componentが含まれる場合、あるいはPages RouterでSSR/SSGをしている場合（つまり純粋にServer Componentだけを使っている以外の場合）はデータ漏洩の注意が必要です。注意がおろそかだと機密情報("password_digest")をブラウザに送ってしまい、それに気づかないケースが起こり得ます。
+Next.jsでは、Client Componentが含まれる場合、あるいはPages RouterでSSR/SSGをしている場合（つまり純粋にServer Componentだけを使っている以外の場合）はデータ漏洩の注意が必要です。注意がおろそかだと機密情報をブラウザに送ってしまい、それに気づかないケースが起こり得ます。
 
 下記はPages RouterでSSGを行った場合のコードです。`allUser()`関数の返り値をそのままpropsとしてコンポーネントに渡してしまっています。そしてこの中には機密情報の"password_digest"が漏洩してしまっています。
 
@@ -28,7 +28,7 @@ export async function getStaticProps() {
 }
 ```
 
-次にブラウザで[SSGのページ](/users_ssg)に訪問し、開発者用のネットワークタブから`/users_ssg`へのリクエスト結果を確認します。そしてHTMLの一番最後にある`script`タグの中を確認すると、"password_digest"の中身が見えます（見やすく整形してあります）。もちろん画面には"password_digest"が表示されていませんので、開発者もQAも漏洩に気づかない恐れがあります。
+次にブラウザで[SSGのページ](/users_ssg)に訪問し、開発者用のネットワークタブから`/users_ssg`へのリクエスト結果を確認します。そしてHTMLの一番最後にある`script`タグの中を確認すると、"password_digest"の中身が見えます（下図：見やすく整形してあります）。もちろん画面には"password_digest"が表示されていませんので、開発者もQAも漏洩に気づかない恐れがあります。
 
 これを防ぐには、コードレビュー等をしっかり行い、データベースから取得されたUser情報がそのままコンポーネントに渡されないように注意する必要があります。
 
@@ -107,12 +107,12 @@ Next.jsの場合は、コンポーネントに機密性のあるデータを渡�
 Layer](https://nextjs.org/blog/security-nextjs-server-components-actions#data-access-layer)を作り、この中で権限に応じて必要なデータのみを含むDTO(Data
 Transfer Object)を作成することがNext.jsの公式ページで奨励されています。
 
-また[私からはLodashの`pick()`を使い、より簡便に情報漏洩を防ぐ方法](https://zenn.dev/naofumik/articles/c699deb688ac04#私がやってみた対策)を提案しています。
+Data Access Layerを作るのが大変すぎるのであれば、[Lodashの`pick()`を使い、より簡便に情報漏洩を防ぐ方法](https://zenn.dev/naofumik/articles/c699deb688ac04#私がやってみた対策)が良いのではないかと思います。
 
 Reactの方でも[React
-Taint API](https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#preventing-sensitive-data-from-being-exposed-to-the-client)で対策されていく見込みですが、ただしこれはどちらかというと注意喚起のメカニズムだけであり、対応は別途必要になりそうです。
+Taint API](https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#preventing-sensitive-data-from-being-exposed-to-the-client)で対策されていく見込みです。ただしこれはどちらかというと注意喚起のメカニズムだけであり、実際の対応は別途必要になりそうです。
 
-一方でHotwireの場合は、HTMLを出力するテンプレートファイル自身がこのようなData Access Layerの役割を果たしているとも言えます。不要な情報が漏れ出ている場合は画面でもすぐに確認できますので、安全性が高いと言えます。
+一方でHotwireの場合は、HTMLを出力するテンプレートファイル自身がこのようなData Access Layerの役割を果たしているとも言えます。不要な情報が漏れ出ている場合は画面でもすぐに確認できますので、安全性が高いと言えます。さらに[Viewのユニットテストを書けば](https://railsguides.jp/testing.html#ビューをテストする)、より堅牢になります。
 
 結論として**MPAやTurbo Driveを使用するときに比べ、Next.jsはデータ漏洩に神経を使う必要がありそうです**。
 

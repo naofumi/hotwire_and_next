@@ -7,9 +7,9 @@ import prefetchImage from "@/public/images/prefetch.webp"
 
 ## はじめに ===intro===
 
-ウェブで一番多いのはリンクをクリックして、別のページに遷移する操作です。一番基本のUI/UXであり、ユーザの体感に非常に大きな影響を与える大事なものです。
+ウェブで一番多いのはリンクをクリックして、別のページに遷移する操作です。**ページ遷移は一番基本のUI/UXであり、ユーザの体感に非常に大きな影響を与える大事なものです**。
 
-また開発者としては、一番よく作るインタラクションです。開発効率を高める上でもコードが簡単に書けることが非常に重要です。加えてセキュリティもしっかり確保する必要があります。
+また開発者としては、一番よく作るインタラクションですので、開発効率を高める上でもコードが簡単に書けることが非常に重要です。セキュリティもしっかり確保する必要があります。
 
 ここでは各種の技術を紹介しながら、そのUI/UXの比較およびコードの書き味の比較をします。
 
@@ -105,6 +105,10 @@ import prefetchImage from "@/public/images/prefetch.webp"
 
 ### UI/UX ===mpa-ux===
 
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/page-mpa.mov" type="video/mp4"></source>
+</video>
+
 * 遅延(Delay)が少ない場合は特にストレスのないUI/UXです
 * [遅延(Delay)を1000msや2000msに設定](/commentaries/instructions#delay)すると、画面が切り替えるのを待たされます。しかしその間は画面の上部でプログレスバーが表示されますので、ブラウザが反応し、リクエストが正しく送信されているというフィードバックはあります
 
@@ -142,12 +146,16 @@ import prefetchImage from "@/public/images/prefetch.webp"
 
 ### UI/UX ===drive-ui===
 
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/page-turbo-drive.mov" type="video/mp4"></source>
+</video>
+
 * MPAの場合と比べて、画面の遷移が圧倒的に速くなります。遅延(Delay)が300msの場合はほぼ瞬間的に画面が遷移します。1000msや2000msの場合でも大幅に速くなっています。
 * [遅延が1000msや2000msの場合](/commentaries/instructions#delay)は画面の最上部に青いプログレスバーが表示されることがあります。表示に時間がかかる場合はフィードバックが表示され、ブラウザが正しく動作していること、ネットワーク通信中であることをユーザに伝えています。
 
 ### まとめ ===drive-summary===
 
-* コードはほとんどそのままであるにもかかわらず、UI/UXが大幅に改善されています。これは[SPAの効果](#spa-effect)も多少ありますが、圧倒的に[Prefetchが効いています](#prefetch-effect)
+* コードはほとんどそのままであるにもかかわらず、UI/UXが大幅に改善されています。これは[SPAの効果](#spa-effect)も多少ありますが、圧倒的に[Prefetchの効果](#prefetch-effect)および[キャッシュの効果](https://turbo.hotwired.dev/handbook/building#understanding-caching)です
 * Turboをインストールするだけでこれだけ効果がありますので、ほとんどのケースではTurbo Driveを使えば良いと思います。たまに悪影響が出ることもありますが、その場合は[Turbo Driveをオフにする](https://turbo.hotwired.dev/handbook/drive#disabling-turbo-drive-on-specific-links-or-forms)ことも可能です。
 
 ## Next.js SSGによるページ遷移 ===ssg===
@@ -169,6 +177,10 @@ export async function getStaticProps() {
 
 ### UI/UX ===ssg-ui===
 
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/page-react-ssg.mov" type="video/mp4"></source>
+</video>
+
 * 体感としてはTurbo Driveを使用した場合とほとんど同じになっています。つまり画面の遷移は非常に速く、ほぼ瞬間的に画面が遷移することもあります
 * 一般的にはSSGはCDNなどを使ってキャッシュされるため、ネットワーク遅延やサーバ遅延はわずかになります。今回は遅延を0msに固定していますので、なおさら速くなっています
 
@@ -180,7 +192,7 @@ export async function getStaticProps() {
 
 ## Next.js useEffectによるページ遷移 ===use-effect===
 
-Next.jsのSSRを使わない場合は、`useEffect()`などを使ってページに表示するデータを読み込みます。純粋なSPAを作るときによく採用されている手法です。ただしNext.jsを採用していてSSRが使える環境であっても、ページ遷移で`useEffect()`によるデータ読み込みをしているプロジェクトはよく見かけます。
+Next.jsのSSRを使わない場合は、`useEffect()`などを使ってページに表示するデータを読み込みます。純粋なSPAを作るときによく採用されている手法ですが、Next.jsの場合もしばしば使われます。
 
 [`useEffect()`を使ったデモはここ](http://localhost:3000/users)からご確認いただけます。またコードは[Users側](https://github.com/naofumi/hotwire_and_next/tree/main/pages/users)および[
 Products側](https://github.com/naofumi/hotwire_and_next/tree/main/pages/products)をGitHubに公開しています。
@@ -204,6 +216,11 @@ useEffect(() => {
 
 ### UI/UX ===use-effect-ui===
 
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/page-react-useeffect.mov" type="video/mp4"></source>
+</video>
+
+
 * 画面遷移のリンク（ボタン）を押すとすぐに画面が切り替わり、ローディング中のアニメーションが表示されます。フィードバックは速く、適切です
 * ローディングアニメーションの表示は速いものの、実際にコンテンツのある新しいページが表示されるまでの時間はMPAの場合と変わりません
 
@@ -215,13 +232,13 @@ useEffect(() => {
 
 ## Next.js Page router SSRによるページ遷移 ===ssr===
 
-Page routerのSSRは初回アクセス時のページローディングが速いとか、SEOに強いなどのメリットがあります。これはいずれも初回ロード時の話のみです。一旦ユーザがウェブサイトを訪問した後は、２回目以降のページ遷移がUI/UX上重要になります。[Page router SSRのデモサイトはこちら](/users)にあります。
+Page routerのSSRは初回アクセス時のページローディングが速いことや、SEOに強いなどのメリットがあります。これはいずれも初回ロード時の話のみです。一旦ユーザがウェブサイトを訪問した後は、２回目以降のページ遷移がUI/UX上重要になります。[Page router SSRのデモサイトはこちら](/users)にあります。
 
 ### コード ===ssr-code===
 
 Page router SSRのコードは[Users側](https://github.com/naofumi/hotwire_and_next/tree/main/pages/users_ssr)と[Products側](https://github.com/naofumi/hotwire_and_next/tree/main/pages/products_ssr)をご覧ください。
 
-下記のコードの`hideLoadingIndicator`のところは、ローディングアニメーションに関わるところで、デモでのみ使用するものです。通常の実装では不要です。
+なお、下記のコードの`hideLoadingIndicator`のところは、ローディングアニメーションに関わるところで、デモでのみ使用するものです。通常の実装では不要です。
 
 それ以外のところは比較的シンプルで、単にpageコンポーネントに渡す`users`を用意しています。エラー処理を含めるともう少し複雑になります。
 
@@ -239,6 +256,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 ### UI/UX ===ssr-ui===
 
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/page-react-ssr.mov" type="video/mp4"></source>
+</video>
+
+
 * 画面遷移のリンク（ボタン）を押しても、フィードバックがありません。遅延が300ms程度であれば問題ありませんが、[遅延が2000msの場合](/commentaries/instructions#delay)はブラウザが正常に動いているかどうか、サーバに正しくリクエストが送られたかどうかが心配になります
 * 新しいページが表示されるまでの時間はMPAの場合と変わりません
 * **プログレスバーやローディングアニメーションがない分、ユーザは操作に対するフィードバックが得られず、MPAよりもUI/UXは劣っています**
@@ -249,7 +271,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 * これについては[Loading Animiations](/commentaries/loading_animations)で詳しく解説しています
 * コードはシンプルです
 
-## Next.js App router Server Componentによるページ遷移 ===ssr===
+## Next.js App router Server Componentによるページ遷移 ===rsc===
 
 Server ComponentはSSRとよく似ていますが、Suspenseを使ってローディングアニメーションを簡単に表示できるという特徴があります。このおかげで**フィードバックがないという上記のSSRの問題点を解決できます**。[デモはこちら](/users_app)に用意しています。
 
@@ -290,6 +312,11 @@ export default function Loading() {
 
 ### UI/UX ===rsc-ui===
 
+<video width="733" height="606" muted autoPlay controls loop className="my-8">
+  <source src="/videos/page-react-rsc.mov" type="video/mp4"></source>
+</video>
+
+
 * 画面遷移のリンク（ボタン）を押すと、すぐにローディングアニメーションが表示されます。`useEffect()`の場合とUI/UXは非常に似ています
 * 新しいページが表示されるまでの時間はMPAの場合と変わりません
 
@@ -309,7 +336,7 @@ export default function Loading() {
 
 ### SPAは基盤技術としての効果 ===spa-effect===
 
-上記の表に挙げた各ページ遷移法は、ネイティブ(MPA)を除いて、すべてSPA ([Single-page Application: シングルページアプリケーション](https://ja.wikipedia.org/wiki/シングルページアプリケーション))です。なお[本サイトのSPAの定義](/commentaries/glossary#SPA)については用語集をご確認ください。
+上記の表に挙げた各ページ遷移法は、ネイティブ(MPA)を除いて、すべてSPA ([Single-page Application: シングルページアプリケーション](/commentaries/glossary#SPA))です。
 
 ここでいうSPAは、ページ切り替え時に[AJAX](https://ja.wikipedia.org/wiki/Ajax)等を使っていて、一見するとページ全体は切り替わっているものの、裏でロードされたJavaScriptやCSSはそのまま残しているという意味です。前のページをメモリに残しつつ画面遷移するため、よりスムーズなページ切り替えが可能になります。
 
@@ -342,9 +369,9 @@ Turbo Driveには[仕組みをほとんど理解していなくても安心し�
 
 以前に訪問したページに遷移すると、Turbo Driveは以前のページ内容をプレビューとして表示します(キャッシュから表示)。そして同時にサーバにリクエストを投げ、サーバから最新のページを受け取ると、すぐにプレビューの内容と入れ替えます。
 
-Next.jsもキャッシュがありますが、キャッシュの更新処理がわかりにくく、古い情報が残ってしまいやすい問題がありました。[評判が悪いために、v15ではデフォルトがキャッシュオフになりました](https://nextjs.org/blog/next-15-rc#caching-updates)。Next.jsの仕組みはサーバ負荷、ネットワーク負荷低減の効果は大きかったのですが、開発者としては管理が難しくなっていた印象です。
+Next.jsもキャッシュがありますが、キャッシュの更新処理がわかりにくく、古い情報が残ってしまいやすい問題がありました。[評判が悪いために、v15ではデフォルトがキャッシュオフになりました](https://nextjs.org/blog/next-15-rc#caching-updates)。Next.jsのキャッシュは特別なチューニングが必要なレーシングカーのようなもので、仕組みを熟知している開発者が丁寧にウェブサイトを作る場合は非常に効果的ですが、通常利用では取り扱いに注意を要するものでした。
 
-Turbo Driveのキャッシュの場合は古い情報は一時的に表示されますが、すぐに最新情報に更新されます。サーバ負荷、ネットワーク負荷低減効果はありませんが、優れたUI/UXに加え、開発者として扱いやすい利点があります。
+一方でTurbo Driveのキャッシュの場合は古い情報は一時的に表示されますが、すぐに最新情報に更新されます。サーバ負荷、ネットワーク負荷低減効果はありませんが、優れたUI/UXに加え、開発者として扱いやすい利点があります。
 
 ## ビデオ ===video===
 

@@ -15,19 +15,19 @@ export default function TransitionTechNav({selected}: {selected: string}) {
       >
         Turbo Drive
       </a>
-      <a href="/users"
-         className={selected === "use_effect"
-           ? " btn-primary"
-           : " btn-outline-primary"}
-      >
-        Next.js useEffect
-      </a>
       <a href="/users_ssg"
          className={selected === "ssg"
            ? " btn-primary"
            : " btn-outline-primary"}
       >
         Next.js Pages Router SSG
+      </a>
+      <a href="/users"
+         className={selected === "use_effect"
+           ? " btn-primary"
+           : " btn-outline-primary"}
+      >
+        Next.js useEffect
       </a>
       <a href="/users_ssr"
          className={selected === "ssr"

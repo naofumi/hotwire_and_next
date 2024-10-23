@@ -17,6 +17,7 @@ const chapterHeaders = [
   {level: 2, link: "#live-search", name: "ライブ検索: Turbo Frames"},
   {level: 2, link: "#hierarchical-menus", name: "階層プルダウンメニュー: Turbo Frames"},
   {level: 2, link: "#turbo-streams", name: "複数箇所の更新（カート）：Turbo Streams"},
+  {level: 2, link: "#security", name: "セキュリティ"},
   {level: 2, link: "#glossary", name: "用語集"},
   {level: 2, link: "#instructions", name: "サイトの使い方"},
 ]
@@ -205,9 +206,9 @@ export default function IndexPage() {
                   Framesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
                 </p>
                 <div className={`text-center my-12 text-xl tracking-wider`}>
-                  <a href="javascript:void(0)" className="text-gray-400 hover:text-gray-300 underline">
+                  <span className="text-gray-400 hover:text-gray-300 underline">
                     解説は準備中...
-                  </a>
+                  </span>
                 </div>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a href="/api/hotwire/popup_stimulus"
@@ -248,9 +249,9 @@ export default function IndexPage() {
                   Streamsはもちろん、Turbo Framesでも作成できます。HTMLの制約で<code>form</code>タグのネストができないため、JavaScriptでプルダウンメニューのステートを取り込みます。
                 </p>
                 <div className={`text-center my-12 text-xl tracking-wider`}>
-                  <a href="javascript:void(0)" className="text-gray-400 hover:text-gray-300 underline">
+                  <span className="text-gray-400 hover:text-gray-300 underline">
                     解説は準備中...
-                  </a>
+                  </span>
                 </div>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a href="/api/hotwire/address_selector"
@@ -281,6 +282,21 @@ export default function IndexPage() {
                 </div>
               </article>
               <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
+                <H2WithHash id="turbo-streams">
+                  セキュリティ
+                </H2WithHash>
+                <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
+                  Next.jsのSSRやServer Componentsでは開発者がJSON
+                  APIを設計する必要はありません。状況に応じて、フレームワークが自動的にJSON(もしくはJSONに似た形式)にデータを変換し、ブラウザに送ります。
+                </p>
+                <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
+                  これを理解していないと機密データを漏洩してしまう可能性がありますので、解説します。
+                </p>
+                <div className={`text-center my-12 text-xl tracking-wider`}>
+                  <StyledLink href="/commentaries/security">
+                    解説はこちら...
+                  </StyledLink>
+                </div>
               </article>
             </div>
 
