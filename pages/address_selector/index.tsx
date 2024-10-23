@@ -6,7 +6,6 @@ import AddressTechNav from "@/components/address/AddressTechNav";
 export default function AddressSelectorPage() {
   const [code, setCode] = useState<string>("")
   const [city, setCity] = useState<string>("")
-  const [postalCode, setPostalCode] = useState<string>("")
   const [optionsData, setOptionsData] = useState<AddressSelectorProps>({
     prefectureOptions: [],
     cityOptions: [],
@@ -14,14 +13,14 @@ export default function AddressSelectorPage() {
   })
 
   useEffect(() => {
-    const query = {code, city, postalCode}
+    const query = {code, city}
     const urlString = new URLSearchParams(query).toString()
     fetch(`/api/address_selector?${urlString}`)
       .then(res => res.json() as Promise<AddressSelectorProps>)
       .then(data => {
         setOptionsData(data)
       })
-  }, [code, city, postalCode])
+  }, [code, city])
 
   function handleCodeChange(event: ChangeEvent<HTMLSelectElement>) {
     setCode(event.target.value)
@@ -33,47 +32,13 @@ export default function AddressSelectorPage() {
 
   return (<Layout>
       <div className="bg-white">
-        <AddressTechNav selected="use_effect"/>
-        <hr className="my-8"/>
         <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
           <div className="mx-auto max-w-2xl">
             <h1 className="demo-h1">住所入力UI: Next.js useEffect</h1>
+            <AddressTechNav selected="use_effect"/>
             <form>
               <div className="space-y-12">
                 <div className="pb-12">
-                  <h2 className="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-                  <p className="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive
-                    mail.</p>
-
-                  <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    <div className="sm:col-span-3">
-                      <label htmlFor="first-name" className="block text-sm font-medium leading-6 text-gray-900">First
-                        name</label>
-                      <div className="mt-2">
-                        <input type="text" name="first-name" id="first-name" autoComplete="given-name"
-                               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"/>
-                      </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                      <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">Last
-                        name</label>
-                      <div className="mt-2">
-                        <input type="text" name="last-name" id="last-name" autoComplete="family-name"
-                               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"/>
-                      </div>
-                    </div>
-
-                    <div className="sm:col-span-4">
-                      <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email
-                        address</label>
-                      <div className="mt-2">
-                        <input id="email" name="email" type="email" autoComplete="email"
-                               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"/>
-                      </div>
-                    </div>
-                  </div>
-
                   <h2 className="mt-10 demo-h2 text-orange-600">ここのメニューがインタラクティブ</h2>
                   <div id="address-selector"
                        className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -93,8 +58,12 @@ export default function AddressSelectorPage() {
                                     value={prefectureOption.code.toString()}>{prefectureOption.name}</option>
                           ))}
                         </select>
-                        <a href="/api/hotwire/address_selector"
-                           className="block mt-3 text-sm font-semibold leading-6 text-gray-900">Clear</a>
+                        <div className="mt-6">
+                          <a href="/address_selector"
+                             className="border border-orange-600 rounded p-1 text-orange-600">
+                            Clear
+                          </a>
+                        </div>
                       </div>
                     </div>
 
@@ -125,17 +94,6 @@ export default function AddressSelectorPage() {
                             <option key={index} value={postalCodeOption.new}>{postalCodeOption.new}</option>
                           ))}
                         </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    <div className="col-span-full">
-                      <label htmlFor="street-address" className="block text-sm font-medium leading-6 text-gray-900">Street
-                        address</label>
-                      <div className="mt-2">
-                        <input type="text" name="street-address" id="street-address" autoComplete="street-address"
-                               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"/>
                       </div>
                     </div>
                   </div>

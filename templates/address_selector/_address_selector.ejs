@@ -1,0 +1,74 @@
+<turbo-frame id="address-selector"
+             class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
+             data-controller="formlike"
+             data-formlike-action-value="/api/hotwire/address_selector"
+             data-formlike-turbo-frame-value="address-selector">
+
+  <div class="sm:col-span-2 sm:col-start-1">
+    <label for="code" class="block text-sm font-medium leading-6 text-gray-900">Prefecture</label>
+    <div class="mt-2">
+      <select id="code"
+              name="code"
+              data-formlike-target="sendable"
+              data-action="change->formlike#send"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:max-w-xs sm:text-sm sm:leading-6"
+      >
+        <% if (!code) { %>
+          <option value="">---</option>
+        <% } %>
+        <% prefectureOptions.forEach((prefectureOption) => { %>
+          <option value="<%= prefectureOption.code %>" <%= prefectureOption.code === code
+                                                           ? 'selected'
+                                                           : null %>><%= prefectureOption.name %></option>
+        <% }) %>
+      </select>
+    </div>
+  </div>
+
+  <div class="sm:col-span-2">
+    <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
+    <div class="mt-2">
+      <select id="city"
+              name="city"
+              data-formlike-target="sendable"
+              data-action="change->formlike#send"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset
+                  ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:max-w-xs sm:text-sm
+                  sm:leading-6">
+        <% if (!city) { %>
+          <option value="">---</option>
+        <% } %>
+        <% cityOptions.forEach((cityOption) => { %>
+          <option value="<%= cityOption.city %>" <%= cityOption.city === city
+                                                     ? 'selected'
+                                                     : null %>><%= cityOption.city %></option>
+        <% }) %>
+      </select>
+    </div>
+  </div>
+
+  <div class="sm:col-span-2">
+    <label for="postal_code" class="block text-sm font-medium leading-6 text-gray-900">
+      Postal code
+    </label>
+    <div class="mt-2">
+      <select id="postal-code"
+              name="postal_code"
+              data-formlike-target="sendable"
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset
+                  ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:max-w-xs sm:text-sm
+                  sm:leading-6">
+        <option value="">---</option>
+        <% postalCodeOptions.forEach((postalCodeOption) => { %>
+          <option value="<%= postalCodeOption.new %>"><%= postalCodeOption.new %></option>
+        <% }) %>
+      </select>
+    </div>
+  </div>
+  <div class="mt-6">
+    <a href="/api/hotwire/address_selector"
+       class="border border-orange-600 rounded p-1 text-orange-600">
+      Clear
+    </a>
+  </div>
+</turbo-frame>

@@ -8,6 +8,13 @@ export default function AddressTechNav({selected}: { selected: string }) {
       >
         Turbo Frames
       </a>
+      <a href="/api/hotwire/address_selector_streams"
+         className={selected === "turbo_streams"
+           ? " btn-primary"
+           : " btn-outline-primary"}
+      >
+        Turbo Streams
+      </a>
       <a href="/address_selector"
          className={selected === "use_effect"
            ? " btn-primary"

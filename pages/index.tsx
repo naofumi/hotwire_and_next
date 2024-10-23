@@ -205,9 +205,9 @@ export default function IndexPage() {
                   Framesはサーバにリクエストを送り、画面を部分的に書き換えるだけでも多くのウェブUIが実装できます。<br/>カスタムのJavaScriptを少し追加すると、さらに可能性が増える例です。
                 </p>
                 <div className={`text-center my-12 text-xl tracking-wider`}>
-                  <StyledLink href="/commentaries/popups">
-                    解説はこちら...
-                  </StyledLink>
+                  <a href="javascript:void(0)" className="text-gray-400 hover:text-gray-300 underline">
+                    解説は準備中...
+                  </a>
                 </div>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a href="/api/hotwire/popup_stimulus"
@@ -244,10 +244,14 @@ export default function IndexPage() {
                   階層プルダウンメニュー: Turbo Frames
                 </H2WithHash>
                 <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
-                  動的に、階層的に絞り込まれるプルダウンメニューを使って、住所を入力していくUIをTurbo Framesで作ります。
-                  小さい箇所の置換が複数ある場合はTurbo Streamsを使うことが多いのですが、1つまとめられる場合はTurbo
-                  Framesの方が良いケースもあります。
+                  動的に、階層的に絞り込まれるプルダウンメニューを使って、住所を入力していくUIを作ります。Turbo
+                  Streamsはもちろん、Turbo Framesでも作成できます。HTMLの制約で<code>form</code>タグのネストができないため、JavaScriptでプルダウンメニューのステートを取り込みます。
                 </p>
+                <div className={`text-center my-12 text-xl tracking-wider`}>
+                  <a href="javascript:void(0)" className="text-gray-400 hover:text-gray-300 underline">
+                    解説は準備中...
+                  </a>
+                </div>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                   <a href="/api/hotwire/address_selector"
                      className="btn-primary"
@@ -259,7 +263,7 @@ export default function IndexPage() {
             <div className="mt-8 flex gap-8">
               <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
                 <H2WithHash id="turbo-streams">
-                  複数箇所の更新（カート）：Turbo Streams
+                複数箇所の更新（カート）：Turbo Streams
                 </H2WithHash>
                 <p className="text-left mx-auto mt-6 max-w-2xl text-base leading-8 text-gray-600">
                   インタラクティブUIに必要な部分置換の大半はTurbo DriveやTurbo Framesで十分です。

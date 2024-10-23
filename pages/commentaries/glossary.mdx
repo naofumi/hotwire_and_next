@@ -6,7 +6,11 @@ import spaMpaImage from "@/public/images/spa-mpa.webp"
 
 ## CSR, SSR, SPA, MPA ===csr-ssr-spa-mpa===
 
-CSR, SSR, SPA, MPAといった用語はモダンフロントエンドのメリット・デメリットを理解する上で必須の用語です。一方で人によって意味がまちまちであり、議論の土台とするのに苦労します。ここではこれらの用語に明確な定義を与え、技術比較の助けにしたいと思います。
+夜空を埋め尽くすほどのフレームワークが生まれては消えていくモダンフロントエンドにおいて、CSR, SSR, SPA, MPAといった用語はそれぞれの立ち位置を表現する必須の用語です。しかしながら、これらですら人によって意味がまちまちであり、議論の土台とするのに苦労します。
+
+ここではこのサイトにおける各用語に明確な定義を与え、技術比較の助けにしたいと思います。皆さんの定義とは異なるかも知れませんが、このサイトではこれで通したいと思っています。
+
+私の考え方としては、下表のように各用語に１つだけ意味を与えています。そしてレンダリングと（ブラウザの）メモリ維持という直交する軸に展開しています。
 
 <div className="mt-8 flow-root">
   <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -19,7 +23,7 @@ CSR, SSR, SPA, MPAといった用語はモダンフロントエンドのメリ�
           <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">技術</th>
           <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">名前</th>
           <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">どこでRenderingされるか？</th>
-          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">ページ間でメモリは維持されるか？</th>
+          <th scope="col" className="min-w-28 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">ページ遷移時にメモリは維持されるか？</th>
         </tr>
         </thead>
         <tbody className="bg-white whitespace-nowrap">
@@ -37,11 +41,11 @@ CSR, SSR, SPA, MPAといった用語はモダンフロントエンドのメリ�
           <td className="px-3 py-4 text-sm text-gray-500">不問</td>
         </tr>
         <tr className="even:bg-gray-50">
-          <td rowSpan={2} className="px-3 py-4 text-sm text-gray-500">**メモリ維持**</td>
+          <td rowSpan={2} className="px-3 py-4 text-sm text-gray-500">**ブラウザ上の<br />メモリ維持**</td>
           <td className="px-3 py-4 text-sm text-gray-500">**SPA**</td>
           <td className="px-3 py-4 text-sm text-gray-500">Single-Page Application</td>
           <td className="px-3 py-4 text-sm text-gray-500">不問</td>
-          <td className="px-3 py-4 text-sm text-gray-500">維持される</td>
+          <td className="px-3 py-4 text-sm text-gray-500">そもそも遷移がない<br />または維持される</td>
         </tr>
         <tr className="even:bg-gray-50">
           <td className="px-3 py-4 text-sm text-gray-500">**MPA**</td>
@@ -126,7 +130,7 @@ CSR, SSR, SPA, MPAといった用語はモダンフロントエンドのメリ�
     * `Link`タグを使って画面遷移するときは、サーバからJSONが送られてきます。このJSONを使って、JavaScriptがHTMLをレンダリングして、リンク先のページを画面に表示します。よってCSRです
     * `Link`タグを使って画面遷移をするときは`<head>`タグを残して、`<body>`タグの中だけが(主に)変化します。よってSPAです
     * Next.jsを使用していても、`Link`タグではなく、ただの`a`タグで画面遷移をすることもあります。この場合は`<head>`タグを含めて、ページ全体がメモリから消去され、次のページはゼロから描画されます。よってMPAです
-* React Server ComponentsはRSC payloadをサーバからブラウザに送ります。これはHTMLにかなり近いもので、HTMLの構造がそのまま記載されています。したがってSSRとして捉えます
+* React Server ComponentsはRSC payloadをサーバからブラウザに送ります。これはHTMLにかなり近いもので、HTMLの構造がそのまま記載されています。したがってSSRとして捉えます。`Link`タグを使って画面遷移した場合は`getServerSideProps()`と同様に判断されます
 
 <figure className="mt-12">
   <figcaption className="font-bold">CSR, SSR, SPA, MPA</figcaption>
@@ -147,7 +151,7 @@ CSR, SSR, SPA, MPAといった用語はモダンフロントエンドのメリ�
 3. `ReactNode`のツリーとブラウザのDOM (画面に表示されているもの)が[比較され](https://legacy.reactjs.org/docs/reconciliation.html)、差分がブラウザDOMに書き込まれる
 4. DOMがブラウザに表示される
 
-一般的な用法により近いのは4.のステージだと思いますが、Reactの世界では主に2.のステージを指しているように思います。そこで**本サイトでも「レンダリング」は2.の意味で使用します**。広義にはブラウザDOMに反映する直前の状態がレンダリングだと考えており、React Server ComponentsのRSC Payloadの出力もレンダリングと考えています。
+一般的な用法により近いのは4.のステージだと思いますが、Reactの世界では主に2.のステージを指しているように思います。そこで**本サイトでも「レンダリング」は2.の意味で使用します**。広義にはブラウザDOMに反映する直前の状態がレンダリングだと考えており、React Server ComponentsのRSC Payloadの生成もレンダリングと考えています。
 
 ## Hydration ===hydration===
 
@@ -169,19 +173,15 @@ JavaScriptはもともとHTMLと分割管理されるように設計されてい
 
 HotwireもネイティブなMPAと同様の方法を採用しており、Hydrationなしでイベントハンドラをつなげます。
 
-## SEO ===seo===
+## SEOとSSR ===seo===
 
-SEO (Search Engine Optimization:検索エンジン最適化)はGoogle等の検索サイトの上位に表示させる一連の対策を指します。また検索結果が表示された時に表示される`meta description`タグ、あるいはSNSで共有された時に表示されるOGPタグなどもSEO対策の一環として考えることが多いです。
+SEO (Search Engine Optimization:検索エンジン最適化)はGoogle等の検索サイトの上位に表示させる一連の対策を指します。
 
-SEO用のタグはHTMLの`<head>`タグの中に書くものです。一方SPAは通常`<body>`タグの中だけを変更させますので、SEOタグに対応するのには別途対策が必要でした(例えば[react-helmet](https://www.npmjs.com/package/react-helmet))。しかしNext.jsもTurboもそのままで`<head>`タグ内部を書き換える仕組みを備えているので、ライブラリを用意しなくても十分に対応できます。
+各検索サイトは"crawler"もしくは"spider"というボットを使って、自動的にインターネットのウェブサイトにアクセスし、その情報を蓄積します。しかし歴史的にはこのボットはJavaScriptを実行できませんでした。CSRを使った場合はHTMLをレンダリングするためにJavaScriptが必要なので、ボットはCSRサイトの情報を収集できなかったというわけです。つまりCSRを使ったサイトは検索サイトの上位に表示されませんでした。
 
-一方で検索サイト上位に表示させるときは注意が必要です。**CSR/SPAでは検索サイト上位に表示されにくくなる可能性があります**。
+近年ではGoogleのボットはJavaScriptを実行でき、CSRのサイトからも正しく情報収集ができると考えられています。しかしそれでも**JavaScriptを必須とするサイトの方が情報収集に時間を要するという話もあり、不利である可能性があります**。残念ながらGoogleを筆頭に各検索サイトはアルゴリズムを非公開にしていますので、この辺りは正確な情報が得られません。またJavaScriptを実行するには多くの処理能力を必要とするので、**Google以外の検索サイトについては依然としてCSRのサイトを検索できない**と言われています。
 
-各検索サイトは"crawler"もしくは"spider"というボットを使って、自動的にインターネットのウェブサイトにアクセスし、その情報を蓄積します。ユーザが検索サイトを利用する場合は、ここで集めた情報に対して検索が行われます。しかし歴史的にはこのボットはJavaScriptを実行できませんでした。CSRを使った場合はHTMLをレンダリングするためにJavaScriptが必要なので、ボットはCSRサイトの情報を収集できませんでした。つまりCSRを使ったサイトは検索サイトの上位に表示されなかったのです。
-
-GoogleのボットはJavaScriptを実行でき、情報収集が正しくできると考えられています。しかしそれでも**JavaScriptを必須とするサイトの方が情報収集に時間を要するという話もあり、不利である可能性があります**。残念ながらGoogleを筆頭に各検索サイトはアルゴリズムを非公開にしていますので、この辺りは正確な情報が得られません。またJavaScriptを実行するには多くの処理能力を必要とするので、**Google以外の検索サイトについては依然としてCSRのサイトを検索できない**と言われています。
-
-**確実なSEO対策をするのであれば、やはりサーバ側でHTMLレンダリングが行われるSSRの方が安心でしょう。**
+**確実なSEO対策をするのであれば、サーバがHTMLのレスポンスを返すSSRの方が安心でしょう。**
 
 export default function ({children}) {
   return <CommentaryLayout
