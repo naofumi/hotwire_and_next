@@ -227,7 +227,7 @@ export default async function handler(
 
 ## Turbo Frames: Inline JavaScript ===turbo-with-custom-javascript===
 
-上記の[Turbo Frames: カスタムJavaScriptなし](http://localhost:3000/commentaries/modal_dialogs#turbo-without-custom-javascript)の問題点を解消し、ネットワークが遅い場合でも十分なUI/UXを提供するためには、レスポンスが来る前にフィードバックを提供する必要があります。そのためには**ボタンを押した瞬間に起動するカスタムJavaScriptが必要です**。
+上記の[Turbo Frames: カスタムJavaScriptなし](/commentaries/modal_dialogs#turbo-without-custom-javascript)の問題点を解消し、ネットワークが遅い場合でも十分なUI/UXを提供するためには、レスポンスが来る前にフィードバックを提供する必要があります。そのためには**ボタンを押した瞬間に起動するカスタムJavaScriptが必要です**。
 
 上記ではモーダルの「枠」をサーバから送ることでモーダルを開くステップを省略していました。しかしここでは**カスタムJavaScriptを使って、サーバレスポンスの遅延の有無に関わらず、リクエストを投げた瞬間にモーダルを開きます**。これがユーザに対するフィードバックとなり、UI/UXの改善に繋がります。
 
@@ -743,7 +743,7 @@ export default async function Modal({userId}: { userId: string }) {
 
 ### UI/UX ===ui-simple-react-server-components===
 
-[Server Componentsでモーダルを出す簡易法のデモはこちら](http://localhost:3000/modal_app)で、[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/modal_app)にあります。
+[Server Componentsでモーダルを出す簡易法のデモはこちら](/modal_app)で、[コードはGitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/modal_app)にあります。
 
 * サーバのレスポンスタイムが300ms程度であれば、快適なUI/UXになります。これは[MPAの例](#mpa)の例と同じです
 * ただしレスポンスタイムを2000msに設定するともたつきを感じます。モーダルを表示する時も、そしてモーダルを閉じる時もフィードバックがなく、ユーザは不安を感じてしまいます。これも[MPAの例](#mpa)と同じです

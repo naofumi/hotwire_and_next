@@ -137,7 +137,7 @@ MPAによるタブメニュー実装では、それぞれのタブに対応す�
 
 ## Turbo Driveによるタブメニューの作り方 ===tabs-turbodrive===
 
-Turbo Driveによるタブメニューは[ここでお試しいただけます](http://localhost:3000/api/hotwire/tabbed_segments_turbodrive)。コードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turbodrive)でご確認いただけます。
+Turbo Driveによるタブメニューは[ここでお試しいただけます](/api/hotwire/tabbed_segments_turbodrive)。コードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/templates/tabbed_segments_turbodrive)でご確認いただけます。
 
 [Turbo Drive](https://turbo.hotwired.dev/handbook/drive)を使う場合は、MPAのサイトに[TurboのJavaScriptファイルをダウンロードする](https://turbo.hotwired.dev/handbook/installing)して、`<head>`の中で[読み込むだけ](/commentaries/page_transitions#installing-turbo)です。[MPAの場合](/commentaries/tabbed_menus#tabs-MPA)と同様、に画面全体の置換をしていますが、Turbo Driveによってヌルサクになった分だけ、タブの切り替えのUI/UXが大幅に向上します。
 
@@ -482,9 +482,9 @@ Next.js Pages Routerには[SSRを使った部分置換の仕組みがない](/co
 
 LayoutやParallel Routesを使うと、Client Componentを使わずにServer Componentだけでタブメニューが実装できます。App Routerでは[なるべくServer Componentを使う](https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns#moving-client-components-down-the-tree)ことが推奨されていますし、[なるべくサーバでデータフェッチをする](https://nextjs.org/docs/app/building-your-application/data-fetching/patterns#fetching-data-on-the-server)ことがベストプラクティスとされています。LayoutやParallel Routesを使うと、これが可能になるわけです。
 
-[Parellel Routesを使ったデモ](http://localhost:3000/tabbed_segments_app/users)も用意しましたのでご確認ください。またコードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)にあります。
+[Parellel Routesを使ったデモ](/tabbed_segments_app/users)も用意しましたのでご確認ください。またコードは[GitHub](https://github.com/naofumi/hotwire_and_next/tree/main/app/tabbed_segments_app)にあります。
 
-[Parallel Routesを使った場合のUI/UX](http://localhost:3000/tabbed_segments_app/users)の特徴は以下の通りです
+[Parallel Routesを使った場合のUI/UX](/tabbed_segments_app/users)の特徴は以下の通りです
 
 * どのタブを開いているかによってURLが変化します。つまり特定のタブを開いた状態をブックマークできる利点があります。これはTurbo Driveを使った場合、あるいはTurbo Framesで[`data-turbo-action`](https://turbo.hotwired.dev/handbook/frames#promoting-a-frame-navigation-to-a-page-visit)を設定した時と同じ効果です。
 * `loading.js`を配置することでローディングアニメーションが出せます
