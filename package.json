@@ -24,7 +24,8 @@
     "react": "^18",
     "react-dom": "^18",
     "rehype-highlight": "^7.0.0",
-    "server-only": "^0.0.1"
+    "server-only": "^0.0.1",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0",
