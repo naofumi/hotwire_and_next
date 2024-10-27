@@ -88,8 +88,8 @@ export default function IndexPage() {
               </div>
             </article>
 
-            <div className="flex gap-8 mt-16">
-              <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
+            <div className="gap-8 mt-16 sm:flex">
+              <article className="mb-8 sm:mb-0 flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
                 <H2WithHash id="page-transition">
                   ページ遷移: Turbo Drive
                 </H2WithHash>
@@ -133,8 +133,8 @@ export default function IndexPage() {
               </article>
             </div>
 
-            <div className="mt-8 flex gap-8">
-              <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
+            <div className="mt-8 sm:flex gap-8">
+              <article className="mb-8 sm:mb-0 flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
                 <H2WithHash id="details-panel">
                   詳細パネル: Turbo Frames
                 </H2WithHash>
@@ -174,8 +174,8 @@ export default function IndexPage() {
               </article>
             </div>
 
-            <div className="mt-8 flex gap-8">
-              <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
+            <div className="mt-8 sm:flex gap-8">
+              <article className="mb-8 sm:mb-0 flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
                 <H2WithHash id="modal">
                   モーダルダイアログ: Turbo Frames
                 </H2WithHash>
@@ -218,8 +218,8 @@ export default function IndexPage() {
               </article>
             </div>
 
-            <div className="mt-8 flex gap-8">
-              <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
+            <div className="mt-8 sm:flex gap-8">
+              <article className="mb-8 sm:mb-0 flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
                 <H2WithHash id="live-search">
                   ライブ検索: Turbo Frames
                 </H2WithHash>
@@ -261,8 +261,8 @@ export default function IndexPage() {
               </article>
             </div>
 
-            <div className="mt-8 flex gap-8">
-              <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
+            <div className="mt-8 sm:flex gap-8">
+              <article className="mb-8 sm:mb-0 flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
                 <H2WithHash id="turbo-streams">
                 複数箇所の更新（カート）：Turbo Streams
                 </H2WithHash>
@@ -301,8 +301,8 @@ export default function IndexPage() {
             </div>
 
 
-            <div className="mt-8 flex gap-8">
-              <article className="flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
+            <div className="mt-8 sm:flex gap-8">
+              <article className="mb-8 sm:mb-0 flex-1 px-6 py-8 rounded-lg border border-gray-200 text-left">
                 <H2WithHash id="glossary">
                   用語集
                 </H2WithHash>
