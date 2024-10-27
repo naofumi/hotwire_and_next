@@ -12,7 +12,7 @@ HTMLには[`dialog`タグ](https://developer.mozilla.org/en-US/docs/Web/HTML/Ele
 下記ではUXおよび実装の簡単さを重視しつつ、モーダルダイアログの作り方を複数検討します。Hotwireに加え、**Next.jsのApp RouterとPages Routerについてもモーダルの出し方を検討し**、比較します。また`dialog`タグはまだ新しいので、従来のHTML/CSSの組み合わせでモーダルダイアログを作ります。
 
 **モーダルダイアログ (Hotwire Stimulusバージョン)**
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/modal-example.mov" type="video/mp4"></source>
 </video>
 
@@ -92,7 +92,7 @@ export default async function handler(
 * モーダルを表示したとき、背景の画面は常に一番上までスクロールします。スクロール位置が維持されません。短いページであれば問題ありませんが、長いページの場合は不便です
 
 **モーダルダイアログ (MPA バージョン)**
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/modal-mpa.mov" type="video/mp4"></source>
 </video>
 
@@ -214,7 +214,7 @@ export default async function handler(
 * [MPAで作った場合](#mpa)と比較して、スクロール位置を維持される点が改善しています
 
 **モーダルダイアログ (HotwireカスタムJavaScriptなし バージョン)**
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/modal-hotwire-wo-custom-javascript.mov" type="video/mp4"></source>
 </video>
 
@@ -367,7 +367,7 @@ export default async function handler(
 
 **モーダルダイアログ(Inline JavaScriptバージョン)**
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/modal-hotwire-w-custom-javascript.mov" type="video/mp4"></source>
 </video>
 
@@ -439,7 +439,7 @@ Turbo Framesを使うと[カスタムJavaScriptなし](commentaries/modal_dialog
 
 **モーダルダイアログ(CSSローディングアニメーションバージョン)**
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/modal-hotwire-css-loading.mov" type="video/mp4"></source>
 </video>
 
@@ -640,7 +640,7 @@ export default function Modal({closeModal, id}: {
 * ただしprefetchは機能しませんので、レスポンス時間は速くなりません
 
 **モーダルダイアログ(React useEffectバージョン)**
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/modal-react-useeffect.mov" type="video/mp4"></source>
 </video>
 
@@ -752,7 +752,7 @@ export default async function Modal({userId}: { userId: string }) {
 
 **モーダルダイアログ(Server Components簡易法)**
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/modal-server-components-simple.mov" type="video/mp4"></source>
 </video>
 
@@ -795,7 +795,7 @@ Server Componentを使ったもう１つの方法を紹介します。[Parallel 
 
 **モーダルダイアログ(Server Components Parallel Routes法)**
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/modal-server-components-parallel.mov" type="video/mp4"></source>
 </video>
 

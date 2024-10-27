@@ -78,7 +78,7 @@ export default function IndexPage() {
 
 
               <div className="mt-6">
-                <div className="w-max-[560px] flex justify-center">
+                <div className="youtube-video-container max-w-xl mx-auto">
                   <iframe className="aspect-video" width="560" height="315"
                           src="https://www.youtube.com/embed/fzd8Xn18eFw?si=SNmev3E43NsgTYFl"
                           title="YouTube video player" frameBorder="0"

@@ -105,7 +105,7 @@ import prefetchImage from "@/public/images/prefetch.webp"
 
 ### UI/UX ===mpa-ux===
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/page-mpa.mov" type="video/mp4"></source>
 </video>
 
@@ -146,7 +146,7 @@ import prefetchImage from "@/public/images/prefetch.webp"
 
 ### UI/UX ===drive-ui===
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/page-turbo-drive.mov" type="video/mp4"></source>
 </video>
 
@@ -177,7 +177,7 @@ export async function getStaticProps() {
 
 ### UI/UX ===ssg-ui===
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/page-react-ssg.mov" type="video/mp4"></source>
 </video>
 
@@ -216,7 +216,7 @@ useEffect(() => {
 
 ### UI/UX ===use-effect-ui===
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/page-react-useeffect.mov" type="video/mp4"></source>
 </video>
 
@@ -256,7 +256,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 ### UI/UX ===ssr-ui===
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/page-react-ssr.mov" type="video/mp4"></source>
 </video>
 
@@ -312,7 +312,7 @@ export default function Loading() {
 
 ### UI/UX ===rsc-ui===
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/page-react-rsc.mov" type="video/mp4"></source>
 </video>
 
@@ -376,7 +376,7 @@ Next.jsもキャッシュがありますが、キャッシュの更新処理が�
 ## ビデオ ===video===
 
 <div className="mt-12">
-  <div className="w-max-[560px] flex justify-center">
+  <div className="youtube-video-container max-w-xl mx-auto">
     <iframe className="aspect-video" width="560" height="315" src="https://www.youtube.com/embed/UWluEz8YPbo?si=ZPz6s2MWPQShzH6q"
             title="YouTube video player" frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

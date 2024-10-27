@@ -14,7 +14,7 @@ import Image from "next/image"
 またリアルタイム検索の場合はサーバの遅延が大きいと、どうやっても辛いUI/UXになってしまうので、遅延が300msの場合しか想定しません。
 
 **ここで作るUI (Hotwire Turbo Framesの例)**
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/livesearch-turbo-frames.mov" type="video/mp4"></source>
 </video>
 
@@ -67,7 +67,7 @@ export default async function handler(
 
 ### UI/UX ===ui-mpa===
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/livesearch-mpa.mov" type="video/mp4"></source>
 </video>
 
@@ -112,7 +112,7 @@ Hotwireの[Turbo Driveには、Morphingという機能があります](https://t
 
 ### UI/UX ===ui-morph===
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/livesearch-morph.mov" type="video/mp4"></source>
 </video>
 
@@ -155,7 +155,7 @@ Hotwireの[Turbo Driveには、Morphingという機能があります](https://t
 
 ### UI/UX ===ui-turbo-frames===
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/livesearch-turbo-frames.mov" type="video/mp4"></source>
 </video>
 
@@ -208,7 +208,7 @@ export default function LiveSearchIndex() {
 
 ### UI/UX ===ui-use-effect===
 
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/livesearch-use-effect.mov" type="video/mp4"></source>
 </video>
 
@@ -222,7 +222,7 @@ export default function LiveSearchIndex() {
 Turbo Drive MorphingとTurbo Framesの双方を紹介しました。UI/UXにおいては認識できる差はないのですが、やっていることの違いを細かく確認したいと思います。
 
 **Turbo Drive Morphingの場合**
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/livesearch-morph-inspect.mov" type="video/mp4"></source>
 </video>
 
@@ -230,7 +230,7 @@ Turbo Drive MorphingとTurbo Framesの双方を紹介しました。UI/UXにお�
 * このようにHotwireのMorphingでは基本的にサーバから送られてきたHTMLに置換されます。しかし`input`タグの場合はこれとは別に a) focusの有無、b) 現時点で入力されている値、c) カーソル位置(選択範囲) のステートを持ちます。これはブラウザ固有のものであり、Morphingはこれをリセットしまわないようにしています
 
 **Turbo Framesの場合**
-<video width="733" height="606" muted autoPlay controls loop className="my-8">
+<video width="733" height="606" muted autoPlay playsInline controls loop className="my-8">
   <source src="/videos/livesearch-turbo-frames-inspect.mov" type="video/mp4"></source>
 </video>
 
