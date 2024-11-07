@@ -1,11 +1,20 @@
 import type {NextRequest} from 'next/server'
 import {NextResponse} from 'next/server'
 import {defaultDelay, sleep} from "@/helpers/sleep";
+import {redirect} from "next/navigation"
 
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
   const url = new URL(request.url)
+  // Redirect https://hotwire-and-next.vercel.app to https://hotwire-n-next.castle104.com
+  if (url.hostname === 'hotwire-and-next.vercel.app') {
+    url.hostname = "hotwire-n-next.castle104.com"
+    url.port = "80"
+    return NextResponse.redirect(url)
+  }
+
+  // Delay
   const delayCookie = request.cookies.get("delay")
   const cookieDelay = delayCookie && parseInt(delayCookie.value)
 
