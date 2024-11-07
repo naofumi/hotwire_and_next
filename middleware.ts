@@ -10,7 +10,6 @@ export async function middleware(request: NextRequest) {
   // Redirect https://hotwire-and-next.vercel.app to https://hotwire-n-next.castle104.com
   if (url.hostname === 'hotwire-and-next.vercel.app') {
     url.hostname = "hotwire-n-next.castle104.com"
-    url.port = "80"
     return NextResponse.redirect(url)
   }
 
