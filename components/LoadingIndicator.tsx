@@ -11,7 +11,7 @@ export default function LoadingIndicator({hideLoadingIndicator, children}: { hid
   useEffect(() => {
     let abort = false
     const handleRouteChangeStart = async (url: any, {shallow}: any) => {
-      await sleep(500, {no_log: true})
+      await sleep(300, {no_log: true})
       !abort && setIsLoading(true);
     }
     const handleRouteChangeComplete = (url: any, {shallow}: any) => {

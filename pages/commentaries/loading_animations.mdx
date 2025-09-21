@@ -115,13 +115,13 @@ router.events.on('routeChangeComplete', handleRouteChangeComplete)
 ...
 ```
 
-また下記のようにイベントハンドラの中では500msの遅延をさせています。ローディングアニメーションはすぐに表示するのではなく、500msを置いてから表示しています。サーバからレスポンスが500ms以内に返ってきた場合にいちいちアニメーションを表示していると、却ってうるさく感じてしまいます。そのための対策です。[Turbo Driveのアニメーション](/commentaries/loading_animations#loading-animations-with-turbo-drive)もこうなっています。
+また下記のようにイベントハンドラの中では300msの遅延をさせています。ローディングアニメーションはすぐに表示するのではなく、300msを置いてから表示しています。サーバからレスポンスが300ms以内に返ってきた場合にいちいちアニメーションを表示していると、却ってうるさく感じてしまいます。そのための対策です。[Turbo Driveのアニメーション](/commentaries/loading_animations#loading-animations-with-turbo-drive)もこうなっています。
 
 **components/LoadingIndicator.tsx**
 ```javascript
 let abort = false
 const handleRouteChangeStart = async (url: any, {shallow}: any) => {
-  await sleep(500)
+  await sleep(300)
   !abort && setIsLoading(true);
 }
 ```
